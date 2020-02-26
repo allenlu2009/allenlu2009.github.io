@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="" />
+  <meta name="keywords" content="Jekyll, NexT" />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="This is a link post. Clicking on the link should open Google in a new tab or window.">
+<meta name="description" content="{% assign __ = site.data.languages[site.language] %} {% include post.html %}">
 <meta name="keywords" content="Jekyll, NexT">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Link Post">
-<meta property="og:url" content="http://localhost:4000/foo/2013/12/25/link-post/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="NexT">
+<meta property="og:url" content="http://localhost:4000/post.html.bak">
 <meta property="og:site_name" content="NexT">
-<meta property="og:description" content="This is a link post. Clicking on the link should open Google in a new tab or window.">
+<meta property="og:description" content="{% assign __ = site.data.languages[site.language] %} {% include post.html %}">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Link Post">
-<meta name="twitter:description" content="This is a link post. Clicking on the link should open Google in a new tab or window.">
+<meta name="twitter:title" content="NexT">
+<meta name="twitter:description" content="{% assign __ = site.data.languages[site.language] %} {% include post.html %}">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Link Post | NexT</title>
+  <title></title>
   
 
 
@@ -179,7 +179,7 @@
   
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -280,7 +280,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/foo/2013/12/25/link-post/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/post.html.bak">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -300,12 +300,8 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-              
-              <a class="post-title-link post-title-link-external" target="_blank" href="http://www.google.com/" itemprop="url">
-                Link Post
-                <i class="fa fa-external-link"></i>
-              </a>
             
+          
         </h1>
         
 
@@ -318,8 +314,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2013-12-25T07:30:04+08:00">
-                2013-12-25
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="">
+                
               </time>
             
 
@@ -329,32 +325,7 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/Foo" itemprop="url" rel="index">
-                    <span itemprop="name">Foo</span>
-                  </a>
-                </span>
 
-                
-                
-              
-            </span>
-          
-
-          
-            
           
 
           
@@ -393,7 +364,12 @@
 
 
 
-  <p>This is a link post. Clicking on the link should open <a href="http://www.google.com/">Google</a> in a new tab or window.</p>
+  {% assign __ = site.data.languages[site.language] %}
+{% include post.html %}
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
       
@@ -431,26 +407,6 @@
 
       
       
-        <div class="post-nav" id="post-nav-id">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/foo/bar/baz/2013/12/25/categories/" rel="next" title="Categories">
-                <i class="fa fa-chevron-left"></i> Categories
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/foo/2013/12/25/tags/" rel="prev" title="Tags">
-                Tags <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
       
 
       
@@ -463,135 +419,19 @@
 </div>
 
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    processEscapes: true
-  }
-});
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-
 
           </div>
           
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
           
-
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-        
-        
-        
-
-
-
-
-
-
-
-      
-
-      
-
-      <section class="site-overview sidebar-panel sidebar-panel-active">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/assets/images/avatar.gif"
-               alt="John Doe" />
-          <p class="site-author-name" itemprop="name">John Doe</p>
-           
-              <p class="site-description motion-element" itemprop="description"></p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives/">
-                <span class="site-state-item-count">16</span>
-                <span class="site-state-item-name">posts</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/">
-                <span class="site-state-item-count">8</span>
-                <span class="site-state-item-name">categories</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/">
-                <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">tags</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-        
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-        
-
-
-      </section>
-
-      
-
-      
-
-    </div>
-  </aside>
-
         
       </div>
     </main>
