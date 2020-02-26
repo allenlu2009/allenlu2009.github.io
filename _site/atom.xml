@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-02-26T22:25:54+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>John Doe</name></author><entry><title type="html">Test</title><link href="http://localhost:4000/2018/12/21/test/" rel="alternate" type="text/html" title="Test" /><published>2018-12-21T00:00:00+08:00</published><updated>2018-12-21T00:00:00+08:00</updated><id>http://localhost:4000/2018/12/21/test</id><content type="html" xml:base="http://localhost:4000/2018/12/21/test/">&lt;h1 id=&quot;poincare-conjecturetheorem-and-ricci-flow&quot;&gt;Poincare Conjecture/Theorem and Ricci Flow&lt;/h1&gt;
-
-&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-02-26T23:30:02+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>John Doe</name></author><entry><title type="html">Poincare Conjecture/Theorem and Ricci Flow</title><link href="http://localhost:4000/foo/2018/12/22/test/" rel="alternate" type="text/html" title="Poincare Conjecture/Theorem and Ricci Flow" /><published>2018-12-22T07:29:08+08:00</published><updated>2018-12-22T07:29:08+08:00</updated><id>http://localhost:4000/foo/2018/12/22/test</id><content type="html" xml:base="http://localhost:4000/foo/2018/12/22/test/">&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;之前學 group theory 和 tensor calculus, 總結到平直空間的量子場論。最簡單的是 QED 的 Lagrangian 如下為純量，具有 U(1) 對稱性，對應各種守恆律。以及不同路徑對時間積分滿足最小作用原理。&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathscr{L}_{\mathrm{QED}}=\bar{\psi}\left(i \hbar c \gamma^{\mu} D_{\mu}-m c^{2}\right) \psi-\frac{1}{4 \mu_{0}} F_{\mu \nu} F^{\mu \nu}&lt;/script&gt;
@@ -104,7 +102,10 @@
 
 &lt;p&gt;以下用 2D 骰子面（和 2D 球面同胚）來類比。參考數學女孩龐加萊猜想。
 2D 骰子面是單連通、封閉的二維曲面，和二維球面同胚。
-為什麼用 2D 骰子面？因為 3D cube (embed 2D 骰子面)可以展開成 6 個 2D 正方形在 2D 歐氏平面。每一個正方形的 4 邊，都和 4 個正方形相鄰。因此一個 2D 曲面的生物 (毛毛蟲)，只要遵循相鄰的規則，可以一直移動不會離開 2D 骰子面。也就是具有封閉性。&lt;/p&gt;
+為什麼用 2D 骰子面？因為 3D cube (embed 2D 骰子面)可以展開成 6 個 2D 正方形在 2D 歐氏平面。每一個正方形的 4 邊，都和 4 個正方形相鄰。因此一個 2D 曲面的生物 (毛毛蟲)，只要遵循相鄰的規則，可以一直移動不會離開 2D 骰子面。也就是具有封閉性。
+&lt;img src=&quot;/media/15827309953153.jpg&quot; alt=&quot;-w482&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/15827309309973.jpg&quot; alt=&quot;-w671&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;media/15774610801799/15776132514499.jpg&quot; alt=&quot;-w253&quot; /&gt;&lt;/p&gt;
 
@@ -155,7 +156,7 @@ Conjecture | 2006&lt;/em&gt;. &lt;a href=&quot;https://www.youtube.com/watch?v=f
 &lt;a href=&quot;https://en.wikipedia.org/w/index.php?title=History_of_general_relativity&amp;amp;oldid=931327622&quot;&gt;https://en.wikipedia.org/w/index.php?title=History_of_general_relativity&amp;amp;oldid=931327622&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;———. 2019c. “Geometrization Conjecture.” &lt;em&gt;Wikipedia&lt;/em&gt;.
-&lt;a href=&quot;https://en.wikipedia.org/w/index.php?title=Geometrization_conjecture&amp;amp;oldid=932572904&quot;&gt;https://en.wikipedia.org/w/index.php?title=Geometrization_conjecture&amp;amp;oldid=932572904&lt;/a&gt;.&lt;/p&gt;</content><author><name>John Doe</name></author><summary type="html">Poincare Conjecture/Theorem and Ricci Flow</summary></entry><entry><title type="html">Next Theme Tutorial</title><link href="http://localhost:4000/tutorial/2017/07/20/next-tutorial/" rel="alternate" type="text/html" title="Next Theme Tutorial" /><published>2017-07-20T00:00:00+08:00</published><updated>2017-07-20T00:00:00+08:00</updated><id>http://localhost:4000/tutorial/2017/07/20/next-tutorial</id><content type="html" xml:base="http://localhost:4000/tutorial/2017/07/20/next-tutorial/">&lt;blockquote&gt;
+&lt;a href=&quot;https://en.wikipedia.org/w/index.php?title=Geometrization_conjecture&amp;amp;oldid=932572904&quot;&gt;https://en.wikipedia.org/w/index.php?title=Geometrization_conjecture&amp;amp;oldid=932572904&lt;/a&gt;.&lt;/p&gt;</content><author><name>John Doe</name></author><summary type="html">Introduction 之前學 group theory 和 tensor calculus, 總結到平直空間的量子場論。最簡單的是 QED 的 Lagrangian 如下為純量，具有 U(1) 對稱性，對應各種守恆律。以及不同路徑對時間積分滿足最小作用原理。</summary></entry><entry><title type="html">Next Theme Tutorial</title><link href="http://localhost:4000/tutorial/2017/07/20/next-tutorial/" rel="alternate" type="text/html" title="Next Theme Tutorial" /><published>2017-07-20T00:00:00+08:00</published><updated>2017-07-20T00:00:00+08:00</updated><id>http://localhost:4000/tutorial/2017/07/20/next-tutorial</id><content type="html" xml:base="http://localhost:4000/tutorial/2017/07/20/next-tutorial/">&lt;blockquote&gt;
   &lt;p&gt;NexT is a high quality elegant &lt;a href=&quot;https://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; theme ported from &lt;a href=&quot;https://github.com/iissnan/hexo-theme-next&quot;&gt;Hexo Next&lt;/a&gt;. It is crafted from scratch, with love.&lt;/p&gt;
 &lt;/blockquote&gt;
 

@@ -111,22 +111,24 @@
 
 
 
-<meta name="description" content="Poincare Conjecture/Theorem and Ricci Flow">
+<meta name="description" content="Introduction 之前學 group theory 和 tensor calculus, 總結到平直空間的量子場論。最簡單的是 QED 的 Lagrangian 如下為純量，具有 U(1) 對稱性，對應各種守恆律。以及不同路徑對時間積分滿足最小作用原理。">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Test">
-<meta property="og:url" content="http://localhost:4000/2018/12/21/test/">
+<meta property="og:title" content="Poincare Conjecture/Theorem and Ricci Flow">
+<meta property="og:url" content="http://localhost:4000/foo/2018/12/22/test/">
 <meta property="og:site_name" content="NexT">
-<meta property="og:description" content="Poincare Conjecture/Theorem and Ricci Flow">
+<meta property="og:description" content="Introduction 之前學 group theory 和 tensor calculus, 總結到平直空間的量子場論。最簡單的是 QED 的 Lagrangian 如下為純量，具有 U(1) 對稱性，對應各種守恆律。以及不同路徑對時間積分滿足最小作用原理。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="media/15774610801799/15775517204932.jpg">
 <meta property="og:image" content="media/15774610801799/15775809209618.jpg">
 <meta property="og:image" content="media/15774610801799/15775814960654.jpg">
+<meta property="og:image" content="/media/15827309953153.jpg">
+<meta property="og:image" content="/media/15827309309973.jpg">
 <meta property="og:image" content="media/15774610801799/15776132514499.jpg">
 <meta property="og:image" content="media/15774610801799/15776143479478.jpg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Test">
-<meta name="twitter:description" content="Poincare Conjecture/Theorem and Ricci Flow">
+<meta name="twitter:title" content="Poincare Conjecture/Theorem and Ricci Flow">
+<meta name="twitter:description" content="Introduction 之前學 group theory 和 tensor calculus, 總結到平直空間的量子場論。最簡單的是 QED 的 Lagrangian 如下為純量，具有 U(1) 對稱性，對應各種守恆律。以及不同路徑對時間積分滿足最小作用原理。">
 <meta name="twitter:image" content="media/15774610801799/15775517204932.jpg">
 
 
@@ -160,7 +162,7 @@
 
 
 
-  <title>Test | NexT</title>
+  <title>Poincare Conjecture/Theorem and Ricci Flow | NexT</title>
   
 
 
@@ -286,7 +288,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/2018/12/21/test/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/foo/2018/12/22/test/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -306,7 +308,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Test
+            Poincare Conjecture/Theorem and Ricci Flow
           
         </h1>
         
@@ -320,8 +322,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-21T00:00:00+08:00">
-                2018-12-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-22T07:29:08+08:00">
+                2018-12-22
               </time>
             
 
@@ -330,6 +332,29 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/Foo" itemprop="url" rel="index">
+                    <span itemprop="name">Foo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -372,9 +397,7 @@
 
 
 
-  <h1 id="poincare-conjecturetheorem-and-ricci-flow">Poincare Conjecture/Theorem and Ricci Flow</h1>
-
-<h2 id="introduction">Introduction</h2>
+  <h2 id="introduction">Introduction</h2>
 <p>之前學 group theory 和 tensor calculus, 總結到平直空間的量子場論。最簡單的是 QED 的 Lagrangian 如下為純量，具有 U(1) 對稱性，對應各種守恆律。以及不同路徑對時間積分滿足最小作用原理。</p>
 
 <script type="math/tex; mode=display">\mathscr{L}_{\mathrm{QED}}=\bar{\psi}\left(i \hbar c \gamma^{\mu} D_{\mu}-m c^{2}\right) \psi-\frac{1}{4 \mu_{0}} F_{\mu \nu} F^{\mu \nu}</script>
@@ -478,7 +501,10 @@
 
 <p>以下用 2D 骰子面（和 2D 球面同胚）來類比。參考數學女孩龐加萊猜想。
 2D 骰子面是單連通、封閉的二維曲面，和二維球面同胚。
-為什麼用 2D 骰子面？因為 3D cube (embed 2D 骰子面)可以展開成 6 個 2D 正方形在 2D 歐氏平面。每一個正方形的 4 邊，都和 4 個正方形相鄰。因此一個 2D 曲面的生物 (毛毛蟲)，只要遵循相鄰的規則，可以一直移動不會離開 2D 骰子面。也就是具有封閉性。</p>
+為什麼用 2D 骰子面？因為 3D cube (embed 2D 骰子面)可以展開成 6 個 2D 正方形在 2D 歐氏平面。每一個正方形的 4 邊，都和 4 個正方形相鄰。因此一個 2D 曲面的生物 (毛毛蟲)，只要遵循相鄰的規則，可以一直移動不會離開 2D 骰子面。也就是具有封閉性。
+<img src="/media/15827309953153.jpg" alt="-w482" /></p>
+
+<p><img src="/media/15827309309973.jpg" alt="-w671" /></p>
 
 <p><img src="media/15774610801799/15776132514499.jpg" alt="-w253" /></p>
 
@@ -747,7 +773,7 @@ MathJax.Hub.Config({
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#poincare-conjecturetheorem-and-ricci-flow"> <span class="nav-number">1</span> <span class="nav-text">Poincare Conjecture/Theorem and Ricci Flow</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#introduction"> <span class="nav-number">1.1</span> <span class="nav-text">Introduction</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#laplacian-operator-and-heat-equation"> <span class="nav-number">1.2</span> <span class="nav-text">Laplacian Operator and Heat Equation</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ricci-flow--愛因斯坦場方程式--拉普拉斯熱傳導"> <span class="nav-number">1.3</span> <span class="nav-text">Ricci Flow = 愛因斯坦場方程式 + 拉普拉斯熱傳導</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#poincare-conjecturetheorem"> <span class="nav-number">1.4</span> <span class="nav-text">Poincare Conjecture/Theorem</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#why-poincare-conjecture-is-important"> <span class="nav-number">1.5</span> <span class="nav-text">Why Poincare Conjecture is Important？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#strategy-to-prove-poincare-conjecture"> <span class="nav-number">1.6</span> <span class="nav-text">Strategy to Prove Poincare Conjecture</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">1.7</span> <span class="nav-text">Reference</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#introduction"> <span class="nav-number">1</span> <span class="nav-text">Introduction</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#laplacian-operator-and-heat-equation"> <span class="nav-number">2</span> <span class="nav-text">Laplacian Operator and Heat Equation</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ricci-flow--愛因斯坦場方程式--拉普拉斯熱傳導"> <span class="nav-number">3</span> <span class="nav-text">Ricci Flow = 愛因斯坦場方程式 + 拉普拉斯熱傳導</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#poincare-conjecturetheorem"> <span class="nav-number">4</span> <span class="nav-text">Poincare Conjecture/Theorem</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#why-poincare-conjecture-is-important"> <span class="nav-number">5</span> <span class="nav-text">Why Poincare Conjecture is Important？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#strategy-to-prove-poincare-conjecture"> <span class="nav-number">6</span> <span class="nav-text">Strategy to Prove Poincare Conjecture</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">7</span> <span class="nav-text">Reference</span> </a> </li>
     </ol>
   </div>
             
