@@ -1,0 +1,5641 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python,,pandas,,DataFrame," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="NexT" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="增進工程師效率 Python DataFrame: CSV &amp;amp; Plot">
+<meta name="keywords" content="python,, pandas,, DataFrame">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DataFrame_Demo">
+<meta property="og:url" content="http://localhost:4000/language/2018/12/22/dataframe/">
+<meta property="og:site_name" content="NexT">
+<meta property="og:description" content="增進工程師效率 Python DataFrame: CSV &amp;amp; Plot">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="/media/output_81_1.png">
+<meta property="og:image" content="/media/output_82_0.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DataFrame_Demo">
+<meta name="twitter:description" content="增進工程師效率 Python DataFrame: CSV &amp;amp; Plot">
+<meta name="twitter:image" content="/media/output_81_1.png">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>DataFrame_Demo | NexT</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NexT</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/language/2018/12/22/dataframe/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NexT">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            DataFrame_Demo
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-22T07:29:08+08:00">
+                2018-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/Language" itemprop="url" rel="index">
+                    <span itemprop="name">Language</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1 id="增進工程師效率-python-dataframe-csv--plot">增進工程師效率 Python DataFrame: CSV &amp; Plot</h1>
+
+<h2 id="python-dataframe">Python DataFrame</h2>
+<h3 id="create-dataframe">Create DataFrame</h3>
+<ul>
+  <li>
+    <p>Direct input</p>
+  </li>
+  <li>
+    <p>Use dict: Method 1: 一筆一筆加入。</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="n">dict1</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Name'</span><span class="p">:</span> <span class="s">'Allen'</span> <span class="p">,</span> <span class="s">'Sex'</span><span class="p">:</span> <span class="s">'male'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">:</span> <span class="mi">33</span><span class="p">}</span>
+<span class="n">dict2</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Name'</span><span class="p">:</span> <span class="s">'Alice'</span> <span class="p">,</span> <span class="s">'Sex'</span><span class="p">:</span> <span class="s">'female'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">:</span> <span class="mi">22</span><span class="p">}</span>
+<span class="n">dict3</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Name'</span><span class="p">:</span> <span class="s">'Bob'</span> <span class="p">,</span> <span class="s">'Sex'</span><span class="p">:</span> <span class="s">'male'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict1</span><span class="p">,</span> <span class="n">dict2</span><span class="p">,</span> <span class="n">dict3</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">df</span>
+
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Allen</td>
+      <td>male</td>
+      <td>33</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Alice</td>
+      <td>female</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Bob</td>
+      <td>male</td>
+      <td>11</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Method 2: 一次加入所有資料。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Allen'</span><span class="p">,</span> <span class="s">'Alice'</span><span class="p">,</span> <span class="s">'Bob'</span><span class="p">]</span>
+<span class="n">sex</span> <span class="o">=</span> <span class="p">[</span><span class="s">'male'</span><span class="p">,</span> <span class="s">'female'</span><span class="p">,</span> <span class="s">'male'</span><span class="p">]</span>
+<span class="n">age</span> <span class="o">=</span> <span class="p">[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+<span class="n">all_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"Name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+    <span class="s">"Sex"</span><span class="p">:</span> <span class="n">sex</span><span class="p">,</span>
+    <span class="s">"Age"</span><span class="p">:</span> <span class="n">age</span>
+<span class="p">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_dict</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[[</span><span class="s">'Name'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">]]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Allen</td>
+      <td>33</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Alice</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Bob</td>
+      <td>11</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="dataframe-的屬性">Dataframe 的屬性</h3>
+<ul>
+  <li>ndim: 2 for 2D dataframe; <strong>axis 0 =&gt; row; axis 1 =&gt; column</strong></li>
+  <li>shape:  (row no. x column no.) (not including number index)</li>
+  <li>dtypes: (object or int) of <strong>each column</strong></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">ndim</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>2
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>(3, 3)
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>Name    object
+Sex     object
+Age      int64
+dtype: object
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>Index(['Name', 'Sex', 'Age'], dtype='object')
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">index</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>RangeIndex(start=0, stop=3, step=1)
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="read-csv">Read CSV</h2>
+<p>Donwload a test csv file from https://people.sc.fsu.edu/~jburkardt/data/csv/csv.html  Pick the biostats.csv</p>
+
+<p>For 2, Before read csv, reference Medium article to import google drive</p>
+
+<ul>
+  <li>Read csv 使用 read_csv function.  <strong>但是要加上 skipinitialspace to strip the leading space!!</strong></li>
+  <li>Two ways to read_csv: (1) load csv file directly; (2) load from url</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s">'/content/drive'</span><span class="p">)</span>
+<span class="c1">#!ls 'drive/My Drive/Colab Notebooks/'
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'drive/My Drive/Colab Notebooks/biostats.csv'</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>Go to this URL in a browser: https://accounts.google.com/o/oauth2/auth?client_id=947318989803-6bn6qk8qdgf4n4g3pfee6491hc0brc4i.apps.googleusercontent.com&amp;redirect_uri=urn%3aietf%3awg%3aoauth%3a2.0%3aoob&amp;response_type=code&amp;scope=email%20https%3a%2f%2fwww.googleapis.com%2fauth%2fdocs.test%20https%3a%2f%2fwww.googleapis.com%2fauth%2fdrive%20https%3a%2f%2fwww.googleapis.com%2fauth%2fdrive.photos.readonly%20https%3a%2f%2fwww.googleapis.com%2fauth%2fpeopleapi.readonly
+
+Enter your authorization code:
+··········
+Mounted at /content/drive
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alex</td>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bert</td>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carl</td>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Dave</td>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Elly</td>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Fran</td>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Gwen</td>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Hank</td>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Ivan</td>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Jake</td>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Kate</td>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Luke</td>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Myra</td>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Neil</td>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Omar</td>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Page</td>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Quin</td>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Ruth</td>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="n">url</span> <span class="o">=</span> <span class="s">"https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv"</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alex</td>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bert</td>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carl</td>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Dave</td>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Elly</td>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Fran</td>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Gwen</td>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Hank</td>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Ivan</td>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Jake</td>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Kate</td>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Luke</td>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Myra</td>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Neil</td>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Omar</td>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Page</td>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Quin</td>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Ruth</td>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">);</span> <span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>Index(['Name', 'Sex', 'Age', 'Height (in)', 'Weight (lbs)'], dtype='object')
+RangeIndex(start=0, stop=18, step=1)
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">ndim</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>2
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>(18, 5)
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>Name            object
+Sex             object
+Age              int64
+Height (in)      int64
+Weight (lbs)     int64
+dtype: object
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="basic-viewing-command">Basic Viewing Command</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alex</td>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bert</td>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carl</td>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>15</th>
+      <td>Page</td>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Quin</td>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Ruth</td>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>(18, 5)
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 18 entries, 0 to 17
+Data columns (total 5 columns):
+Name            18 non-null object
+Sex             18 non-null object
+Age             18 non-null int64
+Height (in)     18 non-null int64
+Weight (lbs)    18 non-null int64
+dtypes: int64(3), object(2)
+memory usage: 848.0+ bytes
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>Hank</td>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Ivan</td>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Jake</td>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="p">[</span><span class="s">'Name'</span><span class="p">][</span><span class="mi">7</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>7    Hank
+8    Ivan
+9    Jake
+Name: Name, dtype: object
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="p">[[</span><span class="s">'Name'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">,</span> <span class="s">'Sex'</span><span class="p">]][</span><span class="mi">7</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>Hank</td>
+      <td>30</td>
+      <td>M</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Ivan</td>
+      <td>53</td>
+      <td>M</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Jake</td>
+      <td>32</td>
+      <td>M</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="p">[</span><span class="s">'Name'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">,</span> <span class="s">'Sex'</span><span class="p">]]</span> <span class="c1"># compare with loc call
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Sex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>Hank</td>
+      <td>30</td>
+      <td>M</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Ivan</td>
+      <td>53</td>
+      <td>M</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Jake</td>
+      <td>32</td>
+      <td>M</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Kate</td>
+      <td>47</td>
+      <td>F</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>Name            18
+Sex             18
+Age             18
+Height (in)     18
+Weight (lbs)    18
+dtype: int64
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="basic-index-operation">Basic Index Operation</h2>
+<p>Index (索引) is a very useful key for DataFrame.  The default index is the row number starting from 0 to N-1, where N is the number of data.
+除了用 row number 做為 index, 一般也會使用 unique feature 例如 name, id, or phone number 做為 index.</p>
+
+<h3 id="把-column-變成-index">把 column 變成 index</h3>
+
+<ul>
+  <li>Method 1: 直接在 read_csv 指定 index_col.  可以看到 index number 消失，而被 Name column 取代。</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'drive/My Drive/Colab Notebooks/biostats.csv'</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s">'Name'</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Alex</th>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<ul>
+  <li>df.index shows the element in index column</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">index</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>Index(['Alex', 'Bert', 'Carl', 'Dave', 'Elly', 'Fran', 'Gwen', 'Hank', 'Ivan',
+       'Jake', 'Kate', 'Luke', 'Myra', 'Neil', 'Omar', 'Page', 'Quin', 'Ruth'],
+      dtype='object', name='Name')
+</code></pre></td></tr></tbody></table></div></div>
+
+<ul>
+  <li>使用 reset_index 又會回到 index number.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alex</td>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bert</td>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carl</td>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Dave</td>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Elly</td>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Fran</td>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Gwen</td>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Hank</td>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Ivan</td>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Jake</td>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Kate</td>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Luke</td>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Myra</td>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Neil</td>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Omar</td>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Page</td>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Quin</td>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Ruth</td>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>再看一次 df 並沒有改變。很多 DataFrame 的 function 都是保留原始的 df, create a new object, 也就是 inplace = False.   如果要取代原來的 df, <strong>必須 inplace = True</strong>!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Alex</th>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alex</td>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bert</td>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carl</td>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Dave</td>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Elly</td>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Fran</td>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Gwen</td>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Hank</td>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Ivan</td>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Jake</td>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Kate</td>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Luke</td>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Myra</td>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Neil</td>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Omar</td>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Page</td>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Quin</td>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Ruth</td>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>如果再 reset_index(）一次，會是什麼結果？此處用 default inplace=False.
+多了一個 index column</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>Alex</td>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Bert</td>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>Carl</td>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>Dave</td>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>Elly</td>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5</td>
+      <td>Fran</td>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>6</td>
+      <td>Gwen</td>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7</td>
+      <td>Hank</td>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>8</td>
+      <td>Ivan</td>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>9</td>
+      <td>Jake</td>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>10</td>
+      <td>Kate</td>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>11</td>
+      <td>Luke</td>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>12</td>
+      <td>Myra</td>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>13</td>
+      <td>Neil</td>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>14</td>
+      <td>Omar</td>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>15</td>
+      <td>Page</td>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>16</td>
+      <td>Quin</td>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>17</td>
+      <td>Ruth</td>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alex</td>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bert</td>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carl</td>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Dave</td>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Elly</td>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Fran</td>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Gwen</td>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Hank</td>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Ivan</td>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Jake</td>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Kate</td>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Luke</td>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Myra</td>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Neil</td>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Omar</td>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Page</td>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Quin</td>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Ruth</td>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<ul>
+  <li>Method 2: 使用 set_index()</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s">'Name'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Alex</th>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="loc">loc[]</h3>
+<p>使用 loc[] 配合 index label 取出資料非常方便。\
+如果是 number index, 可以用 df[0], df[3], etc.\
+但如果是其他 column index, e.g. <strong>Name, df[2] 或是 df[“Hank”] are wrong!, 必須用 df.loc[‘Hank’]</strong>\
+或是 df.loc[ [‘Hank’, ‘Ruth’, ‘Page’] ]</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s">'Hank'</span><span class="p">]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>Sex               M
+Age              30
+Height (in)      71
+Weight (lbs)    158
+Name: Hank, dtype: object
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s">'Sex'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">]]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Alex</th>
+      <td>M</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>F</td>
+      <td>47</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>F</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>F</td>
+      <td>28</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span> <span class="p">[</span><span class="s">'Hank'</span><span class="p">,</span> <span class="s">'Ruth'</span><span class="p">,</span> <span class="s">'Page'</span><span class="p">]</span> <span class="p">]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>loc[] 可以用 row, column 得到對應的 element, 似乎是奇怪的用法</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s">'Hank'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>30
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="iloc">iloc[]</h3>
+<p>使用 column index 仍然可以用 iloc[] 配合 index number 取出資料。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>Sex               M
+Age              41
+Height (in)      74
+Weight (lbs)    170
+Name: Alex, dtype: object
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="排序">排序</h2>
+<p>包含兩種排序</p>
+<ul>
+  <li>sort_index()</li>
+  <li>sort_value()</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Alex</th>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s">'Age'</span><span class="p">)</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Myra</th>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Alex</th>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="rename-and-drop-columns-and-indexs">Rename and Drop Column(s) and Index(s)</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s">"Height (in)"</span><span class="p">:</span> <span class="s">"Height"</span><span class="p">,</span> <span class="s">"Weight (lbs)"</span><span class="p">:</span> <span class="s">"Weight"</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height</th>
+      <th>Weight</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Alex</th>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">{</span><span class="s">"Alex"</span><span class="p">:</span> <span class="s">"Allen"</span><span class="p">,</span> <span class="s">"Bert"</span><span class="p">:</span> <span class="s">"Bob"</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height</th>
+      <th>Weight</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Allen</th>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bob</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s">'Sex'</span><span class="p">,</span> <span class="s">'Weight'</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="s">"columns"</span><span class="p">)</span> <span class="c1"># axis=1 eq axis="columns"
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Height</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Allen</th>
+      <td>41</td>
+      <td>74</td>
+    </tr>
+    <tr>
+      <th>Bob</th>
+      <td>42</td>
+      <td>68</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>32</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>39</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>30</td>
+      <td>66</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>33</td>
+      <td>66</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>26</td>
+      <td>64</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>30</td>
+      <td>71</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>53</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>32</td>
+      <td>69</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>47</td>
+      <td>69</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>34</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>23</td>
+      <td>62</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>36</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>38</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>31</td>
+      <td>67</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>29</td>
+      <td>71</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>28</td>
+      <td>65</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s">'Allen'</span><span class="p">,</span> <span class="s">'Ruth'</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="s">"index"</span><span class="p">)</span> <span class="c1"># axis=0 eq axis="index"
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height</th>
+      <th>Weight</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Bob</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="進階技巧">進階技巧</h2>
+<h3 id="multiple-index-多重索引">Multiple Index (多重索引)</h3>
+<p><strong>這是非常有用的技巧，使用 set_index with keys</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'drive/My Drive/Colab Notebooks/biostats.csv'</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span>  <span class="c1"># show the original dataframe
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alex</td>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bert</td>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Carl</td>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Dave</td>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Elly</td>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Fran</td>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Gwen</td>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Hank</td>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Ivan</td>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Jake</td>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Kate</td>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Luke</td>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Myra</td>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Neil</td>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Omar</td>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Page</td>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Quin</td>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Ruth</td>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Name'</span><span class="p">,</span> <span class="s">'Sex'</span><span class="p">])</span>  
+<span class="c1"># Notice "Name" "Sex" columns header is lower than the rest
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th>Sex</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Alex</th>
+      <th>M</th>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <th>M</th>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <th>M</th>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <th>M</th>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <th>F</th>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <th>F</th>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <th>F</th>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <th>M</th>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <th>M</th>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <th>M</th>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <th>F</th>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <th>M</th>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <th>F</th>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <th>M</th>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <th>M</th>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <th>F</th>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <th>M</th>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <th>F</th>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Sex'</span><span class="p">,</span> <span class="s">'Name'</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span>
+<span class="c1"># Note that key sequence matters; and same index values group
+# Note that inplace=True replaces the original df 
+# This is useful to display sorted group
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Sex</th>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">M</th>
+      <th>Alex</th>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">F</th>
+      <th>Elly</th>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">M</th>
+      <th>Hank</th>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <th>Kate</th>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <th>Luke</th>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <th>Myra</th>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">M</th>
+      <th>Neil</th>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <th>Page</th>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <th>Quin</th>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <th>Ruth</th>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">index</span>
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code>MultiIndex([('M', 'Alex'),
+            ('M', 'Bert'),
+            ('M', 'Carl'),
+            ('M', 'Dave'),
+            ('F', 'Elly'),
+            ('F', 'Fran'),
+            ('F', 'Gwen'),
+            ('M', 'Hank'),
+            ('M', 'Ivan'),
+            ('M', 'Jake'),
+            ('F', 'Kate'),
+            ('M', 'Luke'),
+            ('F', 'Myra'),
+            ('M', 'Neil'),
+            ('M', 'Omar'),
+            ('F', 'Page'),
+            ('M', 'Quin'),
+            ('F', 'Ruth')],
+           names=['Sex', 'Name'])
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>FrozenList(['Sex', 'Name'])
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>  <span class="c1"># MultiIndex
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pandas.core.indexes.multi.MultiIndex
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span>
+<span class="c1"># sorting is based on "Sex", and then "Name"
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Sex</th>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="7" valign="top">F</th>
+      <th>Elly</th>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+    <tr>
+      <th rowspan="11" valign="top">M</th>
+      <th>Alex</th>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="groupby-command">Groupby Command</h3>
+<p>Groupby 是 SQL 的語法。根據某一項資料做分組方便查找。\
+The SQL GROUP BY Statement
+The GROUP BY statement is often used with aggregate functions (COUNT, MAX, MIN, SUM, AVG) to group the result-set by one or more columns.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'drive/My Drive/Colab Notebooks/biostats.csv'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s">"Name"</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span>  <span class="c1"># show the dataframe with "Name" index column
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Alex</th>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Elly</th>
+      <td>F</td>
+      <td>30</td>
+      <td>66</td>
+      <td>124</td>
+    </tr>
+    <tr>
+      <th>Fran</th>
+      <td>F</td>
+      <td>33</td>
+      <td>66</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Gwen</th>
+      <td>F</td>
+      <td>26</td>
+      <td>64</td>
+      <td>121</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Kate</th>
+      <td>F</td>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Myra</th>
+      <td>F</td>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Page</th>
+      <td>F</td>
+      <td>31</td>
+      <td>67</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+    <tr>
+      <th>Ruth</th>
+      <td>F</td>
+      <td>28</td>
+      <td>65</td>
+      <td>131</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">grpBySex</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'Sex'</span><span class="p">)</span>  <span class="c1"># output is a DataFrameGroupBy object
+</span><span class="nb">type</span><span class="p">(</span><span class="n">grpBySex</span><span class="p">)</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pandas.core.groupby.generic.DataFrameGroupBy
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">grpBySex</span><span class="o">.</span><span class="n">groups</span>  
+<span class="c1"># output is a dict, use get_group() obtains each sub-group
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>{'F': Index(['Elly', 'Fran', 'Gwen', 'Kate', 'Myra', 'Page', 'Ruth'], dtype='object', name='Name'),
+ 'M': Index(['Alex', 'Bert', 'Carl', 'Dave', 'Hank', 'Ivan', 'Jake', 'Luke', 'Neil',
+        'Omar', 'Quin'],
+       dtype='object', name='Name')}
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">grpBySex</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>  <span class="c1"># size() shows the counts of each group
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>Sex
+F     7
+M    11
+dtype: int64
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">grpBySex</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="s">'M'</span><span class="p">)</span>  <span class="c1"># get_group() output a DataFrame object
+</span></code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Alex</th>
+      <td>M</td>
+      <td>41</td>
+      <td>74</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>Bert</th>
+      <td>M</td>
+      <td>42</td>
+      <td>68</td>
+      <td>166</td>
+    </tr>
+    <tr>
+      <th>Carl</th>
+      <td>M</td>
+      <td>32</td>
+      <td>70</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>Dave</th>
+      <td>M</td>
+      <td>39</td>
+      <td>72</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Hank</th>
+      <td>M</td>
+      <td>30</td>
+      <td>71</td>
+      <td>158</td>
+    </tr>
+    <tr>
+      <th>Ivan</th>
+      <td>M</td>
+      <td>53</td>
+      <td>72</td>
+      <td>175</td>
+    </tr>
+    <tr>
+      <th>Jake</th>
+      <td>M</td>
+      <td>32</td>
+      <td>69</td>
+      <td>143</td>
+    </tr>
+    <tr>
+      <th>Luke</th>
+      <td>M</td>
+      <td>34</td>
+      <td>72</td>
+      <td>163</td>
+    </tr>
+    <tr>
+      <th>Neil</th>
+      <td>M</td>
+      <td>36</td>
+      <td>75</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>Omar</th>
+      <td>M</td>
+      <td>38</td>
+      <td>70</td>
+      <td>145</td>
+    </tr>
+    <tr>
+      <th>Quin</th>
+      <td>M</td>
+      <td>29</td>
+      <td>71</td>
+      <td>176</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="groupby-operation">Groupby Operation</h3>
+<p>分組後可以進行各類運算：sum(), mean(), max(), min()</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">grpBySex</span><span class="o">.</span><span class="nb">sum</span><span class="p">()</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Sex</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>F</th>
+      <td>218</td>
+      <td>459</td>
+      <td>863</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>406</td>
+      <td>784</td>
+      <td>1778</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">grpBySex</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Sex</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>F</th>
+      <td>31.142857</td>
+      <td>65.571429</td>
+      <td>123.285714</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>36.909091</td>
+      <td>71.272727</td>
+      <td>161.636364</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">grpBySex</span><span class="o">.</span><span class="nb">max</span><span class="p">()</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Sex</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>F</th>
+      <td>47</td>
+      <td>69</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>53</td>
+      <td>75</td>
+      <td>176</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">grpBySex</span><span class="o">.</span><span class="nb">min</span><span class="p">()</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Height (in)</th>
+      <th>Weight (lbs)</th>
+    </tr>
+    <tr>
+      <th>Sex</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>F</th>
+      <td>23</td>
+      <td>62</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>29</td>
+      <td>68</td>
+      <td>143</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="wash-data-with-nan">Wash Data with NAN</h2>
+<h3 id="判斷-nan">判斷 NAN</h3>
+<ul>
+  <li>isnull()</li>
+  <li>notnull()</li>
+</ul>
+
+<h3 id="處理-nan">處理 NAN</h3>
+<ul>
+  <li>dropna()</li>
+  <li>fillna()</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26</pre></td><td class="code"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Modern Web"</span><span class="p">,</span> <span class="s">"DevOps"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s">"Big Data"</span><span class="p">,</span> <span class="s">"Security"</span><span class="p">,</span> <span class="s">"自我挑戰組"</span><span class="p">]</span>
+<span class="n">ironmen</span> <span class="o">=</span> <span class="p">[</span><span class="mi">59</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span>
+
+<span class="n">ironmen_dict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">"groups"</span><span class="p">:</span> <span class="n">groups</span><span class="p">,</span>
+                <span class="s">"ironmen"</span><span class="p">:</span> <span class="n">ironmen</span>
+<span class="p">}</span>
+
+<span class="c1"># 建立 data frame
+</span><span class="n">ironmen_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ironmen_dict</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">ironmen_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s">"groups"</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">())</span> <span class="c1"># 判斷哪些組的組名是遺失值
+</span><span class="k">print</span><span class="p">(</span><span class="s">"---"</span><span class="p">)</span> <span class="c1"># 分隔線
+</span><span class="k">print</span><span class="p">(</span><span class="n">ironmen_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s">"ironmen"</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">())</span> <span class="c1"># 判斷哪些組的鐵人數不是遺失值
+</span>
+<span class="n">ironmen_df_na_dropped</span> <span class="o">=</span> <span class="n">ironmen_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span> <span class="c1"># 有遺失值的觀測值都刪除
+</span><span class="k">print</span><span class="p">(</span><span class="n">ironmen_df_na_dropped</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"---"</span><span class="p">)</span> <span class="c1"># 分隔線
+</span><span class="n">ironmen_df_na_filled</span> <span class="o">=</span> <span class="n">ironmen_df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 有遺失值的觀測值填補 0
+</span><span class="k">print</span><span class="p">(</span><span class="n">ironmen_df_na_filled</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"---"</span><span class="p">)</span> <span class="c1"># 分隔線
+</span><span class="n">ironmen_df_na_filled</span> <span class="o">=</span> <span class="n">ironmen_df</span><span class="o">.</span><span class="n">fillna</span><span class="p">({</span><span class="s">"groups"</span><span class="p">:</span> <span class="s">"Cloud"</span><span class="p">,</span> <span class="s">"ironmen"</span><span class="p">:</span> <span class="mi">71</span><span class="p">})</span> <span class="c1"># 依欄位填補遺失值
+</span><span class="k">print</span><span class="p">(</span><span class="n">ironmen_df_na_filled</span><span class="p">)</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36</pre></td><td class="code"><pre class="highlight"><code>0    False
+1    False
+2     True
+3    False
+4    False
+5    False
+Name: groups, dtype: bool
+---
+0     True
+1     True
+2     True
+3     True
+4     True
+5    False
+Name: ironmen, dtype: bool
+       groups  ironmen
+0  Modern Web     59.0
+1      DevOps      9.0
+3    Big Data     14.0
+4    Security      6.0
+---
+       groups  ironmen
+0  Modern Web     59.0
+1      DevOps      9.0
+2           0     19.0
+3    Big Data     14.0
+4    Security      6.0
+5       自我挑戰組      0.0
+---
+       groups  ironmen
+0  Modern Web     59.0
+1      DevOps      9.0
+2       Cloud     19.0
+3    Big Data     14.0
+4    Security      6.0
+5       自我挑戰組     71.0
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="plot">Plot</h2>
+<p><strong>DataFrame 一個很重要的特性是利用 matplotlib.pyplot 繪圖功能 visuallize data!</strong>\
+有兩種方式：(1) 直接用 df.plot; (2) 用 pyplot 的 plot.\
+(1) 是一個 quick way to plot \
+(2) 可以調用 pyplot 所有的功能</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'drive/My Drive/Colab Notebooks/biostats.csv'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s">"Name"</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">"Generated Plot"</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f952bc52240&gt;
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/media/output_81_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s">'Age'</span><span class="p">,</span> <span class="s">'Height (in)'</span><span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Name'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Number'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Generated Plot'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<p><img src="/media/output_82_0.png" alt="png" /></p>
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/python%2C" rel="tag"># python,</a>
+          
+            
+            <a href="/tag/#/pandas%2C" rel="tag"># pandas,</a>
+          
+            
+            <a href="/tag/#/DataFrame" rel="tag"># DataFrame</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/foo/2018/12/22/rnn/" rel="prev" title="RNN">
+                RNN <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true
+  }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#增進工程師效率-python-dataframe-csv--plot"> <span class="nav-number">1</span> <span class="nav-text">增進工程師效率 Python DataFrame: CSV &amp; Plot</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#python-dataframe"> <span class="nav-number">1.1</span> <span class="nav-text">Python DataFrame</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#create-dataframe"> <span class="nav-number">1.1.1</span> <span class="nav-text">Create DataFrame</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#dataframe-的屬性"> <span class="nav-number">1.1.2</span> <span class="nav-text">Dataframe 的屬性</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#read-csv"> <span class="nav-number">1.2</span> <span class="nav-text">Read CSV</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#basic-viewing-command"> <span class="nav-number">1.3</span> <span class="nav-text">Basic Viewing Command</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#basic-index-operation"> <span class="nav-number">1.4</span> <span class="nav-text">Basic Index Operation</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#把-column-變成-index"> <span class="nav-number">1.4.1</span> <span class="nav-text">把 column 變成 index</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#loc"> <span class="nav-number">1.4.2</span> <span class="nav-text">loc[]</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#iloc"> <span class="nav-number">1.4.3</span> <span class="nav-text">iloc[]</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#排序"> <span class="nav-number">1.5</span> <span class="nav-text">排序</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#rename-and-drop-columns-and-indexs"> <span class="nav-number">1.6</span> <span class="nav-text">Rename and Drop Column(s) and Index(s)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#進階技巧"> <span class="nav-number">1.7</span> <span class="nav-text">進階技巧</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#multiple-index-多重索引"> <span class="nav-number">1.7.1</span> <span class="nav-text">Multiple Index (多重索引)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#groupby-command"> <span class="nav-number">1.7.2</span> <span class="nav-text">Groupby Command</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#groupby-operation"> <span class="nav-number">1.7.3</span> <span class="nav-text">Groupby Operation</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#wash-data-with-nan"> <span class="nav-number">1.8</span> <span class="nav-text">Wash Data with NAN</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#判斷-nan"> <span class="nav-number">1.8.1</span> <span class="nav-text">判斷 NAN</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#處理-nan"> <span class="nav-number">1.8.2</span> <span class="nav-text">處理 NAN</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#plot"> <span class="nav-number">1.9</span> <span class="nav-text">Plot</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
