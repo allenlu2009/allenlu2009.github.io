@@ -6,7 +6,8 @@ categories:
 tags: [python, pandas, DataFrame]
 ---
 
-*Download the code: https://github.com/allenlu2009/tensorflow2/blob/master/rnn_sin/rnn_sin.ipynb*
+*Download the code: https://github.com/allenlu2009/colab/blob/master/dataframe_demo.ipynb*
+
 ## Python DataFrame
 ### Create DataFrame
 * Direct input
