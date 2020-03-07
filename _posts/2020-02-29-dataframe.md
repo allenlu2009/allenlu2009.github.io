@@ -3,7 +3,7 @@ title: DataFrame_Demo
 date: 2018-12-21 23:29:08
 categories:
 - Language
-tags: python, pandas, DataFrame
+tags: [python, pandas, DataFrame]
 ---
 
 
@@ -25,11 +25,7 @@ dict3 = {'Name': 'Bob' , 'Sex': 'male', 'Age': 11}
 data = [dict1, dict2, dict3]
 df = pd.DataFrame(data)
 df
-
 ```
-
-
-
 
 <div>
 <style scoped>
@@ -42,7 +38,7 @@ df
     }
 
     .dataframe thead th {
-        text-align: right;
+        text-align: left;
     }
 </style>
 <table border="1" class="dataframe">
