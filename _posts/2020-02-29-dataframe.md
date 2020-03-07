@@ -1,14 +1,12 @@
 ---
-title: DataFrame_Demo
+title: 增進工程師效率 Python DataFrame - CSV & Plot
 date: 2018-12-21 23:29:08
 categories:
 - Language
 tags: [python, pandas, DataFrame]
 ---
 
-
-# 增進工程師效率 Python DataFrame: CSV & Plot 
-
+*Download the code: https://github.com/allenlu2009/tensorflow2/blob/master/rnn_sin/rnn_sin.ipynb*
 ## Python DataFrame
 ### Create DataFrame
 * Direct input
