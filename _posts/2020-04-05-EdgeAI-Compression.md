@@ -1,9 +1,9 @@
 ---
 title: Edge AI Trilogy III - Model Compression
-date: 2018-12-21 23:29:08
+date: 2020-04-05 08:29:08
 categories:
-- Language
-tags: [python, pandas, DataFrame]
+- AI
+tags: [python, quantization, model compression, pruning, distillation]
 ---
 
 # Edge AI Trilogy III - Model Compression
