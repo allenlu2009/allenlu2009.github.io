@@ -1,12 +1,6 @@
 ---
-title: 增進工程師效率 Linear Algebra using Julia
-date: 2020-04-21 20:16:08
-categories:
-- Language
-tags: [julia, LinearAlgebra]
+title: 增進工程師效率 Julia Linear Algebra
 ---
-
-# this is a test
 
 # Use Julia for Linear Algebra
 
@@ -76,7 +70,8 @@ grid()
 plot(x, sin.(x))
 ```
 
-![output_6_0](/media/output_6_0-1.png)
+
+![png](/media/output_6_0.png)
 
 
 
@@ -87,3 +82,7 @@ plot(x, sin.(x))
 
 
 
+
+```julia
+
+```
