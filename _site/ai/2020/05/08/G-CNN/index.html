@@ -1,0 +1,1419 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python,quantization,model compression,pruning,distillation," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="NexT" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Math AI - G-CNN (Group + CNN) Where is group theory (G-CNN) + Curved Space (Spherical CNN)">
+<meta name="keywords" content="python, quantization, model compression, pruning, distillation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Math AI - G-CNN (Group + CNN)">
+<meta property="og:url" content="http://localhost:4000/ai/2020/05/08/G-CNN/">
+<meta property="og:site_name" content="NexT">
+<meta property="og:description" content="Math AI - G-CNN (Group + CNN) Where is group theory (G-CNN) + Curved Space (Spherical CNN)">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="media/15790137525682/15866188574631.jpg">
+<meta property="og:image" content="media/15790137525682/15866220196651.jpg">
+<meta property="og:image" content="media/15790137525682/15873110898403.jpg">
+<meta property="og:image" content="media/15790137525682/15873841531452.jpg">
+<meta property="og:image" content="media/15790137525682/15875295928215.jpg">
+<meta property="og:image" content="media/15884328451601/15890439753317.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Math AI - G-CNN (Group + CNN)">
+<meta name="twitter:description" content="Math AI - G-CNN (Group + CNN) Where is group theory (G-CNN) + Curved Space (Spherical CNN)">
+<meta name="twitter:image" content="media/15790137525682/15866188574631.jpg">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>Math AI - G-CNN (Group + CNN) | NexT</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NexT</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/ai/2020/05/08/G-CNN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NexT">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            Math AI - G-CNN (Group + CNN)
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-08T16:29:08+08:00">
+                2020-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/AI" itemprop="url" rel="index">
+                    <span itemprop="name">AI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1 id="math-ai---g-cnn-group--cnn">Math AI - G-CNN (Group + CNN)</h1>
+<p>Where is group theory (G-CNN) + Curved Space (Spherical CNN)</p>
+
+<ul>
+  <li>
+    <p>Manifold learning 是機器學習的分支，屬於淺層學習 (shallow learning).  Manifold learning 的技巧 (kernel PCA?, Laplacian Eigenmap, etc.) 是否能用於<strong>深度學習</strong>？ Yes, via kernel!   PCA =&gt; CNN kernel;  LE etc. =&gt; geometric kernel?</p>
+  </li>
+  <li>Why 結合深度學習和 manifold learning?
+    <ul>
+      <li>深度學習 based on CNN kernel =&gt; translation covariant (not invariant, invariant 是指純量 independent of coordinate system, e.g. Lagrangian, action, or $ds^2$.  Covariant means coordinate …) on 2D Euclidean plane,  Need based on ??? kernel  =&gt; translation/rotation covariant on manifold  =&gt; 結合深度學習和 manifold learning</li>
+      <li><strong>可以減少 training set!</strong>  因為 manifold learning 自帶 translation/rotation covariant, 甚至可以 extend to manifold deformation (e.g.姿體移動?)  可以結合 prior information? (姿體移動，蛋白質移動,旋轉,鏡像 …)</li>
+      <li>Can this resist adversarial attack?</li>
+    </ul>
+  </li>
+  <li>translation equivariant - CNN, plus rotation/mirror equivariant - g-CNN</li>
+  <li>then sphere equivariant - sphere CNN (non-flat); finally ??</li>
+  <li>How about scale invariant or equivariant?</li>
+</ul>
+
+<p>終於了解 G-CNN 的意義，就是把 kernel 2D convolution (Z2 commutative group) expand to a 4D G-convolution (p4m: Di4 non-commutative group).</p>
+
+<ul>
+  <li>只有 input image 是 (x, y) base, 經過 layer-1 G-convolution 轉為 p4m g space.  所有之後的 layers’ convolution 都是在 g space 做, i.e. input and output activation 都是在 {4D g space + 1D Depth=5D} space instead of {2D (x,y) + 1D depth = 3D} space.  到了最後 fully connected 再變成分類網路。  這真是 particle physicist 才會有的高維思維！一般人還是習慣每一層 input output activation 老老實實在 2D (x,y) space.  (example: https://arxiv.org/pdf/1807.11156.pdf).  I like this idea: Go high dimension all the way!  In some sense, channel or depth dimension 也是一個人造的 dimension!</li>
+  <li>More parameters?  Should be.</li>
+  <li>Still can find the (x,y) for location?  Yes, it is a superset!</li>
+  <li>Use 1D convolution with mirror group as an example.</li>
+  <li>How about broken symmetry? 或是 miss some kernel?</li>
+</ul>
+
+<h2 id="再推廣-group-equivariance-estevespolartransformer2018">再推廣 Group Equivariance [@estevesPOLARTRANSFORMER2018]</h2>
+<p>Equivariant representations are highly sought after as they encode both class and deformation information in a predictable way. Let $G$ be a transformation group and $L_g I$ be the group action applied to an image $I$. A mapping $\Phi : E \to F$ is said to be equivariant to the group action $L_g$, $g \in G$ if</p>
+
+<script type="math/tex; mode=display">\Phi\left(L_{g} I\right)=L_{g}^{\prime}(\Phi(I))</script>
+
+<p>where $L_g$ and $L’<em>g$ correspond to application of $g$ to $E$ and $F$ respectively and satisfy $L</em>{gh} = L_g L_h$ and $L’_{gh} = L’_g L’_h$.</p>
+
+<ul>
+  <li>Invariance is a special case of equivariance where $L’_g = I$.</li>
+  <li>Another special case is $L_g = L’_g$.</li>
+  <li>Image classification and CNN, $g \in G$ can be thought of as an image deformation and $\Phi$ a mapping from the image to a feature map.</li>
+</ul>
+
+<p>Next step:</p>
+<ol>
+  <li>Image $I$ is a function of coordinate, x, $I = f(x)$ at first layer.</li>
+  <li>Group operation on f(x) is 
+ $L_g f(x) = f(g^{-1}x)$.  原因很簡單，就是在 $x = gx’$ 會得到原來的 $f(x’)$.</li>
+  <li>2D discrete convolution, $L_g f(x) = <a href="g^{-1}x">f\circ \phi</a> $ 定義如下。$x, y \in Z^2$</li>
+</ol>
+
+<script type="math/tex; mode=display">[f * \phi](x)=\sum_{y \in \mathbb{Z}^{2}} f(y) \phi(x-y)</script>
+
+<script type="math/tex; mode=display">[f \star \phi](x)=\sum_{y \in \mathbb{Z}^{2}} f(y) \phi(y-x)</script>
+
+<ol>
+  <li>CNN 3D convolution, $L_g f(x) = <a href="g^{-1}x">f\circ \phi</a> $ 定義如下。$x, y \in Z^2$; $k$ and $i$ 分別代表 input/output channel depth</li>
+</ol>
+
+<script type="math/tex; mode=display">[f * \phi^i](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{k=1}^{K^{l}} f_{k}(y) \phi^i_{k}(x-y)</script>
+
+<script type="math/tex; mode=display">[f \star \phi^i](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{k=1}^{K^{l}} f_{k}(y) \phi^i_{k}(y-x)</script>
+
+<ol>
+  <li>推廣到 2D group convolution.  $g, h \in G$</li>
+</ol>
+
+<script type="math/tex; mode=display">(f *_{G} \phi)(g)=\int_{h \in G} f(h) \phi(h^{-1} g) d h</script>
+
+<script type="math/tex; mode=display">(f \star_{G} \phi)(g)=\int_{h \in G} f(h) \phi(g^{-1} h) d h</script>
+
+<ol>
+  <li>推廣到 3D Group CNN or G-CNN.  $g, h \in G$, $k$ and $i$ 分別代表 input/output channel depth
+<script type="math/tex">\begin{array}{l}
+{\left[f * \phi^i\right](g)=\sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \phi^i_{k}(h^{-1}g)} \\
+{\left[f \star \phi^i\right](g)=\sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \phi^i_{k}(g^{-1}h)}
+\end{array}</script></li>
+</ol>
+
+<p>Convolution and CNN 具有 translational equivariance and independent of kernel $\phi$.  直觀而言，就是把 input image (or feature map) 和 kernel filter 的 symmetry group (e.g. translation, rotation, reflection) 做 similarity (inner product), 但保留印記 (coordinate (x,y), reflection (m=1, -1), rotation (r=0, 1, 2, 3)) 到 output feature map.</p>
+
+<ul>
+  <li>
+    <p>2D convolution or 3D CNN 的 $g^{-1} h = y-x$  and $h^{-1} g = (g^{-1} h)^{-1} = x-y$ 是 $Z^2$ 反元素。</p>
+  </li>
+  <li>其中 layer1 的 input image 因為只有 2D coordinate (x,y) + 1D depth (c=3, e.g. RGB) = 3D tensor, 但是 output feature map 變成 2D coordinate (x,y) + 1D reflection(m) + 1D rotation(r) + 1D depth (c) = 5D tensor.</li>
+  <li>其他 layers 的 input and output 都是 5D tensors.</li>
+</ul>
+
+<h2 id="group-equivariant-operation">Group Equivariant Operation</h2>
+
+<p>參考 [@prismGroupEquivariant2019] and [@cohenGroupEquivariant2019].</p>
+
+<p>在這篇文章中，作者以初學者的角度，從最基本的概念開始，解釋對稱性並通俗地引入群論的理論框架。所謂對稱性，就是目標在經歷一定變換以後保持不變的性質。而這裡用到的對稱性群（symmetry group），可理解為一系列滿足某些限制條件的對稱性變換的集合。下面是文中對對稱性群的定義：</p>
+
+<p>而在卷積網絡裡面涉及到的，最簡單的例子就是二維整數平移操作所組成的群 $\mathbb{Z}^2$。</p>
+
+<p>接下來，我們簡單回顧一下傳統卷積網絡的等變（Equivariance）性質。平移等變性質是CNN對目標的響應能夠不受目標在圖像中的位置影響的基礎。《深度學習》花書裡面是這樣描述等變性質：</p>
+
+<blockquote>
+  <p>如果一個函數滿足，輸入改變而輸出也以同樣的方式改變的這一性質，我們就說它是等變的。</p>
+</blockquote>
+
+<p>簡單的例子，就是當目標出現在輸入圖片中的不同位置，輸出的feature map應該是只是進行了平移變換。
+<img src="media/15790137525682/15866188574631.jpg" alt="-w600" /></p>
+
+<p>而從數學上，從算符対易性的角度，等變性質可以這樣定義：對於群對稱 $g \in G$ ，其算符 $L_g$ 和函數 $f(x)$，有 $f(L_g x) = L_g(f(x))$ ，也就是 $f$ 與 $L_g$ 対易，則稱$f(x)$ 對於變換 $g$ 有等變性。</p>
+
+<p>在深度學習當中，我們更希望卷積網絡具有等變性，而不是不變性（Invariance）:
+<img src="media/15790137525682/15866220196651.jpg" alt="-w600" />
+在畢卡索的這幅畫中，臉部五官都在，但是顯然被解構和調整。如果神經網絡對目標的響應具有「不變性」，顯然仍然會認為這就是一張普通人臉。</p>
+
+<p>接下來作者引入一個結論：</p>
+
+<p>這個公式的含義是：要得到經過 [公式] 變換的feature map [公式] 在 [公式] 處的值，可以通過計算在 [公式] 位置上面 [公式] 的值。舉例來說，如果 [公式] 是平移操作t，則 [公式] ，那我們只需計算在 [公式] 這一點feature的值便可得到。這個公式將在推到等變性的時候用到。</p>
+
+<p>對於傳統卷積網絡， [公式] 則對應平移操作 [公式] 。也就是說，由於平移操作雖然會對卷積操作的輸出產生改變，但是這種改變是線性的，可以預測的。反之，不等變的操作則會對輸出帶來非線性的影響。</p>
+
+<p>為了證明傳統卷積網絡裡面，平移與卷積操作対易，首先明確定義傳統卷積操作和互相關操作：</p>
+
+<p>在這裡，filter對輸入層的滑動掃描被看做對其平移操作。需要注意的是在傳統的卷積網絡裡面，前向過程事實上用的是互相關操作卻被泛泛稱為「卷積操作」。</p>
+
+<p>然後文章中很容易證明瞭互相關操作( [公式] )和卷積（ [公式] ）操作都與平移操作 [公式] 対易（commute）:</p>
+
+<p>[公式]</p>
+
+<p>[公式]</p>
+
+<p>由這兩個操作対易，從而得出結論：卷積是平移操作的等變映射。</p>
+
+<p>另外一方面，作者發現旋轉操作與卷積操作是不対易的，「correlation is not an equivariant map for the rotation group」，但是feature map的堆疊卻可能是等變的。也正是因為旋轉操作不是卷積的等變映射，往傳統的CNN裡面輸入旋轉了的圖像，圖像識別的效果則會大打折扣。為瞭解決這個問題，最傳統直接的方法是數據增強，直接把圖像旋轉再輸入網絡進行訓練，但是這種方法顯然不是最優的。為了改進網絡本身來解決這個問題，考慮一個簡單的具有四重旋轉對稱軸的對稱性群 [公式] (wiki). 對於這個群，有四種對稱性操作：平移，旋轉90°，旋轉180°，旋轉270°。我們要設計一個新的CNN結構，使得當輸入圖像有以上變換時，網絡仍然具有等變性質。</p>
+
+<p>為了這個目的，仿照(2)(3)，根據(1)的結論，作者提出的 G-correlation，其定義為：</p>
+
+<p>對於第一層G-CNN（first-layer G-correlation）， [公式] 和[公式] 定義在平面 [公式] 上：</p>
+
+<p>[公式]</p>
+
+<p>對於接下來的G-CNN層（full G-correlation）， [公式] 和[公式] 定義在群G上：</p>
+
+<p>[公式]</p>
+
+<p>由此帶來的改變是，作者很容易證明瞭G-CNN對於群G的變換操作是等變的（「G-correlation is an equivariant map for the translation group」）: [公式]</p>
+
+<p>詳細推導見文章。值得注意的是， 經師弟提醒，對第一層G-CNN的等變性推到，需要把 [公式] 和 [公式] 拓展到群 [公式] 上，否則將無法推導（因為 [公式] 顯然不再屬於群 [公式] ）。</p>
+
+<p>也就是說，G-CNN推廣了對feature map的變換操作，從傳統的只有平移變換的群 [公式] 到某個對稱性群 [公式] 。而且推廣以後，G-CNN卷積層對於該群的對稱性變換操作具有等變性質。</p>
+
+<p>雖然作者在文中沒有提及，不難看到，G-CNN可以自然退化到傳統的CNN。當對稱性群G只有平移 [公式] 一種對稱性操作，也就是 [公式] 時，則G-CNN也就是傳統的CNN。</p>
+
+<p>總而言之，當輸入圖像是按照特定角度旋轉的，G-CNN網絡的輸出結果應該是按照預定規律變化的。因此，G-CNN具備了更強的旋轉輸入圖像特徵提取的能力。</p>
+
+<p>可以完全從 math 角度來看深度學習。
+CNN 的核心是 convolution, math 抽象來看是 Euclidean translation invariance (Z^2).  更進一步的是 Euclidean rotation invariance (U(1), SO(2) group?).  或者 manifold (sphere) translation/rotation invariance.</p>
+
+<p>Gauge Convolutional Networks
+[@xinzhiyuanGeometricalDeep2020] and [@pavlusIdeaPhysics2020]
+https://kknews.cc/tech/gpkgx3e.html</p>
+
+<h2 id="math-formulation">Math Formulation</h2>
+<p>前面說的都是描述性的語言，再來是干貨。
+先澄清一些<em>無關</em>的 ideas.</p>
+
+<p><strong>Symmetric Group</strong> 
+Group theory 中的 symmetric group 有明確的定義，就是 n symbol 所有 permutation (i.e. self bijections) 形成的 group, 稱為 $S_n$, with $n!$ group element. 下圖是 $S_4$ 的 Cayley graph, total 4! = 24 elements. 所有的 finite group 可以證明都是某個 symmetric group 的子群。<strong>不過這裡的 symmetric group 和本文無關。</strong></p>
+
+<p><img src="media/15790137525682/15873110898403.jpg" alt="-w400" /></p>
+
+<p><strong>Symmetry Brings Conservation (Noether Theorem)</strong> (check 廣義相對論 article)
+A physic law is invariant of different observer.  For example the Lagrangian is invariant (or covariant?) under certain coordinate transformation (different observers).  We called these coordinate transformation as symmetry operation.  These symmetry operation corresponds to a specific conservation law.</p>
+
+<p>再來進入主題。</p>
+
+<h3 id="equivariance-math-formulation-of-neural-network">Equivariance Math Formulation of Neural Network</h3>
+
+<p>$y = \Phi(x)$ where $\Phi$ represents (part of) the neural network. $y$ is network output feature tensor; x is input image tensor.  Tensor can be viewed as a high dimension matrix.<br />
+$\Phi$ 可以是一個複雜的 cascaded nonlinear function (with CNN, ReLU, Pooling, etc.) or a simple linear function with tensor input and tensor output.</p>
+
+<p>$\Phi$ 可以是 injective/bijective or non-injective.  例如，input image tensor 是 WxHxCin, 如果 output tensor 是 WxHxCout (stride=1) and Cout $\ge$ Cin, 一般是 injective or bijective.  如果 stride &gt; 1 or Cout &lt; Cin, 則是 non-injective, 也就是存在 $x’\ne x$, and $\Phi(x’) = \Phi(x)$.</p>
+
+<p><img src="media/15790137525682/15873841531452.jpg" alt="-w766" /></p>
+
+<p>$x’ = T x$ where $T$ is a linear transformation (<strong>a multi-dimension matrix</strong>) corresponding to a new observer (coordinate).  此處 T 是 bijective transform, or full rank transformation, 例如 translation, rotation, affine transformation.</p>
+
+<p>The new observer obtains the new output feature tensor 
+$y’ = \Phi(x’) = \Phi(T x)$</p>
+
+<p><strong>Our goal is to explore the relationship between $\Phi(T x)$ and $\Phi(x)$.</strong></p>
+
+<p>In general, $\Phi(T x)$ 和 $\Phi(x)$ 可能有各種不同的關係。</p>
+<ul>
+  <li>如果 $\Phi(T x) = \Phi(x) \; \forall x$, 滿足的所有 $T$ 稱為 $\Phi$ 的 invariant group.
+    <ul>
+      <li>Ex. $\Phi$ is norm of x, $T_g$ 是所有 metric-perserve transformation (translation, rotation, mirror, etc.)</li>
+      <li>It losses all T information, all completely independent of coordinate.</li>
+      <li>Usually for scalar.</li>
+    </ul>
+  </li>
+  <li>如果 $\Phi(T x) = T \Phi(x) \; \forall x$, 滿足的所有 $T$ 稱為 $\Phi$ 的 equivariant group.
+    <ul>
+      <li>Keep spatial information</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="equivariant-group-phi-is-linear-and-bijective-full-rank">Equivariant Group: $\Phi$ is Linear and Bijective (full rank)</h3>
+
+<p>If $\Phi$ is a linear network, 可視為一個 matrix $\Phi$, i.e. $\Phi(T x) = \Phi T x$.  為了簡化，假設 $\Phi$ and $T$ 是 2D matrix.</p>
+
+<p>現在需要找到 given $\Phi$, 什麼 $T$ 可以得到 
+$\Phi(T x) = \Phi T x = T \Phi x = T \Phi(x)$ for $\forall x$
+$\Rightarrow \Phi T = T \Phi$, 也就是 $\Phi$ and $T$ commute, 因此變成 commuting matrices problem, 可以參考 [@wikiCommutingMatrices2019].</p>
+
+<p>One sufficient (not a necessary) condition: $\Phi$ and $T$ are simultaneously diagonalizable, i.e. 
+$\Phi = P^{-1} D P$ and $T = P^{-1} Q P$ where $D$ and $Q$ 都是 diagonal matrix. 
+$\Phi T = P^{-1} D Q P = P^{-1} Q D P = T \Phi$</p>
+
+<p>也就是只要 $T = P^{-1} Q P$ where P comes from eigenvectors of $\Phi$,  $\Phi T x = T \Phi x \; \forall x$.  Commuting matrices preserve each other’s eigenspaces.</p>
+
+<p><strong>這樣的 $T$ form a commuting (Abelian) group $T_g$ (assuming T is full rank, exclude 0 in the eigenvalues of T and Q)</strong>, 因為 $T_1  T_2 = P^{-1} Q_1 P P^{-1} Q_2 P = P^{-1} (Q_1 Q_2) P = P^{-1} (Q_2 Q_1) P = T_2 T_1 = T_3$ (multiplication closure and commuting), 並且每一個 $T$ 都存在唯一的反元素 $P^{-1} Q^{-1} P$ (inverse closure).</p>
+
+<p><strong>In summary, given a linear and bijective network $\Phi$, 可以定義一個 equivarient commutative group $T_g$ such that $\Phi(T x) = T \Phi(x) \; \forall x$.  這個群的元素(matrix) 的 eigenvectors 都和 $\Phi$ eigenvectors 一致。</strong>  也可以把 $\Phi$ 視為這個 group, $T_g$ 的一個 element.</p>
+
+<h4 id="simple-phi-2d-matrix-equivariant-group-example">Simple $\Phi$: 2D Matrix Equivariant Group Example</h4>
+<p>Ex1: $\Phi$ = [1, 0; 0, 2]  $\Rightarrow T_g =[k_1, 0; 0, k_2]$. 所有 <strong>unequal scaling 都是 equivariant group.</strong></p>
+
+<p>Ex2: $\Phi$ = [2, 1; 1, 2]  $\Rightarrow T_g =[c, s; s, c]$.  所有 <strong>hyperbolic rotation 都是 equivariant group (with a normalization constant).</strong></p>
+
+<p>Ex3: $\Phi$ = [2, -1; 1, 2]  $\Rightarrow T_g =[c, -s; s, c]$.  所有 <strong>rotation 都是 equivariant group (with a normalization constant).</strong></p>
+
+<p>Ex4: <strong>Horizontal shear 也是一個 equivariant group.</strong><br />
+Proof: $[1, k_1; 0, 1] \times [1, k_2; 0, 1] = [1, k_1+k_2; 0, 1] \to$ multiplication closure and 反元素是 $[1, -k; 0, 1] \to$ inverse closure.</p>
+
+<p>Ex5: Uniform scaling 也是一個 (trivial) equivariant group.</p>
+
+<p>下圖摘自 [@wikiEigenvaluesEigenvectors2020].
+<img src="media/15790137525682/15875295928215.jpg" alt="-w700" /></p>
+
+<h4 id="discrete-convolution-wikitoeplitzmatrix2020">Discrete Convolution: [@wikiToeplitzMatrix2020]</h4>
+<p>Discrete convolution (離散卷積) 廣泛用於數位訊號處理和深度學習 for audio and video.  Discrete convolution 基本是 linear bijective operation, 同樣適用 equivariant group 的結論。我們用 1D discrete convolution 為例如下：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+y=h * x=\left[\begin{array}{ccccc}
+h_{1} & 0 & \cdots & 0 & 0 \\
+h_{2} & h_{1} & & \vdots & \vdots \\
+h_{3} & h_{2} & \cdots & 0 & 0 \\
+\vdots & h_{3} & \cdots & h_{1} & 0 \\
+h_{m-1} & \vdots & \ddots & h_{2} & h_{1} \\
+h_{m} & h_{m-1} & & \vdots & h_{2} \\
+0 & h_{m} & \ddots & h_{m-2} & \vdots \\
+0 & 0 & \cdots & h_{m-1} & h_{m-2} \\
+\vdots & \vdots & & h_{m} & h_{m-1} \\
+0 & 0 & 0 & \cdots & h_{m}
+\end{array}\right]\left[\begin{array}{c}
+x_{1} \\
+x_{2} \\
+x_{3} \\
+\vdots \\
+x_{n}
+\end{array}\right] %]]></script>
+
+<p>$y = h * x = \Phi x$ where $\Phi$ is a $n\times n$ matrix, 就是把 m-tap kernel filter $[h_1, h_2, …, h_m]$ <strong>shift (平移)</strong> n 次造出的 matrix, 稱為 Toeplitz matrix. 一般 n » m, 因此是 “band matrix” with high sparsity. 後面會看到 $\Phi$ 的 equivariant group $T_g$ 和這個操作直接相關。</p>
+
+<p>下一步是要找出 $\Phi$ 的 eigenvectors 以及構成的 commutative group. 可以參考 [@grayToeplitzCirculant1971], excel article about Toeplitz matrix.</p>
+
+<p><strong>有一個 “trick” 就是用 Circulant matrix 取代 Toeplitz matrix by using cyclic shift to replace regular shift!</strong>  因為 n » m, 實務上Toeplitz 和 Circulant matrix 得到的 $y$ 差異很小。但 Circulant matrix 好求解而且具有物理意義。</p>
+
+<p>Follow [@grayToeplitzCirculant1971] 的 notation on p.31, 我們用 $C$ 代替 $\Phi$.</p>
+
+<p>A $n\times n$ circulant matrix $C$ has the form 
+<script type="math/tex">% <![CDATA[
+C=\left[\begin{array}{cccccc}
+c_{0} & c_{1} & c_{2} & & \cdots & c_{n-1} \\
+c_{n-1} & c_{0} & c_{1} & c_{2} & & \vdots \\
+& & c_{n-1} & c_{0} & c_{1} & \ddots & \\
+\vdots & \ddots & \ddots & \ddots & & c_{2} \\
+& & & & & c_{1} \\
+c_{1} & \cdots & & c_{n-1} & & c_{0}
+\end{array}\right] %]]></script></p>
+
+<h4 id="circulant-matrix-eigenvalues-and-eigenvectors">Circulant matrix eigenvalues and eigenvectors</h4>
+<p>The eigenvalues $\psi_m$ and the eigenvectors $y^{(m)}$ are the solution of
+<script type="math/tex">C y = \psi y</script>
+我們引入一個 variable $\rho$, which is one of the n distinct complex root of unity ($\rho_m = e^{-2\pi i m/n}$, $m = 0, … n-1$), we have the eigenvalue and eigenvector
+<script type="math/tex">\psi=\sum_{k=0}^{n-1} c_{k} \rho^{k}</script> 
+and 
+<script type="math/tex">y=n^{-1 / 2}\left(1, \rho, \rho^{2}, \ldots, \rho^{n-1}\right)^{\prime}</script>
+帶入 $\rho_m$, we have eigenvalue $(m = 0, … n)$
+<script type="math/tex">\psi_{m}=\sum_{k=0}^{n-1} c_{k} e^{-2 \pi i m k / n}</script>
+<strong>!!注意：$\psi_{m}$ is the DFT of $c_k$</strong>, i.e. $\psi = DFT(c)$.  反之，$c = IDFT(\psi)$
+<script type="math/tex">c_{m}= \frac{1}{n} \sum_{k=0}^{n-1} \psi_{k} e^{2 \pi i m k / n}</script></p>
+
+<p>$\psi_{m}$ 對應的 (column) eigenvector 
+<script type="math/tex">y^{(m)}=\frac{1}{\sqrt{n}}\left(1, e^{-2 \pi i m / n}, \cdots, e^{-2 \pi i m(n-1) / n}\right)^{\prime}</script></p>
+
+<p>檢查幾個 eigenvalue. First, $m=0$ is the DC component of $c_k$
+<script type="math/tex">\psi_{0}=\sum_{k=0}^{n-1} c_{k}</script></p>
+
+<p>對應的 (column) eigenvector
+<script type="math/tex">y^{(0)}=\frac{1}{\sqrt{n}}\left(1, 1, \cdots, 1\right)^{\prime}</script></p>
+
+<p>帶入驗證  $ C y^{(0)} = \psi_{0} y^{(0)}  $.</p>
+
+<p>Next $m=1$ is the 1st fundamental component of $c_k$
+<script type="math/tex">\psi_{1}=\sum_{k=0}^{n-1} c_{k} e^{-2 \pi i k / n}</script></p>
+
+<p>對應的 (column) eigenvector 
+<script type="math/tex">y^{(1)}=\frac{1}{\sqrt{n}}\left(1, e^{-2 \pi i / n}, \cdots, e^{-2 \pi i (n-1) / n}\right)^{\prime}</script></p>
+
+<p>Next $m=2$ is the 2nd fundamental component of $c_k$
+<script type="math/tex">\psi_{2}=\sum_{k=0}^{n-1} c_{k} (e^{-2 \pi i k / n})^2</script></p>
+
+<p>對應的 (column) eigenvector 
+<script type="math/tex">y^{(2)}=\frac{1}{\sqrt{n}}\left(1, (e^{-2 \pi i / n})^2, \cdots, (e^{-2 \pi i (n-1) / n})^2\right)^{\prime}</script></p>
+
+<p>可以驗證  $ C y^{(m)} = \psi_{m} y^{(m)}  $.</p>
+
+<p><strong>我們用 one equation to summarize the results. 其實就是 $C$ 的 eigenvalue decomposition 如下。$\Psi$ 是 diagonal matrix with eigenvalues, 剛好就是 $C$ matrix 第一列 (row 1) 的 DFT 結果。</strong>
+<script type="math/tex">CU = U \Psi \quad\quad C = U \Psi U^{-1} = U \Psi U^{*}</script>  where
+<script type="math/tex">% <![CDATA[
+\begin{aligned}
+U &=\left[y^{(0)}\left|y^{(1)}\right| \cdots | y^{(n-1)}\right] \\
+&=n^{-1 / 2}\left[e^{-2 \pi i m k / n} ; m, k=0,1, \ldots, n-1\right]
+\end{aligned} %]]></script></p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+= n^{-1/2} \left[\begin{array}{cccccc}
+1 & 1 & 1 &  \cdots & 1 \\
+1 & \omega & \omega^{2}  &  \cdots & \omega^{n-1} \\
+1 & \omega^2 & (\omega^{2})^2  &  \cdots & (\omega^{n-1})^2 \\
+\vdots & \vdots & \vdots & \cdots & \vdots \\
+1 & \omega^{n-1} & (\omega^{2})^{n-1} & \cdots & (\omega^{n-1})^{n-1}
+\end{array}\right] %]]></script>
+
+<script type="math/tex; mode=display">% <![CDATA[
+U^{-1} = U^{*} = n^{-1/2} \left[\begin{array}{cccccc}
+1 & 1 & 1 &  \cdots & 1 \\
+1 & \bar{\omega} & \bar{\omega}^{2}  &  \cdots & \bar{\omega}^{n-1} \\
+1 & \bar{\omega}^2 & (\bar{\omega}^{2})^2  &  \cdots & (\bar{\omega}^{n-1})^2 \\
+\vdots & \vdots & \vdots & \cdots & \vdots \\
+1 & \bar{\omega}^{n-1} & (\bar{\omega}^{2})^{n-1} & \cdots & (\bar{\omega}^{n-1})^{n-1}
+\end{array}\right] %]]></script>
+
+<p>with $\omega = e^{-2 \pi i / n}$ and $\bar{\omega} = \omega^{*} = e^{+2 \pi i / n}$</p>
+
+<p>Complex conjugate frequency sequence
+另一種的順序是 complex conjugate (Nyquist) frequency sequence, 就是 [DC, +f, -f, +2f, -2f, …, AC]  如果 n 是偶數，AC = [1, -1, 1, -1…].  如果 n 是奇數，….</p>
+
+<h4 id="equivariant-phi-is-circulant-matrix-for-discrete-convolution">Equivariant: $\Phi$ is Circulant Matrix for Discrete Convolution</h4>
+<p>Given $\Phi = C$, a circulant matrix, 現在需要找到 equivariant group $T$ to make $\Phi(T x) = \Phi T x = T \Phi x = T \Phi(x)$.  答案是  $T_g= U Q U^{<em>}$ where $U$ and $U^{</em>}$ 就是以上的 matrices (n 點分圓函數) and $Q$ is a diagonal matrix.</p>
+
+<p>注意 $U$ and $U^{<em>}$ 是 complex matrix, Q in general 也是 complex matrix.  但實際應用會限制 $T_g = U Q U^{</em>}$ 必須是 real matrix.  因此會要求 Q matrix 滿足一些特性。因為 Q matrix 其實是另一個 circulant matrix 的 row 1 FFT 結果。</p>
+
+<p>In summary, circulant matrix 本身 forms a commutative group, i.e. $A B = B A = C$ (multiplication closure and commuting) is circulant matrix, $A^{-1}$ 也是 circulant matrix, 甚至 $A + B$ 也是 circulant matrix [@wikiCirculantMatrix2020].</p>
+
+<p>整理一下：</p>
+<ul>
+  <li>$y = \Phi(x) = h * x$ performs discrete convolution (i.e. 1D CNN) where $x$ and $y$ are input and output signals of n-dimension.  $h$ is the kernel filter of m dimension. 一般 n » m.  可以用 $n\times n$ Circulant matrix multiplication 近似 discrete convolution by zero padding, i.e. $y = C x$.  $C$ 是把 $h$ 放在 $C$ 的 row1, 再 cyclic right shift by 1 放在 row 2, and so on.  <strong>In summary, discrete convolution is equivalent to Circulant matrix multiplication.</strong></li>
+  <li>$n \times n$ Circulant matrices form a commutative group, $T_g$, i.e. $\Phi(T_g x) = T_g \Phi(x)$ as long as $T_g$ is a $n\times n$ Circulant matrix.  Actually, $\Phi \in T_g$.  $T_g$ is equivariant operation.</li>
+  <li>Circulant group 的 generating element is $g$ = [0, 1, 0…, 0; 0, 0, 1, …,0,; ….; 1, 0, 0, …, 0]‘ 代表 right cyclic shift by 1; $g^2 = g<em>g, g^k = g</em>g<em>..</em>g$. Therefore, $I, g^2, g^3, ..g^{n-1}$ 構成 basis for 所有 $n\times n$ Circulant matrix.  For any Circulant matrix by $[a_0, a_1, …, a_{n-1}] = a_0 I + a_1 g^2 + …, + a_{n-1} g^{n-1}$.  也就是說，Circulant matrix can be decomposed to translation matrix superposition.</li>
+  <li>Discrete convolution is therefore translation multiplication commutable =&gt; translation equivariant, i.e. $\Phi ( T_g x) = T_g (\Phi x)$</li>
+</ul>
+
+<p>A discrete convolution example in appendix A.</p>
+
+<h4 id="equivariant-phi-is-circulant-matrix-for-2d-discrete-convolution">Equivariant: $\Phi$ is Circulant Matrix for 2D Discrete Convolution</h4>
+<p>$y(t) = h(t) * x(t)$ 可以直接推廣到 2D,  $y(u, v) = h(u, v) * x(u, v)$</p>
+
+<ul>
+  <li>因為 $u$ and $v$ are independent on the Cartesian coordinate.  注意這並不代表 $y, h, x$ are $u, v$ separable.</li>
+  <li>Circulant group 是兩個 Circulant group 的 <strong>direct sum</strong>.</li>
+  <li>Generator 是 $g_u$ and $g_v$.</li>
+  <li>The DFT core is exp(-2piinu/.) exp(-2pimv/.)</li>
+  <li>How about eigenvalue and eigenvectors?</li>
+</ul>
+
+<h4 id="how-about-other-equivariant-for-1d-signal-processing">How about other equivariant for 1D signal processing?</h4>
+<p>Mirror, scale equivariant?</p>
+<ul>
+  <li>$\Phi(x)$ 
+condition of Q?</li>
+</ul>
+
+<h2 id="use-cohens-paper-notation-and-concept">Use Cohen’s paper notation and concept</h2>
+<p>以上的推導太狹隘，接下來採用 Cohen’s paper notation and ideas.</p>
+
+<h3 id="the-group-p4m-non-commutative-group">The group $p4m$ (non-commutative group)</h3>
+
+<script type="math/tex; mode=display">% <![CDATA[
+g(m, r, u, v)=\left[\begin{array}{ccc}
+(-1)^{m} \cos \left(\frac{r \pi}{2}\right) & -(-1)^{m} \sin \left(\frac{r \pi}{2}\right) & u \\
+\sin \left(\frac{r \pi}{2}\right) & \cos \left(\frac{r \pi}{2}\right) & v \\
+0 & 0 & 1
+\end{array}\right] %]]></script>
+
+<p>以上是 2D Cartesian coordinate (+1D depth) generates to 4D symmetry G space (+1D depth).  分為兩種 case: (1) input 仍然是 3D tensor, but output is converted to 5D tensor.  僅用於神經網絡的第一層。之後就轉換成 (2) both input/output 都是 5D tensors.  原文有簡化版 p4 (no mirror reflection) and 2D translation only.</p>
+
+<p>此處考慮更簡單的 case, 1D translation and 1D translation + mirror reflection.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+g(m, u)=\left[\begin{array}{ccc}
+(-1)^{m} & u \\
+0 & 1
+\end{array}\right] %]]></script>
+
+<script type="math/tex; mode=display">% <![CDATA[
+g^{-1}(m, u)=\left[\begin{array}{ccc}
+(-1)^{m} & (-u)(-1)^m \\
+0 & 1
+\end{array}\right] %]]></script>
+
+<p>Next step:</p>
+<ol>
+  <li>Function f(x)</li>
+  <li>Group operation on f(x) is 
+ $L_g f(x) = f(g^{-1}x)$.  原因很簡單，就是在 $x‘=gx$ 會得到原來的函數。</li>
+  <li>
+    <p>考慮 CNN convolution 函數，定義如下。$x, y \in Z^2$
+<script type="math/tex">\begin{array}{l}
+{\left[f * \psi^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{k=1}^{K^{l}} f_{k}(y) \psi_{k}^{i}(x-y)} \\
+{\left[f \star \psi^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{k=1}^{K^{l}} f_{k}(y) \psi_{k}^{i}(y-x)}
+\end{array}</script></p>
+  </li>
+  <li>推廣到 G-CNN convolution.  $g, h \in G$
+<script type="math/tex">\begin{array}{l}
+{\left[f * \psi^{i}\right](g)=\sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(h^{-1}g)} \\
+{\left[f \star \psi^{i}\right](g)=\sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(g^{-1}h)}
+\end{array}</script></li>
+</ol>
+
+<p>上式是 forward pass 的 convolution ($\ast$).  下式是 backward pass 的 correlation ($\star$).</p>
+
+<ol>
+  <li>
+    <p>Combine 2 and 3, $L_u <a href="g">f \star \psi</a> = <a href="u^{-1}g">f \star \psi</a> \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}((u^{-1}g)^{-1}h) \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(g^{-1}uh)   \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(u^{-1}h) \psi_{k}^{i}(g^{-1}h) \  = <a href="g">[L_u f] \star \psi</a>$</p>
+  </li>
+  <li>
+    <p>Combine 2 and 3, $L_u <a href="g">f * \psi</a> = <a href="u^{-1}g">f * \psi</a> \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(h^{-1} (u^{-1}g)) \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(h^{-1}u^{-1}g)   \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(u^{-1}h) \psi_{k}^{i}(h^{-1}g) \  = <a href="g">[L_u f] * \psi</a>$</p>
+  </li>
+</ol>
+
+<p>我們用一個 1D convolution 來驗證。 
+Example: g = [(-1)^m, u; 0, 1]   g^-1 = [(-1)^m, -u*(-1)^m; 0 , 1]
+<script type="math/tex">[f \star \psi^{i}](g) = [f \star \psi^{i}](x, m) = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(g^{-1}h) \\
+= \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(y) \psi_{k}^{i}((-1)^{m}(y-x))\\ \ne \sum_{y \in \mathbb{Z}^{2}} \sum_{k=1}^{K^{l}} f_{k}(y) (\psi_{k}^{i}(x-y) +  \psi_{k}^{i}(y-x) )</script></p>
+
+<p>Does it make sense?   If $\psi$ is an odd function, $f \star \psi^{i} =0$?
+No, g = (x, m) =&gt; m should be kept instead of disappear after summation!!</p>
+
+<p>Let’s look at another example, polar transform. [@estevesPOLARTRANSFORMER2018]</p>
+
+<h3 id="polar-coordinate">Polar Coordinate</h3>
+
+<p>A similarity transformation, i.e. conformal mapping, 旋轉(R)+scaling(s)+平移(t), $\rho \in $ SIM(2), acts on a point in $x \in R^2$ by
+<script type="math/tex">\rho x \to s Rx + t \quad s \in R^+, R \in SO(2), t \in R^2</script>
+where <em>SO(2)</em> is the rotation group.</p>
+
+<p>Equivariance to SIM(2) is achieved by (1) learning the center of the dilated rotation, (2) shifting the original image accordingly then (3) transforming the image to canonical coordinates.</p>
+
+<p>Q1: How to find the center of rotation? Need an origin predictor.</p>
+
+<p>Transformation of the image $L_t I = I(t-t_o)$ reduces the SIM(2) deformation to a dilated-rotation if $t_o$ is the true translation. After centering, we perform $SO(2) \times R^+$ convolutions on the new image $I_o = I(x-t_o)$.</p>
+
+<p>Layer 1 convolution 變成：
+<script type="math/tex">f(r)=\int_{x \in \mathbb{R}^{2}} I_{o}(x) \phi\left(r^{-1} x\right) d x</script></p>
+
+<script type="math/tex; mode=display">\int_{s} f(s) \phi\left(s^{-1} r\right) d s=\int_{s} \lambda(\xi, \theta) \phi\left(\xi_{r}-\xi, \theta_{r}-\theta\right) d \xi d \theta</script>
+
+<p>In summary,
+本文 (polar transformation) 比較像是 coordinate transformation instead of adding group dimension.</p>
+<ul>
+  <li>No. 從原始的 $t \in R^2$, 多了 rotation and scale dimension $SO(2) \times R^+$.</li>
+  <li>But yes, 就 convolution 而言，feature extraction 已經不是 (x,y) convolution, 而是 $\epsilon, \theta$</li>
+  <li>location information 仍然存在，但用 origin predictor 取代 (x,y) convolution learning.</li>
+</ul>
+
+<p><img src="media/15884328451601/15890439753317.jpg" alt="-w907" /></p>
+
+<h4 id="equivariant-phi-is-cnn-and-bijective-reversible-stride1-ignore-boundary">Equivariant: $\Phi$ is CNN and Bijective (reversible, stride=1, ignore boundary)</h4>
+
+<p><strong>(Translation) Equivariant:</strong></p>
+
+<p><strong>= T’y = T’f(x)</strong> where T’ is another coordinate which could be different from T because of scaling, etc.   But both T and T’ are linear operators. This orange part is the crucial step assuming translation equivariant!!   However, T is translation equivariant, but NOT rotational equivariant. 
+y’ = T’y = T’ f(x) = T’ f(T^-1 x’)  assuming linear inversible operation.</p>
+
+<hr />
+
+<p>Use [@cohenGroupEquivariant2019] notation $f \to \Phi$ and $T \to T_g$ 
+Original output feature is $\Phi(x)$, where $\Phi$ can be a nonlinear (complicated) mapping, such as convolution + pooling + ReLU.</p>
+
+<p>Given input image x is transformed by $T_g$ operator/transform, new output feature is $\Phi(T_g x)$.
+如果具有 translation equivariant =&gt; $\Phi(T_g x) = T’_g \Phi(x)$ where T’_g 是同樣的 translation operator/transform, but may have different scaling factor (stride &gt; 1).</p>
+
+<p>所以 $T_g$ and $T’_g$ 需要有什麼特性？只需要 linear, i.e. $T(gh) = T(g)T(h)$.</p>
+
+<p><strong>如果 $T’_g = I$ for all g</strong>, 是 special case, 稱為 invariant.  這和一般物理定義的 invariant 似乎不同?  對於<strong>深度學習 invariant 會失去 spatial information, $T’_g$ 而變得無用</strong>, equivariance 是更有用。</p>
+
+<p>另一個極端是沒有 equivariant, 也就是 $\Phi(T_g x)$ 和 $\Phi(x)$ 沒有簡單的 linear mapping, 例如 Multi-layer Perceptron (MLP).</p>
+
+<p>Paper 另外一段話如下，似乎和 invariant 相抵觸? No, 是擴充到 non-injective (降維) network.
+A network $\Phi$ <strong>can be</strong> non-injective, meaning that non-identical vectors $x$ and $y$ in the input space become identical in the output space.  (for example, two instances of a face may be mapped onto a single vector indicating the presence of any face, e.g. 人臉偵測而非識別，兩個不同的人臉對應到相同的 feature map or bounding box).  If $\Phi$ is equivariant, then the G-transformed inputs $T_g x$ and $T_g y$ must also mapped to the same output.  Their “sameness” is preserved under symmetry transformations.</p>
+
+<p>數學表示：
+Non-injective network: $\Phi(x) = \Phi(y)$ with $x \ne y$ 
+If $\Phi$ is equivariant, then the G-transform (symmetry transform) has:
+$\Phi(T_g x)  = T’_g \Phi(x) = T’_g \Phi(y) = \Phi(T_g y)$ with $x \ne y$</p>
+
+<p>g represents general group, in the paper considering three groups: Z2, p4, p4m.  Conclusion.</p>
+<ul>
+  <li>On MNIST and CIFAR, G-CNN performs better than CNN at about same parameter number.</li>
+  <li>G-CNN also benefit from data augment.</li>
+  <li>Step 1: G-CNN to include translation, rotation, mirror on grid</li>
+  <li>Step 2: G-CNN on hexagon grid</li>
+  <li>Step 3: On 3D sphere and use G-FFT to compute sphere convolution for 3D application.</li>
+  <li>Step 4: Gauge CNN?</li>
+</ul>
+
+<p>CNN, pooling, ReLU are translation equivariant (up to edge effect); but MLP is <em>NOT</em> translation equivariant.</p>
+
+<p>Translation Equivariant:  There is a function (e.g. CNN)</p>
+
+<p>1D =&gt; 2D convolution =&gt; high dimension tensor convolution</p>
+
+<p>Step 1: Define the network operator $\Phi$
+ Step 2: Find the commuting operator $T$, actually, a commutative group $T_g$.  $\Phi$ 可以視為 $T_g$ 的一個 element.
+ Step 3: Find the group generator for the commutative group.</p>
+
+<p>What is the fundamental element of a group? =&gt; generator &lt;g, ..&gt;!
+所有的 group element 都可以從 generator &lt;g, ..&gt; 產生。
+All Abelian group is isomorphic to direct sum of primed cycle group =&gt; generator g, gg, ggg, …</p>
+
+<h3 id="group-examples">Group Examples</h3>
+
+<h2 id="reference">Reference</h2>
+
+<p>Bronstein, Michael M., Joan Bruna, Yann LeCun, Arthur Szlam, and Pierre
+Vandergheynst. 2017. “Geometric Deep Learning: Going Beyond Euclidean
+Data.” <em>IEEE Signal Processing Magazine</em> 34 (4): 18–42.
+<a href="https://doi.org/10.1109/MSP.2017.2693418">https://doi.org/10.1109/MSP.2017.2693418</a>.</p>
+
+<p>Cohen, Taco S, T S Cohen, and Uva Nl. 2019. “Group Equivariant Convolutional Networks,” 10.</p>
+
+<p>Cohen, Taco S., Maurice Weiler, Berkay Kicanaoglu, and Max Welling.</p>
+<ol>
+  <li>“Gauge Equivariant Convolutional Networks and the Icosahedral
+CNN,” May. <a href="http://arxiv.org/abs/1902.04615">http://arxiv.org/abs/1902.04615</a>.</li>
+</ol>
+
+<p>Pavlus, John. 2020. “An Idea from Physics Helps AI See in Higher
+Dimensions.” Quanta Magazine. January 9, 2020.
+<a href="https://www.quantamagazine.org/an-idea-from-physics-helps-ai-see-in-higher-dimensions-20200109/">https://www.quantamagazine.org/an-idea-from-physics-helps-ai-see-in-higher-dimensions-20200109/</a>.</p>
+
+<p>prism. 2019. 「Group Equivariant CNN to Spherical CNNs: 從群等變卷積網絡到球面卷積網絡.」 知乎專欄. 2019.
+<a href="https://zhuanlan.zhihu.com/p/34042888">https://zhuanlan.zhihu.com/p/34042888</a>.</p>
+
+<p>Winkels, Marysia, and Taco S. Cohen. 2018. 「3D G-CNNs for Pulmonary
+Nodule Detection,」 April. <a href="http://arxiv.org/abs/1804.04656">http://arxiv.org/abs/1804.04656</a>.</p>
+
+<p>XinZhiYuan. 2020. 「Geometrical Deep Learning 受愛因斯坦啟示：讓AI擺脫平面看到更高的維度.」 2020. <a href="https://kknews.cc/tech/gpkgx3e.html">https://kknews.cc/tech/gpkgx3e.html</a>.</p>
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/python" rel="tag"># python</a>
+          
+            
+            <a href="/tag/#/quantization" rel="tag"># quantization</a>
+          
+            
+            <a href="/tag/#/model%20compression" rel="tag"># model compression</a>
+          
+            
+            <a href="/tag/#/pruning" rel="tag"># pruning</a>
+          
+            
+            <a href="/tag/#/distillation" rel="tag"># distillation</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ai/2021/01/16/softmax/" rel="next" title="ath ML - Modified Softmax w/ Margin">
+                <i class="fa fa-chevron-left"></i> ath ML - Modified Softmax w/ Margin
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/21/matrix-julia/" rel="prev" title="增進工程師效率 Julia Linear Algebra">
+                增進工程師效率 Julia Linear Algebra <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true
+  }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#math-ai---g-cnn-group--cnn"> <span class="nav-number">1</span> <span class="nav-text">Math AI - G-CNN (Group + CNN)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#再推廣-group-equivariance-estevespolartransformer2018"> <span class="nav-number">1.1</span> <span class="nav-text">再推廣 Group Equivariance [@estevesPOLARTRANSFORMER2018]</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#group-equivariant-operation"> <span class="nav-number">1.2</span> <span class="nav-text">Group Equivariant Operation</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#math-formulation"> <span class="nav-number">1.3</span> <span class="nav-text">Math Formulation</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#equivariance-math-formulation-of-neural-network"> <span class="nav-number">1.3.1</span> <span class="nav-text">Equivariance Math Formulation of Neural Network</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#equivariant-group-phi-is-linear-and-bijective-full-rank"> <span class="nav-number">1.3.2</span> <span class="nav-text">Equivariant Group: $\Phi$ is Linear and Bijective (full rank)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#simple-phi-2d-matrix-equivariant-group-example"> <span class="nav-number">1.3.2.1</span> <span class="nav-text">Simple $\Phi$: 2D Matrix Equivariant Group Example</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#discrete-convolution-wikitoeplitzmatrix2020"> <span class="nav-number">1.3.2.2</span> <span class="nav-text">Discrete Convolution: [@wikiToeplitzMatrix2020]</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#circulant-matrix-eigenvalues-and-eigenvectors"> <span class="nav-number">1.3.2.3</span> <span class="nav-text">Circulant matrix eigenvalues and eigenvectors</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#equivariant-phi-is-circulant-matrix-for-discrete-convolution"> <span class="nav-number">1.3.2.4</span> <span class="nav-text">Equivariant: $\Phi$ is Circulant Matrix for Discrete Convolution</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#equivariant-phi-is-circulant-matrix-for-2d-discrete-convolution"> <span class="nav-number">1.3.2.5</span> <span class="nav-text">Equivariant: $\Phi$ is Circulant Matrix for 2D Discrete Convolution</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#how-about-other-equivariant-for-1d-signal-processing"> <span class="nav-number">1.3.2.6</span> <span class="nav-text">How about other equivariant for 1D signal processing?</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#use-cohens-paper-notation-and-concept"> <span class="nav-number">1.4</span> <span class="nav-text">Use Cohen’s paper notation and concept</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#the-group-p4m-non-commutative-group"> <span class="nav-number">1.4.1</span> <span class="nav-text">The group $p4m$ (non-commutative group)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#polar-coordinate"> <span class="nav-number">1.4.2</span> <span class="nav-text">Polar Coordinate</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#equivariant-phi-is-cnn-and-bijective-reversible-stride1-ignore-boundary"> <span class="nav-number">1.4.2.1</span> <span class="nav-text">Equivariant: $\Phi$ is CNN and Bijective (reversible, stride=1, ignore boundary)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#group-examples"> <span class="nav-number">1.4.3</span> <span class="nav-text">Group Examples</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">1.5</span> <span class="nav-text">Reference</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+

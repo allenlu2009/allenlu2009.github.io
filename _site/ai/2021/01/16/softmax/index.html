@@ -1,0 +1,1032 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="softmax," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="NexT" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Math ML - Modified Softmax w/ Margin [@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017] Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。">
+<meta name="keywords" content="softmax">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ath ML - Modified Softmax w/ Margin">
+<meta property="og:url" content="http://localhost:4000/ai/2021/01/16/softmax/">
+<meta property="og:site_name" content="NexT">
+<meta property="og:description" content="Math ML - Modified Softmax w/ Margin [@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017] Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="/media/16102567367645/16103750431293.jpg">
+<meta property="og:image" content="/media/16102567367645/16103799219592.jpg">
+<meta property="og:image" content="/media/16102567367645/16103795147028.jpg">
+<meta property="og:image" content="/media/16102567367645/16105488389665.jpg">
+<meta property="og:image" content="/media/16102567367645/16104627418371.jpg">
+<meta property="og:image" content="/media/16102567367645/16107219487390.jpg">
+<meta property="og:image" content="/media/16102567367645/16107278677656.jpg">
+<meta property="og:image" content="/media/16102567367645/16108061480853.jpg">
+<meta property="og:image" content="/media/16102567367645/16108029553353.jpg">
+<meta property="og:image" content="/media/16102567367645/16107599078389.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ath ML - Modified Softmax w/ Margin">
+<meta name="twitter:description" content="Math ML - Modified Softmax w/ Margin [@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017] Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。">
+<meta name="twitter:image" content="/media/16102567367645/16103750431293.jpg">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>ath ML - Modified Softmax w/ Margin | NexT</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NexT</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/ai/2021/01/16/softmax/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NexT">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            ath ML - Modified Softmax w/ Margin
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-01-16T16:29:08+08:00">
+                2021-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/AI" itemprop="url" rel="index">
+                    <span itemprop="name">AI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1 id="math-ml---modified-softmax-w-margin">Math ML - Modified Softmax w/ Margin</h1>
+<p>[@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017]
+Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。</p>
+
+<h2 id="softmax-in-dl-or-ml-recap">Softmax in DL or ML Recap</h2>
+<p>Softmax 最常用於 DL (i.e. deep layers) 神經網絡最後一層(幾層)的 multi-class classification 如下圖。
+<script type="math/tex">\sigma(j)=\frac{\exp \left(\mathbf{w}_{j}^{\top} \mathbf{x}\right)}{\sum_{k=1}^{K} \exp \left(\mathbf{w}_{k}^{\top} \mathbf{x}\right)}=\frac{\exp \left(z_{j}\right)}{\sum_{k=1}^{K} \exp \left(z_{k}\right)}</script>
+and
+<script type="math/tex">\frac{\partial}{\partial z_{i}} \sigma\left(z_{j}\right)=\sigma\left(z_{j}\right)\left(\delta_{i j}-\sigma\left(z_{i}\right)\right)</script></p>
+<ul>
+  <li>Input vector, $\mathbf{x}$, dimension $n\times 1$.</li>
+  <li>Weight matrix, $\mathbf[w_1’, w_2’, .., w_K’]’$, dimension $K\times n$</li>
+  <li>Output vector, $\mathbf{z}$, dimension $K\times 1$.</li>
+  <li>Softmax output vector, $0\le\sigma(j)\le 1, j=[1:K]$, dimension $K\times 1$.</li>
+  <li>注意 bias 如果是一個 fixed number, $b$, softmax 分子分母會抵銷。bias 如果不同 $b_1, b_2, …, b_n$，可以擴展 $\mathbf{x’ = [x, }1]$ and $\mathbf{w’_j = [w_j}, b_j]$, 同樣如前適用。</li>
+</ul>
+
+<p><img src="/media/16102567367645/16103750431293.jpg" alt="-w718" /></p>
+
+<p>Softmax 也常用於 ML (i.e. shallow layers) 的 multi-class classification, 常和 SVM 一起比較。為了處理 nonlinear dataset or decision boundary, Softmax + kernel method 是一個選項。</p>
+
+<p>Softmax 另外用於 attention network, TBD.</p>
+
+<h3 id="parameter-notation-and-range-for-ml-and-dl">Parameter Notation and Range for ML and DL</h3>
+<ul>
+  <li>$N$: number of data points.  100 to 10,000 for ML, &gt; 1M for DL.</li>
+  <li>$n$: input vector dimension. maybe from 1~ to 100~ for ML, 1000-4000 for DL.</li>
+  <li>$K$ or $m$ or $C$: output vector dimension, number of classes, maybe from 1 (binary) to 100 (Imaginet)</li>
+  <li>$k$: kernel feature space dimension, maybe from 10s’ - $\infty$ for ML.  Usually not use for DL.</li>
+</ul>
+
+<p>Summarize the result in table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>N</th>
+      <th>n</th>
+      <th>k</th>
+      <th>K</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ML</td>
+      <td>100-10,000</td>
+      <td>1s’- 100s’</td>
+      <td>10s’- $\infty$</td>
+      <td>1s’-10s’</td>
+    </tr>
+    <tr>
+      <td>DL</td>
+      <td>&gt; 1M</td>
+      <td>1000-4000</td>
+      <td>NA</td>
+      <td>10-100</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="softmax-w-margin-via-training">Softmax w/ Margin Via Training</h2>
+<p>根據前文討論，$w_i$ vectors 代表和 class <em>i</em> data 的<strong>相似性</strong>。<br />
+普通的 softmax classification 如下圖左所示。</p>
+
+<p>Decision boundary 是 data point 和 $w_1$ and $w_2$ 的機率一樣。
+因為 softmax (or logistic regression) 只要求 $\sigma_1(x) &gt; \sigma_2(x)$ or vice versa to classify $x \in$ class 1 (or class 2).  <strong>這裡完全沒有 margin 的觀念。</strong></p>
+
+<p><img src="/media/16102567367645/16103799219592.jpg" alt="-w480" /></p>
+
+<p>推廣到 multiple class 更是如此，如下圖。因為是取 $\sigma(j)$ 的最大值。除了 $\sigma(j) &gt; 0.5$ 有明顯的歸類。但在三不管地帶，很可能雜錯在一起。</p>
+
+<p><strong>因爲 training 是基於 loss function, 解法是在 loss function 加入 margin term 做為 driving force (check the back-prop gradient!), 讓 training process 竭盡所能 “擠出” margin, 如上圖右。</strong>
+<img src="/media/16102567367645/16103795147028.jpg" alt="-w528" /></p>
+
+<h2 id="如何在-softmax-加入-margin-for-training">如何在 softmax 加入 margin for training</h2>
+<p>SVM 是從 decision boundary 的平行線距離著手（margin = 1/|w|, minimize |w| ~ maximum margin)。
+本文討論 Softmax 加上 margin 有三種方式，都是從<strong>角度</strong> $\theta$ 著手，概念如圖二右 (平面角度)，或是下圖右 (球面角度)。maximize $\theta$ 剛好和 minimize |w| 正交 (orthogonal). 這是巧合嗎？</p>
+
+<p><img src="/media/16102567367645/16105488389665.jpg" alt="-w475" /></p>
+
+<p>我們先看 Softmax 的 loss function 如下圖。先是 softmax function, inference/test 只要 再來通過 cross-entropy loss.  Cross-entropy loss 對應 log likelihood. 
+<script type="math/tex">L=\frac{1}{N} \sum_{i} L_{i}=\frac{1}{N} \sum_{i}-\log \left(\frac{e^{f_{y_{i}}}}{\sum_{j} e^{f_{j}}}\right)</script></p>
+
+<p>where $f_{y_{i}}=\boldsymbol{W}<em>{y</em>{i}}^{T} \boldsymbol{x}<em>{i}$ 代表 data $x_i$ 和 $W</em>{y_i}$ 的相似性。</p>
+
+<p><img src="/media/16102567367645/16104627418371.jpg" alt="-w300" /></p>
+
+<h3 id="三種用角度增加-softmax-inter-class-margin">三種用角度增加 SoftMax inter-class margin</h3>
+<ul>
+  <li>L-Softmax (Large Margin Softmax) [@liuLargeMarginSoftmax2017]</li>
+  <li>A-Softmax (Angular Softmax) [@liuSphereFaceDeep2018]</li>
+  <li>AM-Softmax (Additive Margin Softmax)</li>
+</ul>
+
+<h4 id="l-softmax-large-margin-softmax-cos-theta-to-cos-mtheta">L-Softmax (Large Margin Softmax): $\cos \theta \to \cos (m\theta)$</h4>
+<p>因為 $f_{j}=\left|\boldsymbol{W}<em>{j}\right|\left|\boldsymbol{x}</em>{i}\right| \cos \left(\theta_{j}\right)$.  如何在 $x_i$ 和 $W_j$ 加上 margin？  一個方法就是把 $\cos \theta$ 改成 $\cos m\theta$, why?</p>
+
+<p>從相似性來看，$\cos(m\theta)$ 在同樣的角度”相似性”掉的比較快。因此在 training 時會強迫把同一 feature 的 data 擠壓在一起, <strong>reduce the intra-class distance. 達到增加 inter-class margin 的目的。</strong></p>
+
+<p>另外可以從 decision boundary 理解。Softmax 的 decision boundary,
+$x\in$ Class 1:  $\left|\boldsymbol{W}<em>{1}\right||\boldsymbol{x}| \cos \left( \theta</em>{1}\right)&gt;\left|\boldsymbol{W}<em>{2}\right||\boldsymbol{x}| \cos \left(\theta</em>{2}\right)$
+$x\in$ Class 2:  $\left|\boldsymbol{W}<em>{1}\right||\boldsymbol{x}| \cos \left( \theta</em>{1}\right) &lt; \left|\boldsymbol{W}<em>{2}\right||\boldsymbol{x}| \cos \left(\theta</em>{2}\right)$
+and $\theta_1 + \theta_2 = \theta$ which is the angle between $W_1$ and $W_2$</p>
+
+<p>如果把 $\cos \theta \to \cos (m\theta)$, 
+$x\in$ Class 1:  $\left|\boldsymbol{W}<em>{1}\right||\boldsymbol{x}| \cos \left( m\theta</em>{1}\right)&gt;\left|\boldsymbol{W}<em>{2}\right||\boldsymbol{x}| \cos \left(\theta</em>{2}\right)$ 
+ Assuming $|W_1| = |W_2| \to \theta_1 &lt; \theta_2/m$ 因為 $\cos\theta$ 是遞減函數。</p>
+
+<p>$x\in$ Class 2:  $\left|\boldsymbol{W}<em>{1}\right||\boldsymbol{x}| \cos \left( \theta</em>{1}\right) &lt; \left|\boldsymbol{W}<em>{2}\right||\boldsymbol{x}| \cos \left(m\theta</em>{2}\right)$
+Assuming $|W_1| = |W_2| \to \theta_1/m &gt; \theta_2$.</p>
+
+<p>此時我們有兩個 decision boundaries, 兩個 boundaries 之間可以視為 decision margin, 如下圖。
+<img src="/media/16102567367645/16107219487390.jpg" alt="-w400" /></p>
+
+<p>In summary, 就是在 labelled $c$ class 的 data 時，就把對應的 $\cos\theta_c$ 改成 $\cos (m\theta_c)$. $m$ 愈大，margin 就愈大。但過之猶如不及，如果 $m$ 太大，可能無法正確 capture features (TBC)? $m$ 應該有一個 optimal value.</p>
+
+<script type="math/tex; mode=display">L_{i}=-\log \left(\frac{e^{\left\|\boldsymbol{W}_{y_{i}}\right\|\left\|\boldsymbol{x}_{i}\right\| \psi\left(\theta_{y_{i}}\right)}}{e^{\left\|\boldsymbol{W}_{y_{i}}\right\|\left\|\boldsymbol{x}_{i}\right\| \psi\left(\theta_{y_{i}}\right)}+\sum_{j \neq y_{i}} e^{\left\|\boldsymbol{W}_{j}\right\|\left\|\boldsymbol{x}_{i}\right\| \cos \left(\theta_{j}\right)}}\right)</script>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\psi(\theta)=\left\{\begin{array}{l}
+\cos (m \theta), \quad 0 \leq \theta \leq \frac{\pi}{m} \\
+\mathcal{D}(\theta), \quad \frac{\pi}{m}<\theta \leq \pi
+\end{array}\right. %]]></script>
+
+<p>為什麼會有 $D(\theta)$？ 原因是要維持 $\psi(\theta)$ 的<strong>遞減性，連續性，和可微分性</strong> over $[0, \pi]$.  一旦定義出 $\psi(\theta)$ over $[0, \pi]$. 左右 flip (y 軸對稱) 得到 $\theta\in[-\pi, 0]$. 其他的 $\theta$ 都可以移到 $[-\pi, \pi]$.</p>
+
+<p>舉一個例子如下式，$\psi(\theta)$ 的 curve 如下圖。
+<script type="math/tex">\psi(\theta)=(-1)^{k} \cos (m \theta)-2 k, \quad \theta \in\left[\frac{k \pi}{m}, \frac{(k+1) \pi}{m}\right]</script></p>
+
+<p><img src="/media/16102567367645/16107278677656.jpg" alt="-w386" /></p>
+
+<h4 id="a-softmax-angular-softmax-cos-theta-to-cos-mtheta-and-w1">A-Softmax (Angular Softmax): $\cos \theta \to \cos (m\theta)$ and $|W|=1$</h4>
+<p>在 L-Softmax 可以同時調整 $|W|$ and $\theta$, 在 A-Softmax 進一步限制 $|W|=1$, 其他都和 L-Softmax 相同。A-Soft 的 Loss function 如下， 
+<script type="math/tex">L_{\mathrm{ang}}=\frac{1}{N} \sum_{i}-\log \left(\frac{e^{\left\|\boldsymbol{x}_{i}\right\| \cos \left(m \theta_{y_{i}, i}\right)}}{e^{\left\|\boldsymbol{x}_{i}\right\| \cos \left(m \theta_{y_{i}, i}\right)}+\sum_{j \neq y_{i}} e^{\left\|\boldsymbol{x}_{i}\right\| \cos \left(\theta_{j, i}\right)}}\right)</script></p>
+
+<p>後來有再修正 $\psi(\theta)$, 多加一個 hyper-parameter $\lambda$, angle similarity curve 如下圖。注意 A-Softmax 的 $\psi(0)=1.$
+<script type="math/tex">\psi(\theta)=\frac{(-1)^{k} \cos (m \theta)-2 k+\lambda \cos (\theta)}{1+\lambda}</script>
+<img src="/media/16102567367645/16108061480853.jpg" alt="-w427" /></p>
+
+<p>因為 $|W|=1$, A-Softmax 一個用途是 hyper-sphere explanation 如下圖。理論上 L-Softmax 包含 A-Softmax, 但在某一些情況下，A-Softmax 似乎效果更好，less is more? (同一作者，2017 L-SoftMax; 2018 A-Softmax).</p>
+
+<p><img src="/media/16102567367645/16108029553353.jpg" alt="-w648" /></p>
+
+<h4 id="am-softmax-additive-margin-softmax-cos-theta-to-cos-theta--m">AM-Softmax (Additive Margin Softmax): $\cos \theta \to \cos \theta -m$</h4>
+<p>AM-Softmax 非常有趣，它把 $\cos\theta \to \cos(m\theta) \to \cos\theta -m$, 也就是，
+<script type="math/tex">\psi(\theta)=\cos \theta-m</script>
+AM-Softmax 的 loss function, 但多了一個 hyper-parameter $s$(?)
+<script type="math/tex">% <![CDATA[
+\begin{aligned}
+\mathcal{L}_{A M S} &=-\frac{1}{n} \sum_{i=1}^{n} \log \frac{e^{s \cdot\left(\cos \theta_{y_{i}}-m\right)}}{e^{s \cdot\left(\cos \theta_{y_{i}}-m\right)}+\sum_{j=1, j \neq y_{i}}^{c} e^{s \cdot \cos \theta_{j}}} \\
+&=-\frac{1}{n} \sum_{i=1}^{n} \log \frac{e^{s \cdot\left(W_{y_{i}}^{T} \boldsymbol{f}_{i}-m\right)}}{e^{s \cdot\left(W_{y_{i}}^{T} \boldsymbol{f}_{i}-m\right)}+\sum_{j=1, j \neq y_{i}}^{c} e^{s W_{j}^{T} \boldsymbol{f}_{i}}} .
+\end{aligned} %]]></script>
+這有很多好處：</p>
+<ul>
+  <li>不用再分段算 $\psi(\theta)$, forward and backward 計算變成很容易。</li>
+  <li>AM-Softmax 同時 push angle and magnitude?</li>
+</ul>
+
+<h2 id="qa">Q&amp;A</h2>
+<p>Q. Data 不是固定的嗎？為什麼會隨 loss function 改變？
+A. 此處是假設 CNN network 的最後一層是 Softmax, 因此 input data 對應的 feature extraction 並非固定而且會隨 loss function 改變如下圖。如果 input data 直接進入 Softmax with or without margin, the input data 顯然不會改變，但是 decision boundary may change? (next Q)</p>
+
+<p><img src="/media/16102567367645/16107599078389.jpg" alt="-w456" /></p>
+
+<p>Q. 在 inference/test 時，以上的公式 (check class $c$) 加起來不等於 1？ 如何解決？
+A: 以上的公式只用於 training 增加 margin? 在 inference/test 時，仍然用原來的 softmax 公式，因此機率仍然為 1.</p>
+
+<p>Q. 以上 $cos(m \theta)$ 的 $m$ 一定要整數嗎？
+A. 整數可以定義 continuous and differentiable loss function in $0-\pi$ 角度。上上圖的角度顯示 $0-\pi/2$ 角度，$\pi/2 - \pi$ 是 $0-\pi/2$ 的左右 flip curve.  如果 $m$ 不是整數，在 $\pi/2$ is non-differentiable.  另外也讓 loss function 的分段比較麻煩。不過我認為這都不是什麼問題。重點是 $m$ 不是整數有沒有用？ 我認為有用，可以視為另一個 hyper-parameter, or trainable parameter for optimization!  $m$ 太小沒有 margin, $m$ 太大會 filter out some features (under-fit)?</p>
+
+<h2 id="策略同時使用角度-maximize-theta-and-magnitude-minimize-w">策略：同時使用角度 maximize $\theta$ and Magnitude minimize $|w|$！</h2>
+<p>Magnitude margin: 增加 inter-class margin?
+Angle margin: compress intra-class?
+先 push 角度，再 push w, 再角度, ….
+角度 m, make it differentiable!</p>
+
+<h2 id="to-do">To Do</h2>
+<ol>
+  <li>check the SVM, check the logistic regression, check import vector</li>
+  <li>Use binary classification as an example</li>
+  <li>Pro and Con of the three types.</li>
+</ol>
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/softmax" rel="tag"># softmax</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/ai/2020/05/08/G-CNN/" rel="prev" title="Math AI - G-CNN (Group + CNN)">
+                Math AI - G-CNN (Group + CNN) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true
+  }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#math-ml---modified-softmax-w-margin"> <span class="nav-number">1</span> <span class="nav-text">Math ML - Modified Softmax w/ Margin</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#softmax-in-dl-or-ml-recap"> <span class="nav-number">1.1</span> <span class="nav-text">Softmax in DL or ML Recap</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#parameter-notation-and-range-for-ml-and-dl"> <span class="nav-number">1.1.1</span> <span class="nav-text">Parameter Notation and Range for ML and DL</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#softmax-w-margin-via-training"> <span class="nav-number">1.2</span> <span class="nav-text">Softmax w/ Margin Via Training</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#如何在-softmax-加入-margin-for-training"> <span class="nav-number">1.3</span> <span class="nav-text">如何在 softmax 加入 margin for training</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#三種用角度增加-softmax-inter-class-margin"> <span class="nav-number">1.3.1</span> <span class="nav-text">三種用角度增加 SoftMax inter-class margin</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#l-softmax-large-margin-softmax-cos-theta-to-cos-mtheta"> <span class="nav-number">1.3.1.1</span> <span class="nav-text">L-Softmax (Large Margin Softmax): $\cos \theta \to \cos (m\theta)$</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#a-softmax-angular-softmax-cos-theta-to-cos-mtheta-and-w1"> <span class="nav-number">1.3.1.2</span> <span class="nav-text">A-Softmax (Angular Softmax): $\cos \theta \to \cos (m\theta)$ and $|W|=1$</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#am-softmax-additive-margin-softmax-cos-theta-to-cos-theta--m"> <span class="nav-number">1.3.1.3</span> <span class="nav-text">AM-Softmax (Additive Margin Softmax): $\cos \theta \to \cos \theta -m$</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#qa"> <span class="nav-number">1.4</span> <span class="nav-text">Q&amp;A</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#策略同時使用角度-maximize-theta-and-magnitude-minimize-w"> <span class="nav-number">1.5</span> <span class="nav-text">策略：同時使用角度 maximize $\theta$ and Magnitude minimize $|w|$！</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#to-do"> <span class="nav-number">1.6</span> <span class="nav-text">To Do</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+

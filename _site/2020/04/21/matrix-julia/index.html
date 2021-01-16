@@ -120,6 +120,7 @@
 <meta property="og:description" content="Use Julia for Linear Algebra">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="/media/output_6_0.png">
+<meta property="og:image" content="attachment:image.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="增進工程師效率 Julia Linear Algebra">
 <meta name="twitter:description" content="Use Julia for Linear Algebra">
@@ -414,6 +415,352 @@
  PyObject &lt;matplotlib.lines.Line2D object at 0x140288630&gt;
 </code></pre></td></tr></tbody></table></div></div>
 
+<h1 id="discrete-convolution-using-circulant-matrix">Discrete Convolution Using Circulant Matrix</h1>
+<p>$y[t] = h[t] * x[t]$  where $x[t] = [1, 2, 3, 0, -3, -1, 1, -2]$, $h[t] = [1, 3, 1]$</p>
+
+<p>Use Julia LinearAlgebra for matrix/vector operation.  <br />
+Use two space for new line.<br />
+Use DSP.conv to perform discrete convolution.  <br />
+x: length=8; h: length=3; y: length=8+3-1=10 (padding two 0’s at x)</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="k">import</span> <span class="n">Pkg</span><span class="x">;</span> <span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="x">(</span><span class="s">"SpecialMatrices"</span><span class="x">)</span>
+<span class="k">using</span> <span class="n">LinearAlgebra</span>
+<span class="k">using</span> <span class="n">SpecialMatrices</span>
+<span class="k">using</span> <span class="n">DSP</span>
+<span class="k">using</span> <span class="n">FFTW</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>[32m[1m Resolving[22m[39m package versions...
+[32m[1m  Updating[22m[39m `~/.julia/environments/v1.1/Project.toml`
+[90m [no changes][39m
+[32m[1m  Updating[22m[39m `~/.julia/environments/v1.1/Manifest.toml`
+[90m [no changes][39m
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="x">[</span><span class="mi">1</span><span class="x">,</span> <span class="mi">2</span><span class="x">,</span> <span class="mi">3</span><span class="x">,</span> <span class="mi">0</span><span class="x">,</span>  <span class="o">-</span><span class="mi">3</span><span class="x">,</span> <span class="o">-</span><span class="mi">1</span><span class="x">,</span>  <span class="mi">1</span><span class="x">,</span> <span class="o">-</span><span class="mi">2</span><span class="x">,</span> <span class="mi">0</span><span class="x">,</span> <span class="mi">0</span><span class="x">];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">h</span> <span class="o">=</span> <span class="x">[</span><span class="mi">1</span><span class="x">,</span> <span class="mi">3</span><span class="x">,</span> <span class="mi">1</span><span class="x">];</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">y</span> <span class="o">=</span> <span class="n">conv</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="n">h</span><span class="x">);</span>
+<span class="n">y</span><span class="err">'</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>1×12 Adjoint{Int64,Array{Int64,1}}:
+ 1  5  10  11  0  -10  -5  0  -5  -2  0  0
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="circulant-matrix-multiplication-approximates-dicrete-convolution">Circulant Matrix Multiplication Approximates Dicrete Convolution</h2>
+<p>First extend $h[t]$ by padding seven 0’s (10-3=7).<br />
+Use SpecialMatrices.Cirlulant to cyclic shift $h[t]$ and form a 10x10 Circulant matrix $\Phi$.
+Use SpecialMatrices.Matrix to convert special matrix type to normal Array</p>
+
+<p>$y = \Phi x$</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">Φ</span> <span class="o">=</span> <span class="kt">Matrix</span><span class="x">(</span><span class="n">Circulant</span><span class="x">([</span><span class="mi">1</span><span class="x">,</span><span class="mi">3</span><span class="x">,</span><span class="mi">1</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">]))</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Array{Int64,2}:
+ 1  0  0  0  0  0  0  0  1  3
+ 3  1  0  0  0  0  0  0  0  1
+ 1  3  1  0  0  0  0  0  0  0
+ 0  1  3  1  0  0  0  0  0  0
+ 0  0  1  3  1  0  0  0  0  0
+ 0  0  0  1  3  1  0  0  0  0
+ 0  0  0  0  1  3  1  0  0  0
+ 0  0  0  0  0  1  3  1  0  0
+ 0  0  0  0  0  0  1  3  1  0
+ 0  0  0  0  0  0  0  1  3  1
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">y</span> <span class="o">=</span> <span class="n">Φ</span> <span class="o">*</span> <span class="n">x</span><span class="x">;</span>
+<span class="n">y</span><span class="err">'</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>1×10 Adjoint{Int64,Array{Int64,1}}:
+ 1  5  10  11  0  -10  -5  0  -5  -2
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<h2 id="find-eigenvalues-and-eigenvectors-of-phi">Find eigenvalues and eigenvectors of $\Phi$</h2>
+<p>$\Phi$ is a Circulant matrix, its eigenvalue array s[n] is “equivalent” to DFT($h[t]$), sort of,<br />
+up to frequency sequence difference.</p>
+
+<p>For example, DFT frequency sequence is always defined counter clockwise on the unit circle (0,1,2,..,9) for n=10.<br />
+The eigenvalue/eigenvector decomposition: $\Phi = U P U^{*}$ 
+In this eigvals implementation frequency is defined as conjugate first on the unit circle (0,1,9,2,8…,5)</p>
+
+<p>The first eigenvalue of $\Phi$ corresponds to Nyquist frequency = 0 (DC: 1+1+3=5)<br />
+The last eigenvalue of $\Phi$ corresponds to Nyquist frequency = $\pi$ (highest AC: 1+1-3=-1)</p>
+
+<p>Its eigenvector array P cosists of eigenvectors in column sequences.<br />
+The first column corresponds to DC eigenvector: [1, 1, …, 1]’.<br />
+The last column corresponds to DC eigenvector: [1, -1, …, -1]’.<br />
+<img src="attachment:image.png" alt="image.png" /></p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">s</span> <span class="o">=</span> <span class="n">eigvals</span><span class="x">(</span><span class="n">Φ</span><span class="x">)</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10-element Array{Complex{Float64},1}:
+                 5.0 + 0.0im               
+  3.7360679774997863 + 2.7144122731725697im
+  3.7360679774997863 - 2.7144122731725697im
+   1.118033988749894 + 3.440954801177931im 
+   1.118033988749894 - 3.440954801177931im 
+ -0.7360679774997894 + 2.265384296592988im 
+ -0.7360679774997894 - 2.265384296592988im 
+ -1.1180339887498945 + 0.8122992405822655im
+ -1.1180339887498945 - 0.8122992405822655im
+ -1.0000000000000002 + 0.0im               
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">fft</span><span class="x">([</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="x">])</span><span class="err">'</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×1 Adjoint{Complex{Float64},Array{Complex{Float64},2}}:
+                 5.0 - 0.0im               
+    3.73606797749979 + 2.714412273172573im 
+   1.118033988749895 + 3.4409548011779334im
+ -0.7360679774997898 + 2.2653842965929876im
+  -1.118033988749895 + 0.8122992405822659im
+                -1.0 - 0.0im               
+  -1.118033988749895 - 0.8122992405822659im
+ -0.7360679774997898 - 2.2653842965929876im
+   1.118033988749895 - 3.4409548011779334im
+    3.73606797749979 - 2.714412273172573im 
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">P</span> <span class="o">=</span> <span class="kt">Diagonal</span><span class="x">(</span><span class="n">s</span><span class="x">)</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Diagonal{Complex{Float64},Array{Complex{Float64},1}}:
+ 5.0+0.0im          ⋅          …           ⋅                ⋅    
+     ⋅      3.73607+2.71441im              ⋅                ⋅    
+     ⋅              ⋅                      ⋅                ⋅    
+     ⋅              ⋅                      ⋅                ⋅    
+     ⋅              ⋅                      ⋅                ⋅    
+     ⋅              ⋅          …           ⋅                ⋅    
+     ⋅              ⋅                      ⋅                ⋅    
+     ⋅              ⋅                      ⋅                ⋅    
+     ⋅              ⋅             -1.11803-0.812299im       ⋅    
+     ⋅              ⋅                      ⋅           -1.0+0.0im
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">U</span> <span class="o">=</span> <span class="n">eigvecs</span><span class="x">(</span><span class="n">Φ</span><span class="x">)</span>
+<span class="x">(</span><span class="n">round</span><span class="o">.</span><span class="x">(</span><span class="n">U</span><span class="o">*</span><span class="mi">1000</span><span class="o">*</span><span class="n">sqrt</span><span class="x">(</span><span class="mi">10</span><span class="x">)))</span><span class="o">/</span><span class="mi">1000</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Array{Complex{Float64},2}:
+ 1.0+0.0im   0.809+0.588im   0.809-0.588im  …  -0.809-0.588im   1.0+0.0im
+ 1.0+0.0im     1.0+0.0im       1.0-0.0im          1.0-0.0im    -1.0+0.0im
+ 1.0+0.0im   0.809-0.588im   0.809+0.588im     -0.809+0.588im   1.0+0.0im
+ 1.0+0.0im   0.309-0.951im   0.309+0.951im      0.309-0.951im  -1.0+0.0im
+ 1.0+0.0im  -0.309-0.951im  -0.309+0.951im      0.309+0.951im   1.0+0.0im
+ 1.0+0.0im  -0.809-0.588im  -0.809+0.588im  …  -0.809-0.588im  -1.0+0.0im
+ 1.0+0.0im    -1.0-0.0im      -1.0+0.0im          1.0-0.0im     1.0+0.0im
+ 1.0+0.0im  -0.809+0.588im  -0.809-0.588im     -0.809+0.588im  -1.0+0.0im
+ 1.0+0.0im  -0.309+0.951im  -0.309-0.951im      0.309-0.951im   1.0+0.0im
+ 1.0+0.0im   0.309+0.951im   0.309-0.951im      0.309+0.951im  -1.0+0.0im
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">U_b</span> <span class="o">=</span> <span class="n">inv</span><span class="x">(</span><span class="n">U</span><span class="x">)</span>
+<span class="x">(</span><span class="n">round</span><span class="o">.</span><span class="x">(</span><span class="n">U_b</span><span class="o">*</span><span class="mi">1000</span><span class="o">*</span><span class="n">sqrt</span><span class="x">(</span><span class="mi">10</span><span class="x">)))</span><span class="o">/</span><span class="mi">1000</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Array{Complex{Float64},2}:
+    1.0+0.0im       1.0-0.0im    …     1.0+0.0im       1.0-0.0im  
+  0.809-0.588im     1.0-0.0im       -0.309-0.951im   0.309-0.951im
+  0.809+0.588im     1.0+0.0im       -0.309+0.951im   0.309+0.951im
+ -0.809-0.588im   0.309-0.951im      0.309+0.951im  -0.809+0.588im
+ -0.809+0.588im   0.309+0.951im      0.309-0.951im  -0.809-0.588im
+ -0.809+0.588im  -0.309-0.951im  …   0.309-0.951im   0.809+0.588im
+ -0.809-0.588im  -0.309+0.951im      0.309+0.951im   0.809-0.588im
+ -0.809-0.588im     1.0+0.0im        0.309-0.951im   0.309+0.951im
+ -0.809+0.588im     1.0-0.0im        0.309+0.951im   0.309-0.951im
+    1.0-0.0im      -1.0+0.0im          1.0+0.0im      -1.0-0.0im  
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="x">(</span><span class="n">round</span><span class="o">.</span><span class="x">((</span><span class="n">U_b</span> <span class="o">-</span> <span class="n">U</span><span class="err">'</span><span class="x">)</span><span class="o">*</span><span class="mi">1000</span><span class="o">*</span><span class="n">sqrt</span><span class="x">(</span><span class="mi">10</span><span class="x">)))</span><span class="o">/</span><span class="mi">1000</span> <span class="c"># U_b is the same as conjugate transpose</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Array{Complex{Float64},2}:
+  0.0+0.0im   0.0-0.0im   0.0-0.0im  …  -0.0-0.0im  -0.0+0.0im   0.0-0.0im
+  0.0+0.0im  -0.0-0.0im   0.0-0.0im      0.0+0.0im   0.0+0.0im   0.0+0.0im
+  0.0-0.0im  -0.0+0.0im   0.0+0.0im     -0.0+0.0im   0.0-0.0im   0.0-0.0im
+  0.0+0.0im  -0.0+0.0im  -0.0-0.0im      0.0-0.0im  -0.0+0.0im  -0.0+0.0im
+  0.0-0.0im  -0.0-0.0im  -0.0+0.0im     -0.0+0.0im  -0.0-0.0im  -0.0-0.0im
+  0.0-0.0im   0.0+0.0im   0.0+0.0im  …   0.0-0.0im  -0.0-0.0im   0.0+0.0im
+  0.0+0.0im   0.0-0.0im   0.0-0.0im     -0.0+0.0im  -0.0+0.0im   0.0-0.0im
+  0.0+0.0im  -0.0+0.0im   0.0-0.0im      0.0-0.0im   0.0-0.0im  -0.0+0.0im
+  0.0+0.0im  -0.0-0.0im   0.0+0.0im      0.0+0.0im  -0.0+0.0im   0.0-0.0im
+ -0.0-0.0im   0.0+0.0im  -0.0+0.0im     -0.0-0.0im   0.0+0.0im   0.0-0.0im
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">Phi</span> <span class="o">=</span> <span class="n">U</span> <span class="o">*</span> <span class="n">P</span> <span class="o">*</span> <span class="n">U_b</span>  <span class="c"># verify U*P*U_b is the eigen value decompostion of Φ</span>
+<span class="n">real</span><span class="o">.</span><span class="x">(</span><span class="n">round</span><span class="o">.</span><span class="x">(</span><span class="n">Phi</span><span class="o">*</span><span class="mi">1000</span><span class="x">))</span><span class="o">/</span><span class="mi">1000</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Array{Float64,2}:
+  1.0  -0.0   0.0   0.0   0.0   0.0   0.0  -0.0   1.0   3.0
+  3.0   1.0   0.0   0.0  -0.0  -0.0  -0.0   0.0  -0.0   1.0
+  1.0   3.0   1.0   0.0   0.0   0.0   0.0   0.0  -0.0  -0.0
+  0.0   1.0   3.0   1.0   0.0   0.0   0.0  -0.0  -0.0   0.0
+  0.0   0.0   1.0   3.0   1.0   0.0   0.0  -0.0  -0.0   0.0
+  0.0   0.0   0.0   1.0   3.0   1.0  -0.0   0.0   0.0   0.0
+  0.0   0.0   0.0   0.0   1.0   3.0   1.0   0.0   0.0   0.0
+  0.0   0.0   0.0  -0.0  -0.0   1.0   3.0   1.0  -0.0   0.0
+ -0.0   0.0   0.0  -0.0   0.0   0.0   1.0   3.0   1.0  -0.0
+  0.0   0.0  -0.0   0.0   0.0   0.0   0.0   1.0   3.0   1.0
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="commutative-group---translation-equivariant">Commutative Group - Translation Equivariant</h2>
+<ul>
+  <li>Discrete convolution is equivalent to Circulant matrix multiplication.</li>
+  <li>Circulant matrix is itself commutative/Abelian group.</li>
+  <li>All Cirulant matrix multiplication can be decomposed into translation matrix multiplication’s superposition.</li>
+  <li>Discrete convolution is therefore translation multiplication commutable =&gt; translation equivariant</li>
+</ul>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">R</span> <span class="o">=</span> <span class="n">rand</span><span class="x">(</span><span class="mi">10</span><span class="x">,</span> <span class="mi">10</span><span class="x">)</span>
+<span class="n">Φ</span> <span class="o">*</span> <span class="n">R</span> <span class="o">-</span> <span class="n">R</span> <span class="o">*</span> <span class="n">Φ</span>   <span class="c"># Random matrix multiplication does NOT commutate with Circulant matrix</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Array{Float64,2}:
+ -1.58559   -0.237127  -0.129967  …   0.066688  -1.72504    -1.40459 
+  1.04033    1.08089    0.34026      -0.782441  -1.91891    -1.63573 
+  3.35632    0.831891   0.805718     -0.849477   1.18107     0.183805
+  0.815998  -1.54383   -0.38105      -1.00838   -0.141359   -0.176457
+ -0.915783   0.225814  -1.14518       0.5001     0.128517    1.68327 
+ -2.07181    1.04074   -2.12622   …   1.62098    0.348925    1.07887 
+  0.313094   1.84738   -0.894152      0.282517  -2.32041    -0.039078
+  1.11406   -0.71119   -1.059        -0.981632  -0.0110641   0.999691
+  1.42449   -1.50675   -1.53478       1.06594    0.590891    2.41234 
+ -2.2159    -2.33044   -1.29612       0.626618  -0.119957    0.743334
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">Tg</span> <span class="o">=</span> <span class="n">Circulant</span><span class="x">([</span><span class="mi">1</span><span class="x">,</span><span class="mi">2</span><span class="x">,</span><span class="mi">3</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">5</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">7</span><span class="x">,</span><span class="mi">8</span><span class="x">,</span><span class="mi">9</span><span class="x">,</span><span class="mi">10</span><span class="x">])</span> <span class="c"># Verify Circulant matrix multiplication is a commutative group</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Circulant{Int64}:
+  1  10   9   8   7   6   5   4   3   2
+  2   1  10   9   8   7   6   5   4   3
+  3   2   1  10   9   8   7   6   5   4
+  4   3   2   1  10   9   8   7   6   5
+  5   4   3   2   1  10   9   8   7   6
+  6   5   4   3   2   1  10   9   8   7
+  7   6   5   4   3   2   1  10   9   8
+  8   7   6   5   4   3   2   1  10   9
+  9   8   7   6   5   4   3   2   1  10
+ 10   9   8   7   6   5   4   3   2   1
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">Φ</span> <span class="o">*</span> <span class="n">Tg</span> <span class="o">-</span> <span class="n">Tg</span> <span class="o">*</span> <span class="n">Φ</span>   
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Array{Int64,2}:
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">g</span> <span class="o">=</span> <span class="n">Circulant</span><span class="x">([</span><span class="mi">0</span><span class="x">,</span><span class="mi">1</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">,</span><span class="mi">0</span><span class="x">])</span>  <span class="c"># Circulant matrix group generator: right cyclic shift by 1</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Circulant{Int64}:
+ 0  0  0  0  0  0  0  0  0  1
+ 1  0  0  0  0  0  0  0  0  0
+ 0  1  0  0  0  0  0  0  0  0
+ 0  0  1  0  0  0  0  0  0  0
+ 0  0  0  1  0  0  0  0  0  0
+ 0  0  0  0  1  0  0  0  0  0
+ 0  0  0  0  0  1  0  0  0  0
+ 0  0  0  0  0  0  1  0  0  0
+ 0  0  0  0  0  0  0  1  0  0
+ 0  0  0  0  0  0  0  0  1  0
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">g</span><span class="o">*</span><span class="n">g</span>  <span class="c"># right cyclic shift by 2</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Array{Int64,2}:
+ 0  0  0  0  0  0  0  0  1  0
+ 0  0  0  0  0  0  0  0  0  1
+ 1  0  0  0  0  0  0  0  0  0
+ 0  1  0  0  0  0  0  0  0  0
+ 0  0  1  0  0  0  0  0  0  0
+ 0  0  0  1  0  0  0  0  0  0
+ 0  0  0  0  1  0  0  0  0  0
+ 0  0  0  0  0  1  0  0  0  0
+ 0  0  0  0  0  0  1  0  0  0
+ 0  0  0  0  0  0  0  1  0  0
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">eye</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">*</span><span class="kt">Matrix</span><span class="x">(</span><span class="n">I</span><span class="x">,</span> <span class="mi">10</span><span class="x">,</span> <span class="mi">10</span><span class="x">)</span>   <span class="c"># Verify Circulant Tg is decomposed into group generator superposition</span>
+<span class="mi">1</span><span class="o">*</span><span class="n">eye</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="mi">5</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="mi">7</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="mi">8</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="mi">9</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">g</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>10×10 Array{Float64,2}:
+  1.0  10.0   9.0   8.0   7.0   6.0   5.0   4.0   3.0   2.0
+  2.0   1.0  10.0   9.0   8.0   7.0   6.0   5.0   4.0   3.0
+  3.0   2.0   1.0  10.0   9.0   8.0   7.0   6.0   5.0   4.0
+  4.0   3.0   2.0   1.0  10.0   9.0   8.0   7.0   6.0   5.0
+  5.0   4.0   3.0   2.0   1.0  10.0   9.0   8.0   7.0   6.0
+  6.0   5.0   4.0   3.0   2.0   1.0  10.0   9.0   8.0   7.0
+  7.0   6.0   5.0   4.0   3.0   2.0   1.0  10.0   9.0   8.0
+  8.0   7.0   6.0   5.0   4.0   3.0   2.0   1.0  10.0   9.0
+  9.0   8.0   7.0   6.0   5.0   4.0   3.0   2.0   1.0  10.0
+ 10.0   9.0   8.0   7.0   6.0   5.0   4.0   3.0   2.0   1.0
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="x">(</span><span class="n">Φ</span><span class="o">*</span><span class="x">(</span><span class="n">Tg</span><span class="o">*</span><span class="n">x</span><span class="x">)</span> <span class="o">-</span> <span class="n">Tg</span><span class="o">*</span><span class="x">(</span><span class="n">Φ</span><span class="o">*</span><span class="n">x</span><span class="x">)</span> <span class="x">)</span><span class="err">'</span>    <span class="c"># Φ and Tg are commutative on input signal x as expected</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>1×10 Adjoint{Int64,Array{Int64,1}}:
+ 0  0  0  0  0  0  0  0  0  0
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="x">(</span><span class="n">Φ</span><span class="o">*</span><span class="n">x</span><span class="x">)</span><span class="err">'</span>   <span class="c"># normal discrete convolution</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>1×10 Adjoint{Int64,Array{Int64,1}}:
+ 1  5  10  11  0  -10  -5  0  -5  -2
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="x">(</span><span class="n">g</span><span class="o">*</span><span class="x">(</span><span class="n">Φ</span><span class="o">*</span><span class="n">x</span><span class="x">))</span><span class="err">'</span>   <span class="c"># group generator causes discrete convolution right cyclic translation</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>1×10 Adjoint{Int64,Array{Int64,1}}:
+ -2  1  5  10  11  0  -10  -5  0  -5
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="x">(</span><span class="n">g</span><span class="o">*</span><span class="n">x</span><span class="x">)</span><span class="err">'</span>    <span class="c"># group generator's action on x[t] is to right cyclic shift by 1</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>1×10 Adjoint{Int64,Array{Int64,1}}:
+ 0  1  2  3  0  -3  -1  1  -2  0
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="x">(</span><span class="n">Φ</span><span class="o">*</span><span class="x">(</span><span class="n">g</span><span class="o">*</span><span class="n">x</span><span class="x">))</span><span class="err">'</span>  <span class="c"># discrete convolution of the right cyclic shift signal</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>1×10 Adjoint{Int64,Array{Int64,1}}:
+ -2  1  5  10  11  0  -10  -5  0  -5
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="x">(</span><span class="n">Φ</span><span class="o">*</span><span class="x">(</span><span class="n">g</span><span class="o">*</span><span class="n">x</span><span class="x">)</span> <span class="o">-</span> <span class="n">g</span><span class="o">*</span><span class="x">(</span><span class="n">Φ</span><span class="o">*</span><span class="n">x</span><span class="x">)</span> <span class="x">)</span><span class="err">'</span>   <span class="c"># discrete convolution is translation (i.e. g or g*g or g*g*g ...) eqivaraint (commutative)</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>1×10 Adjoint{Int64,Array{Int64,1}}:
+ 0  0  0  0  0  0  0  0  0  0
+</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
+
 <div class="language-julia highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>
 </code></pre></td></tr></tbody></table></div></div>
 
@@ -455,6 +802,10 @@
       
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/ai/2020/05/08/G-CNN/" rel="next" title="Math AI - G-CNN (Group + CNN)">
+                <i class="fa fa-chevron-left"></i> Math AI - G-CNN (Group + CNN)
+              </a>
             
           </div>
 
@@ -556,7 +907,7 @@ MathJax.Hub.Config({
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -578,7 +929,7 @@ MathJax.Hub.Config({
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -632,7 +983,7 @@ MathJax.Hub.Config({
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#use-julia-for-linear-algebra"> <span class="nav-number">1</span> <span class="nav-text">Use Julia for Linear Algebra</span> </a> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#use-julia-for-linear-algebra"> <span class="nav-number">1</span> <span class="nav-text">Use Julia for Linear Algebra</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#discrete-convolution-using-circulant-matrix"> <span class="nav-number">2</span> <span class="nav-text">Discrete Convolution Using Circulant Matrix</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#circulant-matrix-multiplication-approximates-dicrete-convolution"> <span class="nav-number">2.1</span> <span class="nav-text">Circulant Matrix Multiplication Approximates Dicrete Convolution</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#find-eigenvalues-and-eigenvectors-of-phi"> <span class="nav-number">2.2</span> <span class="nav-text">Find eigenvalues and eigenvectors of $\Phi$</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#commutative-group---translation-equivariant"> <span class="nav-number">2.3</span> <span class="nav-text">Commutative Group - Translation Equivariant</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
@@ -657,7 +1008,7 @@ MathJax.Hub.Config({
   
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
