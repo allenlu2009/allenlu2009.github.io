@@ -114,7 +114,7 @@
 <meta name="description" content="Math ML - Modified Softmax w/ Margin [@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017] Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。">
 <meta name="keywords" content="softmax">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ath ML - Modified Softmax w/ Margin">
+<meta property="og:title" content="Math ML - Modified Softmax w/ Margin">
 <meta property="og:url" content="http://localhost:4000/ai/2021/01/16/softmax/">
 <meta property="og:site_name" content="NexT">
 <meta property="og:description" content="Math ML - Modified Softmax w/ Margin [@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017] Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。">
@@ -130,7 +130,7 @@
 <meta property="og:image" content="/media/16102567367645/16108029553353.jpg">
 <meta property="og:image" content="/media/16102567367645/16107599078389.jpg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ath ML - Modified Softmax w/ Margin">
+<meta name="twitter:title" content="Math ML - Modified Softmax w/ Margin">
 <meta name="twitter:description" content="Math ML - Modified Softmax w/ Margin [@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017] Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。">
 <meta name="twitter:image" content="/media/16102567367645/16103750431293.jpg">
 
@@ -165,7 +165,7 @@
 
 
 
-  <title>ath ML - Modified Softmax w/ Margin | NexT</title>
+  <title>Math ML - Modified Softmax w/ Margin | NexT</title>
   
 
 
@@ -311,7 +311,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            ath ML - Modified Softmax w/ Margin
+            Math ML - Modified Softmax w/ Margin
           
         </h1>
         
@@ -496,21 +496,28 @@ and
 </ul>
 
 <h4 id="l-softmax-large-margin-softmax-cos-theta-to-cos-mtheta">L-Softmax (Large Margin Softmax): $\cos \theta \to \cos (m\theta)$</h4>
-<p>因為 $f_{j}=\left|\boldsymbol{W}<em>{j}\right|\left|\boldsymbol{x}</em>{i}\right| \cos \left(\theta_{j}\right)$.  如何在 $x_i$ 和 $W_j$ 加上 margin？  一個方法就是把 $\cos \theta$ 改成 $\cos m\theta$, why?</p>
+<p>因為 $f_{j}=\left| \boldsymbol{W_j} \right|\left| \boldsymbol{x_i} \right|\cos\left(\theta_{j}\right)$.  如何在 $x_i$ 和 $W_j$ 加上 margin？  一個方法就是把 $\cos \theta$ 改成 $\cos m\theta$, why?</p>
 
 <p>從相似性來看，$\cos(m\theta)$ 在同樣的角度”相似性”掉的比較快。因此在 training 時會強迫把同一 feature 的 data 擠壓在一起, <strong>reduce the intra-class distance. 達到增加 inter-class margin 的目的。</strong></p>
 
-<p>另外可以從 decision boundary 理解。Softmax 的 decision boundary,
-$x\in$ Class 1:  $\left|\boldsymbol{W}<em>{1}\right||\boldsymbol{x}| \cos \left( \theta</em>{1}\right)&gt;\left|\boldsymbol{W}<em>{2}\right||\boldsymbol{x}| \cos \left(\theta</em>{2}\right)$
-$x\in$ Class 2:  $\left|\boldsymbol{W}<em>{1}\right||\boldsymbol{x}| \cos \left( \theta</em>{1}\right) &lt; \left|\boldsymbol{W}<em>{2}\right||\boldsymbol{x}| \cos \left(\theta</em>{2}\right)$
-and $\theta_1 + \theta_2 = \theta$ which is the angle between $W_1$ and $W_2$</p>
+<p>另外可以從 decision boundary 理解。Softmax 的 decision boundary,</p>
 
-<p>如果把 $\cos \theta \to \cos (m\theta)$, 
-$x\in$ Class 1:  $\left|\boldsymbol{W}<em>{1}\right||\boldsymbol{x}| \cos \left( m\theta</em>{1}\right)&gt;\left|\boldsymbol{W}<em>{2}\right||\boldsymbol{x}| \cos \left(\theta</em>{2}\right)$ 
- Assuming $|W_1| = |W_2| \to \theta_1 &lt; \theta_2/m$ 因為 $\cos\theta$ 是遞減函數。</p>
+<p>$x\in$ Class 1:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( \theta_{1}\right)&gt;\left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$</p>
 
-<p>$x\in$ Class 2:  $\left|\boldsymbol{W}<em>{1}\right||\boldsymbol{x}| \cos \left( \theta</em>{1}\right) &lt; \left|\boldsymbol{W}<em>{2}\right||\boldsymbol{x}| \cos \left(m\theta</em>{2}\right)$
-Assuming $|W_1| = |W_2| \to \theta_1/m &gt; \theta_2$.</p>
+<p>$x\in$ Class 2:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( \theta_{1}\right) &lt; \left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$</p>
+
+<p>and $\theta_1 + \theta_2 = \theta$ which is the angle between $W_1$ and $W_2$</p>
+
+<p>如果把 $\cos \theta \to \cos (m\theta)$,</p>
+
+<p>$x\in$ Class 1:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( m\theta_{1}\right)&gt;\left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$.
+ </p>
+
+<p>Assuming $|W_1| = |W_2| \to \theta_1 &lt; \theta_2/m$, 因為 $\cos\theta$ 是遞減函數。</p>
+
+<p>$x\in$ Class 2:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( \theta_{1}\right) &lt; \left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(m\theta_{2}\right)$.</p>
+
+<p>Assuming $|W_1| = |W_2| \to \theta_1/m &gt; \theta_2$.</p>
 
 <p>此時我們有兩個 decision boundaries, 兩個 boundaries 之間可以視為 decision margin, 如下圖。
 <img src="/media/16102567367645/16107219487390.jpg" alt="-w400" /></p>
@@ -556,6 +563,7 @@ AM-Softmax 的 loss function, 但多了一個 hyper-parameter $s$(?)
 這有很多好處：</p>
 <ul>
   <li>不用再分段算 $\psi(\theta)$, forward and backward 計算變成很容易。</li>
+  <li>$m$ 是 continuous variable, 不是 discrete variable in A-Softmax. $m$ 可以 fine-grain optimized hyper-parameter. 而且是 differentiable, 我認為可以是 trainable variable.</li>
   <li>AM-Softmax 同時 push angle and magnitude?</li>
 </ul>
 
@@ -582,7 +590,25 @@ Angle margin: compress intra-class?
   <li>check the SVM, check the logistic regression, check import vector</li>
   <li>Use binary classification as an example</li>
   <li>Pro and Con of the three types.</li>
+  <li>Most importantly, try to use both amplitude and angle for learning!!  TBD</li>
 </ol>
+
+<h2 id="reference">Reference</h2>
+<p>Liu, Weiyang, Yandong Wen, Zhiding Yu, Ming Li, Bhiksha Raj, and Le
+Song. 2018. “SphereFace: Deep Hypersphere Embedding for Face
+Recognition.” January 29, 2018. <a href="http://arxiv.org/abs/1704.08063">http://arxiv.org/abs/1704.08063</a>.</p>
+
+<p>Liu, Weiyang, Yandong Wen, Zhiding Yu, and Meng Yang. 2017.
+“Large-Margin Softmax Loss for Convolutional Neural Networks.” November
+17, 2017. <a href="http://arxiv.org/abs/1612.02295">http://arxiv.org/abs/1612.02295</a>.</p>
+
+<p>Rashad, Fathy. n.d. “Additive Margin Softmax Loss (AM-Softmax).” Medium.
+Accessed December 27, 2020.
+<a href="https://towardsdatascience.com/additive-margin-softmax-loss-am-softmax-912e11ce1c6b">https://towardsdatascience.com/additive-margin-softmax-loss-am-softmax-912e11ce1c6b</a>.</p>
+
+<p>Wang, Feng, Weiyang Liu, Haijun Liu, and Jian Cheng. 2018. “Additive
+Margin Softmax for Face Verification.” May 30, 2018.
+<a href="https://doi.org/10.1109/LSP.2018.2822810">https://doi.org/10.1109/LSP.2018.2822810</a>.</p>
 
 
 
@@ -807,7 +833,7 @@ MathJax.Hub.Config({
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#math-ml---modified-softmax-w-margin"> <span class="nav-number">1</span> <span class="nav-text">Math ML - Modified Softmax w/ Margin</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#softmax-in-dl-or-ml-recap"> <span class="nav-number">1.1</span> <span class="nav-text">Softmax in DL or ML Recap</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#parameter-notation-and-range-for-ml-and-dl"> <span class="nav-number">1.1.1</span> <span class="nav-text">Parameter Notation and Range for ML and DL</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#softmax-w-margin-via-training"> <span class="nav-number">1.2</span> <span class="nav-text">Softmax w/ Margin Via Training</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#如何在-softmax-加入-margin-for-training"> <span class="nav-number">1.3</span> <span class="nav-text">如何在 softmax 加入 margin for training</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#三種用角度增加-softmax-inter-class-margin"> <span class="nav-number">1.3.1</span> <span class="nav-text">三種用角度增加 SoftMax inter-class margin</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#l-softmax-large-margin-softmax-cos-theta-to-cos-mtheta"> <span class="nav-number">1.3.1.1</span> <span class="nav-text">L-Softmax (Large Margin Softmax): $\cos \theta \to \cos (m\theta)$</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#a-softmax-angular-softmax-cos-theta-to-cos-mtheta-and-w1"> <span class="nav-number">1.3.1.2</span> <span class="nav-text">A-Softmax (Angular Softmax): $\cos \theta \to \cos (m\theta)$ and $|W|=1$</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#am-softmax-additive-margin-softmax-cos-theta-to-cos-theta--m"> <span class="nav-number">1.3.1.3</span> <span class="nav-text">AM-Softmax (Additive Margin Softmax): $\cos \theta \to \cos \theta -m$</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#qa"> <span class="nav-number">1.4</span> <span class="nav-text">Q&amp;A</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#策略同時使用角度-maximize-theta-and-magnitude-minimize-w"> <span class="nav-number">1.5</span> <span class="nav-text">策略：同時使用角度 maximize $\theta$ and Magnitude minimize $|w|$！</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#to-do"> <span class="nav-number">1.6</span> <span class="nav-text">To Do</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#math-ml---modified-softmax-w-margin"> <span class="nav-number">1</span> <span class="nav-text">Math ML - Modified Softmax w/ Margin</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#softmax-in-dl-or-ml-recap"> <span class="nav-number">1.1</span> <span class="nav-text">Softmax in DL or ML Recap</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#parameter-notation-and-range-for-ml-and-dl"> <span class="nav-number">1.1.1</span> <span class="nav-text">Parameter Notation and Range for ML and DL</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#softmax-w-margin-via-training"> <span class="nav-number">1.2</span> <span class="nav-text">Softmax w/ Margin Via Training</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#如何在-softmax-加入-margin-for-training"> <span class="nav-number">1.3</span> <span class="nav-text">如何在 softmax 加入 margin for training</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#三種用角度增加-softmax-inter-class-margin"> <span class="nav-number">1.3.1</span> <span class="nav-text">三種用角度增加 SoftMax inter-class margin</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#l-softmax-large-margin-softmax-cos-theta-to-cos-mtheta"> <span class="nav-number">1.3.1.1</span> <span class="nav-text">L-Softmax (Large Margin Softmax): $\cos \theta \to \cos (m\theta)$</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#a-softmax-angular-softmax-cos-theta-to-cos-mtheta-and-w1"> <span class="nav-number">1.3.1.2</span> <span class="nav-text">A-Softmax (Angular Softmax): $\cos \theta \to \cos (m\theta)$ and $|W|=1$</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#am-softmax-additive-margin-softmax-cos-theta-to-cos-theta--m"> <span class="nav-number">1.3.1.3</span> <span class="nav-text">AM-Softmax (Additive Margin Softmax): $\cos \theta \to \cos \theta -m$</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#qa"> <span class="nav-number">1.4</span> <span class="nav-text">Q&amp;A</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#策略同時使用角度-maximize-theta-and-magnitude-minimize-w"> <span class="nav-number">1.5</span> <span class="nav-text">策略：同時使用角度 maximize $\theta$ and Magnitude minimize $|w|$！</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#to-do"> <span class="nav-number">1.6</span> <span class="nav-text">To Do</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">1.7</span> <span class="nav-text">Reference</span> </a> </li> </ol> </li>
     </ol>
   </div>
             

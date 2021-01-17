@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-01-16T23:43:09+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>John Doe</name></author><entry><title type="html">ath ML - Modified Softmax w/ Margin</title><link href="http://localhost:4000/ai/2021/01/16/softmax/" rel="alternate" type="text/html" title="ath ML - Modified Softmax w/ Margin" /><published>2021-01-16T16:29:08+08:00</published><updated>2021-01-16T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/01/16/softmax</id><content type="html" xml:base="http://localhost:4000/ai/2021/01/16/softmax/">&lt;h1 id=&quot;math-ml---modified-softmax-w-margin&quot;&gt;Math ML - Modified Softmax w/ Margin&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-01-17T17:16:28+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>John Doe</name></author><entry><title type="html">Math ML - Modified Softmax w/ Margin</title><link href="http://localhost:4000/ai/2021/01/16/softmax/" rel="alternate" type="text/html" title="Math ML - Modified Softmax w/ Margin" /><published>2021-01-16T16:29:08+08:00</published><updated>2021-01-16T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/01/16/softmax</id><content type="html" xml:base="http://localhost:4000/ai/2021/01/16/softmax/">&lt;h1 id=&quot;math-ml---modified-softmax-w-margin&quot;&gt;Math ML - Modified Softmax w/ Margin&lt;/h1&gt;
 &lt;p&gt;[@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017]
 Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。&lt;/p&gt;
 
@@ -94,21 +94,28 @@ and
 &lt;/ul&gt;
 
 &lt;h4 id=&quot;l-softmax-large-margin-softmax-cos-theta-to-cos-mtheta&quot;&gt;L-Softmax (Large Margin Softmax): $\cos \theta \to \cos (m\theta)$&lt;/h4&gt;
-&lt;p&gt;因為 $f_{j}=\left|\boldsymbol{W}&lt;em&gt;{j}\right|\left|\boldsymbol{x}&lt;/em&gt;{i}\right| \cos \left(\theta_{j}\right)$.  如何在 $x_i$ 和 $W_j$ 加上 margin？  一個方法就是把 $\cos \theta$ 改成 $\cos m\theta$, why?&lt;/p&gt;
+&lt;p&gt;因為 $f_{j}=\left| \boldsymbol{W_j} \right|\left| \boldsymbol{x_i} \right|\cos\left(\theta_{j}\right)$.  如何在 $x_i$ 和 $W_j$ 加上 margin？  一個方法就是把 $\cos \theta$ 改成 $\cos m\theta$, why?&lt;/p&gt;
 
 &lt;p&gt;從相似性來看，$\cos(m\theta)$ 在同樣的角度”相似性”掉的比較快。因此在 training 時會強迫把同一 feature 的 data 擠壓在一起, &lt;strong&gt;reduce the intra-class distance. 達到增加 inter-class margin 的目的。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;另外可以從 decision boundary 理解。Softmax 的 decision boundary,
-$x\in$ Class 1:  $\left|\boldsymbol{W}&lt;em&gt;{1}\right||\boldsymbol{x}| \cos \left( \theta&lt;/em&gt;{1}\right)&amp;gt;\left|\boldsymbol{W}&lt;em&gt;{2}\right||\boldsymbol{x}| \cos \left(\theta&lt;/em&gt;{2}\right)$
-$x\in$ Class 2:  $\left|\boldsymbol{W}&lt;em&gt;{1}\right||\boldsymbol{x}| \cos \left( \theta&lt;/em&gt;{1}\right) &amp;lt; \left|\boldsymbol{W}&lt;em&gt;{2}\right||\boldsymbol{x}| \cos \left(\theta&lt;/em&gt;{2}\right)$
-and $\theta_1 + \theta_2 = \theta$ which is the angle between $W_1$ and $W_2$&lt;/p&gt;
+&lt;p&gt;另外可以從 decision boundary 理解。Softmax 的 decision boundary,&lt;/p&gt;
 
-&lt;p&gt;如果把 $\cos \theta \to \cos (m\theta)$, 
-$x\in$ Class 1:  $\left|\boldsymbol{W}&lt;em&gt;{1}\right||\boldsymbol{x}| \cos \left( m\theta&lt;/em&gt;{1}\right)&amp;gt;\left|\boldsymbol{W}&lt;em&gt;{2}\right||\boldsymbol{x}| \cos \left(\theta&lt;/em&gt;{2}\right)$ 
- Assuming $|W_1| = |W_2| \to \theta_1 &amp;lt; \theta_2/m$ 因為 $\cos\theta$ 是遞減函數。&lt;/p&gt;
+&lt;p&gt;$x\in$ Class 1:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( \theta_{1}\right)&amp;gt;\left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$&lt;/p&gt;
 
-&lt;p&gt;$x\in$ Class 2:  $\left|\boldsymbol{W}&lt;em&gt;{1}\right||\boldsymbol{x}| \cos \left( \theta&lt;/em&gt;{1}\right) &amp;lt; \left|\boldsymbol{W}&lt;em&gt;{2}\right||\boldsymbol{x}| \cos \left(m\theta&lt;/em&gt;{2}\right)$
-Assuming $|W_1| = |W_2| \to \theta_1/m &amp;gt; \theta_2$.&lt;/p&gt;
+&lt;p&gt;$x\in$ Class 2:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( \theta_{1}\right) &amp;lt; \left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$&lt;/p&gt;
+
+&lt;p&gt;and $\theta_1 + \theta_2 = \theta$ which is the angle between $W_1$ and $W_2$&lt;/p&gt;
+
+&lt;p&gt;如果把 $\cos \theta \to \cos (m\theta)$,&lt;/p&gt;
+
+&lt;p&gt;$x\in$ Class 1:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( m\theta_{1}\right)&amp;gt;\left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$.
+ &lt;/p&gt;
+
+&lt;p&gt;Assuming $|W_1| = |W_2| \to \theta_1 &amp;lt; \theta_2/m$, 因為 $\cos\theta$ 是遞減函數。&lt;/p&gt;
+
+&lt;p&gt;$x\in$ Class 2:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( \theta_{1}\right) &amp;lt; \left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(m\theta_{2}\right)$.&lt;/p&gt;
+
+&lt;p&gt;Assuming $|W_1| = |W_2| \to \theta_1/m &amp;gt; \theta_2$.&lt;/p&gt;
 
 &lt;p&gt;此時我們有兩個 decision boundaries, 兩個 boundaries 之間可以視為 decision margin, 如下圖。
 &lt;img src=&quot;/media/16102567367645/16107219487390.jpg&quot; alt=&quot;-w400&quot; /&gt;&lt;/p&gt;
@@ -154,6 +161,7 @@ AM-Softmax 的 loss function, 但多了一個 hyper-parameter $s$(?)
 這有很多好處：&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;不用再分段算 $\psi(\theta)$, forward and backward 計算變成很容易。&lt;/li&gt;
+  &lt;li&gt;$m$ 是 continuous variable, 不是 discrete variable in A-Softmax. $m$ 可以 fine-grain optimized hyper-parameter. 而且是 differentiable, 我認為可以是 trainable variable.&lt;/li&gt;
   &lt;li&gt;AM-Softmax 同時 push angle and magnitude?&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -180,7 +188,25 @@ Angle margin: compress intra-class?
   &lt;li&gt;check the SVM, check the logistic regression, check import vector&lt;/li&gt;
   &lt;li&gt;Use binary classification as an example&lt;/li&gt;
   &lt;li&gt;Pro and Con of the three types.&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>John Doe</name></author><category term="softmax" /><summary type="html">Math ML - Modified Softmax w/ Margin [@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017] Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。</summary></entry><entry><title type="html">Math AI - G-CNN (Group + CNN)</title><link href="http://localhost:4000/ai/2020/05/08/G-CNN/" rel="alternate" type="text/html" title="Math AI - G-CNN (Group + CNN)" /><published>2020-05-08T16:29:08+08:00</published><updated>2020-05-08T16:29:08+08:00</updated><id>http://localhost:4000/ai/2020/05/08/G-CNN</id><content type="html" xml:base="http://localhost:4000/ai/2020/05/08/G-CNN/">&lt;h1 id=&quot;math-ai---g-cnn-group--cnn&quot;&gt;Math AI - G-CNN (Group + CNN)&lt;/h1&gt;
+  &lt;li&gt;Most importantly, try to use both amplitude and angle for learning!!  TBD&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;Liu, Weiyang, Yandong Wen, Zhiding Yu, Ming Li, Bhiksha Raj, and Le
+Song. 2018. “SphereFace: Deep Hypersphere Embedding for Face
+Recognition.” January 29, 2018. &lt;a href=&quot;http://arxiv.org/abs/1704.08063&quot;&gt;http://arxiv.org/abs/1704.08063&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Liu, Weiyang, Yandong Wen, Zhiding Yu, and Meng Yang. 2017.
+“Large-Margin Softmax Loss for Convolutional Neural Networks.” November
+17, 2017. &lt;a href=&quot;http://arxiv.org/abs/1612.02295&quot;&gt;http://arxiv.org/abs/1612.02295&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Rashad, Fathy. n.d. “Additive Margin Softmax Loss (AM-Softmax).” Medium.
+Accessed December 27, 2020.
+&lt;a href=&quot;https://towardsdatascience.com/additive-margin-softmax-loss-am-softmax-912e11ce1c6b&quot;&gt;https://towardsdatascience.com/additive-margin-softmax-loss-am-softmax-912e11ce1c6b&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Wang, Feng, Weiyang Liu, Haijun Liu, and Jian Cheng. 2018. “Additive
+Margin Softmax for Face Verification.” May 30, 2018.
+&lt;a href=&quot;https://doi.org/10.1109/LSP.2018.2822810&quot;&gt;https://doi.org/10.1109/LSP.2018.2822810&lt;/a&gt;.&lt;/p&gt;</content><author><name>John Doe</name></author><category term="softmax" /><summary type="html">Math ML - Modified Softmax w/ Margin [@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017] Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。</summary></entry><entry><title type="html">Math AI - G-CNN (Group + CNN)</title><link href="http://localhost:4000/ai/2020/05/08/G-CNN/" rel="alternate" type="text/html" title="Math AI - G-CNN (Group + CNN)" /><published>2020-05-08T16:29:08+08:00</published><updated>2020-05-08T16:29:08+08:00</updated><id>http://localhost:4000/ai/2020/05/08/G-CNN</id><content type="html" xml:base="http://localhost:4000/ai/2020/05/08/G-CNN/">&lt;h1 id=&quot;math-ai---g-cnn-group--cnn&quot;&gt;Math AI - G-CNN (Group + CNN)&lt;/h1&gt;
 &lt;p&gt;Where is group theory (G-CNN) + Curved Space (Spherical CNN)&lt;/p&gt;
 
 &lt;ul&gt;
