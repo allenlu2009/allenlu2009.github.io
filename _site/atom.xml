@@ -1,4 +1,613 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-01-17T17:16:28+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>John Doe</name></author><entry><title type="html">Math ML - Modified Softmax w/ Margin</title><link href="http://localhost:4000/ai/2021/01/16/softmax/" rel="alternate" type="text/html" title="Math ML - Modified Softmax w/ Margin" /><published>2021-01-16T16:29:08+08:00</published><updated>2021-01-16T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/01/16/softmax</id><content type="html" xml:base="http://localhost:4000/ai/2021/01/16/softmax/">&lt;h1 id=&quot;math-ml---modified-softmax-w-margin&quot;&gt;Math ML - Modified Softmax w/ Margin&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-07-30T17:11:44+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>John Doe</name></author><entry><title type="html"></title><link href="http://localhost:4000/2021/07/30/2021-07-30-MLE_to_EM/" rel="alternate" type="text/html" title="" /><published>2021-07-30T17:11:44+08:00</published><updated>2021-07-30T17:11:44+08:00</updated><id>http://localhost:4000/2021/07/30/2021-07-30-MLE_to_EM</id><content type="html" xml:base="http://localhost:4000/2021/07/30/2021-07-30-MLE_to_EM/">&lt;h2 id=&quot;major-reference&quot;&gt;Major Reference&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;[@poczosCllusteringEM2015]&lt;/li&gt;
+  &lt;li&gt;[@matasExpectationMaximization2018] good reference&lt;/li&gt;
+  &lt;li&gt;[@choyExpectationMaximization2017]&lt;/li&gt;
+  &lt;li&gt;[@tzikasVariationalApproximation2008] excellent introductory paper&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;maximum-likelihood-estimation-和應用&quot;&gt;Maximum Likelihood Estimation 和應用&lt;/h2&gt;
+&lt;p&gt;Maximum likelihood estimation (MLE) 最大概似估計是一種估計模型參數的方法。適用時機在於手邊有模型，但是模型參數有無限多種，透過真實觀察到的樣本資訊，想辦法導出最有可能產生這些樣本結果的模型參數，也就是挑選使其概似性(Likelihood)最高的一組模型參數，這系列找參數的過程稱為最大概似估計法。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Bernoulli distribution&lt;/em&gt;：投擲硬幣正面的機率 $\theta$, 反面的機率 $1-\theta$. 連續投擲的正面/反面的次數分別是 H/T.  Likelihood function 為
+&lt;script type=&quot;math/tex&quot;&gt;f(\theta, H, T)=\theta^{H}(1-\theta)^{T}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;MLE 在無限個 $\theta$ 中，找到一個使概似性最大的 $\theta$, i.e. $\widehat{\theta}_{\mathrm{MLE}} =\arg \max _{\theta} {\theta^{H}(1-\theta)^{T}}$&lt;/p&gt;
+
+&lt;p&gt;只要 likelihood function 一次微分，可以得到 
+&lt;script type=&quot;math/tex&quot;&gt;\widehat{\theta}_{M L E}=\frac{H}{T+H}&lt;/script&gt;
+就是平均值，推導出來的模型參數符合直覺。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Normal distribution&lt;/em&gt;： 假設 mean unknown, variance known, 我們可以用 maximum log-likelihood function 
+&lt;script type=&quot;math/tex&quot;&gt;\underset{\mu}{\operatorname{argmax}} f\left(x_{1}, \ldots, x_{n}\right) \Rightarrow \underset{\mu}{\operatorname{argmax}} \log f\left(x_{1}, \ldots, x_{n}\right)&lt;/script&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+&amp;\frac{\mathrm{d}}{d \mu}\left(\sum_{i=1}^{n}-\frac{\left(x_{i}-\mu\right)^{2}}{2 \sigma^{2}}\right)=\sum_{\mathrm{i}=1}^{\mathrm{n}} \frac{\left(x_{i}-\hat{\mu}\right)}{\sigma^{2}}=\sum_{i=1}^{n} x_{i}-n \hat{\mathrm{u}}=0 \\
+&amp;\hat{\mu}=\overline{\mathrm{X}}=\frac{\sum_{i=1}^{n} x_{i}}{n}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;微分的結果告訴我們，樣本的平均值，其實就是母體平均值 $\mu$ 最好的估計！又是一個相當符合直覺的答案，似乎 MLE 只是用來驗證直覺的工具。&lt;/p&gt;
+
+&lt;p&gt;這是一個錯覺，常見的 distribution (e.g. Bernoulli, normal distribution) 都是 exponential families.  可以證明 maximum log-likelihood functions of exponential families 都是 concave function, 沒有 local minimum. 非常容易用數值方法找到最佳解，而且大多有 analytical solution.&lt;/p&gt;
+
+&lt;p&gt;但只要 distribution function 更複雜一點，例如兩個 normal distribution weighted sum to 1, MLE 就非常難解。這是 EM algorithm 為什麼非常有用。&lt;/p&gt;
+
+&lt;h2 id=&quot;maximum-likelihood-estimation-mle-vs-em&quot;&gt;Maximum Likelihood Estimation (MLE) vs. EM&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;EM seems to be a special case for MLE?
+    &lt;ul&gt;
+      &lt;li&gt;Yes! If the problem can be formulated as MLE of incomplete/hidden data.  Then EM algorithm 的 E-step is guessing incomplete/hidden data; M-step 就對應 MLE with some modification (見本文後段)。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Sometimes MLE is very hard to solve because of too many parameters to estimation (mean, variance, initial distribution in GMM; or initial distribution, transition probability, emission probability in HMM);  or missing data or missing label!!
+    &lt;ul&gt;
+      &lt;li&gt;Too many parameters can be seen as incomplete/hidden data. see the following GMM example. It can be regards as missing label.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;In the above case, EM is a specialized MLE with iterative approach to solve the MLE.
+    &lt;ul&gt;
+      &lt;li&gt;Yes. Specifically, the M step is MLE.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;EM ~~ iterative MLE (maybe local minimum)&lt;/li&gt;
+  &lt;li&gt;EM is more general than MLE because it can apply to parameters and missing data?
+    &lt;ul&gt;
+      &lt;li&gt;The same thing, unknown parameters can be regarded as missing information/data.  In the M step, we guess the missing data.  In the E step, we use MLE to compute it, and so on.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;toy-example-matasexpectationmaximization2018&quot;&gt;Toy Example [@matasExpectationMaximization2018]&lt;/h2&gt;
+
+&lt;h3 id=&quot;前提摘要&quot;&gt;前提摘要&lt;/h3&gt;
+&lt;p&gt;一個簡單例子觀察 temperature and amount of snow (溫度和雪量, both are binary input) 的 joint probability depending on two “scalar factors” $a$ and $b$ as $p(t, s | a, b)$&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;$s_0$&lt;/th&gt;
+      &lt;th&gt;$s_1$&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$t_0$&lt;/td&gt;
+      &lt;td&gt;$a$&lt;/td&gt;
+      &lt;td&gt;$5a$&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$t_1$&lt;/td&gt;
+      &lt;td&gt;$3b$&lt;/td&gt;
+      &lt;td&gt;$b$&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;注意 $a$ and $b$ are parameters, 不是 conditional probability.
+另外因為機率和為 1 做為一個 constraint: $6a + 4b = 1$&lt;/p&gt;
+
+&lt;h3 id=&quot;問題一-mle&quot;&gt;問題一: MLE&lt;/h3&gt;
+&lt;p&gt;一個 ski-center 觀察 $N$ 天的溫度和雪量得到以下的統計，$N_{ij} \in \mathbf{I}$, 如何估計 $a$ and $b$?&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;$s_0$&lt;/th&gt;
+      &lt;th&gt;$s_1$&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$t_0$&lt;/td&gt;
+      &lt;td&gt;$N_{00}$&lt;/td&gt;
+      &lt;td&gt;$N_{01}$&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$t_1$&lt;/td&gt;
+      &lt;td&gt;$N_{10}$&lt;/td&gt;
+      &lt;td&gt;$N_{11}$&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Likelihood function (就是 joint pdf of $N$ repeat experiments)
+&lt;script type=&quot;math/tex&quot;&gt;P(\mathcal{T} \mid a, b)= C a^{N_{00}}(5 a)^{N_{01}}(3 b)^{N_{10}}(b)^{N_{11}}&lt;/script&gt;
+where $C = (\Sigma N_{ij})! / \Pi (N_{ij}!)$ 是 MLE 無關的常數&lt;/p&gt;
+
+&lt;p&gt;問題改成 maximum log-likelihood with constraint and $C’ = \ln C$
+&lt;script type=&quot;math/tex&quot;&gt;L(a, b, \lambda) = C' + N_{00} \ln a+N_{01} \ln 5 a+N_{10} \ln 3 b+N_{11} \ln b+\lambda(6 a+4 b-1)&lt;/script&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{gathered}
+\frac{\partial L}{\partial a}=N_{00} \frac{1}{a}+N_{01} \frac{1}{a}+6 \lambda=0 \\
+\frac{\partial L}{\partial b}=N_{10} \frac{1}{b}+N_{11} \frac{1}{b}+4 \lambda=0 \\
+\frac{\partial L}{\partial \lambda}=6 a+4 b - 1 = 0
+\end{gathered}&lt;/script&gt;
+
+&lt;p&gt;上述方程式的解為
+&lt;script type=&quot;math/tex&quot;&gt;a=\frac{N_{00}+N_{01}}{6 N} \quad b=\frac{N_{10}+N_{11}}{4 N} \quad \lambda = -(N_{00}+N_{01}+N_{10}+N_{11})=-N&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;結果很直觀。其實就是利用大數法則： $a\cdot N \sim N_{00}; 5a\cdot N\sim N_{01}; 3b\cdot N\sim N_{10}; b\cdot N\sim N_{11}$
+再來大數法則 (a+5a)N~N00+N01; (3b+b)N~N10+N11 =&amp;gt; a = .. ; b = …&lt;/p&gt;
+
+&lt;h3 id=&quot;問題二-incompletehidden-data&quot;&gt;問題二 incomplete/hidden Data&lt;/h3&gt;
+&lt;p&gt;假設我們無法觀察到完整的”溫度和雪量“；而是“溫度或雪量”，有時“溫度”，有時“雪量”，但不是同時。對應的不是 joint pdf, 而是 marginal pdf 如下：
+&lt;img src=&quot;/media/16247543929429/16265417789274.jpg&quot; alt=&quot;-w451&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;觀察如下：
+&lt;img src=&quot;/media/16247543929429/16265418866309.jpg&quot; alt=&quot;-w274&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The Lagrangian (log-likelihood with constraint)
+&lt;script type=&quot;math/tex&quot;&gt;L(a, b, \lambda)=T_{0} \ln 6 a+T_{1} \ln 4 b+S_{0} \ln (a+3 b)+S_{1} \ln (5 a+b)+\lambda(6 a+4 b-1)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;此時的方程式比起之前複雜的多，不一定有 close-form solution:
+&lt;script type=&quot;math/tex&quot;&gt;\begin{gathered}
+\frac{\partial L}{\partial a}=\frac{T_{0}}{a}+\frac{S_{0}}{a+3 b}+\frac{5 S_{1}}{5 a+b}+6 \lambda=0 \\
+\frac{\partial L}{\partial b}=\frac{T_{1}}{b}+\frac{3 S_{0}}{a+3 b}+\frac{S_{1}}{5 a+b}+4 \lambda=0 \\
+6 a+4 b=1
+\end{gathered}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;如果用大數法則：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;$6a \cdot(T_0+T_1) \sim T0; \, 4b\cdot(T_0+T_1) \sim T_1$&lt;/li&gt;
+  &lt;li&gt;$(a+3b) \cdot (S_0+S_1)\sim S_0; \, (5a+b)\cdot(S_0+S_1) \sim S_1$ 
+注意不論 1. or 2. 都滿足 $6a+4b = 1$ constraint, 可以用來估計 $a$ and $b$.
+問題是我們要用那一組 $(a, b)$?  單獨用一組都會損失一些 information, 應該要 combine 1 and 2 的 information, how?&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;思路一&lt;/strong&gt; 平均 (a, b) from 1 and 2.  但這不是好的策略，因為平均 (a,b) 不一定滿足 constraint. 在這個 case 因為 linear constraint, 所以平均 (a,b) 仍然滿足 constraint.  但對於更複雜 constraint, 平均並非好的方法。&lt;/p&gt;
+
+&lt;p&gt;更重要的是平均並無法代表 maximum likelihood in the above equation.  我們的目標是 maximum likelihood, 平均 (a, b) 完全無法保證會得到更好的 likelihood value!&lt;/p&gt;
+
+&lt;p&gt;或者把 (a,b) from 1 or 2 代入上述 likelihood function 取大值。顯然這也不是最好的策略。因為一半的資訊被捨棄了。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;思路二&lt;/strong&gt; 比較好的方法是想辦法用迭代法解微分後的 Lagrange multiplier 聯立方程式。 (a, b) from 1. or 2. 只作為 initial solution, 想辦法從聯立方程式找出 iterative formula.  這似乎是對的方向，問題是 Lagrange multiplier optimization 是解聯立(level 1)微分方程式。不一定有 close form as in this example.  同時也無法保證收斂。另外如何找出 iterative formula 似乎是 case-by-case, 沒有一致的方式。
+&lt;strong&gt;=&amp;gt; iterative solution is one of the key, but NOT on Lagrange multiplier (level 1)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;思路三&lt;/strong&gt; 既然是 missing data, 我們是否可以假設 $(a, b) \to$  fill missing data $\to$ update $(a, b) \to$  update missing data $\cdots$ 具體做法 
+$N_{00} = T_0 \cdot \frac{1}{6} + S_0 \cdot \frac{a}{a+3b}$
+$N_{01} = T_0 \cdot \frac{5}{6} + S_1 \cdot \frac{5a}{5a+b}$
+$N_{10} = T_1 \cdot \frac{3}{4} + S_0 \cdot \frac{3b}{a+3b}$
+$N_{11} = T_1 \cdot \frac{1}{4} + S_1 \cdot \frac{b}{5a+b}$&lt;/p&gt;
+
+&lt;p&gt;有了 $N_{00},N_{01},N_{10},N_{11}$ 可以重新估計 $(a, b)$ using joint pdf
+&lt;script type=&quot;math/tex&quot;&gt;a'=\frac{N_{00}+N_{01}}{6 N} \quad b'=\frac{N_{10}+N_{11}}{4 N}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;Q: 如何證明這個方法是最佳或是對應 complete data MLE or incomplete/hidden data MLE? 甚至會收斂？&lt;/p&gt;
+
+&lt;h4 id=&quot;em-algorithm-邏輯&quot;&gt;EM algorithm 邏輯&lt;/h4&gt;
+
+&lt;h3 id=&quot;前提摘要-1&quot;&gt;前提摘要&lt;/h3&gt;
+&lt;h3 id=&quot;gmm-特例estimate-means-of-two-gaussian-distributions-known-variance-and-ratio-unknown-means&quot;&gt;GMM 特例：Estimate Means of Two Gaussian Distributions (known variance and ratio; unknown means)&lt;/h3&gt;
+
+&lt;p&gt;We measure lengths of vehicles. The observation space is two-dimensional, with $x$ capturing vehicle type (binary) and $y$ capturing length (Gaussian).&lt;/p&gt;
+
+&lt;p&gt;$p(x, y)$  $x\in$ {car, truck},  $y \in \mathbb{R}$
+&lt;script type=&quot;math/tex&quot;&gt;p(\text {car}, y)=\pi_{\mathrm{c}} \mathcal{N}\left(y \mid \mu_{\mathrm{c}}, \sigma_{\mathrm{c}}=1\right)=\kappa_{\mathrm{c}} \exp \left\{-\frac{1}{2}\left(y-\mu_{\mathrm{c}}\right)^{2}\right\},\left(\kappa_{\mathrm{c}}=\frac{\pi_{\mathrm{c}}}{\sqrt{2 \pi}}\right)&lt;/script&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(\text {truck,} y)=\pi_{\mathrm{t}} \mathcal{N}\left(y \mid \mu_{\mathrm{t}}, \sigma_{\mathrm{t}}=2\right)=\kappa_{\mathrm{t}} \exp \left\{-\frac{1}{8}\left(y-\mu_{\mathrm{t}}\right)^{2}\right\},\left(\kappa_{\mathrm{t}}=\frac{\pi_{\mathrm{t}}}{\sqrt{8 \pi}}\right)&lt;/script&gt;
+
+&lt;p&gt;where $\pi_c + \pi_t = 1$&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/16247543929429/16266210341198.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;問題三-complete-data-easy-case&quot;&gt;問題三 Complete Data (Easy case)&lt;/h3&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;T=\{\underbrace{\left(\operatorname{car}, y_{1}^{(c)}\right),\left(\operatorname{car}, y_{2}^{(c)}\right), \ldots,\left(\operatorname{car}, y_{C}^{(c)}\right)}_{C \text { car observations }}, \underbrace{\left(\text {truck}, y_{1}^{(\mathrm{t})}\right),\left(\text {truck}, y_{2}^{(\mathrm{t})}\right), \ldots,\left(\text {truck}, y_{T}^{(\mathrm{t})}\right)}_{T \text { truck observations }}\}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;Log-likelihood 
+&lt;script type=&quot;math/tex&quot;&gt;\ell(\mathcal{T})=\sum_{i=1}^{N} \ln p\left(x_{i}, y_{i} \mid \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)=C \ln \kappa_{\mathrm{c}}-\frac{1}{2} \sum_{i=1}^{C}\left(y_{i}^{(c)}-\mu_{\mathrm{c}}\right)^{2}+T \ln \kappa_{\mathrm{t}}-\frac{1}{8} \sum_{i=1}^{T}\left(y_{i}^{(\mathrm{t})}-\mu_{\mathrm{t}}\right)^{2}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;很容易用 MLE 估計 $\mu_1, \mu_2$
+&lt;script type=&quot;math/tex&quot;&gt;\frac{\partial \ell(\mathcal{T})}{\partial \mu_{\mathrm{c}}}=\sum_{i=1}^{C}\left(y_{i}^{(\mathrm{c})}-\mu_{\mathrm{c}}\right)=0 \quad \Rightarrow \quad \mu_{\mathrm{c}}=\frac{1}{C} \sum_{i=1}^{C} y_{i}^{(c)}&lt;/script&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial \ell(\mathcal{T})}{\partial \mu_{\mathrm{t}}}=\frac{1}{4} \sum_{i=1}^{T}\left(y_{i}^{(\mathrm{t})}-\mu_{\mathrm{t}}\right)=0 \quad \Rightarrow \quad \mu_{\mathrm{t}}=\frac{1}{T} \sum_{i=1}^{T} y_{i}^{(\mathrm{t})}&lt;/script&gt;
+
+&lt;p&gt;直觀上很容易理解。如果 observations 已經分組，求 mean 只要做 sample 的平均即可。&lt;/p&gt;
+
+&lt;p&gt;以這個例子，ratio $\pi_c, \pi_t$ 不論已知或未知，都不影響結果。&lt;/p&gt;
+
+&lt;h3 id=&quot;問題四-incompletehidden-data&quot;&gt;問題四 incomplete/hidden Data&lt;/h3&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\mathcal{T}=\{\left(\operatorname{car}, y_{1}^{(c)}\right), \ldots,\left(\operatorname{car}, y_{C}^{(c)}\right),\left(\text {truck}, y_{1}^{(\mathrm{t})}\right), \ldots,\left(\text {truck}, y_{T}^{(\mathrm{t})}\right), \underbrace{\left(\bullet, y_{1}^{\bullet}\right), \ldots,\left(\bullet, y_{M}^{\bullet}\right)}_{\begin{array}{l}
+\text { data with uknown } \\
+\text { vehicle type }
+\end{array}}\}&lt;/script&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p\left(y^{\bullet}\right)=p\left(\text {car}, y^{\bullet}\right)+p\left(\text {truck}, y^{\bullet}\right)&lt;/script&gt;
+
+&lt;p&gt;Log-likelihood
+&lt;script type=&quot;math/tex&quot;&gt;\ell(\mathcal{T})=\sum_{i=1}^{N} \ln p\left(x_{i}, y_{i} \mid \mu_{c}, \mu_{\mathrm{t}}\right)=\overbrace{C \ln \kappa_{\mathrm{c}}-\frac{1}{2} \sum_{i=1}^{C}\left(y_{i}^{(c)}-\mu_{\mathrm{c}}\right)^{2}+T \ln \kappa_{\mathrm{t}}-\frac{1}{8} \sum_{i=1}^{T}\left(y_{i}^{(\mathrm{t})}-\mu_{\mathrm{t}}\right)^{2}}^{\text {same term as before }} \\
++\sum_{i=1}^{M} \ln \left(\kappa_{\mathrm{c}} \exp \left\{-\frac{1}{2}\left(y_{i}^{\bullet}-\mu_{\mathrm{c}}\right)^{2}\right\}+\kappa_{\mathrm{t}} \exp \left\{-\frac{1}{8}\left(y_{i}^{\bullet}-\mu_{\mathrm{t}}\right)^{2}\right\}\right)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;不用微分也知道非常難解 MLE. 我們必須用另外的方法，就是 EM 算法。
+不過我們還是微分一下，得到更多的 insights.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+0=\frac{\partial \ell(\mathcal{T})}{\partial \mu_{\mathrm{c}}} &amp;=\sum_{i=1}^{C}\left(y_{\mathrm{c}}^{(\mathrm{c})}-\mu_{\mathrm{c}}\right) \\
+&amp;+ \sum_{i=1}^{M} \overbrace{\frac{\kappa_{\mathrm{c}} \exp \left\{-\frac{1}{2}\left(y_{i}^{\bullet}-\mu_{\mathrm{c}}\right)^{2}\right\}}{\kappa_{\mathrm{c}} \exp \left\{-\frac{1}{2}\left(y_{i}^{\bullet}-\mu_{\mathrm{c}}\right)^{2}\right\}+\kappa_{\mathrm{t}} \exp \left\{-\frac{1}{8}\left(y_{i}^{\bullet}-\mu_{\mathrm{t}}\right)^{2}\right\}}}^{p\left(\operatorname{car} \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)}\left(y_{i}^{\bullet}-\mu_{\mathrm{c}}\right)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;0=4 \frac{\partial \ell(\mathcal{T})}{\partial \mu_{\mathrm{t}}}=\sum_{i=1}^{T}\left(y_{i}^{(\mathrm{t})}-\mu_{\mathrm{t}}\right)+\sum_{i=1}^{M} p\left(\text {truck} \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)\left(y_{i}^{\bullet}-\mu_{\mathrm{t}}\right)&lt;/script&gt;
+
+&lt;p&gt;上兩式非常有物理意義。基本是 easy case 的延伸：已知分類的平均值，加上未知分類的機率平均值。一個簡單的方法是只取前面已知的部分平均，不過這不是最佳，因為丟失部分的資訊。&lt;/p&gt;
+
+&lt;h4 id=&quot;missing-values-em-approach&quot;&gt;Missing Values, EM Approach&lt;/h4&gt;
+&lt;p&gt;重新 summarize optimality conditions
+&lt;script type=&quot;math/tex&quot;&gt;\sum_{i=1}^{C}\left(y_{i}^{(c)}-\mu_{c}\right)+\sum_{i=1}^{M} p\left(\operatorname{car} \mid y_{i}^{\bullet}, \mu_{c}, \mu_{\mathrm{t}}\right)\left(y_{i}^{\bullet}-\mu_{\mathrm{c}}\right)=0&lt;/script&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\sum_{i=1}^{T}\left(y_{i}^{(\mathrm{t})}-\mu_{\mathrm{t}}\right)+\sum_{i=1}^{M} p\left(\text {truck } \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)\left(y_{i}^{\bullet}-\mu_{\mathrm{t}}\right)=0&lt;/script&gt;
+
+&lt;p&gt;如果 $p(\text {truck} \mid y_{i}^{\bullet}, \mu_c, \mu_t)$ 和 $p(\text {car} \mid y_{i}^{\bullet}, \mu_c, \mu_t)$ 已知，上式非常容易解 $\mu_c$ and $\mu_t$。實際這是一個雞生蛋、蛋生雞的問題，因為這兩個機率又和 $\mu_c$ and $\mu_t$ 相關。&lt;/p&gt;
+
+&lt;p&gt;EM algorithm 剛好用來打破這個迴圈。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Let $z_i \,(i=1, 2, \cdots, M), z_i \in \text$ denote the &lt;strong&gt;missing data&lt;/strong&gt;.  Define $q\left(z_{i}\right)=p\left(z_{i} \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)$&lt;/li&gt;
+  &lt;li&gt;上述 optimality equations 可以得到&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mu_{\mathrm{c}}=\frac{\sum_{i=1}^{C} y_{i}^{(\mathrm{c})}+\sum_{i=1}^{M} q\left(z_{i}=\mathrm{car}\right) y_{i}^{\bullet}}{C+\sum_{i=1}^{M} q\left(z_{i}=\mathrm{car}\right)}&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mu_{\mathrm{t}}=\frac{\sum_{i=1}^{T} y_{i}^{(\mathrm{t})}+\sum_{i=1}^{M} q\left(z_{i}=\text { truck }\right) y_{i}^{\bullet}}{T+\sum_{i=1}^{M} q\left(z_{i}=\text { truck }\right)}&lt;/script&gt;
+
+&lt;p&gt;EM Algorithm 可以用以下四步驟表示&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Initialize $\mu_c$, $\mu_t$&lt;/li&gt;
+  &lt;li&gt;Compute $q\left(z_{i}\right)=p\left(z_{i} \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)$ for $i = 1, 2, \cdots, M$&lt;/li&gt;
+  &lt;li&gt;Recompute $\mu_c$, $\mu_t$ according to the above equations.&lt;/li&gt;
+  &lt;li&gt;If termination condition is met, finish.  Otherwise, goto 2.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;上述步驟 2 稱為 Expectation (E) Step, 步驟 3 稱為 Maximization (M) Step.  統稱為 EM algorithm.&lt;/p&gt;
+
+&lt;p&gt;Q. Why Step 2 稱為 Expectation? not clear.  Maximization 比較容易理解，因為 optimality condition 就是 maximization (微分為 0).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;In summary&lt;/strong&gt;, EM algorithm 的一個關鍵點是：讓 incomplete/hidden data 變成 complete (Expectation?).  有了完整的 data, 就容易用 MLE 找到 maximal likelihood estimation ($\mu_c$ and $\mu_t$ in this case).&lt;/p&gt;
+
+&lt;h2 id=&quot;clustering-soft-assignment-vs-hard-assignment-k-means&quot;&gt;Clustering: Soft Assignment Vs. Hard Assignment (K-means)&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/media/16270144925547/16270374215686.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;em-algorithm-derivation&quot;&gt;EM Algorithm Derivation&lt;/h2&gt;
+
+&lt;p&gt;EM algorithm 如果只是 heuristic algorithm, 可能有用度減半。這裡討論數學上的 justification.  先定義 terminologies&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$\mathbf{o}$: all observed values&lt;/li&gt;
+  &lt;li&gt;$\mathbf{z}$: all unobserved values (i.e. hidden variable)&lt;/li&gt;
+  &lt;li&gt;$\mathbf{\theta}$: model parameters to be estimated&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;目標：Find $\theta^*$ using the Maximum Likelihood approach
+&lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\theta}^{*}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ell(\boldsymbol{\theta})=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o} \mid \boldsymbol{\theta})&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;思路：假設解下列完整 data 很容易解 (例如上面的 exmple xx and xx)
+&lt;script type=&quot;math/tex&quot;&gt;\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;我們的想法是把上上式改寫成上式，再加以優化
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\ln p(\mathbf{o} \mid \boldsymbol{\theta}) &amp;=\ln \sum_{\mathbf{z}} p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) \\
+&amp;=\ln \sum_{\mathbf{z}} q(\mathbf{z}) \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}
+\end{aligned} %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;這裡引入 $q(\mathbf{z})$ distribution with $\sum_{\mathbf{z}} q(\mathbf{z})=1$. 上式利用 Jensen’s inequality 可以導出
+&lt;script type=&quot;math/tex&quot;&gt;\geq \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}&lt;/script&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;log-likelihood-with-hidden-variable-lower-bound&quot;&gt;Log-Likelihood with Hidden Variable Lower Bound&lt;/h3&gt;
+&lt;p&gt;我們定義 $\ln p(\mathbf{o} \mid \boldsymbol{\theta})$ 的 lower bound $\mathcal{L}(q, \boldsymbol{\theta})$, for any distribution $q$.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{L}(q, \boldsymbol{\theta})=\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}&lt;/script&gt;
+
+&lt;p&gt;這已經非常接近思路！&lt;/p&gt;
+
+&lt;p&gt;Maximizing $\mathcal{L}(q, \boldsymbol{\theta})$ by choosing $q(z)$ 就可以 push the log likelihood $\ln p(\mathbf{o} \mid \boldsymbol{\theta})$ upwards.&lt;/p&gt;
+
+&lt;p&gt;反過來我們可以計算和 lower bound 之間的 gap.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\mathcal{L}(q, \boldsymbol{\theta}) &amp;=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&amp;=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln \underbrace{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}_{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) p(\mathbf{o} \mid \boldsymbol{\theta})}-\ln q(\mathbf{z})\} \\
+&amp;=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})+\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\ln q(\mathbf{z})\} \\
+&amp;=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q(\mathbf{z})}_{1} \ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})-\ln q(\mathbf{z})\} \\
+&amp;=-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&amp;= D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \ge 0
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;這個 gap 就是 KL divergence between $q(\mathbf{z})$ and $p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$, 永遠大於 0. 
+如果能找到 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$，就可以讓 gap 變成 0.&lt;/p&gt;
+
+&lt;h3 id=&quot;em-algorithm-push-the-lower-bound-upwards&quot;&gt;EM Algorithm Push the Lower Bound Upwards&lt;/h3&gt;
+&lt;p&gt;Log likelihood function 可以分為兩個部分： lower bound + gap
+&lt;script type=&quot;math/tex&quot;&gt;\ln p(\mathbf{o} \mid \boldsymbol{\theta})=\mathcal{L}(q, \boldsymbol{\theta})+D_{\mathrm{KL}}(q \| p)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;從 Jensen’s inequality 得到 $\mathcal{L}(q, \boldsymbol{\theta})$ 是 lower bound.  同樣從 KL divergence $\ge$ 0 再度驗證。&lt;/p&gt;
+
+&lt;p&gt;如果 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$, the bound is tight.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-1--hidden-variable-z-does-not-provide-any-information-of-o&quot;&gt;Example 1:  Hidden variable $z$ does NOT provide any information of $o$&lt;/h4&gt;
+
+&lt;p&gt;假設 $\mathbf{o}$ 和 $\mathbf{z}$ 完全無關，$p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) = p(\mathbf{z} \mid \boldsymbol{\theta})$.  We can make $q(\mathbf{z}) = p(\mathbf{z} \mid \boldsymbol{\theta})$
+such that $D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})) = 0$, 也就是 gap = 0.&lt;/p&gt;
+
+&lt;p&gt;Lower bound 就變成原來的 log-likelihood function.
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathcal{L}(q, \boldsymbol{\theta}) &amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o} \mid \boldsymbol{\theta}) p(\mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o} \mid \boldsymbol{\theta})\\
+&amp;= \ln p(\mathbf{o} \mid \boldsymbol{\theta})
+\end{aligned} %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;example-2--qmathbfz--pmathbfz-mid-mathbfo-boldsymboltheta&quot;&gt;Example 2:  $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$&lt;/h4&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathcal{L}(q, \boldsymbol{\theta}) &amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) p(\mathbf{o} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o} \mid \boldsymbol{\theta})\\
+&amp;= \ln p(\mathbf{o} \mid \boldsymbol{\theta})
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;What is the mutual information of $o$ and $z$ in this case?&lt;/p&gt;
+
+&lt;h2 id=&quot;em-具體步驟&quot;&gt;EM 具體步驟&lt;/h2&gt;
+&lt;p&gt;Lower bound $\mathcal{L}(q, \boldsymbol{\theta})$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{L}(q, \boldsymbol{\theta})=\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}&lt;/script&gt;
+
+&lt;p&gt;&lt;del&gt;Lower bound 其實可以視為 MLE of complete data，對應 EM algorithm 的 M step.
+Gap 可以視為從 observables 推論出 unobservables, i.e. incomplete/hidden data, 對應 EM algorithm 的 E step.&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;Lower bound 包含兩個部分： (1) log-likelihood of complete data (both $o$ and $z$) MLE for $\theta$ estimation; (2) $q$ distribution.&lt;/p&gt;
+
+&lt;p&gt;這兩個部分剛好對應 EM algorithm 的 E-step and M-step.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Initialize $\boldsymbol{\theta}=\boldsymbol{\theta}^{(0)}$&lt;/li&gt;
+  &lt;li&gt;E-step (Expectation): &lt;script type=&quot;math/tex&quot;&gt;q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;M-step (Maximization):  &lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right)&lt;/script&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;m-step-qt1-is-fixed&quot;&gt;M-step: $q^{(t+1)}$ is fixed&lt;/h3&gt;
+&lt;p&gt;我們先看 M-step, 因為這和 MLE estimate $\theta$ 非常相似。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta^{(t+1)}=\underset{\theta}{\operatorname{argmax}} \mathcal{L}\left(q^{(t+1)}, \theta\right)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right) &amp;=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q^{(t+1)}(\mathbf{z})} \\
+&amp;=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln q^{(t+1)}(\mathbf{z})}_{\text {const. }}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;注意 M-Step 和完整 data 的 MLE 思路如下非常接近，只加了對 $q(z)$ 的 weighted sum.&lt;/strong&gt;
+&lt;script type=&quot;math/tex&quot;&gt;\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;上式微分等於 0 就可以解 $\theta^{t+1}$。上面問題四以及問題二就是很好的例子。&lt;/p&gt;
+
+&lt;p&gt;另一個常見的寫法 &lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注意 M-Step 是 maximize lower bound, 並不等於 maximize 不完整 data 的 MLE，因為還差了一個 gap function (i.e. KL divergence), which is also $\theta$ dependent.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;e-step-boldsymbolthetat-is-fixed&quot;&gt;E-step: $\boldsymbol{\theta}^{(t)}$ is fixed&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)=\underbrace{\ln p\left(\mathbf{o} \mid \boldsymbol{\theta}^{(t)}\right)}_{\text {const. }}-D_{\mathrm{KL}}(q \| p)&lt;/script&gt;
+
+&lt;p&gt;以上 KL divergence 大於等於 0，所以 maximize lower bound 就要讓 要選擇 $q(z)$ 儘量縮小 gap  (i.e. KL divergence) 到 0.  前面提到等於 0 的條件就是
+&lt;script type=&quot;math/tex&quot;&gt;q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;同樣 E-Step 深具物理意義，就是猜 incomplete/hidden data distribution based on 已知的 observables 和 iterative $\theta$.&lt;/p&gt;
+
+&lt;p&gt;例如問題四 E-Step 就是計算 $q\left(z_{i}\right)=p\left(z_{i} \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)$ for $i = 1, 2, \cdots, M$&lt;/p&gt;
+
+&lt;h4 id=&quot;conditional-vs-joint-distribution&quot;&gt;Conditional Vs. Joint Distribution&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;我們可以把 conditional distribution 改成 joint distribution 如下。兩者都可以用來解 E-Step.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) = p(\mathbf{z}, \mathbf{o} \mid \boldsymbol{\theta}^{(t)}) / p(\mathbf{o} \mid \boldsymbol{\theta}^{(t)})&lt;/script&gt;
+
+&lt;h3 id=&quot;結合-e-step-and-m-step-的另一種寫法-這是-em-的精髓假設可以有一個-close-from-q-function-eg-gmm&quot;&gt;結合 E-Step and M-Step 的另一種寫法 (這是 EM 的精髓，假設可以有一個 close from Q function, e.g. GMM)&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;In summary:  M-Step maximize the lower bound;  E-Step close the gap&lt;/strong&gt; 
+E-Step
+&lt;script type=&quot;math/tex&quot;&gt;q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;M-Step 
+&lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;Define new E-Step (plug E-Step to M-Step)
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+Q(\theta^{t+1} | \theta^{t}) &amp;=  \sum_{\mathbf{z}} p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{t+1}) \\
+&amp;= \int d \mathbf{z} \, p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{t+1})
+\end{aligned} %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;new M Step
+&lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} Q(\theta^{t+1} | \theta^{t})&lt;/script&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;free-energy-interpretation-poczoscllusteringem2015&quot;&gt;Free Energy Interpretation [@poczosCllusteringEM2015]&lt;/h2&gt;
+&lt;p&gt;搞 machine learning 很多是物理學家 (e.g. Max Welling), 習慣用物理觀念套用於 machine learning.  常見的例子是 training 的 &lt;em&gt;momentum&lt;/em&gt; method.  另一個是 &lt;em&gt;energy/entropy&lt;/em&gt; loss function.  此處我們看的是類似 energy loss function.&lt;/p&gt;
+
+&lt;p&gt;我們從 gap 開始&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\mathcal{L}(q, \boldsymbol{\theta}) = D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \ge 0&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\ln p(\mathbf{o} \mid \boldsymbol{\theta}) &amp;= \mathcal{L}(q, \boldsymbol{\theta}) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
+&amp;= E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where H(q) is the entropy of q,  第一項是負的，第二項和第三項是正的。
+我們用一個例子來驗證
+q = {0 or 1} with 50% chance, =&amp;gt; 
+H(q) = 1 (bit) or ln (?) &amp;gt; 0
+Eq(z) ln p(o, z) = -(0.5 (o-u1)^2 + 0.5 (o-u2)^2 ) / sqrt(2pi) &amp;lt; 0&lt;/p&gt;
+
+&lt;p&gt;此處我們 switch to [@poczosCllusteringEM2015] notation.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Observed data: $D = {x_1, \cdots, x_n}$&lt;/li&gt;
+  &lt;li&gt;Unobserved/hidden variable: $z = {z_1, \cdots, z_n}$&lt;/li&gt;
+  &lt;li&gt;Parameter: $\theta = [\mu_1, \cdots, \mu_K, \pi_1, \cdots, \pi_K, \Sigma_1, \cdots, \Sigma_K]$&lt;/li&gt;
+  &lt;li&gt;Goal: $\boldsymbol{\theta}^{*}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(D \mid \theta)$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;重寫上式：
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\ln p(D \mid \boldsymbol{\theta}^t) &amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(D, \mathbf{z} \mid \boldsymbol{\theta}^t) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}^t) ) \\
+&amp;= E_{q(z)} \ln p(D, \mathbf{z} \mid \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}) ) \\
+&amp;= F_{\theta^t} (q(\cdot), D) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}) )
+\end{aligned} %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;$F_{\theta^t} (q(\cdot), D)$ 稱為 free energy, 包含 joint distribution expectation 和 self-entropy.  或是稱為 ELBO (Evidence lower bound)&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;如果 p(z&lt;/td&gt;
+      &lt;td&gt;x; theta) is analytically available (e.g. GMM, this is just a softmax!).  The ELBO becomes a Q(theta, theta^old) function + H(q)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The EM algorithm can be summzied as argmax Q!!&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;table&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;E-step: p(&lt;/td&gt;
+          &lt;td&gt;x)&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/li&gt;
+  &lt;li&gt;M-step; argmax …&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We can prove&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;log likelihood is always increasing!&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;img src=&quot;/media/16270144925547/16274030539044.jpg&quot; alt=&quot;-w400&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;img src=&quot;/media/16270144925547/16274031504070.jpg&quot; alt=&quot;-w408&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Use multiple, randomized initialization in practice.&lt;/p&gt;
+
+&lt;h2 id=&quot;variational-expectation-maximization&quot;&gt;Variational Expectation Maximization&lt;/h2&gt;
+&lt;p&gt;EM algorithm 一個問題是對於複雜的問題沒有 close from p(z|x), then toast!&lt;/p&gt;
+
+&lt;h2 id=&quot;appendix&quot;&gt;Appendix&lt;/h2&gt;
+
+&lt;h4 id=&quot;問題二的-conditional-vs-joint-distribution-解法&quot;&gt;問題二的 Conditional Vs. Joint Distribution 解法&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;我們之前的 E-Step 是猜 joint distribution, $p(t, s | a, b)$.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;$s_0$&lt;/th&gt;
+      &lt;th&gt;$s_1$&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$t_0$&lt;/td&gt;
+      &lt;td&gt;a&lt;/td&gt;
+      &lt;td&gt;5a&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$t_1$&lt;/td&gt;
+      &lt;td&gt;3b&lt;/td&gt;
+      &lt;td&gt;b&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;如果用上述的 conditional distribution 可以細膩的看每一個 data.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;對於所有 $(\bullet, s_0)$ 
+&lt;script type=&quot;math/tex&quot;&gt;q(t \mid s_0, a, b)=\left\{\begin{array}{l}
+q\left(t_{0}\right)=p\left(t_{0} \mid s_{0}, a, b\right)=\frac{a}{a+3 b} \\
+q\left(t_{1}\right)=p\left(t_{1} \mid s_{0}, a, b\right)=\frac{3 b}{a+3 b}
+\end{array}\right.&lt;/script&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;對於所有 $(\bullet, s_1)$ 
+&lt;script type=&quot;math/tex&quot;&gt;q(t \mid s_1, a, b)=\left\{\begin{array}{l}
+q\left(t_{0}\right)=p\left(t_{0} \mid s_{1}, a, b\right)=\frac{5a}{5 a+ b} \\
+q\left(t_{1}\right)=p\left(t_{1} \mid s_{1}, a, b\right)=\frac{b}{5 a+ b}
+\end{array}\right.&lt;/script&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;對於所有 $(t_0, \bullet)$ 
+&lt;script type=&quot;math/tex&quot;&gt;q(s \mid t_0, a, b)=\left\{\begin{array}{l}
+q\left(s_{0}\right)=p\left(s_{0} \mid t_{0}, a, b\right)=\frac{1}{6} \\
+q\left(s_{1}\right)=p\left(s_{1} \mid t_{0}, a, b\right)=\frac{5}{6}
+\end{array}\right.&lt;/script&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;對於所有 $(t_1, \bullet)$ 
+&lt;script type=&quot;math/tex&quot;&gt;q(s \mid t_1, a, b)=\left\{\begin{array}{l}
+q\left(s_{0}\right)=p\left(s_{0} \mid t_{1}, a, b\right)=\frac{3}{4} \\
+q\left(s_{1}\right)=p\left(s_{1} \mid t_{1}, a, b\right)=\frac{1}{4}
+\end{array}\right.&lt;/script&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;再來是問題二的 M-Step&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;最後再把所有 dataset 的 weighted sum $(t_i, s_j)$ 統計出來，例如
+$S_0$ 個 $(\bullet, s_0) \to \frac{a}{a+3b}S_0$ 個 $(t_0, s_0)$ 和 $\frac{3b}{a+3b}S_0$ 個 $(t_1, s_0)$
+$S_1$ 個 $(\bullet, s_1) \to \frac{5a}{5a+b}S_1$ 個 $(t_0, s_1)$ 和 $\frac{b}{5a+b}S_1$ 個 $(t_1, s_1)$
+$T_0$ 個 $(t_0, \bullet) \to \frac{1}{6}T_0$ 個 $(t_0, s_0)$ 和 $\frac{5}{6}T_0$ 個 $(t_0, s_1)$
+$T_1$ 個 $(t_1, \bullet) \to \frac{3}{4}T_1$ 個 $(t_1, s_0)$ 和 $\frac{1}{4}T_1$ 個 $(t_1, s_1)$&lt;/p&gt;
+
+&lt;p&gt;$(t_0, s_0)$ 個數 $\to N_{00} = \frac{1}{6}T_0+\frac{a}{a+3b}S_0$
+$(t_0, s_1)$ 個數 $\to N_{01} = \frac{5}{6}T_0+\frac{5a}{5a+b}S_1$
+$(t_1, s_0)$ 個數 $\to N_{10} = \frac{3}{4}T_1+\frac{3b}{a+3b}S_0$
+$(t_1, s_1)$ 個數 $\to N_{11} = \frac{1}{4}T_1+\frac{b}{5a+b}S_1$&lt;/p&gt;
+
+&lt;p&gt;因此可以使用完整 data 的 MLE estimation:
+&lt;script type=&quot;math/tex&quot;&gt;a'=\frac{N_{00}+N_{01}}{6 N} \quad b'=\frac{N_{10}+N_{11}}{4 N}&lt;/script&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;to-do-next&quot;&gt;To Do Next&lt;/h2&gt;
+&lt;p&gt;Go through GMM example.&lt;/p&gt;
+
+&lt;p&gt;下一步 go through HMM model or simplest z -&amp;gt; o graph model.&lt;/p&gt;</content><author><name>John Doe</name></author></entry><entry><title type="html">Edge AI- Object Detection History</title><link href="http://localhost:4000/ai/2021/02/16/Typora-Mermaid/" rel="alternate" type="text/html" title="Edge AI- Object Detection History" /><published>2021-02-16T16:29:08+08:00</published><updated>2021-02-16T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/02/16/Typora-Mermaid</id><content type="html" xml:base="http://localhost:4000/ai/2021/02/16/Typora-Mermaid/">&lt;h1 id=&quot;edge-ai-object-detection-history-2-pass-vs-1-pass-anchor-vs-anchor-less&quot;&gt;Edge AI: Object Detection History: 2-Pass Vs. 1-Pass; Anchor Vs. Anchor-less&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice-&amp;gt;John: Hello John, how are you?
+    loop Healthcheck
+        John-&amp;gt;John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts &amp;lt;br/&amp;gt;prevail...
+    John--&amp;gt;Alice: Great!
+    John-&amp;gt;Bob: How about you?
+    Bob--&amp;gt;John: Jolly good!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;graph LR
+A[方形] --&amp;gt;B(圆角)
+    B --&amp;gt; C{条件a}
+    C --&amp;gt;|a=1| D[结果1]
+    C --&amp;gt;|a=2| E[结果2]
+    F[横向流程图]
+&lt;/code&gt;&lt;/pre&gt;</content><author><name>John Doe</name></author><category term="softmax" /><summary type="html">Edge AI: Object Detection History: 2-Pass Vs. 1-Pass; Anchor Vs. Anchor-less</summary></entry><entry><title type="html">Math ML - Modified Softmax w/ Margin</title><link href="http://localhost:4000/ai/2021/01/16/softmax/" rel="alternate" type="text/html" title="Math ML - Modified Softmax w/ Margin" /><published>2021-01-16T16:29:08+08:00</published><updated>2021-01-16T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/01/16/softmax</id><content type="html" xml:base="http://localhost:4000/ai/2021/01/16/softmax/">&lt;h1 id=&quot;math-ml---modified-softmax-w-margin&quot;&gt;Math ML - Modified Softmax w/ Margin&lt;/h1&gt;
 &lt;p&gt;[@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017]
 Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。&lt;/p&gt;
 
@@ -7077,60 +7686,4 @@ Next use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;norm
 
 &lt;h2 id=&quot;browser-support&quot;&gt;Browser support&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://iissnan.com/nexus/next/browser-support.png&quot; alt=&quot;Browser support&quot; /&gt;&lt;/p&gt;</content><author><name>John Doe</name></author><summary type="html">NexT is a high quality elegant Jekyll theme ported from Hexo Next. It is crafted from scratch, with love. Live Preview Screenshots Desktop Sidebar Sidebar (Post details page) Mobile Installation Check whether you have Ruby 2.1.0 or higher installed: ruby --version Install Bundler: gem install bundler Clone Jacman theme: git clone https://github.com/Simpleyyt/jekyll-theme-next.git cd jekyll-theme-next Install Jekyll and other dependencies from the GitHub Pages gem: bundle install Run your Jekyll site locally: bundle exec jekyll server More Details：Setting up your GitHub Pages site locally with Jekyll Features Multiple languages support, including: English / Russian / French / German / Simplified Chinese / Traditional Chinese. Default language is English. language: en # language: zh-Hans # language: fr-FR # language: zh-hk # language: zh-tw # language: ru # language: de Set language field as following in site _config.yml to change to Chinese. language: zh-Hans Comment support. NexT has native support for DuoShuo and Disqus comment systems. Add the following snippets to your _config.yml: duoshuo: enable: true shortname: your-duoshuo-shortname OR disqus_shortname: your-disqus-shortname Social Media NexT can automatically add links to your Social Media accounts: social: GitHub: your-github-url Twitter: your-twitter-url Weibo: your-weibo-url DouBan: your-douban-url ZhiHu: your-zhihu-url Feed link. Show a feed link. Set rss field in theme’s _config.yml, as the following value: rss: false will totally disable feed link. rss: use sites’ feed link. This is the default option. Follow the installation instruction in the plugin’s README. After the configuration is done for this plugin, the feed link is ready too. rss: http://your-feed-url set specific feed link. Up to 5 code highlight themes built-in. NexT uses Tomorrow Theme with 5 themes for you to choose from. Next use normal by default. Have a preview about normal and night: Head over to Tomorrow Theme for more details. Configuration NexT comes with few configurations. # Menu configuration. menu: home: / archives: /archives # Favicon favicon: /favicon.ico # Avatar (put the image into next/source/images/) # can be any image format supported by web browsers (JPEG,PNG,GIF,SVG,..) avatar: /default_avatar.png # Code highlight theme # available: normal | night | night eighties | night blue | night bright highlight_theme: normal # Fancybox for image gallery fancybox: true # Specify the date when the site was setup since: 2013 Browser support</summary></entry><entry><title type="html">Highlight Test</title><link href="http://localhost:4000/test/2017/07/19/highlight-test/" rel="alternate" type="text/html" title="Highlight Test" /><published>2017-07-19T00:00:00+08:00</published><updated>2017-07-19T00:00:00+08:00</updated><id>http://localhost:4000/test/2017/07/19/highlight-test</id><content type="html" xml:base="http://localhost:4000/test/2017/07/19/highlight-test/">&lt;p&gt;This is a highlight test.&lt;/p&gt;
-
-&lt;h1 id=&quot;normal-block&quot;&gt;Normal block&lt;/h1&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alert('Hello World!');
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;print 'helloworld'
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;highlight-block&quot;&gt;Highlight block&lt;/h1&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Hello, world!&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'helloworld'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'foo'&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'foo'&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'foo'&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;iostream&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arg1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arg2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello World&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Doe</name></author><summary type="html">This is a highlight test. Normal block alert('Hello World!'); print 'helloworld' Highlight block alert( 'Hello, world!' ); print 'helloworld' def foo puts 'foo' end def foo puts 'foo' end 1 2 3 def foo puts 'foo' end #include &amp;lt;iostream&amp;gt; using namespace std; void foo(int arg1, int arg2) { } int main() { string str; foo(1, 2); cout &amp;lt;&amp;lt; &quot;Hello World&quot; &amp;lt;&amp;lt; endl; return 0; }</summary></entry><entry><title type="html">Emoji Test</title><link href="http://localhost:4000/2015/09/19/emoji-test/" rel="alternate" type="text/html" title="Emoji Test" /><published>2015-09-19T00:00:00+08:00</published><updated>2015-09-19T00:00:00+08:00</updated><id>http://localhost:4000/2015/09/19/emoji-test</id><content type="html" xml:base="http://localhost:4000/2015/09/19/emoji-test/">&lt;p&gt;This is an emoji test. :smile: lol.&lt;/p&gt;
-
-&lt;p&gt;See emoji cheat sheet for more detail :wink: : &lt;a href=&quot;https://www.webpagefx.com/tools/emoji-cheat-sheet/&quot;&gt;https://www.webpagefx.com/tools/emoji-cheat-sheet/&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;:bowtie::smile::laughing::blush::smiley::relaxed::smirk:
-:heart_eyes::kissing_heart::kissing_closed_eyes::flushed::relieved::satisfied::grin:&lt;/p&gt;</content><author><name>John Doe</name></author><summary type="html">This is an emoji test. :smile: lol.</summary></entry></feed>
+&lt;p&gt;&lt;img src=&quot;http://iissnan.com/nexus/next/browser-support.png&quot; alt=&quot;Browser support&quot; /&gt;&lt;/p&gt;</content><author><name>John Doe</name></author><summary type="html">NexT is a high quality elegant Jekyll theme ported from Hexo Next. It is crafted from scratch, with love. Live Preview Screenshots Desktop Sidebar Sidebar (Post details page) Mobile Installation Check whether you have Ruby 2.1.0 or higher installed: ruby --version Install Bundler: gem install bundler Clone Jacman theme: git clone https://github.com/Simpleyyt/jekyll-theme-next.git cd jekyll-theme-next Install Jekyll and other dependencies from the GitHub Pages gem: bundle install Run your Jekyll site locally: bundle exec jekyll server More Details：Setting up your GitHub Pages site locally with Jekyll Features Multiple languages support, including: English / Russian / French / German / Simplified Chinese / Traditional Chinese. Default language is English. language: en # language: zh-Hans # language: fr-FR # language: zh-hk # language: zh-tw # language: ru # language: de Set language field as following in site _config.yml to change to Chinese. language: zh-Hans Comment support. NexT has native support for DuoShuo and Disqus comment systems. Add the following snippets to your _config.yml: duoshuo: enable: true shortname: your-duoshuo-shortname OR disqus_shortname: your-disqus-shortname Social Media NexT can automatically add links to your Social Media accounts: social: GitHub: your-github-url Twitter: your-twitter-url Weibo: your-weibo-url DouBan: your-douban-url ZhiHu: your-zhihu-url Feed link. Show a feed link. Set rss field in theme’s _config.yml, as the following value: rss: false will totally disable feed link. rss: use sites’ feed link. This is the default option. Follow the installation instruction in the plugin’s README. After the configuration is done for this plugin, the feed link is ready too. rss: http://your-feed-url set specific feed link. Up to 5 code highlight themes built-in. NexT uses Tomorrow Theme with 5 themes for you to choose from. Next use normal by default. Have a preview about normal and night: Head over to Tomorrow Theme for more details. Configuration NexT comes with few configurations. # Menu configuration. menu: home: / archives: /archives # Favicon favicon: /favicon.ico # Avatar (put the image into next/source/images/) # can be any image format supported by web browsers (JPEG,PNG,GIF,SVG,..) avatar: /default_avatar.png # Code highlight theme # available: normal | night | night eighties | night blue | night bright highlight_theme: normal # Fancybox for image gallery fancybox: true # Specify the date when the site was setup since: 2013 Browser support</summary></entry></feed>
