@@ -1,0 +1,1440 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="softmax,EM," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="NexT" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Major Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper">
+<meta name="keywords" content="softmax, EM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Math AI - Maximum Likelihood Estimation Evolve To EM Algorithm For Incomplete/Hidden Data To Variational Bayesian Inference">
+<meta property="og:url" content="http://localhost:4000/ai/2021/06/30/MLE_to_EM/">
+<meta property="og:site_name" content="NexT">
+<meta property="og:description" content="Major Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="/media/16247543929429/16265417789274.jpg">
+<meta property="og:image" content="/media/16247543929429/16265418866309.jpg">
+<meta property="og:image" content="/media/16247543929429/16266210341198.jpg">
+<meta property="og:image" content="/media/16270144925547/16270374215686.jpg">
+<meta property="og:image" content="/media/16270144925547/16274030539044.jpg">
+<meta property="og:image" content="/media/16270144925547/16274031504070.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Math AI - Maximum Likelihood Estimation Evolve To EM Algorithm For Incomplete/Hidden Data To Variational Bayesian Inference">
+<meta name="twitter:description" content="Major Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper">
+<meta name="twitter:image" content="/media/16247543929429/16265417789274.jpg">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>Math AI - Maximum Likelihood Estimation Evolve To EM Algorithm For Incomplete/Hidden Data To Variational Bayesian Inference | NexT</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NexT</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/ai/2021/06/30/MLE_to_EM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NexT">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            Math AI - Maximum Likelihood Estimation Evolve To EM Algorithm For Incomplete/Hidden Data To Variational Bayesian Inference
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-06-30T16:29:08+08:00">
+                2021-06-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/AI" itemprop="url" rel="index">
+                    <span itemprop="name">AI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="major-reference">Major Reference</h2>
+<ul>
+  <li>[@poczosCllusteringEM2015]</li>
+  <li>[@matasExpectationMaximization2018] good reference</li>
+  <li>[@choyExpectationMaximization2017]</li>
+  <li>[@tzikasVariationalApproximation2008] excellent introductory paper</li>
+</ul>
+
+<h2 id="maximum-likelihood-estimation-和應用">Maximum Likelihood Estimation 和應用</h2>
+<p>Maximum likelihood estimation (MLE) 最大概似估計是一種估計模型參數的方法。適用時機在於手邊有模型，但是模型參數有無限多種，透過真實觀察到的樣本資訊，想辦法導出最有可能產生這些樣本結果的模型參數，也就是挑選使其概似性(Likelihood)最高的一組模型參數，這系列找參數的過程稱為最大概似估計法。</p>
+
+<p><em>Bernoulli distribution</em>：投擲硬幣正面的機率 $\theta$, 反面的機率 $1-\theta$. 連續投擲的正面/反面的次數分別是 H/T.  Likelihood function 為</p>
+
+<script type="math/tex; mode=display">f(\theta, H, T)=\theta^{H}(1-\theta)^{T}</script>
+
+<p>MLE 在無限個 $\theta$ 中，找到一個使概似性最大的 $\theta$, i.e. $\widehat{\theta}_{\mathrm{MLE}} =\arg \max _{\theta} {\theta^{H}(1-\theta)^{T}}$</p>
+
+<p>只要 likelihood function 一次微分，可以得到</p>
+
+<script type="math/tex; mode=display">\widehat{\theta}_{M L E}=\frac{H}{T+H}</script>
+
+<p>就是平均值，推導出來的模型參數符合直覺。</p>
+
+<p><em>Normal distribution</em>： 假設 mean unknown, variance known, 我們可以用 maximum log-likelihood function</p>
+
+<script type="math/tex; mode=display">\underset{\mu}{\operatorname{argmax}} f\left(x_{1}, \ldots, x_{n}\right) \Rightarrow \underset{\mu}{\operatorname{argmax}} \log f\left(x_{1}, \ldots, x_{n}\right)</script>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+&\frac{\mathrm{d}}{d \mu}\left(\sum_{i=1}^{n}-\frac{\left(x_{i}-\mu\right)^{2}}{2 \sigma^{2}}\right)=\sum_{\mathrm{i}=1}^{\mathrm{n}} \frac{\left(x_{i}-\hat{\mu}\right)}{\sigma^{2}}=\sum_{i=1}^{n} x_{i}-n \hat{\mathrm{u}}=0 \\
+&\hat{\mu}=\overline{\mathrm{X}}=\frac{\sum_{i=1}^{n} x_{i}}{n}
+\end{aligned} %]]></script>
+
+<p>微分的結果告訴我們，樣本的平均值，其實就是母體平均值 $\mu$ 最好的估計！又是一個相當符合直覺的答案，似乎 MLE 只是用來驗證直覺的工具。</p>
+
+<p>這是一個錯覺，常見的 distribution (e.g. Bernoulli, normal distribution) 都是 exponential families.  可以證明 maximum log-likelihood functions of exponential families 都是 concave function, 沒有 local minimum. 非常容易用數值方法找到最佳解，而且大多有 analytical solution.</p>
+
+<p>但只要 distribution function 更複雜一點，例如兩個 normal distribution weighted sum to 1, MLE 就非常難解。這是 EM algorithm 為什麼非常有用。</p>
+
+<h2 id="maximum-likelihood-estimation-mle-vs-em">Maximum Likelihood Estimation (MLE) vs. EM</h2>
+
+<ul>
+  <li>EM seems to be a special case for MLE?
+    <ul>
+      <li>Yes! If the problem can be formulated as MLE of incomplete/hidden data.  Then EM algorithm 的 E-step is guessing incomplete/hidden data; M-step 就對應 MLE with some modification (見本文後段)。</li>
+    </ul>
+  </li>
+  <li>Sometimes MLE is very hard to solve because of too many parameters to estimation (mean, variance, initial distribution in GMM; or initial distribution, transition probability, emission probability in HMM);  or missing data or missing label!!
+    <ul>
+      <li>Too many parameters can be seen as incomplete/hidden data. see the following GMM example. It can be regards as missing label.</li>
+    </ul>
+  </li>
+  <li>In the above case, EM is a specialized MLE with iterative approach to solve the MLE.
+    <ul>
+      <li>Yes. Specifically, the M step is MLE.</li>
+    </ul>
+  </li>
+  <li>EM ~~ iterative MLE (maybe local minimum)</li>
+  <li>EM is more general than MLE because it can apply to parameters and missing data?
+    <ul>
+      <li>The same thing, unknown parameters can be regarded as missing information/data.  In the M step, we guess the missing data.  In the E step, we use MLE to compute it, and so on.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="toy-example-matasexpectationmaximization2018">Toy Example [@matasExpectationMaximization2018]</h2>
+
+<h3 id="前提摘要">前提摘要</h3>
+<p>一個簡單例子觀察 temperature and amount of snow (溫度和雪量, both are binary input) 的 joint probability depending on two “scalar factors” $a$ and $b$ as $p(t, s | a, b)$</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center">$s_0$</th>
+      <th style="text-align: center">$s_1$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">$t_0$</td>
+      <td style="text-align: center">$a$</td>
+      <td style="text-align: center">$5a$</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$t_1$</td>
+      <td style="text-align: center">$3b$</td>
+      <td style="text-align: center">$b$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>注意 $a$ and $b$ are parameters, 不是 conditional probability.
+另外因為機率和為 1 做為一個 constraint: $6a + 4b = 1$</p>
+
+<h3 id="問題一-mle">問題一: MLE</h3>
+<p>一個 ski-center 觀察 $N$ 天的溫度和雪量得到以下的統計，$N_{ij} \in \mathbf{I}$, 如何估計 $a$ and $b$?</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center">$s_0$</th>
+      <th style="text-align: center">$s_1$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">$t_0$</td>
+      <td style="text-align: center">$N_{00}$</td>
+      <td style="text-align: center">$N_{01}$</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$t_1$</td>
+      <td style="text-align: center">$N_{10}$</td>
+      <td style="text-align: center">$N_{11}$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Likelihood function (就是 joint pdf of $N$ repeat experiments)</p>
+
+<script type="math/tex; mode=display">P(\mathcal{T} \mid a, b)= C a^{N_{00}}(5 a)^{N_{01}}(3 b)^{N_{10}}(b)^{N_{11}}</script>
+
+<p>where $C = (\Sigma N_{ij})! / \Pi (N_{ij}!)$ 是 MLE 無關的常數</p>
+
+<p>問題改成 maximum log-likelihood with constraint and $C’ = \ln C$</p>
+
+<script type="math/tex; mode=display">L(a, b, \lambda) = C' + N_{00} \ln a+N_{01} \ln 5 a+N_{10} \ln 3 b+N_{11} \ln b+\lambda(6 a+4 b-1)</script>
+
+<script type="math/tex; mode=display">\begin{gathered}
+\frac{\partial L}{\partial a}=N_{00} \frac{1}{a}+N_{01} \frac{1}{a}+6 \lambda=0 \\
+\frac{\partial L}{\partial b}=N_{10} \frac{1}{b}+N_{11} \frac{1}{b}+4 \lambda=0 \\
+\frac{\partial L}{\partial \lambda}=6 a+4 b - 1 = 0
+\end{gathered}</script>
+
+<p>上述方程式的解為
+<script type="math/tex">a=\frac{N_{00}+N_{01}}{6 N} \quad b=\frac{N_{10}+N_{11}}{4 N} \quad \lambda = -(N_{00}+N_{01}+N_{10}+N_{11})=-N</script></p>
+
+<p>結果很直觀。其實就是利用大數法則： $a\cdot N \sim N_{00}; 5a\cdot N\sim N_{01}; 3b\cdot N\sim N_{10}; b\cdot N\sim N_{11}$
+再來大數法則 (a+5a)N~N00+N01; (3b+b)N~N10+N11 =&gt; a = .. ; b = …</p>
+
+<h3 id="問題二-incompletehidden-data">問題二 incomplete/hidden Data</h3>
+<p>假設我們無法觀察到完整的”溫度和雪量“；而是“溫度或雪量”，有時“溫度”，有時“雪量”，但不是同時。對應的不是 joint pdf, 而是 marginal pdf 如下：
+<img src="/media/16247543929429/16265417789274.jpg" alt="-w451" /></p>
+
+<p>觀察如下：
+<img src="/media/16247543929429/16265418866309.jpg" alt="-w274" /></p>
+
+<p>The Lagrangian (log-likelihood with constraint)</p>
+
+<script type="math/tex; mode=display">L(a, b, \lambda)=T_{0} \ln 6 a+T_{1} \ln 4 b+S_{0} \ln (a+3 b)+S_{1} \ln (5 a+b)+\lambda(6 a+4 b-1)</script>
+
+<p>此時的方程式比起之前複雜的多，不一定有 close-form solution:</p>
+
+<script type="math/tex; mode=display">\begin{gathered}
+\frac{\partial L}{\partial a}=\frac{T_{0}}{a}+\frac{S_{0}}{a+3 b}+\frac{5 S_{1}}{5 a+b}+6 \lambda=0 \\
+\frac{\partial L}{\partial b}=\frac{T_{1}}{b}+\frac{3 S_{0}}{a+3 b}+\frac{S_{1}}{5 a+b}+4 \lambda=0 \\
+6 a+4 b=1
+\end{gathered}</script>
+
+<p>如果用大數法則：</p>
+<ol>
+  <li>$6a \cdot(T_0+T_1) \sim T0; \, 4b\cdot(T_0+T_1) \sim T_1$</li>
+  <li>$(a+3b) \cdot (S_0+S_1)\sim S_0; \, (5a+b)\cdot(S_0+S_1) \sim S_1$ 
+注意不論 1. or 2. 都滿足 $6a+4b = 1$ constraint, 可以用來估計 $a$ and $b$.
+問題是我們要用那一組 $(a, b)$?  單獨用一組都會損失一些 information, 應該要 combine 1 and 2 的 information, how?</li>
+</ol>
+
+<p><strong>思路一</strong> 平均 (a, b) from 1 and 2.  但這不是好的策略，因為平均 (a,b) 不一定滿足 constraint. 在這個 case 因為 linear constraint, 所以平均 (a,b) 仍然滿足 constraint.  但對於更複雜 constraint, 平均並非好的方法。</p>
+
+<p>更重要的是平均並無法代表 maximum likelihood in the above equation.  我們的目標是 maximum likelihood, 平均 (a, b) 完全無法保證會得到更好的 likelihood value!</p>
+
+<p>或者把 (a,b) from 1 or 2 代入上述 likelihood function 取大值。顯然這也不是最好的策略。因為一半的資訊被捨棄了。</p>
+
+<p><strong>思路二</strong> 比較好的方法是想辦法用迭代法解微分後的 Lagrange multiplier 聯立方程式。 (a, b) from 1. or 2. 只作為 initial solution, 想辦法從聯立方程式找出 iterative formula.  這似乎是對的方向，問題是 Lagrange multiplier optimization 是解聯立(level 1)微分方程式。不一定有 close form as in this example.  同時也無法保證收斂。另外如何找出 iterative formula 似乎是 case-by-case, 沒有一致的方式。
+<strong>=&gt; iterative solution is one of the key, but NOT on Lagrange multiplier (level 1)</strong></p>
+
+<p><strong>思路三</strong> 既然是 missing data, 我們是否可以假設 $(a, b) \to$  fill missing data $\to$ update $(a, b) \to$  update missing data $\cdots$ 具體做法 
+$N_{00} = T_0 \cdot \frac{1}{6} + S_0 \cdot \frac{a}{a+3b}$
+$N_{01} = T_0 \cdot \frac{5}{6} + S_1 \cdot \frac{5a}{5a+b}$
+$N_{10} = T_1 \cdot \frac{3}{4} + S_0 \cdot \frac{3b}{a+3b}$
+$N_{11} = T_1 \cdot \frac{1}{4} + S_1 \cdot \frac{b}{5a+b}$</p>
+
+<p>有了 $N_{00},N_{01},N_{10},N_{11}$ 可以重新估計 $(a, b)$ using joint pdf</p>
+
+<script type="math/tex; mode=display">a'=\frac{N_{00}+N_{01}}{6 N} \quad b'=\frac{N_{10}+N_{11}}{4 N}</script>
+
+<p>Q: 如何證明這個方法是最佳或是對應 complete data MLE or incomplete/hidden data MLE? 甚至會收斂？</p>
+
+<h4 id="em-algorithm-邏輯">EM algorithm 邏輯</h4>
+
+<h3 id="前提摘要-1">前提摘要</h3>
+<h3 id="gmm-特例estimate-means-of-two-gaussian-distributions-known-variance-and-ratio-unknown-means">GMM 特例：Estimate Means of Two Gaussian Distributions (known variance and ratio; unknown means)</h3>
+
+<p>We measure lengths of vehicles. The observation space is two-dimensional, with $x$ capturing vehicle type (binary) and $y$ capturing length (Gaussian).</p>
+
+<p>$p(x, y)$  $x\in$ {car, truck},  $y \in \mathbb{R}$</p>
+
+<script type="math/tex; mode=display">p(\text {car}, y)=\pi_{\mathrm{c}} \mathcal{N}\left(y \mid \mu_{\mathrm{c}}, \sigma_{\mathrm{c}}=1\right)=\kappa_{\mathrm{c}} \exp \left\{-\frac{1}{2}\left(y-\mu_{\mathrm{c}}\right)^{2}\right\},\left(\kappa_{\mathrm{c}}=\frac{\pi_{\mathrm{c}}}{\sqrt{2 \pi}}\right)</script>
+
+<script type="math/tex; mode=display">p(\text {truck,} y)=\pi_{\mathrm{t}} \mathcal{N}\left(y \mid \mu_{\mathrm{t}}, \sigma_{\mathrm{t}}=2\right)=\kappa_{\mathrm{t}} \exp \left\{-\frac{1}{8}\left(y-\mu_{\mathrm{t}}\right)^{2}\right\},\left(\kappa_{\mathrm{t}}=\frac{\pi_{\mathrm{t}}}{\sqrt{8 \pi}}\right)</script>
+
+<p>where $\pi_c + \pi_t = 1$</p>
+
+<p><img src="/media/16247543929429/16266210341198.jpg" alt="" /></p>
+
+<h3 id="問題三-complete-data-easy-case">問題三 Complete Data (Easy case)</h3>
+<p><script type="math/tex">T=\{\underbrace{\left(\operatorname{car}, y_{1}^{(c)}\right),\left(\operatorname{car}, y_{2}^{(c)}\right), \ldots,\left(\operatorname{car}, y_{C}^{(c)}\right)}_{C \text { car observations }}, \underbrace{\left(\text {truck}, y_{1}^{(\mathrm{t})}\right),\left(\text {truck}, y_{2}^{(\mathrm{t})}\right), \ldots,\left(\text {truck}, y_{T}^{(\mathrm{t})}\right)}_{T \text { truck observations }}\}</script></p>
+
+<p>Log-likelihood</p>
+
+<script type="math/tex; mode=display">\ell(\mathcal{T})=\sum_{i=1}^{N} \ln p\left(x_{i}, y_{i} \mid \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)=C \ln \kappa_{\mathrm{c}}-\frac{1}{2} \sum_{i=1}^{C}\left(y_{i}^{(c)}-\mu_{\mathrm{c}}\right)^{2}+T \ln \kappa_{\mathrm{t}}-\frac{1}{8} \sum_{i=1}^{T}\left(y_{i}^{(\mathrm{t})}-\mu_{\mathrm{t}}\right)^{2}</script>
+
+<p>很容易用 MLE 估計 $\mu_1, \mu_2$</p>
+
+<script type="math/tex; mode=display">\frac{\partial \ell(\mathcal{T})}{\partial \mu_{\mathrm{c}}}=\sum_{i=1}^{C}\left(y_{i}^{(\mathrm{c})}-\mu_{\mathrm{c}}\right)=0 \quad \Rightarrow \quad \mu_{\mathrm{c}}=\frac{1}{C} \sum_{i=1}^{C} y_{i}^{(c)}</script>
+
+<script type="math/tex; mode=display">\frac{\partial \ell(\mathcal{T})}{\partial \mu_{\mathrm{t}}}=\frac{1}{4} \sum_{i=1}^{T}\left(y_{i}^{(\mathrm{t})}-\mu_{\mathrm{t}}\right)=0 \quad \Rightarrow \quad \mu_{\mathrm{t}}=\frac{1}{T} \sum_{i=1}^{T} y_{i}^{(\mathrm{t})}</script>
+
+<p>直觀上很容易理解。如果 observations 已經分組，求 mean 只要做 sample 的平均即可。</p>
+
+<p>以這個例子，ratio $\pi_c, \pi_t$ 不論已知或未知，都不影響結果。</p>
+
+<h3 id="問題四-incompletehidden-data">問題四 incomplete/hidden Data</h3>
+
+<script type="math/tex; mode=display">\mathcal{T}=\{\left(\operatorname{car}, y_{1}^{(c)}\right), \ldots,\left(\operatorname{car}, y_{C}^{(c)}\right),\left(\text {truck}, y_{1}^{(\mathrm{t})}\right), \ldots,\left(\text {truck}, y_{T}^{(\mathrm{t})}\right), \underbrace{\left(\bullet, y_{1}^{\bullet}\right), \ldots,\left(\bullet, y_{M}^{\bullet}\right)}_{\begin{array}{l}
+\text { data with uknown } \\
+\text { vehicle type }
+\end{array}}\}</script>
+
+<script type="math/tex; mode=display">p\left(y^{\bullet}\right)=p\left(\text {car}, y^{\bullet}\right)+p\left(\text {truck}, y^{\bullet}\right)</script>
+
+<p>Log-likelihood</p>
+
+<script type="math/tex; mode=display">\ell(\mathcal{T})=\sum_{i=1}^{N} \ln p\left(x_{i}, y_{i} \mid \mu_{c}, \mu_{\mathrm{t}}\right)=\overbrace{C \ln \kappa_{\mathrm{c}}-\frac{1}{2} \sum_{i=1}^{C}\left(y_{i}^{(c)}-\mu_{\mathrm{c}}\right)^{2}+T \ln \kappa_{\mathrm{t}}-\frac{1}{8} \sum_{i=1}^{T}\left(y_{i}^{(\mathrm{t})}-\mu_{\mathrm{t}}\right)^{2}}^{\text {same term as before }} \\
++\sum_{i=1}^{M} \ln \left(\kappa_{\mathrm{c}} \exp \left\{-\frac{1}{2}\left(y_{i}^{\bullet}-\mu_{\mathrm{c}}\right)^{2}\right\}+\kappa_{\mathrm{t}} \exp \left\{-\frac{1}{8}\left(y_{i}^{\bullet}-\mu_{\mathrm{t}}\right)^{2}\right\}\right)</script>
+
+<p>不用微分也知道非常難解 MLE. 我們必須用另外的方法，就是 EM 算法。
+不過我們還是微分一下，得到更多的 insights.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+0=\frac{\partial \ell(\mathcal{T})}{\partial \mu_{\mathrm{c}}} &=\sum_{i=1}^{C}\left(y_{\mathrm{c}}^{(\mathrm{c})}-\mu_{\mathrm{c}}\right) \\
+&+ \sum_{i=1}^{M} \overbrace{\frac{\kappa_{\mathrm{c}} \exp \left\{-\frac{1}{2}\left(y_{i}^{\bullet}-\mu_{\mathrm{c}}\right)^{2}\right\}}{\kappa_{\mathrm{c}} \exp \left\{-\frac{1}{2}\left(y_{i}^{\bullet}-\mu_{\mathrm{c}}\right)^{2}\right\}+\kappa_{\mathrm{t}} \exp \left\{-\frac{1}{8}\left(y_{i}^{\bullet}-\mu_{\mathrm{t}}\right)^{2}\right\}}}^{p\left(\operatorname{car} \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)}\left(y_{i}^{\bullet}-\mu_{\mathrm{c}}\right)
+\end{aligned} %]]></script>
+
+<script type="math/tex; mode=display">0=4 \frac{\partial \ell(\mathcal{T})}{\partial \mu_{\mathrm{t}}}=\sum_{i=1}^{T}\left(y_{i}^{(\mathrm{t})}-\mu_{\mathrm{t}}\right)+\sum_{i=1}^{M} p\left(\text {truck} \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)\left(y_{i}^{\bullet}-\mu_{\mathrm{t}}\right)</script>
+
+<p>上兩式非常有物理意義。基本是 easy case 的延伸：已知分類的平均值，加上未知分類的機率平均值。一個簡單的方法是只取前面已知的部分平均，不過這不是最佳，因為丟失部分的資訊。</p>
+
+<h4 id="missing-values-em-approach">Missing Values, EM Approach</h4>
+<p>重新 summarize optimality conditions</p>
+
+<script type="math/tex; mode=display">\sum_{i=1}^{C}\left(y_{i}^{(c)}-\mu_{c}\right)+\sum_{i=1}^{M} p\left(\operatorname{car} \mid y_{i}^{\bullet}, \mu_{c}, \mu_{\mathrm{t}}\right)\left(y_{i}^{\bullet}-\mu_{\mathrm{c}}\right)=0</script>
+
+<script type="math/tex; mode=display">\sum_{i=1}^{T}\left(y_{i}^{(\mathrm{t})}-\mu_{\mathrm{t}}\right)+\sum_{i=1}^{M} p\left(\text {truck } \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)\left(y_{i}^{\bullet}-\mu_{\mathrm{t}}\right)=0</script>
+
+<p>如果 $p(\text {truck} \mid y_{i}^{\bullet}, \mu_c, \mu_t)$ 和 $p(\text {car} \mid y_{i}^{\bullet}, \mu_c, \mu_t)$ 已知，上式非常容易解 $\mu_c$ and $\mu_t$。實際這是一個雞生蛋、蛋生雞的問題，因為這兩個機率又和 $\mu_c$ and $\mu_t$ 相關。</p>
+
+<p>EM algorithm 剛好用來打破這個迴圈。</p>
+<ul>
+  <li>Let $z_i \,(i=1, 2, \cdots, M), z_i \in \text{{car, truck}}$ denote the <strong>missing data</strong>.  Define $q\left(z_{i}\right)=p\left(z_{i} \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)$</li>
+  <li>上述 optimality equations 可以得到</li>
+</ul>
+
+<script type="math/tex; mode=display">\mu_{\mathrm{c}}=\frac{\sum_{i=1}^{C} y_{i}^{(\mathrm{c})}+\sum_{i=1}^{M} q\left(z_{i}=\mathrm{car}\right) y_{i}^{\bullet}}{C+\sum_{i=1}^{M} q\left(z_{i}=\mathrm{car}\right)}</script>
+
+<script type="math/tex; mode=display">\mu_{\mathrm{t}}=\frac{\sum_{i=1}^{T} y_{i}^{(\mathrm{t})}+\sum_{i=1}^{M} q\left(z_{i}=\text { truck }\right) y_{i}^{\bullet}}{T+\sum_{i=1}^{M} q\left(z_{i}=\text { truck }\right)}</script>
+
+<p>EM Algorithm 可以用以下四步驟表示</p>
+
+<ol>
+  <li>Initialize $\mu_c$, $\mu_t$</li>
+  <li>Compute $q\left(z_{i}\right)=p\left(z_{i} \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)$ for $i = 1, 2, \cdots, M$</li>
+  <li>Recompute $\mu_c$, $\mu_t$ according to the above equations.</li>
+  <li>If termination condition is met, finish.  Otherwise, goto 2.</li>
+</ol>
+
+<p>上述步驟 2 稱為 Expectation (E) Step, 步驟 3 稱為 Maximization (M) Step.  統稱為 EM algorithm.</p>
+
+<p>Q. Why Step 2 稱為 Expectation? not clear.  Maximization 比較容易理解，因為 optimality condition 就是 maximization (微分為 0).</p>
+
+<p><strong>In summary</strong>, EM algorithm 的一個關鍵點是：讓 incomplete/hidden data 變成 complete (Expectation?).  有了完整的 data, 就容易用 MLE 找到 maximal likelihood estimation ($\mu_c$ and $\mu_t$ in this case).</p>
+
+<h2 id="clustering-soft-assignment-vs-hard-assignment-k-means">Clustering: Soft Assignment Vs. Hard Assignment (K-means)</h2>
+<p><img src="/media/16270144925547/16270374215686.jpg" alt="" /></p>
+
+<h2 id="em-algorithm-derivation">EM Algorithm Derivation</h2>
+
+<p>EM algorithm 如果只是 heuristic algorithm, 可能有用度減半。這裡討論數學上的 justification.  先定義 terminologies</p>
+
+<ul>
+  <li>$\mathbf{o}$: all observed values</li>
+  <li>$\mathbf{z}$: all unobserved values (i.e. hidden variable)</li>
+  <li>$\mathbf{\theta}$: model parameters to be estimated</li>
+</ul>
+
+<p>目標：Find $\theta^*$ using the Maximum Likelihood approach</p>
+
+<script type="math/tex; mode=display">\boldsymbol{\theta}^{*}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ell(\boldsymbol{\theta})=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o} \mid \boldsymbol{\theta})</script>
+
+<p>思路：假設解下列完整 data 很容易解 (例如上面的 exmple xx and xx)</p>
+
+<script type="math/tex; mode=display">\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})</script>
+
+<p>我們的想法是把上上式改寫成上式，再加以優化
+<script type="math/tex">% <![CDATA[
+\begin{aligned}
+\ln p(\mathbf{o} \mid \boldsymbol{\theta}) &=\ln \sum_{\mathbf{z}} p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) \\
+&=\ln \sum_{\mathbf{z}} q(\mathbf{z}) \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}
+\end{aligned} %]]></script></p>
+
+<p>這裡引入 $q(\mathbf{z})$ distribution with $\sum_{\mathbf{z}} q(\mathbf{z})=1$. 上式利用 Jensen’s inequality 可以導出
+<script type="math/tex">\geq \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}</script></p>
+
+<h3 id="log-likelihood-with-hidden-variable-lower-bound">Log-Likelihood with Hidden Variable Lower Bound</h3>
+<p>我們定義 $\ln p(\mathbf{o} \mid \boldsymbol{\theta})$ 的 lower bound $\mathcal{L}(q, \boldsymbol{\theta})$, for any distribution $q$.</p>
+
+<script type="math/tex; mode=display">\mathcal{L}(q, \boldsymbol{\theta})=\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}</script>
+
+<p>這已經非常接近思路！</p>
+
+<p>Maximizing $\mathcal{L}(q, \boldsymbol{\theta})$ by choosing $q(z)$ 就可以 push the log likelihood $\ln p(\mathbf{o} \mid \boldsymbol{\theta})$ upwards.</p>
+
+<p>反過來我們可以計算和 lower bound 之間的 gap.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\mathcal{L}(q, \boldsymbol{\theta}) &=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln \underbrace{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}_{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) p(\mathbf{o} \mid \boldsymbol{\theta})}-\ln q(\mathbf{z})\} \\
+&=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})+\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\ln q(\mathbf{z})\} \\
+&=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q(\mathbf{z})}_{1} \ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})-\ln q(\mathbf{z})\} \\
+&=-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&= D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \ge 0
+\end{aligned} %]]></script>
+
+<p>這個 gap 就是 KL divergence between $q(\mathbf{z})$ and $p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$, 永遠大於 0. 
+如果能找到 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$，就可以讓 gap 變成 0.</p>
+
+<h3 id="em-algorithm-push-the-lower-bound-upwards">EM Algorithm Push the Lower Bound Upwards</h3>
+<p>Log likelihood function 可以分為兩個部分： lower bound + gap
+<script type="math/tex">\ln p(\mathbf{o} \mid \boldsymbol{\theta})=\mathcal{L}(q, \boldsymbol{\theta})+D_{\mathrm{KL}}(q \| p)</script></p>
+
+<p>從 Jensen’s inequality 得到 $\mathcal{L}(q, \boldsymbol{\theta})$ 是 lower bound.  同樣從 KL divergence $\ge$ 0 再度驗證。</p>
+
+<p>如果 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$, the bound is tight.</p>
+
+<h4 id="example-1--hidden-variable-z-does-not-provide-any-information-of-o">Example 1:  Hidden variable $z$ does NOT provide any information of $o$</h4>
+
+<p>假設 $\mathbf{o}$ 和 $\mathbf{z}$ 完全無關，$p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) = p(\mathbf{z} \mid \boldsymbol{\theta})$.  We can make $q(\mathbf{z}) = p(\mathbf{z} \mid \boldsymbol{\theta})$
+such that $D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})) = 0$, 也就是 gap = 0.</p>
+
+<p>Lower bound 就變成原來的 log-likelihood function.
+<script type="math/tex">% <![CDATA[
+\begin{aligned}
+\mathcal{L}(q, \boldsymbol{\theta}) &= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o} \mid \boldsymbol{\theta}) p(\mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o} \mid \boldsymbol{\theta})\\
+&= \ln p(\mathbf{o} \mid \boldsymbol{\theta})
+\end{aligned} %]]></script></p>
+
+<h4 id="example-2--qmathbfz--pmathbfz-mid-mathbfo-boldsymboltheta">Example 2:  $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$</h4>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\mathcal{L}(q, \boldsymbol{\theta}) &= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) p(\mathbf{o} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o} \mid \boldsymbol{\theta})\\
+&= \ln p(\mathbf{o} \mid \boldsymbol{\theta})
+\end{aligned} %]]></script>
+
+<p>What is the mutual information of $o$ and $z$ in this case?</p>
+
+<h2 id="em-具體步驟">EM 具體步驟</h2>
+<p>Lower bound $\mathcal{L}(q, \boldsymbol{\theta})$</p>
+
+<script type="math/tex; mode=display">\mathcal{L}(q, \boldsymbol{\theta})=\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}</script>
+
+<p><del>Lower bound 其實可以視為 MLE of complete data，對應 EM algorithm 的 M step.
+Gap 可以視為從 observables 推論出 unobservables, i.e. incomplete/hidden data, 對應 EM algorithm 的 E step.</del></p>
+
+<p>Lower bound 包含兩個部分： (1) log-likelihood of complete data (both $o$ and $z$) MLE for $\theta$ estimation; (2) $q$ distribution.</p>
+
+<p>這兩個部分剛好對應 EM algorithm 的 E-step and M-step.</p>
+<ol>
+  <li>Initialize $\boldsymbol{\theta}=\boldsymbol{\theta}^{(0)}$</li>
+  <li>E-step (Expectation): <script type="math/tex">q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)</script></li>
+  <li>M-step (Maximization):  <script type="math/tex">\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right)</script></li>
+</ol>
+
+<h3 id="m-step-qt1-is-fixed">M-step: $q^{(t+1)}$ is fixed</h3>
+<p>我們先看 M-step, 因為這和 MLE estimate $\theta$ 非常相似。</p>
+
+<script type="math/tex; mode=display">\theta^{(t+1)}=\underset{\theta}{\operatorname{argmax}} \mathcal{L}\left(q^{(t+1)}, \theta\right)</script>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right) &=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q^{(t+1)}(\mathbf{z})} \\
+&=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln q^{(t+1)}(\mathbf{z})}_{\text {const. }}
+\end{aligned} %]]></script>
+
+<script type="math/tex; mode=display">\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})</script>
+
+<p><strong>注意 M-Step 和完整 data 的 MLE 思路如下非常接近，只加了對 $q(z)$ 的 weighted sum.</strong>
+<script type="math/tex">\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})</script></p>
+
+<p>上式微分等於 0 就可以解 $\theta^{t+1}$。上面問題四以及問題二就是很好的例子。</p>
+
+<p>另一個常見的寫法 <script type="math/tex">\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})</script></p>
+
+<p><strong>注意 M-Step 是 maximize lower bound, 並不等於 maximize 不完整 data 的 MLE，因為還差了一個 gap function (i.e. KL divergence), which is also $\theta$ dependent.</strong></p>
+
+<h3 id="e-step-boldsymbolthetat-is-fixed">E-step: $\boldsymbol{\theta}^{(t)}$ is fixed</h3>
+
+<script type="math/tex; mode=display">q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)</script>
+
+<script type="math/tex; mode=display">\mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)=\underbrace{\ln p\left(\mathbf{o} \mid \boldsymbol{\theta}^{(t)}\right)}_{\text {const. }}-D_{\mathrm{KL}}(q \| p)</script>
+
+<p>以上 KL divergence 大於等於 0，所以 maximize lower bound 就要讓 要選擇 $q(z)$ 儘量縮小 gap  (i.e. KL divergence) 到 0.  前面提到等於 0 的條件就是
+<script type="math/tex">q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})</script></p>
+
+<p>同樣 E-Step 深具物理意義，就是猜 incomplete/hidden data distribution based on 已知的 observables 和 iterative $\theta$.</p>
+
+<p>例如問題四 E-Step 就是計算 $q\left(z_{i}\right)=p\left(z_{i} \mid y_{i}^{\bullet}, \mu_{\mathrm{c}}, \mu_{\mathrm{t}}\right)$ for $i = 1, 2, \cdots, M$</p>
+
+<h4 id="conditional-vs-joint-distribution">Conditional Vs. Joint Distribution</h4>
+<p><strong>我們可以把 conditional distribution 改成 joint distribution 如下。兩者都可以用來解 E-Step.</strong></p>
+
+<script type="math/tex; mode=display">p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) = p(\mathbf{z}, \mathbf{o} \mid \boldsymbol{\theta}^{(t)}) / p(\mathbf{o} \mid \boldsymbol{\theta}^{(t)})</script>
+
+<h3 id="結合-e-step-and-m-step-的另一種寫法-這是-em-的精髓假設可以有一個-close-from-q-function-eg-gmm">結合 E-Step and M-Step 的另一種寫法 (這是 EM 的精髓，假設可以有一個 close from Q function, e.g. GMM)</h3>
+<p><strong>In summary:  M-Step maximize the lower bound;  E-Step close the gap</strong> 
+E-Step
+<script type="math/tex">q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})</script></p>
+
+<p>M-Step 
+<script type="math/tex">\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})</script></p>
+
+<p>Define new E-Step (plug E-Step to M-Step)
+<script type="math/tex">% <![CDATA[
+\begin{aligned}
+Q(\theta^{t+1} | \theta^{t}) &=  \sum_{\mathbf{z}} p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{t+1}) \\
+&= \int d \mathbf{z} \, p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{t+1})
+\end{aligned} %]]></script></p>
+
+<p>new M Step
+<script type="math/tex">\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} Q(\theta^{t+1} | \theta^{t})</script></p>
+
+<h2 id="free-energy-interpretation-poczoscllusteringem2015">Free Energy Interpretation [@poczosCllusteringEM2015]</h2>
+<p>搞 machine learning 很多是物理學家 (e.g. Max Welling), 習慣用物理觀念套用於 machine learning.  常見的例子是 training 的 <em>momentum</em> method.  另一個是 <em>energy/entropy</em> loss function.  此處我們看的是類似 energy loss function.</p>
+
+<p>我們從 gap 開始</p>
+
+<script type="math/tex; mode=display">\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\mathcal{L}(q, \boldsymbol{\theta}) = D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \ge 0</script>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\ln p(\mathbf{o} \mid \boldsymbol{\theta}) &= \mathcal{L}(q, \boldsymbol{\theta}) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
+&= E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
+\end{aligned} %]]></script>
+
+<p>where H(q) is the entropy of q,  第一項是負的，第二項和第三項是正的。
+我們用一個例子來驗證
+q = {0 or 1} with 50% chance, =&gt; 
+H(q) = 1 (bit) or ln (?) &gt; 0
+Eq(z) ln p(o, z) = -(0.5 (o-u1)^2 + 0.5 (o-u2)^2 ) / sqrt(2pi) &lt; 0</p>
+
+<p>此處我們 switch to [@poczosCllusteringEM2015] notation.</p>
+
+<ul>
+  <li>Observed data: $D = {x_1, \cdots, x_n}$</li>
+  <li>Unobserved/hidden variable: $z = {z_1, \cdots, z_n}$</li>
+  <li>Parameter: $\theta = [\mu_1, \cdots, \mu_K, \pi_1, \cdots, \pi_K, \Sigma_1, \cdots, \Sigma_K]$</li>
+  <li>Goal: $\boldsymbol{\theta}^{*}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(D \mid \theta)$</li>
+</ul>
+
+<p>重寫上式：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\ln p(D \mid \boldsymbol{\theta}^t) &= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(D, \mathbf{z} \mid \boldsymbol{\theta}^t) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}^t) ) \\
+&= E_{q(z)} \ln p(D, \mathbf{z} \mid \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}) ) \\
+&= F_{\theta^t} (q(\cdot), D) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}) )
+\end{aligned} %]]></script>
+
+<p>$F_{\theta^t} (q(\cdot), D)$ 稱為 free energy, 包含 joint distribution expectation 和 self-entropy.  或是稱為 ELBO (Evidence lower bound)</p>
+
+<p>如果 $p(z\mid x; \theta)$ is analytically available (e.g. GMM, this is just a softmax!).  The ELBO becomes a Q(theta, theta^old) function + H(q)</p>
+
+<p>The EM algorithm can be summzied as argmax Q!!</p>
+<ul>
+  <li>E-step: $p(z\mid x)$</li>
+  <li>M-step; argmax …</li>
+</ul>
+
+<p>We can prove</p>
+<ul>
+  <li>log likelihood is always increasing!</li>
+  <li>
+    <p><img src="/media/16270144925547/16274030539044.jpg" alt="-w400" /></p>
+  </li>
+  <li><img src="/media/16270144925547/16274031504070.jpg" alt="-w408" /></li>
+</ul>
+
+<p>Use multiple, randomized initialization in practice.</p>
+
+<h2 id="variational-expectation-maximization">Variational Expectation Maximization</h2>
+<p>EM algorithm 一個問題是對於複雜的問題沒有 close from p(z|x), then toast!</p>
+
+<h2 id="appendix">Appendix</h2>
+
+<h4 id="問題二的-conditional-vs-joint-distribution-解法">問題二的 Conditional Vs. Joint Distribution 解法</h4>
+<p><strong>我們之前的 E-Step 是猜 joint distribution, $p(t, s | a, b)$.</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center">$s_0$</th>
+      <th style="text-align: center">$s_1$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">$t_0$</td>
+      <td style="text-align: center">a</td>
+      <td style="text-align: center">5a</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$t_1$</td>
+      <td style="text-align: center">3b</td>
+      <td style="text-align: center">b</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>如果用上述的 conditional distribution 可以細膩的看每一個 data.</p>
+
+<ol>
+  <li>
+    <p>對於所有 $(\bullet, s_0)$ 
+<script type="math/tex">q(t \mid s_0, a, b)=\left\{\begin{array}{l}
+q\left(t_{0}\right)=p\left(t_{0} \mid s_{0}, a, b\right)=\frac{a}{a+3 b} \\
+q\left(t_{1}\right)=p\left(t_{1} \mid s_{0}, a, b\right)=\frac{3 b}{a+3 b}
+\end{array}\right.</script></p>
+  </li>
+  <li>
+    <p>對於所有 $(\bullet, s_1)$ 
+<script type="math/tex">q(t \mid s_1, a, b)=\left\{\begin{array}{l}
+q\left(t_{0}\right)=p\left(t_{0} \mid s_{1}, a, b\right)=\frac{5a}{5 a+ b} \\
+q\left(t_{1}\right)=p\left(t_{1} \mid s_{1}, a, b\right)=\frac{b}{5 a+ b}
+\end{array}\right.</script></p>
+  </li>
+  <li>
+    <p>對於所有 $(t_0, \bullet)$ 
+<script type="math/tex">q(s \mid t_0, a, b)=\left\{\begin{array}{l}
+q\left(s_{0}\right)=p\left(s_{0} \mid t_{0}, a, b\right)=\frac{1}{6} \\
+q\left(s_{1}\right)=p\left(s_{1} \mid t_{0}, a, b\right)=\frac{5}{6}
+\end{array}\right.</script></p>
+  </li>
+  <li>
+    <p>對於所有 $(t_1, \bullet)$ 
+<script type="math/tex">q(s \mid t_1, a, b)=\left\{\begin{array}{l}
+q\left(s_{0}\right)=p\left(s_{0} \mid t_{1}, a, b\right)=\frac{3}{4} \\
+q\left(s_{1}\right)=p\left(s_{1} \mid t_{1}, a, b\right)=\frac{1}{4}
+\end{array}\right.</script></p>
+  </li>
+</ol>
+
+<p><strong>再來是問題二的 M-Step</strong></p>
+
+<p>最後再把所有 dataset 的 weighted sum $(t_i, s_j)$ 統計出來，例如
+$S_0$ 個 $(\bullet, s_0) \to \frac{a}{a+3b}S_0$ 個 $(t_0, s_0)$ 和 $\frac{3b}{a+3b}S_0$ 個 $(t_1, s_0)$
+$S_1$ 個 $(\bullet, s_1) \to \frac{5a}{5a+b}S_1$ 個 $(t_0, s_1)$ 和 $\frac{b}{5a+b}S_1$ 個 $(t_1, s_1)$
+$T_0$ 個 $(t_0, \bullet) \to \frac{1}{6}T_0$ 個 $(t_0, s_0)$ 和 $\frac{5}{6}T_0$ 個 $(t_0, s_1)$
+$T_1$ 個 $(t_1, \bullet) \to \frac{3}{4}T_1$ 個 $(t_1, s_0)$ 和 $\frac{1}{4}T_1$ 個 $(t_1, s_1)$</p>
+
+<p>$(t_0, s_0)$ 個數 $\to N_{00} = \frac{1}{6}T_0+\frac{a}{a+3b}S_0$
+$(t_0, s_1)$ 個數 $\to N_{01} = \frac{5}{6}T_0+\frac{5a}{5a+b}S_1$
+$(t_1, s_0)$ 個數 $\to N_{10} = \frac{3}{4}T_1+\frac{3b}{a+3b}S_0$
+$(t_1, s_1)$ 個數 $\to N_{11} = \frac{1}{4}T_1+\frac{b}{5a+b}S_1$</p>
+
+<p>因此可以使用完整 data 的 MLE estimation:
+<script type="math/tex">a'=\frac{N_{00}+N_{01}}{6 N} \quad b'=\frac{N_{10}+N_{11}}{4 N}</script></p>
+
+<h2 id="to-do-next">To Do Next</h2>
+<p>Go through GMM example.</p>
+
+<p>下一步 go through HMM model or simplest z -&gt; o graph model.</p>
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/softmax" rel="tag"># softmax</a>
+          
+            
+            <a href="/tag/#/EM" rel="tag"># EM</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/language/2021/06/30/Jekyll-Memo/" rel="prev" title="Jekyll Memo for Github Blog">
+                Jekyll Memo for Github Blog <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true
+  }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#major-reference"> <span class="nav-number">1</span> <span class="nav-text">Major Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#maximum-likelihood-estimation-和應用"> <span class="nav-number">2</span> <span class="nav-text">Maximum Likelihood Estimation 和應用</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#maximum-likelihood-estimation-mle-vs-em"> <span class="nav-number">3</span> <span class="nav-text">Maximum Likelihood Estimation (MLE) vs. EM</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#toy-example-matasexpectationmaximization2018"> <span class="nav-number">4</span> <span class="nav-text">Toy Example [@matasExpectationMaximization2018]</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#前提摘要"> <span class="nav-number">4.1</span> <span class="nav-text">前提摘要</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#問題一-mle"> <span class="nav-number">4.2</span> <span class="nav-text">問題一: MLE</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#問題二-incompletehidden-data"> <span class="nav-number">4.3</span> <span class="nav-text">問題二 incomplete/hidden Data</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#em-algorithm-邏輯"> <span class="nav-number">4.3.1</span> <span class="nav-text">EM algorithm 邏輯</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#前提摘要-1"> <span class="nav-number">4.4</span> <span class="nav-text">前提摘要</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#gmm-特例estimate-means-of-two-gaussian-distributions-known-variance-and-ratio-unknown-means"> <span class="nav-number">4.5</span> <span class="nav-text">GMM 特例：Estimate Means of Two Gaussian Distributions (known variance and ratio; unknown means)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#問題三-complete-data-easy-case"> <span class="nav-number">4.6</span> <span class="nav-text">問題三 Complete Data (Easy case)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#問題四-incompletehidden-data"> <span class="nav-number">4.7</span> <span class="nav-text">問題四 incomplete/hidden Data</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#missing-values-em-approach"> <span class="nav-number">4.7.1</span> <span class="nav-text">Missing Values, EM Approach</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#clustering-soft-assignment-vs-hard-assignment-k-means"> <span class="nav-number">5</span> <span class="nav-text">Clustering: Soft Assignment Vs. Hard Assignment (K-means)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-algorithm-derivation"> <span class="nav-number">6</span> <span class="nav-text">EM Algorithm Derivation</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#log-likelihood-with-hidden-variable-lower-bound"> <span class="nav-number">6.1</span> <span class="nav-text">Log-Likelihood with Hidden Variable Lower Bound</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-algorithm-push-the-lower-bound-upwards"> <span class="nav-number">6.2</span> <span class="nav-text">EM Algorithm Push the Lower Bound Upwards</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-1--hidden-variable-z-does-not-provide-any-information-of-o"> <span class="nav-number">6.2.1</span> <span class="nav-text">Example 1: Hidden variable $z$ does NOT provide any information of $o$</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-2--qmathbfz--pmathbfz-mid-mathbfo-boldsymboltheta"> <span class="nav-number">6.2.2</span> <span class="nav-text">Example 2: $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-具體步驟"> <span class="nav-number">7</span> <span class="nav-text">EM 具體步驟</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#m-step-qt1-is-fixed"> <span class="nav-number">7.1</span> <span class="nav-text">M-step: $q^{(t+1)}$ is fixed</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#e-step-boldsymbolthetat-is-fixed"> <span class="nav-number">7.2</span> <span class="nav-text">E-step: $\boldsymbol{\theta}^{(t)}$ is fixed</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#conditional-vs-joint-distribution"> <span class="nav-number">7.2.1</span> <span class="nav-text">Conditional Vs. Joint Distribution</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#結合-e-step-and-m-step-的另一種寫法-這是-em-的精髓假設可以有一個-close-from-q-function-eg-gmm"> <span class="nav-number">7.3</span> <span class="nav-text">結合 E-Step and M-Step 的另一種寫法 (這是 EM 的精髓，假設可以有一個 close from Q function, e.g. GMM)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#free-energy-interpretation-poczoscllusteringem2015"> <span class="nav-number">8</span> <span class="nav-text">Free Energy Interpretation [@poczosCllusteringEM2015]</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-expectation-maximization"> <span class="nav-number">9</span> <span class="nav-text">Variational Expectation Maximization</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#appendix"> <span class="nav-number">10</span> <span class="nav-text">Appendix</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#問題二的-conditional-vs-joint-distribution-解法"> <span class="nav-number">10.1</span> <span class="nav-text">問題二的 Conditional Vs. Joint Distribution 解法</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#to-do-next"> <span class="nav-number">11</span> <span class="nav-text">To Do Next</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+

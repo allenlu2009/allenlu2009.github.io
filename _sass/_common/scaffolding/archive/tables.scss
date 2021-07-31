@@ -1,11 +1,11 @@
 table {
   margin: 20px 0;
-  width: 300px;
+  width: $table-width;
   border-collapse: collapse;
   border-spacing: 0;
   border: 1px solid $table-border-color;
   font-size: $table-font-size;
-  table-layout: auto;
+  table-layout: fixed;
   word-wrap: break-all;
 }
 table>tbody>tr {
