@@ -24,6 +24,24 @@ Equation
 
 * \$\{\{ \}\}\$  => \$\{ \\{ \\}\}\$.  如果要打 {, 一定要加 \\{. 
 
+* Equation number:  必須先加上 header 如下。Reference: https://jdhao.github.io/2018/01/25/hexo-mathjax-equation-number/
+
+```
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+```
+
+Equation 本體
+```
+$$\begin{equation}
+E=mc^2
+\end{equation}\label{eq1}$$
+```
+
+Equation citation use `$\eqref{eq1}$`
 
 Image
 * resize image 似乎有問題，需要另外的 plug-in

@@ -283,7 +283,7 @@
     <link itemprop="mainEntityOfPage" href="http://localhost:4000/post.html.bak">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="Allen Lu (from John Doe)">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="assets/images/avatar.gif">
     </span>
@@ -446,7 +446,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">Allen Lu (from John Doe)</span>
 </div>
 
 

@@ -283,7 +283,7 @@
     <link itemprop="mainEntityOfPage" href="http://localhost:4000/language/2021/06/30/Jekyll-Memo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="Allen Lu (from John Doe)">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="assets/images/avatar.gif">
     </span>
@@ -420,7 +420,25 @@
   <li>
     <p>${{ }}$  =&gt; ${ \{ \}}$.  如果要打 {, 一定要加 \{.</p>
   </li>
+  <li>
+    <p>Equation number:  必須先加上 header 如下。Reference: https://jdhao.github.io/2018/01/25/hexo-mathjax-equation-number/</p>
+  </li>
 </ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>&lt;script type="text/x-mathjax-config"&gt;
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+&lt;/script&gt;
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>Equation 本體</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>$$\begin{equation}
+E=mc^2
+\end{equation}\label{eq1}$$
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>Equation citation use <code class="language-plaintext highlighter-rouge">$\eqref{eq1}$</code></p>
 
 <p>Image</p>
 <ul>
@@ -560,8 +578,8 @@ MathJax.Hub.Config({
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/assets/images/avatar.gif"
-               alt="John Doe" />
-          <p class="site-author-name" itemprop="name">John Doe</p>
+               alt="Allen Lu (from John Doe)" />
+          <p class="site-author-name" itemprop="name">Allen Lu (from John Doe)</p>
            
               <p class="site-description motion-element" itemprop="description"></p>
           
@@ -648,7 +666,7 @@ MathJax.Hub.Config({
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">Allen Lu (from John Doe)</span>
 </div>
 
 
