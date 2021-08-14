@@ -129,15 +129,12 @@ p(\mathbf{t} ; \mathbf{w}, \beta)&=N\left(\mathbf{t} \mid \mathbf{\Phi} \mathbf{
 
 *Method 2:* 假設 weight W 是 random variable with imposed prior. 我們先用 a simple Bayesian model with stationary Gaussian prior on weight, 如下圖 (b).  以這個 model 而言，我們用 EM algorithm performs Bayesian inference.  結果 robust to noise, 類似 Kalman filter? 
 
-![-w414](/media/16286850167880.jpg)
-
 <img src="/media/16286850167880.jpg" width="414">
 
 *Method 3:* method 2 的一個缺點是假設 stationary Gaussian noise (i.e. $\beta$, a fixed value to be estimated, 無法 capture the local signal properties.  我們可以引入更複雜 spatially/temporally varying hierarchical model which is based on a non-stationary Gaussian prior for the weight, W and a hyperprior, $\beta$, 如下圖 (c).
 
 這麼複雜的 DAG 顯然無法用 EM algorithm 解，必須用本文的 "Variational EM Framework" infer values of the unknowns. 
 
-![-w245](/media/16286850351205.jpg)
 <img src="/media/16286850351205.jpg" width="245">
 
 #### Method 1, ML for Vanilla Linear Regression
@@ -279,8 +276,6 @@ $$
 
 (3) 我們可以通過 $a, b$ 選取控制 non-zero weights, 類似 supporting vectors in SVM.  我們稱為 relevance vectors (RV). 此例只有 5 個  non-zero RV.
 
-![](/media/16287874512211.jpg)
-
 <img src="/media/16287874512211.jpg">
 
 ### 例二： Bayesian GMM
@@ -296,8 +291,6 @@ Bayesian GMM 和一般 GMM 有什麼不同？ 最大的差別就是 $\boldsymbol
 [^prior]: Dirichlet for $\boldsymbol{\pi}$.  Gauss-Wishart for ($\boldsymbol{\mu}, \mathbf{T})$  
 
 Bayesian GMM 的 graph model 如下。Hidden random variables 包含 $h = (\mathbf{Z}, \boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T})$. Bayesian 的目標是找出 $p(h\mid x)$, 顯然不會有 analytic solution.
-
-![-w237](/media/16285137362672.jpg)
 
 <img src="/media/16285137362672.jpg" width="237">
 
@@ -327,9 +320,6 @@ Bayesian-GMM 比起 EM-GMM 到底有什麼好處。前面提到可以 impose pri
 ![](/media/16285916007272.jpg)
 
 Bayesian GMM 的 graph model 如下。注意此時的 $\pi$ 變成方框，代表 parameter to be estimated.  Hidden random variables 包含 $h = (\mathbf{Z}, \boldsymbol{\mu}, \mathbf{T})$.  
-
-![](/media/16286002562443.jpg)
-
 
 <img src="/media/16286002562443.jpg" width="237">
 
