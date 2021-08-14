@@ -119,9 +119,14 @@
 <meta property="og:site_name" content="NexT">
 <meta property="og:description" content="幾個重點">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="/media/16289455797795.jpg">
+<meta property="og:image" content="/media/16289465237748.jpg">
+<meta property="og:image" content="/media/16289463211491.jpg">
+<meta property="og:image" content="/media/image-20210814233107185.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jekyll Memo for Github Blog">
 <meta name="twitter:description" content="幾個重點">
+<meta name="twitter:image" content="/media/16289455797795.jpg">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -391,7 +396,7 @@
 
   <p>幾個重點</p>
 
-<p>Header</p>
+<h2 id="header">Header</h2>
 <ul>
   <li>
     <p>title line:  no other :,  wrong example:  title: Math AI : xxx =&gt; the second : to be removed!</p>
@@ -401,7 +406,7 @@
   </li>
 </ul>
 
-<p>Table</p>
+<h2 id="table">Table</h2>
 <ul>
   <li>目前 Jekyll + Next theme 造成 table column width 非常寬。 I don’t know the exact reason.  I changed the xxx/xxx.github.io/_sass/_common/scaffolding/tables.scss
     <ul>
@@ -411,11 +416,11 @@
   </li>
 </ul>
 
-<p>Equation</p>
+<h2 id="equation">Equation</h2>
 
 <ul>
   <li>
-    <p>$$ math equation $$ =&gt; leave empty lines “before” and “after” $$ $$! 也就是上下各要空一行！</p>
+    <p>\$\$ math equation \$\$ =&gt; leave empty lines “before” and “after” \$\$ \$\$! 也就是上下各要空一行！</p>
   </li>
   <li>
     <p>${{ }}$  =&gt; ${ \{ \}}$.  如果要打 {, 一定要加 \{.</p>
@@ -437,13 +442,116 @@ MathJax.Hub.Config({
 E=mc^2
 \end{equation}\label{eq1}$$
 </code></pre></td></tr></tbody></table></div></div>
+<p>或是</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>$$\begin{align}
+E=mc^2  \         =&gt; auto number 
+p = mv \nonumber \  =&gt; without equation number
+F = ma  \label{eqF} \.  
+\end{align}$$
+</code></pre></td></tr></tbody></table></div></div>
 
 <p>Equation citation use <code class="language-plaintext highlighter-rouge">$\eqref{eq1}$</code></p>
 
-<p>Image</p>
 <ul>
-  <li>resize image 似乎有問題，需要另外的 plug-in</li>
+  <li>Mweb 可以直接產生 equation number!</li>
+  <li>Typora 需要 enable :preference :Markdown :Auto Numbering Math Equations”.  不過結果很奇怪。所有的 equation 都有 number in Typora!  但 Jekyll 正常。</li>
 </ul>
+
+<h2 id="image">Image</h2>
+<p>Markdown resize image 似乎有問題，需要另外的 plug-in =&gt; No!</p>
+
+<p>我找到一個 work around in Mweb!  使用 &lt;img src …., width=””&gt; 取代 Mweb copy and paste image.</p>
+
+<p>不過後來我發現 typora 可以直接做，所有 method 2 is using Typora</p>
+
+<h3 id="method-1-mweb">Method 1: Mweb</h3>
+
+<ul>
+  <li>Mweb: copy and paste image 自動產生。如下圖中的
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>![-w414](/media/16286850167880.jpg )
+</code></pre></td></tr></tbody></table></div>    </div>
+    <p>此時同時在 editing window and preview window 都有圖。如下圖左和右上。</p>
+  </li>
+  <li>我找到的 work around 加在後一行。只會在 preview window 有圖。如下圖右下。
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>&lt;img src="/media/16286850167880.jpg" width="414"&gt;
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+</ul>
+
+<p><img src="/media/16289455797795.jpg" alt="-w993" /></p>
+
+<ul>
+  <li>問題是這種 image resize 只對 mweb 有效。在 Jekyll 之後的截圖如下 (127.0.0.1:4000)，就不對。</li>
+  <li>
+    <p>Jekyll 直接忽略 [-w414] in the first image! 因此第一行產生原圖。但接受第二行的 image size
+<img src="/media/16289465237748.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p>I check the html source code</p>
+
+    <p><img src="/media/16289463211491.jpg" alt="" /></p>
+
+    <ul>
+      <li>第一行轉譯的結果：alt=”-w245” 顯然被忽略。</li>
+      <li>第二行轉譯的結果：width=”245” 是正確結果。</li>
+    </ul>
+  </li>
+  <li>我找到的方法是把第一行改成第二行。</li>
+</ul>
+
+<h3 id="method-2-typora-how">Method 2: Typora, How?</h3>
+
+<ul>
+  <li>
+    <p>首先要解決的是 root path 的問題！ Jekyll (and therefore github) 有 root path 的觀念。For my local root directory:  /Users/allenlu/Onedrive/allenlu2009.github.io.   文章是在 root: /_posts/xxx;  image 是在 /media/xxx</p>
+  </li>
+  <li>
+    <p>Mweb 似乎自動解決這個問題。 Image 直接 refer to:  /media/xxx.</p>
+  </li>
+  <li>
+    <p>Typora 如何設定？ 有兩個方法</p>
+
+    <ul>
+      <li>
+        <p>直接在本文加上： typora-root-url: ../../allenlu2009.github.io</p>
+
+        <p><img src="/media/image-20210814233107185.png" alt="image-20210814233107185" /></p>
+      </li>
+      <li>
+        <p>Typora: Format: Image: Use Image Root Path: set to the above directory</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Typora insert image 必須先設定 image save path</p>
+
+    <ul>
+      <li>Preference: Image: Copy image to custom folder:
+        <ul>
+          <li>/Users/allenlu/OneDrive/allenlu2009.github.io/media</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Typora 在設定 display path 之後和 Jekyll 一樣，可以 display image, 但是不會 scale image size!!</p>
+  </li>
+  <li>
+    <p>如果 mweb 改成 “&lt;src img xxx&gt;”  之後 OK.</p>
+  </li>
+  <li>
+    <p>不過我發現有更好的方法，就是直接用 typora 的 image zoom 設定。自動就會轉成 &lt;src img,  , zoom xxx&gt; 可以 image resize!!</p>
+  </li>
+</ul>
+
+<h2 id="結論">結論</h2>
+
+<ol>
+  <li>使用 Typora for image resize (zoom), 當然要設好 typora-root-url (for display), and image save path.  結果是 typora, Mweb, Jekyll/github OK.</li>
+  <li>使用 Mweb,  需要手動改變 image to &lt;src img …., width=”xxx”&gt;</li>
+</ol>
+
+<p>推薦使用 1!!!</p>
 
 
       
@@ -573,8 +681,17 @@ MathJax.Hub.Config({
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/assets/images/avatar.gif"
@@ -645,6 +762,34 @@ MathJax.Hub.Config({
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#header"> <span class="nav-number">1</span> <span class="nav-text">Header</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#table"> <span class="nav-number">2</span> <span class="nav-text">Table</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#equation"> <span class="nav-number">3</span> <span class="nav-text">Equation</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#image"> <span class="nav-number">4</span> <span class="nav-text">Image</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#method-1-mweb"> <span class="nav-number">4.1</span> <span class="nav-text">Method 1: Mweb</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#method-2-typora-how"> <span class="nav-number">4.2</span> <span class="nav-text">Method 2: Typora, How?</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#結論"> <span class="nav-number">5</span> <span class="nav-text">結論</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

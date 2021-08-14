@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-14T18:22:51+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math AI - From EM to Variational Bayesian Inference</title><link href="http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational/" rel="alternate" type="text/html" title="Math AI - From EM to Variational Bayesian Inference" /><published>2021-08-05T16:29:08+08:00</published><updated>2021-08-05T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-15T00:49:43+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math AI - From EM to Variational Bayesian Inference</title><link href="http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational/" rel="alternate" type="text/html" title="Math AI - From EM to Variational Bayesian Inference" /><published>2021-08-05T16:29:08+08:00</published><updated>2021-08-05T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
 });
@@ -363,6 +363,7 @@ MathJax.Hub.Config({
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;maximum-likelihood-estimation-mle-和應用&quot;&gt;Maximum Likelihood Estimation (MLE) 和應用&lt;/h2&gt;
+
 &lt;p&gt;Maximum likelihood estimation (MLE) 最大概似估計是一種估計模型參數的方法。適用時機在於手邊有模型，但是模型參數有無限多種，透過真實觀察到的樣本資訊，想辦法導出最有可能產生這些樣本結果的模型參數，也就是挑選使其概似性(Likelihood)最高的一組模型參數，這系列找參數的過程稱為最大概似估計法。&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Bernoulli distribution&lt;/em&gt;：投擲硬幣正面的機率 $\theta$, 反面的機率 $1-\theta$. 連續投擲的正面/反面的次數分別是 H/T.  Likelihood function 為&lt;/p&gt;
@@ -493,10 +494,10 @@ MathJax.Hub.Config({
 
 &lt;h3 id=&quot;例二-incompletehidden-data&quot;&gt;例二 incomplete/hidden Data&lt;/h3&gt;
 &lt;p&gt;假設我們無法觀察到完整的”溫度和雪量“；而是“溫度或雪量”，有時“溫度”，有時“雪量”，但不是同時。對應的不是 joint pdf, 而是 marginal pdf 如下：
-&lt;img src=&quot;/media/16247543929429/16265417789274.jpg&quot; alt=&quot;-w451&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/media/16247543929429/16265417789274.jpg&quot; alt=&quot;-w451&quot; style=&quot;zoom:40%;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;觀察如下：
-&lt;img src=&quot;/media/16247543929429/16265418866309.jpg&quot; alt=&quot;-w274&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/media/16247543929429/16265418866309.jpg&quot; alt=&quot;-w274&quot; style=&quot;zoom:33%;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The Lagrangian (log-likelihood with constraint)&lt;/p&gt;
 
@@ -635,7 +636,7 @@ $N_{11} = T_1 \cdot \frac{1}{4} + S_1 \cdot \frac{b}{5a+b}$&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;In summary&lt;/strong&gt;, EM algorithm 的一個關鍵點是：讓 incomplete/hidden data 變成 complete (Expectation?).  有了完整的 data, 就容易用 MLE 找到 maximal likelihood estimation ($\mu_c$ and $\mu_t$ in this case).&lt;/p&gt;
 
 &lt;h2 id=&quot;clustering-soft-assignment-vs-hard-assignment-k-means&quot;&gt;Clustering: Soft Assignment Vs. Hard Assignment (K-means)&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/media/16270144925547/16270374215686.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/media/16270144925547/16270374215686.jpg&quot; style=&quot;zoom: 67%;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;em-algorithm-derivation&quot;&gt;EM Algorithm Derivation&lt;/h2&gt;
 
@@ -649,9 +650,9 @@ $N_{11} = T_1 \cdot \frac{1}{4} + S_1 \cdot \frac{b}{5a+b}$&lt;/p&gt;
 
 &lt;p&gt;目標：Find $\theta^*$ using the Maximum Likelihood approach&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\begin{equation}
 \boldsymbol{\theta}^{*}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ell(\boldsymbol{\theta})=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o} \mid \boldsymbol{\theta})
-\end{equation}\label{eqMLE}&lt;/script&gt;
+\end{equation}\label{eqMLE}&lt;/script&gt;​&lt;/p&gt;
 
 &lt;p&gt;思路：假設解下列完整 data 很容易解 (例如例一和例三)&lt;/p&gt;
 
@@ -779,7 +780,7 @@ q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\t
 \end{equation}\label{eqMstep}&lt;/script&gt;
 
 &lt;h3 id=&quot;m-step-qt1-is-fixed&quot;&gt;M-step: $q^{(t+1)}$ is fixed&lt;/h3&gt;
-&lt;p&gt;我們先看 M-step $\eqref{eqMstep}$, 因為這和 MLE estimate $\theta$ 非常相似。&lt;/p&gt;
+&lt;p&gt;我們先看 M-step $\eqref{eqMstep}$​​, 因為這和 MLE estimate $\theta$​​ 非常相似。&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
@@ -892,11 +893,13 @@ Eq(z) ln p(o, z) = -(0.5 (o-u1)^2 + 0.5 (o-u2)^2 ) / sqrt(2pi) &amp;lt; 0&lt;/p&
 
 &lt;p&gt;We can prove&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;log likelihood is always increasing!&lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;&lt;img src=&quot;/media/16270144925547/16274030539044.jpg&quot; alt=&quot;-w400&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;log likelihood is always increasing!&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/media/16270144925547/16274030539044.jpg&quot; alt=&quot;-w400&quot; style=&quot;zoom: 33%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/media/16270144925547/16274031504070.jpg&quot; alt=&quot;-w408&quot; style=&quot;zoom:33%;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;&lt;img src=&quot;/media/16270144925547/16274031504070.jpg&quot; alt=&quot;-w408&quot; /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Use multiple, randomized initialization in practice.&lt;/p&gt;
@@ -995,7 +998,7 @@ E-Step
 &lt;p&gt;M-Step 
 &lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="softmax" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Jekyll Memo for Github Blog</title><link href="http://localhost:4000/language/2021/06/30/Jekyll-Memo/" rel="alternate" type="text/html" title="Jekyll Memo for Github Blog" /><published>2021-06-30T16:29:08+08:00</published><updated>2021-06-30T16:29:08+08:00</updated><id>http://localhost:4000/language/2021/06/30/Jekyll-Memo</id><content type="html" xml:base="http://localhost:4000/language/2021/06/30/Jekyll-Memo/">&lt;p&gt;幾個重點&lt;/p&gt;
 
-&lt;p&gt;Header&lt;/p&gt;
+&lt;h2 id=&quot;header&quot;&gt;Header&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;
     &lt;p&gt;title line:  no other :,  wrong example:  title: Math AI : xxx =&amp;gt; the second : to be removed!&lt;/p&gt;
@@ -1005,7 +1008,7 @@ E-Step
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Table&lt;/p&gt;
+&lt;h2 id=&quot;table&quot;&gt;Table&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;目前 Jekyll + Next theme 造成 table column width 非常寬。 I don’t know the exact reason.  I changed the xxx/xxx.github.io/_sass/_common/scaffolding/tables.scss
     &lt;ul&gt;
@@ -1015,11 +1018,11 @@ E-Step
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Equation&lt;/p&gt;
+&lt;h2 id=&quot;equation&quot;&gt;Equation&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;$$ math equation $$ =&amp;gt; leave empty lines “before” and “after” $$ $$! 也就是上下各要空一行！&lt;/p&gt;
+    &lt;p&gt;\$\$ math equation \$\$ =&amp;gt; leave empty lines “before” and “after” \$\$ \$\$! 也就是上下各要空一行！&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;${{ }}$  =&amp;gt; ${ \{ \}}$.  如果要打 {, 一定要加 \{.&lt;/p&gt;
@@ -1041,13 +1044,116 @@ MathJax.Hub.Config({
 E=mc^2
 \end{equation}\label{eq1}$$
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;或是&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$$\begin{align}
+E=mc^2  \\         =&amp;gt; auto number 
+p = mv \nonumber \\  =&amp;gt; without equation number
+F = ma  \label{eqF} \\.  
+\end{align}$$
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Equation citation use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$\eqref{eq1}$&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;Image&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;resize image 似乎有問題，需要另外的 plug-in&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="Jekyll" /><category term="Github" /><summary type="html">幾個重點</summary></entry><entry><title type="html">Edge AI- Object Detection History</title><link href="http://localhost:4000/ai/2021/02/16/Typora-Mermaid/" rel="alternate" type="text/html" title="Edge AI- Object Detection History" /><published>2021-02-16T16:29:08+08:00</published><updated>2021-02-16T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/02/16/Typora-Mermaid</id><content type="html" xml:base="http://localhost:4000/ai/2021/02/16/Typora-Mermaid/">&lt;h1 id=&quot;edge-ai-object-detection-history-2-pass-vs-1-pass-anchor-vs-anchor-less&quot;&gt;Edge AI: Object Detection History: 2-Pass Vs. 1-Pass; Anchor Vs. Anchor-less&lt;/h1&gt;
+  &lt;li&gt;Mweb 可以直接產生 equation number!&lt;/li&gt;
+  &lt;li&gt;Typora 需要 enable :preference :Markdown :Auto Numbering Math Equations”.  不過結果很奇怪。所有的 equation 都有 number in Typora!  但 Jekyll 正常。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;image&quot;&gt;Image&lt;/h2&gt;
+&lt;p&gt;Markdown resize image 似乎有問題，需要另外的 plug-in =&amp;gt; No!&lt;/p&gt;
+
+&lt;p&gt;我找到一個 work around in Mweb!  使用 &amp;lt;img src …., width=””&amp;gt; 取代 Mweb copy and paste image.&lt;/p&gt;
+
+&lt;p&gt;不過後來我發現 typora 可以直接做，所有 method 2 is using Typora&lt;/p&gt;
+
+&lt;h3 id=&quot;method-1-mweb&quot;&gt;Method 1: Mweb&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Mweb: copy and paste image 自動產生。如下圖中的
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;![-w414](/media/16286850167880.jpg )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;此時同時在 editing window and preview window 都有圖。如下圖左和右上。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;我找到的 work around 加在後一行。只會在 preview window 有圖。如下圖右下。
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;img src=&quot;/media/16286850167880.jpg&quot; width=&quot;414&quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/16289455797795.jpg&quot; alt=&quot;-w993&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;問題是這種 image resize 只對 mweb 有效。在 Jekyll 之後的截圖如下 (127.0.0.1:4000)，就不對。&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Jekyll 直接忽略 [-w414] in the first image! 因此第一行產生原圖。但接受第二行的 image size
+&lt;img src=&quot;/media/16289465237748.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I check the html source code&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/media/16289463211491.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;第一行轉譯的結果：alt=”-w245” 顯然被忽略。&lt;/li&gt;
+      &lt;li&gt;第二行轉譯的結果：width=”245” 是正確結果。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;我找到的方法是把第一行改成第二行。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;method-2-typora-how&quot;&gt;Method 2: Typora, How?&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;首先要解決的是 root path 的問題！ Jekyll (and therefore github) 有 root path 的觀念。For my local root directory:  /Users/allenlu/Onedrive/allenlu2009.github.io.   文章是在 root: /_posts/xxx;  image 是在 /media/xxx&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Mweb 似乎自動解決這個問題。 Image 直接 refer to:  /media/xxx.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Typora 如何設定？ 有兩個方法&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;直接在本文加上： typora-root-url: ../../allenlu2009.github.io&lt;/p&gt;
+
+        &lt;p&gt;&lt;img src=&quot;/media/image-20210814233107185.png&quot; alt=&quot;image-20210814233107185&quot; /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Typora: Format: Image: Use Image Root Path: set to the above directory&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Typora insert image 必須先設定 image save path&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;Preference: Image: Copy image to custom folder:
+        &lt;ul&gt;
+          &lt;li&gt;/Users/allenlu/OneDrive/allenlu2009.github.io/media&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Typora 在設定 display path 之後和 Jekyll 一樣，可以 display image, 但是不會 scale image size!!&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果 mweb 改成 “&amp;lt;src img xxx&amp;gt;”  之後 OK.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;不過我發現有更好的方法，就是直接用 typora 的 image zoom 設定。自動就會轉成 &amp;lt;src img,  , zoom xxx&amp;gt; 可以 image resize!!&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;結論&quot;&gt;結論&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;使用 Typora for image resize (zoom), 當然要設好 typora-root-url (for display), and image save path.  結果是 typora, Mweb, Jekyll/github OK.&lt;/li&gt;
+  &lt;li&gt;使用 Mweb,  需要手動改變 image to &amp;lt;src img …., width=”xxx”&amp;gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;推薦使用 1!!!&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="Jekyll" /><category term="Github" /><summary type="html">幾個重點</summary></entry><entry><title type="html">Edge AI- Object Detection History</title><link href="http://localhost:4000/ai/2021/02/16/Typora-Mermaid/" rel="alternate" type="text/html" title="Edge AI- Object Detection History" /><published>2021-02-16T16:29:08+08:00</published><updated>2021-02-16T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/02/16/Typora-Mermaid</id><content type="html" xml:base="http://localhost:4000/ai/2021/02/16/Typora-Mermaid/">&lt;h1 id=&quot;edge-ai-object-detection-history-2-pass-vs-1-pass-anchor-vs-anchor-less&quot;&gt;Edge AI: Object Detection History: 2-Pass Vs. 1-Pass; Anchor Vs. Anchor-less&lt;/h1&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-mermaid&quot;&gt;sequenceDiagram
     participant Alice

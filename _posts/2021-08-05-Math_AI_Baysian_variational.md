@@ -4,6 +4,7 @@ date: 2021-08-05 08:29:08
 categories:
 - AI
 tags: [softmax, EM, Bayesian, Variational]
+typora-root-url: ../../allenlu2009.github.io
 ---
 
 <script type="text/x-mathjax-config">
@@ -133,9 +134,9 @@ p(\mathbf{t} ; \mathbf{w}, \beta)&=N\left(\mathbf{t} \mid \mathbf{\Phi} \mathbf{
 <img src="/media/16286850167880.jpg" width="414">
 
 *Method 3:* method 2 的一個缺點是假設 stationary Gaussian noise (i.e. $\beta$, a fixed value to be estimated, 無法 capture the local signal properties.  我們可以引入更複雜 spatially/temporally varying hierarchical model which is based on a non-stationary Gaussian prior for the weight, W and a hyperprior, $\beta$, 如下圖 (c).
- 
+
 這麼複雜的 DAG 顯然無法用 EM algorithm 解，必須用本文的 "Variational EM Framework" infer values of the unknowns. 
- 
+
 ![-w245](/media/16286850351205.jpg)
 <img src="/media/16286850351205.jpg" width="245">
 

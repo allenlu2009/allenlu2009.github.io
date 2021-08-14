@@ -411,6 +411,7 @@ MathJax.Hub.Config({
 </ul>
 
 <h2 id="maximum-likelihood-estimation-mle-和應用">Maximum Likelihood Estimation (MLE) 和應用</h2>
+
 <p>Maximum likelihood estimation (MLE) 最大概似估計是一種估計模型參數的方法。適用時機在於手邊有模型，但是模型參數有無限多種，透過真實觀察到的樣本資訊，想辦法導出最有可能產生這些樣本結果的模型參數，也就是挑選使其概似性(Likelihood)最高的一組模型參數，這系列找參數的過程稱為最大概似估計法。</p>
 
 <p><em>Bernoulli distribution</em>：投擲硬幣正面的機率 $\theta$, 反面的機率 $1-\theta$. 連續投擲的正面/反面的次數分別是 H/T.  Likelihood function 為</p>
@@ -541,10 +542,10 @@ MathJax.Hub.Config({
 
 <h3 id="例二-incompletehidden-data">例二 incomplete/hidden Data</h3>
 <p>假設我們無法觀察到完整的”溫度和雪量“；而是“溫度或雪量”，有時“溫度”，有時“雪量”，但不是同時。對應的不是 joint pdf, 而是 marginal pdf 如下：
-<img src="/media/16247543929429/16265417789274.jpg" alt="-w451" /></p>
+<img src="/media/16247543929429/16265417789274.jpg" alt="-w451" style="zoom:40%;" /></p>
 
 <p>觀察如下：
-<img src="/media/16247543929429/16265418866309.jpg" alt="-w274" /></p>
+<img src="/media/16247543929429/16265418866309.jpg" alt="-w274" style="zoom:33%;" /></p>
 
 <p>The Lagrangian (log-likelihood with constraint)</p>
 
@@ -683,7 +684,7 @@ $N_{11} = T_1 \cdot \frac{1}{4} + S_1 \cdot \frac{b}{5a+b}$</p>
 <p><strong>In summary</strong>, EM algorithm 的一個關鍵點是：讓 incomplete/hidden data 變成 complete (Expectation?).  有了完整的 data, 就容易用 MLE 找到 maximal likelihood estimation ($\mu_c$ and $\mu_t$ in this case).</p>
 
 <h2 id="clustering-soft-assignment-vs-hard-assignment-k-means">Clustering: Soft Assignment Vs. Hard Assignment (K-means)</h2>
-<p><img src="/media/16270144925547/16270374215686.jpg" alt="" /></p>
+<p><img src="/media/16270144925547/16270374215686.jpg" style="zoom: 67%;" /></p>
 
 <h2 id="em-algorithm-derivation">EM Algorithm Derivation</h2>
 
@@ -697,9 +698,9 @@ $N_{11} = T_1 \cdot \frac{1}{4} + S_1 \cdot \frac{b}{5a+b}$</p>
 
 <p>目標：Find $\theta^*$ using the Maximum Likelihood approach</p>
 
-<script type="math/tex; mode=display">\begin{equation}
+<p><script type="math/tex">\begin{equation}
 \boldsymbol{\theta}^{*}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ell(\boldsymbol{\theta})=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o} \mid \boldsymbol{\theta})
-\end{equation}\label{eqMLE}</script>
+\end{equation}\label{eqMLE}</script>​</p>
 
 <p>思路：假設解下列完整 data 很容易解 (例如例一和例三)</p>
 
@@ -827,7 +828,7 @@ q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\t
 \end{equation}\label{eqMstep}</script>
 
 <h3 id="m-step-qt1-is-fixed">M-step: $q^{(t+1)}$ is fixed</h3>
-<p>我們先看 M-step $\eqref{eqMstep}$, 因為這和 MLE estimate $\theta$ 非常相似。</p>
+<p>我們先看 M-step $\eqref{eqMstep}$​​, 因為這和 MLE estimate $\theta$​​ 非常相似。</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{aligned}
@@ -940,11 +941,13 @@ Eq(z) ln p(o, z) = -(0.5 (o-u1)^2 + 0.5 (o-u2)^2 ) / sqrt(2pi) &lt; 0</p>
 
 <p>We can prove</p>
 <ul>
-  <li>log likelihood is always increasing!</li>
   <li>
-    <p><img src="/media/16270144925547/16274030539044.jpg" alt="-w400" /></p>
+    <p>log likelihood is always increasing!</p>
+
+    <p><img src="/media/16270144925547/16274030539044.jpg" alt="-w400" style="zoom: 33%;" /></p>
+
+    <p><img src="/media/16270144925547/16274031504070.jpg" alt="-w408" style="zoom:33%;" /></p>
   </li>
-  <li><img src="/media/16270144925547/16274031504070.jpg" alt="-w408" /></li>
 </ul>
 
 <p>Use multiple, randomized initialization in practice.</p>
