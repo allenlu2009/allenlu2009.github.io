@@ -130,11 +130,14 @@ p(\mathbf{t} ; \mathbf{w}, \beta)&=N\left(\mathbf{t} \mid \mathbf{\Phi} \mathbf{
 
 ![-w414](/media/16286850167880.jpg)
 
+<img src="/media/16286850167880.jpg" width="414">
+
 *Method 3:* method 2 的一個缺點是假設 stationary Gaussian noise (i.e. $\beta$, a fixed value to be estimated, 無法 capture the local signal properties.  我們可以引入更複雜 spatially/temporally varying hierarchical model which is based on a non-stationary Gaussian prior for the weight, W and a hyperprior, $\beta$, 如下圖 (c).
  
 這麼複雜的 DAG 顯然無法用 EM algorithm 解，必須用本文的 "Variational EM Framework" infer values of the unknowns. 
  
 ![-w245](/media/16286850351205.jpg)
+<img src="/media/16286850351205.jpg" width="245">
 
 #### Method 1, ML for Vanilla Linear Regression
 
@@ -152,7 +155,7 @@ $$\begin{equation}
 
 很多情況 $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ 可能是 "ill-conditioned" and difficult to invert.  意味如果 observation t 包含 noise $\varepsilon$, noise 會嚴重干擾 $\mathbf{w}_{L S}$ estimation.  
 
-##### 例一：Communication equalization/deconvolution
+##### 例 1A：Communication equalization/deconvolution
 Assuming a lowpass channel $\Phi = 1 + 0.9 z^{-1}$.  The equalizer $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)^{-1} \boldsymbol{\Phi}^{T}$ 變成 highpass filter; zero-forcing equalizer (ZFE).  如果 noise $\varepsilon$ 是 broadband noise, high frequency noise 會被放大。
 
 In the case of ML, 我們必須小心選 basis functions to ensure matrix $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ can be inverted and avoid "ill-condition".  通常使用 sparse model with few basis functions.
@@ -255,12 +258,29 @@ $\eqref{eqa}$ 和 $\eqref{eqb}$ 同時保證 $\alpha, \beta$ 永遠為正值。
 
 #### Method 3, Variational EM-based Bayesian Linear Regression
 
-因為非常複雜，可以直接參考 [].
+因為非常複雜，可以直接參考 [@tzikasVariationalApproximation2008].
 
-##### 例二：filtering
+##### 例 1B：Noisy Signal Estimation/Filtering
+
+如下圖，Original signal 是虛線。實際的 observations 'x' 是 N = 50 samples 包含 signal + Gaussian noise ($\sigma^2 = 4 \times 10^{-2}$), 大約 SNR = 6.6dB.
+
+這裡的 basis functions 使用 Gaussian kernels
+
+$$
+\phi_{i}(\mathbf{x})=K\left(\mathbf{x}, \mathbf{x}_{i}\right)=\exp \left(-\frac{1}{2 \sigma_{\phi}^{2}}\left\|\mathbf{x}-\mathbf{x}_{i}\right\|^{2}\right)
+$$
+
+接下來用上述三個方法 (1) ML estimation; (2) EM-based Bayesian inference, and (3) variational EM-based Bayesian inference.
+
+(1) ML 基本上完全 follow noisy input, 所以最糟。這也符合期待，因為沒有任何 constraint on the weight. 所以所有的 weights 和 Gaussian kernel 都用來 fit noisy observations.  也就是說 N=50 samples/observations 對應 50 個 Gaussian kernel functions.  這可以從下圖的綠線看出。
+
+(2) Weights are constrained by prior, 此處 prior 假設 zero-mean Gaussian, which regularise the weight to be minimum; otherwise it will incur penalty.
+
+(3) 我們可以通過 $a, b$ 選取控制 non-zero weights, 類似 supporting vectors in SVM.  我們稱為 relevance vectors (RV). 此例只有 5 個  non-zero RV.
 
 ![](/media/16287874512211.jpg)
 
+<img src="/media/16287874512211.jpg">
 
 ### 例二： Bayesian GMM
 
@@ -277,6 +297,8 @@ Bayesian GMM 和一般 GMM 有什麼不同？ 最大的差別就是 $\boldsymbol
 Bayesian GMM 的 graph model 如下。Hidden random variables 包含 $h = (\mathbf{Z}, \boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T})$. Bayesian 的目標是找出 $p(h\mid x)$, 顯然不會有 analytic solution.
 
 ![-w237](/media/16285137362672.jpg)
+
+<img src="/media/16285137362672.jpg" width="237">
 
 因此我們 divide-and-conquer 利用 $\eqref{eqVarJ2}$
 假設 mean-field approximation
@@ -305,8 +327,12 @@ Bayesian-GMM 比起 EM-GMM 到底有什麼好處。前面提到可以 impose pri
 
 Bayesian GMM 的 graph model 如下。注意此時的 $\pi$ 變成方框，代表 parameter to be estimated.  Hidden random variables 包含 $h = (\mathbf{Z}, \boldsymbol{\mu}, \mathbf{T})$.  
 
- 
 ![](/media/16286002562443.jpg)
+
+
+<img src="/media/16286002562443.jpg" width="237">
+
+根據新的 DAG, 我們可以分解如下：
 
 $$\begin{aligned}
 &q(\mathrm{h})=q_{Z}(\mathbf{Z}) q_{\mu}(\boldsymbol{\mu}) q_{T}(\mathrm{T})\\

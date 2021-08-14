@@ -120,11 +120,16 @@
 <meta property="og:description" content="">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="/media/16286850167880.jpg">
+<meta property="og:image" content="/media/16286850167880.jpg">
+<meta property="og:image" content="/media/16286850351205.jpg">
 <meta property="og:image" content="/media/16286850351205.jpg">
 <meta property="og:image" content="/media/16287874512211.jpg">
+<meta property="og:image" content="/media/16287874512211.jpg">
+<meta property="og:image" content="/media/16285137362672.jpg">
 <meta property="og:image" content="/media/16285137362672.jpg">
 <meta property="og:image" content="/media/16285679550223.jpg">
 <meta property="og:image" content="/media/16285916007272.jpg">
+<meta property="og:image" content="/media/16286002562443.jpg">
 <meta property="og:image" content="/media/16286002562443.jpg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Math AI - From EM to Variational Bayesian Inference">
@@ -522,11 +527,14 @@ p(\mathbf{t} ; \mathbf{w}, \beta)&=N\left(\mathbf{t} \mid \mathbf{\Phi} \mathbf{
 
 <p><img src="/media/16286850167880.jpg" alt="-w414" /></p>
 
+<p><img src="/media/16286850167880.jpg" width="414" /></p>
+
 <p><em>Method 3:</em> method 2 的一個缺點是假設 stationary Gaussian noise (i.e. $\beta$, a fixed value to be estimated, 無法 capture the local signal properties.  我們可以引入更複雜 spatially/temporally varying hierarchical model which is based on a non-stationary Gaussian prior for the weight, W and a hyperprior, $\beta$, 如下圖 (c).</p>
 
 <p>這麼複雜的 DAG 顯然無法用 EM algorithm 解，必須用本文的 “Variational EM Framework” infer values of the unknowns.</p>
 
-<p><img src="/media/16286850351205.jpg" alt="-w245" /></p>
+<p><img src="/media/16286850351205.jpg" alt="-w245" />
+<img src="/media/16286850351205.jpg" width="245" /></p>
 
 <h4 id="method-1-ml-for-vanilla-linear-regression">Method 1, ML for Vanilla Linear Regression</h4>
 
@@ -544,7 +552,7 @@ p(\mathbf{t} ; \mathbf{w}, \beta)=(2 \pi)^{-\frac{N}{2}} \beta^{\frac{N}{2}} \ex
 
 <p>很多情況 $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ 可能是 “ill-conditioned” and difficult to invert.  意味如果 observation t 包含 noise $\varepsilon$, noise 會嚴重干擾 $\mathbf{w}_{L S}$ estimation.</p>
 
-<h5 id="例一communication-equalizationdeconvolution">例一：Communication equalization/deconvolution</h5>
+<h5 id="例-1acommunication-equalizationdeconvolution">例 1A：Communication equalization/deconvolution</h5>
 <p>Assuming a lowpass channel $\Phi = 1 + 0.9 z^{-1}$.  The equalizer $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)^{-1} \boldsymbol{\Phi}^{T}$ 變成 highpass filter; zero-forcing equalizer (ZFE).  如果 noise $\varepsilon$ 是 broadband noise, high frequency noise 會被放大。</p>
 
 <p>In the case of ML, 我們必須小心選 basis functions to ensure matrix $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ can be inverted and avoid “ill-condition”.  通常使用 sparse model with few basis functions.</p>
@@ -645,11 +653,27 @@ Q^{(t)}(\mathbf{t}, \mathbf{w} ; \alpha, \beta)=& \frac{N}{2} \ln \beta-\frac{\b
 
 <h4 id="method-3-variational-em-based-bayesian-linear-regression">Method 3, Variational EM-based Bayesian Linear Regression</h4>
 
-<p>因為非常複雜，可以直接參考 [].</p>
+<p>因為非常複雜，可以直接參考 [@tzikasVariationalApproximation2008].</p>
 
-<h5 id="例二filtering">例二：filtering</h5>
+<h5 id="例-1bnoisy-signal-estimationfiltering">例 1B：Noisy Signal Estimation/Filtering</h5>
+
+<p>如下圖，Original signal 是虛線。實際的 observations ‘x’ 是 N = 50 samples 包含 signal + Gaussian noise ($\sigma^2 = 4 \times 10^{-2}$), 大約 SNR = 6.6dB.</p>
+
+<p>這裡的 basis functions 使用 Gaussian kernels</p>
+
+<script type="math/tex; mode=display">\phi_{i}(\mathbf{x})=K\left(\mathbf{x}, \mathbf{x}_{i}\right)=\exp \left(-\frac{1}{2 \sigma_{\phi}^{2}}\left\|\mathbf{x}-\mathbf{x}_{i}\right\|^{2}\right)</script>
+
+<p>接下來用上述三個方法 (1) ML estimation; (2) EM-based Bayesian inference, and (3) variational EM-based Bayesian inference.</p>
+
+<p>(1) ML 基本上完全 follow noisy input, 所以最糟。這也符合期待，因為沒有任何 constraint on the weight. 所以所有的 weights 和 Gaussian kernel 都用來 fit noisy observations.  也就是說 N=50 samples/observations 對應 50 個 Gaussian kernel functions.  這可以從下圖的綠線看出。</p>
+
+<p>(2) Weights are constrained by prior, 此處 prior 假設 zero-mean Gaussian, which regularise the weight to be minimum; otherwise it will incur penalty.</p>
+
+<p>(3) 我們可以通過 $a, b$ 選取控制 non-zero weights, 類似 supporting vectors in SVM.  我們稱為 relevance vectors (RV). 此例只有 5 個  non-zero RV.</p>
 
 <p><img src="/media/16287874512211.jpg" alt="" /></p>
+
+<p><img src="/media/16287874512211.jpg" /></p>
 
 <h3 id="例二-bayesian-gmm">例二： Bayesian GMM</h3>
 
@@ -662,6 +686,8 @@ Q^{(t)}(\mathbf{t}, \mathbf{w} ; \alpha, \beta)=& \frac{N}{2} \ln \beta-\frac{\b
 <p>Bayesian GMM 的 graph model 如下。Hidden random variables 包含 $h = (\mathbf{Z}, \boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T})$. Bayesian 的目標是找出 $p(h\mid x)$, 顯然不會有 analytic solution.</p>
 
 <p><img src="/media/16285137362672.jpg" alt="-w237" /></p>
+
+<p><img src="/media/16285137362672.jpg" width="237" /></p>
 
 <p>因此我們 divide-and-conquer 利用 $\eqref{eqVarJ2}$
 假設 mean-field approximation</p>
@@ -691,6 +717,10 @@ q_{T}(\mathbf{T}) &=\prod_{j=1}^{M} W\left(\mathbf{T}_{j} ; \eta_{j}, \mathrm{U}
 <p>Bayesian GMM 的 graph model 如下。注意此時的 $\pi$ 變成方框，代表 parameter to be estimated.  Hidden random variables 包含 $h = (\mathbf{Z}, \boldsymbol{\mu}, \mathbf{T})$.</p>
 
 <p><img src="/media/16286002562443.jpg" alt="" /></p>
+
+<p><img src="/media/16286002562443.jpg" width="237" /></p>
+
+<p>根據新的 DAG, 我們可以分解如下：</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{aligned}
@@ -945,7 +975,7 @@ MathJax.Hub.Config({
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#major-reference"> <span class="nav-number">1</span> <span class="nav-text">Major Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-algorithm"> <span class="nav-number">2</span> <span class="nav-text">EM Algorithm</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-em-framework"> <span class="nav-number">3</span> <span class="nav-text">Variational EM Framework</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#examples"> <span class="nav-number">4</span> <span class="nav-text">Examples</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例一-linear-regression-filterestimate-a-noisy-signal"> <span class="nav-number">4.1</span> <span class="nav-text">例一： Linear Regression (filter/estimate a noisy signal)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#問題描述"> <span class="nav-number">4.1.1</span> <span class="nav-text">問題描述</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#三種解法圖式"> <span class="nav-number">4.1.2</span> <span class="nav-text">三種解法圖式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-1-ml-for-vanilla-linear-regression"> <span class="nav-number">4.1.3</span> <span class="nav-text">Method 1, ML for Vanilla Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例一communication-equalizationdeconvolution"> <span class="nav-number">4.1.3.1</span> <span class="nav-text">例一：Communication equalization/deconvolution</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-2-em-algorithm-for-bayesian-linear-regression"> <span class="nav-number">4.1.4</span> <span class="nav-text">Method 2, EM algorithm for Bayesian Linear Regression</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-3-variational-em-based-bayesian-linear-regression"> <span class="nav-number">4.1.5</span> <span class="nav-text">Method 3, Variational EM-based Bayesian Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例二filtering"> <span class="nav-number">4.1.5.1</span> <span class="nav-text">例二：filtering</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例二-bayesian-gmm"> <span class="nav-number">4.2</span> <span class="nav-text">例二： Bayesian GMM</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#major-reference"> <span class="nav-number">1</span> <span class="nav-text">Major Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-algorithm"> <span class="nav-number">2</span> <span class="nav-text">EM Algorithm</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-em-framework"> <span class="nav-number">3</span> <span class="nav-text">Variational EM Framework</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#examples"> <span class="nav-number">4</span> <span class="nav-text">Examples</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例一-linear-regression-filterestimate-a-noisy-signal"> <span class="nav-number">4.1</span> <span class="nav-text">例一： Linear Regression (filter/estimate a noisy signal)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#問題描述"> <span class="nav-number">4.1.1</span> <span class="nav-text">問題描述</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#三種解法圖式"> <span class="nav-number">4.1.2</span> <span class="nav-text">三種解法圖式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-1-ml-for-vanilla-linear-regression"> <span class="nav-number">4.1.3</span> <span class="nav-text">Method 1, ML for Vanilla Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例-1acommunication-equalizationdeconvolution"> <span class="nav-number">4.1.3.1</span> <span class="nav-text">例 1A：Communication equalization/deconvolution</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-2-em-algorithm-for-bayesian-linear-regression"> <span class="nav-number">4.1.4</span> <span class="nav-text">Method 2, EM algorithm for Bayesian Linear Regression</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-3-variational-em-based-bayesian-linear-regression"> <span class="nav-number">4.1.5</span> <span class="nav-text">Method 3, Variational EM-based Bayesian Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例-1bnoisy-signal-estimationfiltering"> <span class="nav-number">4.1.5.1</span> <span class="nav-text">例 1B：Noisy Signal Estimation/Filtering</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例二-bayesian-gmm"> <span class="nav-number">4.2</span> <span class="nav-text">例二： Bayesian GMM</span> </a> </li> </ol> </li>
     </ol>
   </div>
             

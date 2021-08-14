@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-13T00:58:12+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math AI - From EM to Variational Bayesian Inference</title><link href="http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational/" rel="alternate" type="text/html" title="Math AI - From EM to Variational Bayesian Inference" /><published>2021-08-05T16:29:08+08:00</published><updated>2021-08-05T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-14T18:22:51+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math AI - From EM to Variational Bayesian Inference</title><link href="http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational/" rel="alternate" type="text/html" title="Math AI - From EM to Variational Bayesian Inference" /><published>2021-08-05T16:29:08+08:00</published><updated>2021-08-05T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/05/Math_AI_Baysian_variational/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
 });
@@ -123,11 +123,14 @@ p(\mathbf{t} ; \mathbf{w}, \beta)&amp;=N\left(\mathbf{t} \mid \mathbf{\Phi} \mat
 
 &lt;p&gt;&lt;img src=&quot;/media/16286850167880.jpg&quot; alt=&quot;-w414&quot; /&gt;&lt;/p&gt;
 
+&lt;p&gt;&lt;img src=&quot;/media/16286850167880.jpg&quot; width=&quot;414&quot; /&gt;&lt;/p&gt;
+
 &lt;p&gt;&lt;em&gt;Method 3:&lt;/em&gt; method 2 的一個缺點是假設 stationary Gaussian noise (i.e. $\beta$, a fixed value to be estimated, 無法 capture the local signal properties.  我們可以引入更複雜 spatially/temporally varying hierarchical model which is based on a non-stationary Gaussian prior for the weight, W and a hyperprior, $\beta$, 如下圖 (c).&lt;/p&gt;
 
 &lt;p&gt;這麼複雜的 DAG 顯然無法用 EM algorithm 解，必須用本文的 “Variational EM Framework” infer values of the unknowns.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/media/16286850351205.jpg&quot; alt=&quot;-w245&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/media/16286850351205.jpg&quot; alt=&quot;-w245&quot; /&gt;
+&lt;img src=&quot;/media/16286850351205.jpg&quot; width=&quot;245&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;method-1-ml-for-vanilla-linear-regression&quot;&gt;Method 1, ML for Vanilla Linear Regression&lt;/h4&gt;
 
@@ -145,7 +148,7 @@ p(\mathbf{t} ; \mathbf{w}, \beta)=(2 \pi)^{-\frac{N}{2}} \beta^{\frac{N}{2}} \ex
 
 &lt;p&gt;很多情況 $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ 可能是 “ill-conditioned” and difficult to invert.  意味如果 observation t 包含 noise $\varepsilon$, noise 會嚴重干擾 $\mathbf{w}_{L S}$ estimation.&lt;/p&gt;
 
-&lt;h5 id=&quot;例一communication-equalizationdeconvolution&quot;&gt;例一：Communication equalization/deconvolution&lt;/h5&gt;
+&lt;h5 id=&quot;例-1acommunication-equalizationdeconvolution&quot;&gt;例 1A：Communication equalization/deconvolution&lt;/h5&gt;
 &lt;p&gt;Assuming a lowpass channel $\Phi = 1 + 0.9 z^{-1}$.  The equalizer $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)^{-1} \boldsymbol{\Phi}^{T}$ 變成 highpass filter; zero-forcing equalizer (ZFE).  如果 noise $\varepsilon$ 是 broadband noise, high frequency noise 會被放大。&lt;/p&gt;
 
 &lt;p&gt;In the case of ML, 我們必須小心選 basis functions to ensure matrix $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ can be inverted and avoid “ill-condition”.  通常使用 sparse model with few basis functions.&lt;/p&gt;
@@ -246,11 +249,27 @@ Q^{(t)}(\mathbf{t}, \mathbf{w} ; \alpha, \beta)=&amp; \frac{N}{2} \ln \beta-\fra
 
 &lt;h4 id=&quot;method-3-variational-em-based-bayesian-linear-regression&quot;&gt;Method 3, Variational EM-based Bayesian Linear Regression&lt;/h4&gt;
 
-&lt;p&gt;因為非常複雜，可以直接參考 [].&lt;/p&gt;
+&lt;p&gt;因為非常複雜，可以直接參考 [@tzikasVariationalApproximation2008].&lt;/p&gt;
 
-&lt;h5 id=&quot;例二filtering&quot;&gt;例二：filtering&lt;/h5&gt;
+&lt;h5 id=&quot;例-1bnoisy-signal-estimationfiltering&quot;&gt;例 1B：Noisy Signal Estimation/Filtering&lt;/h5&gt;
+
+&lt;p&gt;如下圖，Original signal 是虛線。實際的 observations ‘x’ 是 N = 50 samples 包含 signal + Gaussian noise ($\sigma^2 = 4 \times 10^{-2}$), 大約 SNR = 6.6dB.&lt;/p&gt;
+
+&lt;p&gt;這裡的 basis functions 使用 Gaussian kernels&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\phi_{i}(\mathbf{x})=K\left(\mathbf{x}, \mathbf{x}_{i}\right)=\exp \left(-\frac{1}{2 \sigma_{\phi}^{2}}\left\|\mathbf{x}-\mathbf{x}_{i}\right\|^{2}\right)&lt;/script&gt;
+
+&lt;p&gt;接下來用上述三個方法 (1) ML estimation; (2) EM-based Bayesian inference, and (3) variational EM-based Bayesian inference.&lt;/p&gt;
+
+&lt;p&gt;(1) ML 基本上完全 follow noisy input, 所以最糟。這也符合期待，因為沒有任何 constraint on the weight. 所以所有的 weights 和 Gaussian kernel 都用來 fit noisy observations.  也就是說 N=50 samples/observations 對應 50 個 Gaussian kernel functions.  這可以從下圖的綠線看出。&lt;/p&gt;
+
+&lt;p&gt;(2) Weights are constrained by prior, 此處 prior 假設 zero-mean Gaussian, which regularise the weight to be minimum; otherwise it will incur penalty.&lt;/p&gt;
+
+&lt;p&gt;(3) 我們可以通過 $a, b$ 選取控制 non-zero weights, 類似 supporting vectors in SVM.  我們稱為 relevance vectors (RV). 此例只有 5 個  non-zero RV.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/media/16287874512211.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/16287874512211.jpg&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;例二-bayesian-gmm&quot;&gt;例二： Bayesian GMM&lt;/h3&gt;
 
@@ -263,6 +282,8 @@ Q^{(t)}(\mathbf{t}, \mathbf{w} ; \alpha, \beta)=&amp; \frac{N}{2} \ln \beta-\fra
 &lt;p&gt;Bayesian GMM 的 graph model 如下。Hidden random variables 包含 $h = (\mathbf{Z}, \boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T})$. Bayesian 的目標是找出 $p(h\mid x)$, 顯然不會有 analytic solution.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/media/16285137362672.jpg&quot; alt=&quot;-w237&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/16285137362672.jpg&quot; width=&quot;237&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;因此我們 divide-and-conquer 利用 $\eqref{eqVarJ2}$
 假設 mean-field approximation&lt;/p&gt;
@@ -292,6 +313,10 @@ q_{T}(\mathbf{T}) &amp;=\prod_{j=1}^{M} W\left(\mathbf{T}_{j} ; \eta_{j}, \mathr
 &lt;p&gt;Bayesian GMM 的 graph model 如下。注意此時的 $\pi$ 變成方框，代表 parameter to be estimated.  Hidden random variables 包含 $h = (\mathbf{Z}, \boldsymbol{\mu}, \mathbf{T})$.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/media/16286002562443.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/16286002562443.jpg&quot; width=&quot;237&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;根據新的 DAG, 我們可以分解如下：&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
