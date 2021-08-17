@@ -1,9 +1,9 @@
 ---
-title: Math AI - From EM to Variational Bayesian Inference
-date: 2021-08-05 08:29:08
+title: Math AI - From EM to Variational Bayesian Inference 
+date: 2021-08-15 23:10:08
 categories:
 - AI
-tags: [softmax, EM, Bayesian, Variational]
+tags: [ML, EM, Bayesian]
 typora-root-url: ../../allenlu2009.github.io
 ---
 
@@ -13,22 +13,25 @@ MathJax.Hub.Config({
 });
 </script>
 
-## Major Reference
+
+## Reference
 * [@poczosCllusteringEM2015]
 * [@matasExpectationMaximization2018] good reference
 * [@choyExpectationMaximization2017]
 * [@tzikasVariationalApproximation2008] excellent introductory paper
 
+
 ## EM Algorithm
+
 EM 可以視為 MLE 的 extension to hidden state / data.
 
 Let's start with EM algorithm
 
-$$\begin{align}
+$$\begin{align*}
 \ln p(\mathbf{x} ; \boldsymbol{\theta})&=F(q, \boldsymbol{\theta})+K L(q \| p) \\
 F(q, \boldsymbol{\theta})&=\int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z} \\
 \mathrm{KL}(q \| p)&=-\int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z}
-\end{align}$$
+\end{align*}$$
 
 $$\begin{align}
 Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\text {OLD }}\right) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) d \mathbf{z} \nonumber\\
@@ -101,8 +104,7 @@ system identification.
 我們想要 predict its value $t_* = y(x_*)$ at an arbitrary location $x_* \in \Omega$.  
 
 我們用 vector 表示 $(t_1, \cdots, t_N)$
- using a vector t = (t1,..., tN)T of N noisy observations tn = y(xn) + εn, at locations x = (x1,..., xN)T, xn ∈ , n = 1,..., N. The additive noise εn is commonly assumed to be independent, zeromean, Gaussian distributed:
-
+ using a vector t = (t1,..., tN)T of N noisy observations tn = y(xn) + εn, at locations x = (x1,..., xN)T, xn ∈ , n = 1,..., N. The additive noise εn is commonly assumed to be independent, zero mean, Gaussian distributed:
 $$
 y(\mathbf{x})=\sum_{m=1}^{M} \omega_{m} \phi_{m}(\mathbf{x})
 $$
@@ -258,7 +260,7 @@ $\eqref{eqa}$ 和 $\eqref{eqb}$ 同時保證 $\alpha, \beta$ 永遠為正值。
 
 因為非常複雜，可以直接參考 [@tzikasVariationalApproximation2008].
 
-##### 例 1B：Noisy Signal Estimation/Filtering
+##### 例 1B：Noisy Signal Estimation
 
 如下圖，Original signal 是虛線。實際的 observations 'x' 是 N = 50 samples 包含 signal + Gaussian noise ($\sigma^2 = 4 \times 10^{-2}$), 大約 SNR = 6.6dB.
 
@@ -305,7 +307,8 @@ q_{\pi}(\boldsymbol{\pi}) &=\operatorname{Dir}\left(\boldsymbol{\pi} \mid\left\{
 q_{\mu T}(\boldsymbol{\mu}, \mathbf{T}) &=\prod_{j=1}^{M} q_{\mu}\left(\boldsymbol{\mu}_{j} \mid \mathbf{T}_{j}\right) q_{T}\left(\mathbf{T}_{j}\right) \\
 q_{\mu}\left(\boldsymbol{\mu}_{j} \mid \mathbf{T}\right) &=\prod_{j=1}^{M} N\left(\boldsymbol{\mu}_{j} ; \mathbf{m}_{j}, \beta_{j} \mathbf{T}_{j}\right) \\
 q_{T}(\mathbf{T}) &=\prod_{j=1}^{M} W\left(\mathbf{T}_{j} ; \eta_{j}, \mathrm{U}_{j}\right)
-\end{aligned}$$
+\end{aligned}
+$$
 
 看起來還是很複雜，不過 [@tzikasVariationalApproximation2008] 的 reference [27] 有詳細的公式。可以用“簡單” iterative update procedure 得到 optimal approximation $q(h)$ to the true posterior $p(h\mid x)$, 這就是 variational E-step.  下一步就是 variation M-step, 不贅述。
 
@@ -316,7 +319,7 @@ Bayesian-GMM 比起 EM-GMM 到底有什麼好處。前面提到可以 impose pri
 另一個好處是可以直接用 Bayesian GMM 決定 Gaussian component number, 而不需要用其他方法 (e.g. cross-validation)。實作如下圖。(a) 初始是 20 component Gaussians; (b), (c) model evolution; (d) 最終解只剩下 5 個 Gaussian components, 其餘 15 個 Gaussian components weight 為 0。注意收斂的過程中都沒有 singularity.  
 
 這聽起來比較 significant, 不過有一個 catch, 就是 Dirichlet prior 不允許 component mixing weight 為 0.  因此如果要用 Bayesian-GMM 決定 Gaussian component number, 必須 remove $\boldsymbol{\pi} = \{ \pi_j \}$ from priors.  也就是把 $\boldsymbol{\pi} = \{ \pi_j \}$ 視為 parameter to be estimated. 
- 
+
 ![](/media/16285916007272.jpg)
 
 Bayesian GMM 的 graph model 如下。注意此時的 $\pi$ 變成方框，代表 parameter to be estimated.  Hidden random variables 包含 $h = (\mathbf{Z}, \boldsymbol{\mu}, \mathbf{T})$.  
@@ -330,14 +333,11 @@ $$\begin{aligned}
 &q_{Z}(\mathbf{Z})=\prod_{n=1}^{N} \prod_{j=1}^{M} r_{j n}^{z_{j n}} \\
 &q_{\mu}(\boldsymbol{\mu})=\prod_{j=1}^{M} N\left(\boldsymbol{\mu}_{j} \mid \mathrm{m}_{j}, \mathbf{S}_{j}\right) \\
 &q_{T}(\mathbf{T})=\prod_{j=1}^{M} W\left(\mathbf{T}_{j} \mid \eta_{j}, \mathbf{U}_{j}\right)
-\end{aligned}
-$$
+\end{aligned}$$
 
 同樣經過一番計算 variational E-step and M-step (此處省略)，可以得到
 
-$$
-\pi_{j}=\frac{\sum_{n=1}^{N} r_{j n}}{\sum_{k=1}^{M} \sum_{n=1}^{N} r_{k n}}
-$$
+$$\pi_{j}=\frac{\sum_{n=1}^{N} r_{j n}}{\sum_{k=1}^{M} \sum_{n=1}^{N} r_{k n}}$$
 
 在 iteration 過程中，有一些 mixing coefficients $\{\pi_j\}$ 收斂到 0. 定性來說，variational bound 可以視為兩項之和：第一項是 likelihood function, 第二項是 prior 造成的 penalty term to penalizes complex models.
 

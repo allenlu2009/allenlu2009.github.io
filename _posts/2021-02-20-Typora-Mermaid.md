@@ -1,12 +1,12 @@
 ---
-title: Edge AI- Object Detection History
+title: Typora and Mermaid
 date: 2021-02-16 08:29:08
 categories:
 - AI
 tags: [softmax]
 ---
 
-# Edge AI: Object Detection History: 2-Pass Vs. 1-Pass; Anchor Vs. Anchor-less
+本文測試 Typora 加上 Mermaid script.
 
 ```mermaid
 sequenceDiagram

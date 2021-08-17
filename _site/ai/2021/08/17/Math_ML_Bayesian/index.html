@@ -1,0 +1,982 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ML,EM,Bayesian,MAP," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="NexT" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper">
+<meta name="keywords" content="ML, EM, Bayesian, MAP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Math ML - Bayesian">
+<meta property="og:url" content="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">
+<meta property="og:site_name" content="NexT">
+<meta property="og:description" content="Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Math ML - Bayesian">
+<meta name="twitter:description" content="Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>Math ML - Bayesian | NexT</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NexT</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Allen Lu (from John Doe)">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NexT">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            Math ML - Bayesian
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-08-17T00:00:00+08:00">
+                2021-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/AI" itemprop="url" rel="index">
+                    <span itemprop="name">AI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="reference">Reference</h2>
+<ul>
+  <li>[@poczosCllusteringEM2015]</li>
+  <li>[@matasExpectationMaximization2018] good reference</li>
+  <li>[@choyExpectationMaximization2017]</li>
+  <li>[@tzikasVariationalApproximation2008] excellent introductory paper</li>
+</ul>
+
+<h2 id="maximum-likelihood-estimation-vs-bayesian-inference">Maximum Likelihood Estimation Vs. Bayesian Inference</h2>
+
+<p>ML estimation 和 Bayesian inference 到底有什麼差別？簡單說 ML estimation 把 unknown/hidden 視為 a <strong>“fixed parameter”</strong>.  Bayesian inference 把 unknown/hidden 視為 <strong>“distribution”</strong> described by a random variable.</p>
+
+<p><em>Bernoulli distribution</em>：投擲硬幣正面的機率 $\theta$, 反面的機率 $1-\theta$. 連續投擲的正面/反面的次數分別是 x/(n-x).  Likelihood function, 其實就是 probability distribution  為</p>
+
+<script type="math/tex; mode=display">f(x; \theta) = p(x ; \theta) = \theta^{x}(1-\theta)^{n-x}</script>
+
+<p>有時候我們也把 $p(x;\theta)$ 寫成 conditional distribution 形式 $p(x\mid\theta).$​  嚴格來說並不對。不過可以視為 Bayesian 詮釋的擴展。</p>
+
+<p>ML estimation 做法是微分上式，解 $\theta$ parameter.</p>
+
+<p>Bayesian 的觀念是: (1) $\theta$ 視為 hidden random variable; (2) 引入 hidden random variable $z$ with $\theta$ as a parameter.</p>
+
+<p>我們假設 (1), 利用 Bayes formula</p>
+
+<script type="math/tex; mode=display">p(\theta | x) = \frac{p(x | \theta) p(\theta)}{p(x)}</script>
+
+<p>or</p>
+
+<script type="math/tex; mode=display">p(z | x; \theta ) = \frac{p(x | z; \theta) p(z; \theta)}{p(x)}</script>
+
+<p><u>上式的術語和解讀</u></p>
+
+<ul>
+  <li>Random variable $x$ :  post (事後) observations, (post) evidence. $p(x)$ 稱為 evidence distribution or marginal likelihood.</li>
+  <li>Random variable $\theta$ : 相對於 $x$, $\theta$ 是 prior (事前, 先驗) 並且是 hidden variable (i.e. not evidence).  擴展我們在 maximum likelihood 的定義，從 parameter 變成 random variable.  <strong>$p(\theta)$​​ 稱為 prior distribution.</strong>
+    <ul>
+      <li><strong>注意 prior 是 distribution</strong>,  不會出現在 ML, 因為 $\theta$​ 在 ML 是 parameter.  只有在 Bayesian 才有 prior (distribution)!</li>
+    </ul>
+  </li>
+  <li>Conditional distribution $p(x\mid\theta)$ :  likelihood (或然率)。擴展我們在 maximum likelihood 的定義，從 parameter dependent distribution or function 變成 conditional distribution.</li>
+  <li>Conditional distribution $p(\theta\mid x)$ ： <strong>posterior, 事後機率。就是我們想要求解的東西。</strong>
+    <ul>
+      <li><strong>注意 posterior 是 conditional distribution</strong>.  有人會以為 $p(\theta)$ 是 prior distribution, $p(x)$​ 是 posterior distribution. Wrong!</li>
+      <li>Posterior 不會出現在 ML, 因為 $\theta$​ 在 ML 是 parameter.  只有在 Bayesian 才會討論 posterior (distribution)!</li>
+    </ul>
+  </li>
+  <li><strong>簡言之：Posterior</strong> $\propto$ <strong>Likelihood x Prior</strong> $\to p(\theta \mid x) \propto {p(x \mid \theta) \times p(\theta)}$
+    <ul>
+      <li><strong>一般我們忽略 $p(x)$ ，因為它和要 estimate 的 $\theta$​​ distribution (or parameter) 無關，視為常數忽略。</strong></li>
+      <li>很好記: 事後 = 事前 x 喜歡 (likelihood).  如果很喜歡，才會有事後。如果不喜歡，事後不理 (0分)</li>
+      <li>Prior 和 posterior (事前/先驗，事後) 都是 Bayesian 才有的說法。 ML (or Frequentist) 不會有 prior and posterior 說法。</li>
+      <li>以通信為例，$z$ 是 transmitted signal (unknown),  $x$ 是 received signal,  $x = z + n$,  是 transmitted signal 加 noise.  如果只根據 $p(\text{received signal}\mid\text{transmitted signal}) = p(x\mid z)$</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="事前事後哪一個重要">事前、事後，哪一個重要？</h2>
+
+<p><strong>是否注意到一件很矛盾的事？要估計 posterior (事後),</strong>  $p(\theta\mid x)$​​, <strong>必須要有 prior (事前),</strong> $p(\theta)$​.</p>
+
+<p>那如果都已經有 $p(\theta)$​ 的 distribution, 就可以直接 estimate $\theta$​ 的特性 (e.g. mean, variance), 還需要 posterior 嗎？</p>
+
+<p>有兩個 answers:</p>
+
+<ol>
+  <li>Bayesian 相信 evidence!  Prior 只是沒有 evidence 的一種猜測。不可靠的 prior 在更多的 evidence 後會轉變成更可靠的 posterior!</li>
+  <li>大多數情況，我們並不關心 prior 的 distribution, 而是關心 likelihood or posterior distribution!
+    <ul>
+      <li>在 ML estimation, 我們只關心 <strong>the specific $\theta$  (not distribution) to maximize the likelihood.</strong></li>
+      <li>在 ML extension to EM algorithm, 我們我們只關心 <strong>the specific $\theta$  to maximize $Q$ function</strong> <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>.</li>
+      <li>在窮人的 Bayesian inference, MAP (Maximum A Posteriori) estimation,  我們只關心 <strong>posterior distribution 的 maximum.</strong></li>
+      <li>在 Bayesian inference, 同樣我們關心的是 <strong>posterior distribution</strong> (例如 EAP - Expected A Posteriori), 而非 prior.</li>
+      <li>以實際應用：一般通信使用 $p(x\mid z)$, i.e. maximum likelihood; 或者 $p(z\mid x)$, i.e. MAP, to decode each bit information!   通常我們不需要 $p(z)$ ，除了偶爾在 MAP 會用到。一般我們假設 $p(z)$ by default, e.g. uniform distribution in communication.</li>
+      <li>在 ML 應用，Dirichlet, Gaussian, or W-Gaussian prior distribution 通常用於 default setting.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>以 Bayesian 而言，posterior (事後) 遠比 prior (事前) 重要！</strong>  <strong>甚至  Posterior &gt; Likelihood &gt; Prior</strong></p>
+
+<p>所以針對 prior, 只要是合理的假設 (猜測)，一般都可以接受。因為 more evidence, $x$, 所得出的 posterior 會把 prior 的影響消除！</p>
+
+<h2 id="真的-prior-information-先驗-怎麼辦">真的 Prior Information (先驗) 怎麼辦?</h2>
+
+<p>Bayesian prior 只是一個 initial condition.  隨著 evidence 越多，posterior 逐漸 overtake prior.</p>
+
+<p>但如果有真的 prior information 如何處理，例如物理定律或者一些 rule (e.g. 左括號一定對應一個右括號)？</p>
+<ol>
+  <li>Bayesian prior 的定義就是一個假設，並非是 hard rule.  不像哲學的先驗有拔高的地位。Bayesian 期待 rule 會從 evidence 學到。</li>
+  <li>如果 rule 無法反應在 evidence, 可能要考慮其他的 AI 方法，e.g. rule-based AI, or mixture model.</li>
+  <li>如果 rule 有反應在 evidence, 但 Bayesian 學不好。可以考慮 embedded the rule, e.g. rule violation penalty in the cost function during training, post-processing for hard rule, etc.</li>
+</ol>
+
+<h2 id="ml-em-map-and-bayesian-inference-difference">ML, EM, MAP, and Bayesian Inference Difference</h2>
+
+<p>這幾種都是常見的 parameter estimator, 差別為何？</p>
+
+<h4 id="ml-maximum-likelihood-estimator">ML (Maximum likelihood) Estimator</h4>
+
+<p>$\theta_{MLE} = \arg_{\theta} \max  p(x\mid\theta)$   還是強調一下此處 $\theta$ 是 parameter, 不是 conditional distribution 中的 random variable.</p>
+
+<p><strong>Pros:</strong> (1) consistency, converges in probability to its true value; (2) almost unbiased; (3) 2nd order efficiency.</p>
+
+<p><strong>Cons:</strong> (1) point estimator, sensitive to assumption of distribution and parameter.</p>
+
+<h4 id="em-estimator-extension-of-ml-for-hidden-data">EM Estimator (Extension of ML for Hidden Data)</h4>
+
+<p>$\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} Q(\boldsymbol{\theta}^{t+1} \mid \boldsymbol{\theta}^{t})$ <sup id="fnref:1:1"><a href="#fn:1" class="footnote">1</a></sup>    iteratively get the ML estimation of parameter</p>
+
+<p>Q function 包含 posterior of hidden variable $z$,  已經半步 bayesian!</p>
+
+<p><strong>Cons:</strong> (1) point estimator, sensitive to assumption of distribution and parameter.</p>
+
+<h4 id="map-maximum-a-posteriori-estimator">MAP (Maximum A Posteriori) Estimator</h4>
+
+<p>$\theta_{MAP} =\arg_{\theta} \max p(\theta\mid x) = \arg_{\theta} \max p(x\mid\theta) p(\theta)$   此處 $\theta$ 是 random variable.</p>
+
+<p>窮人的 bayesian: 利用 posterior, 但只取 maximum.</p>
+
+<p><strong>Pros:</strong>  unknown is a distribution instead of a fixed parameter, better for the non-stationary circumstance</p>
+
+<p><strong>Cons:</strong>  (1) still point estimator, still sensitive to assumption?  (2) biased?</p>
+
+<h4 id="bayesian-inference">Bayesian Inference</h4>
+
+<p>Bayesian inference 的精神就是 posterior distribution.  至於從 posterior 再找 maximum (MAP), 或是平均 (EAP)</p>
+
+<p>$\theta_{EAP} =E[\theta\mid x]$, 或是 marginal distribution,  或是再進一步做 parameter estimation (e.g. EM) or variational inference, 都屬於 bayesian inference.  此處先不討論。</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>$Q(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}) = \langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)}$​ <a href="#fnref:1" class="reversefootnote">&#8617;</a> <a href="#fnref:1:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    </li>
+  </ol>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/ML" rel="tag"># ML</a>
+          
+            
+            <a href="/tag/#/EM" rel="tag"># EM</a>
+          
+            
+            <a href="/tag/#/Bayesian" rel="tag"># Bayesian</a>
+          
+            
+            <a href="/tag/#/MAP" rel="tag"># MAP</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/ai/2021/08/16/Math_AI_Baysian_variational/" rel="prev" title="Math AI - From EM to Variational Bayesian Inference">
+                Math AI - From EM to Variational Bayesian Inference <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true
+  }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Allen Lu (from John Doe)" />
+          <p class="site-author-name" itemprop="name">Allen Lu (from John Doe)</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">1</span> <span class="nav-text">Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#maximum-likelihood-estimation-vs-bayesian-inference"> <span class="nav-number">2</span> <span class="nav-text">Maximum Likelihood Estimation Vs. Bayesian Inference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#事前事後哪一個重要"> <span class="nav-number">3</span> <span class="nav-text">事前、事後，哪一個重要？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#真的-prior-information-先驗-怎麼辦"> <span class="nav-number">4</span> <span class="nav-text">真的 Prior Information (先驗) 怎麼辦?</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ml-em-map-and-bayesian-inference-difference"> <span class="nav-number">5</span> <span class="nav-text">ML, EM, MAP, and Bayesian Inference Difference</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#ml-maximum-likelihood-estimator"> <span class="nav-number">5.1</span> <span class="nav-text">ML (Maximum likelihood) Estimator</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#em-estimator-extension-of-ml-for-hidden-data"> <span class="nav-number">5.2</span> <span class="nav-text">EM Estimator (Extension of ML for Hidden Data)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#map-maximum-a-posteriori-estimator"> <span class="nav-number">5.3</span> <span class="nav-text">MAP (Maximum A Posteriori) Estimator</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#bayesian-inference"> <span class="nav-number">5.4</span> <span class="nav-text">Bayesian Inference</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allen Lu (from John Doe)</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
