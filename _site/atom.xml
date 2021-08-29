@@ -1,4 +1,279 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-17T23:32:16+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math ML - Bayesian</title><link href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/" rel="alternate" type="text/html" title="Math ML - Bayesian" /><published>2021-08-17T00:00:00+08:00</published><updated>2021-08-17T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-29T15:38:14+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math AI - Variational Autoencoder Vs. Variational EM Algorithm</title><link href="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/" rel="alternate" type="text/html" title="Math AI - Variational Autoencoder Vs. Variational EM Algorithm" /><published>2021-08-19T07:10:08+08:00</published><updated>2021-08-19T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/19/Variational%20Autoencoder</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
+});
+&lt;/script&gt;
+
+&lt;h2 id=&quot;main-reference&quot;&gt;Main Reference&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;[@kingmaIntroductionVariational2019] : excellent reference&lt;/li&gt;
+  &lt;li&gt;[@escuderoVariationalAutoEncoders2020]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;重點-outline&quot;&gt;重點 outline&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;VAE 第一個 innovation (encoder+decoder): 使用 encoder neural network ($\phi$) 和 decoder neural network ($\theta$) 架構。&lt;strong&gt;從 autoencoder 的延伸&lt;/strong&gt;似乎很直觀。但從 deterministic 延伸到 probabilistic 有點魔幻寫實，需要更嚴謹的數學框架。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;VAE 第二個 innovation (DLVM):  引入 hidden (random) variable $\mathbf{z}$, 從 $\mathbf{z} \to \text{neural network}\,(\theta) \to \mathbf{x}.$  &lt;strong&gt;Hidden variable $\mathbf{z}$ 源自 (variational) EM + DAG;  再用 (deterministic) neural network of $\theta$ for parameter optimization.  這就是 DLVM (Deep Learning Variable Model) 的精神。&lt;/strong&gt;  根據 (variational) EM:
+    &lt;ul&gt;
+      &lt;li&gt;E-step: 找到 $q(z) \approx p_{\theta}(\mathbf{z} \mid \mathbf{x})$, &lt;strong&gt;也就是 posterior&lt;/strong&gt;, &lt;strong&gt;但我們知道在 DLVM posterior 是 intractable，必須用近似&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;M-step: optimize $\theta$ based on posterior:  $\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p_{\theta}(\mathbf{x}, \mathbf{z})$,  &lt;strong&gt;其中的 joint distribution 是 tractable, 但是 $q(z)$ intractable&lt;/strong&gt;, 所以是卡在 posterior intractable 這個問題！&lt;/li&gt;
+      &lt;li&gt;Iterate E-step and M-step in (variational EM); 在 DLVM 就變成 SGD optimization!&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;VAE 第三個 innovation 就是為了解決2.的 posterior 問題  $q(z) \to q_{\phi}(z\mid x)$:  用另一個 (tractable) decoder neural network $\phi$, 來近似 (intractable) posterior $q_{\phi}(z\mid x) \approx p(z\mid x)$&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;因此 VAE 和 DLVM (or variational EM) 的差別在於 VAE 多了 decoder neural network $\phi$ ，所以三者的數學框架非常相似！&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;VAE 的 training loss 包含 reconstruction loss (源自 encoder+decoder) + 上面的 M-step loss (源自 variational EM)&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;Maximum likelihood optimization ~ minimum cross-entropy loss (not in this case)  ~ M-step loss (in this case)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;同樣的方法應該可以用在很多 DLVM 應用中。如果有 intractable posterior, 就用 (encoder) neural network 近似。但問題是要有方法 train 這個 encoder.  VAE 很巧妙的同時 train encoder + decoder 是用原始的 image and generative image.   需要再檢驗。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210829150541025.png&quot; alt=&quot;image-20210829150541025&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;其他的重點：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;如何用 deterministic neural network 表示 probabilistic bayesian inference?&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如何用 deterministic neural network 表示 probabilistic VAE encoder and decoder?&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如何把 intractable posterior 用 tractable neural network encoder 近似?&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;variational-autoencoder-again&quot;&gt;Variational Autoencoder, Again!&lt;/h2&gt;
+
+&lt;p&gt;第 N 次討論 VAE (variational autoencoder).  之前從 AE (autoencoder) 出發，有一些手感。但用 deterministic autoencoder 延伸想像力到 probabilistic VAE 還是隔了一層紗。&lt;/p&gt;
+
+&lt;p&gt;或是從 “variational” encoder/decoder 的出發, 掉入一堆數學中沒有抓到重點。&lt;/p&gt;
+
+&lt;p&gt;我們這次從 Bayesian inference 出發。另外我們會比較 VAE 和 EM algorithm 增加印象。&lt;/p&gt;
+
+&lt;h2 id=&quot;ml-estimation-和-bayesian-inference-到底有什麼差別&quot;&gt;ML estimation 和 Bayesian inference 到底有什麼差別？&lt;/h2&gt;
+&lt;p&gt;簡單說 ML estimation 把 unknown/hidden 視為 a &lt;strong&gt;“fixed parameter”&lt;/strong&gt;.  Bayesian inference 把 unknown/hidden 視為 &lt;strong&gt;“distribution”&lt;/strong&gt; described by a random variable.&lt;/p&gt;
+
+&lt;p&gt;有時候我們也把 $p(x;\theta)$ 寫成 conditional distribution 形式 $p(x\mid\theta).$​  嚴格來說並不對。不過可以視為 Bayesian 詮釋的擴展。&lt;/p&gt;
+
+&lt;p&gt;ML estimation 做法是微分上式，解 $\theta$ parameter.&lt;/p&gt;
+
+&lt;p&gt;Bayesian 的觀念是: (1) $\theta$ 視為 hidden random variable; (2) 引入 hidden random variable $z$ with $\theta$ as a parameter.&lt;/p&gt;
+
+&lt;p&gt;我們假設 (1), 利用 Bayes formula&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(\theta | x) = \frac{p(x | \theta) p(\theta)}{p(x)}&lt;/script&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(z | x; \theta ) = \frac{p(x | z; \theta) p(z; \theta)}{p(x)}&lt;/script&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p_{\theta}(z | x) = \frac{p_{\theta}(x | z) p_{\theta}(z)}{p(x)}&lt;/script&gt;
+
+&lt;p&gt;&lt;u&gt;上式的術語和解讀&lt;/u&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Random variable $x$ :  post (事後) observations, (post) evidence. $p(x)$ 稱為 evidence distribution or marginal likelihood.&lt;/li&gt;
+  &lt;li&gt;Random variable $z$ : 相對於 $x$, $z$ 是 prior (事前, 先驗) 並且是 hidden variable (i.e. not evidence).  擴展我們在 maximum likelihood 的定義，從 parameter 變成 random variable.  $p(z)$​​ &lt;strong&gt;稱為 prior distribution.&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;注意 prior 是 distribution&lt;/strong&gt;,  不會出現在 ML, 因為 $z$​ 在 ML 是 parameter.  只有在 Bayesian 才有 prior (distribution)!&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Conditional distribution $p(x\mid z)$ :  likelihood (或然率)。擴展我們在 maximum likelihood 的定義，從 parameter dependent distribution or function 變成 conditional distribution.&lt;/li&gt;
+  &lt;li&gt;Conditional distribution $p(z\mid x)$ ： &lt;strong&gt;posterior, 事後機率。就是我們想要求解的東西。&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;注意 posterior 是 conditional distribution&lt;/strong&gt;.  有人會以為 $p(z)$ 是 prior distribution, $p(x)$​ 是 posterior distribution. Wrong!&lt;/li&gt;
+      &lt;li&gt;Posterior 不會出現在 ML, 只有在 Bayesian 才會討論 posterior (distribution)!&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;簡言之：Posterior&lt;/strong&gt; $\propto$ &lt;strong&gt;Likelihood x Prior&lt;/strong&gt; $\to p(z \mid x) \propto {p(x \mid z) \times p(z)}$
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;一般我們忽略 $p(x)$ ，因為它和要 estimate 的 $z$​​ distribution (or parameter) 無關，視為常數忽略。&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;很好記: 事後 = 事前 x 喜歡 (likelihood).  如果很喜歡，才會有事後。如果不喜歡，事後不理 (0分)&lt;/li&gt;
+      &lt;li&gt;Prior 和 posterior (事前/先驗，事後) 都是 Bayesian 才有的說法。 ML (or Frequentist) 不會有 prior and posterior 說法。&lt;/li&gt;
+      &lt;li&gt;以通信為例，$z$ 是 transmitted signal (unknown),  $x$ 是 received signal,  $x = z + n$,  是 transmitted signal 加 noise.  如果只根據 $p(\text{received signal}\mid\text{transmitted signal}) = p(x\mid z)$&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;bayesian-inference-for-vae-思路&quot;&gt;Bayesian Inference for VAE 思路&lt;/h2&gt;
+&lt;p&gt;我們的問題比較類似 (2), 引入一個 hidden variable, z, with parameter $\theta$.  這和 EM algorithm 的想法完全一樣。藉著引入 hidden variable to account for some incomplete information (參考 EM article of incomplete data).&lt;/p&gt;
+
+&lt;p&gt;一般 Bayesian inference 是求 posterior $p(z\mid x; \theta)$, or maximize the likelihood $p(x \mid z; \theta)$.   我們待會談到 VAE，卻是要找 $p(x)$, i.e. marginal likelihood.  數學上是 $p(x) = \int_{z} p(x, z; \theta) dz = \int_{z} p(x \mid z; \theta)p(z) dz $; where $\theta$ 是 parameter, not a random variable.&lt;/p&gt;
+
+&lt;p&gt;另一個表示式 $p(x)= \int_{z} p(z \mid x)p(x) dx$  顯然不行，因為 $p(x)$ 就是我們要找的 unknown.&lt;/p&gt;
+
+&lt;p&gt;所以我們現在缺 likelihood $p(x\mid z)$ and prior $p(z)$.  $p(z)$ 不是問題，基本就是假設。會隨著 more evidence x 而被取代。我們在 VAE 一般用 N(0, 1).  理論上可以用其他的 distribution, but why bother.  現在問題就是如何求 posterior $p(x\mid z)$.  結論就是用 VAE 來 train 一個 $p(x\mid z)$.&lt;/p&gt;
+
+&lt;h2 id=&quot;deterministic-neural-network-vs-probabilistic-bayesian-inference-how&quot;&gt;Deterministic Neural Network Vs. Probabilistic Bayesian Inference, How?&lt;/h2&gt;
+
+&lt;p&gt;對於 random variable 如 $x$ or $z$,  總有兩個截然不同的面向：(1) (deterministic) distribution function, $p(x), p(z)$; 以及 (2) random sample $\mathbf{x} = {x_1, x_2, \cdots, x_k}$, $\mathbf{z} = {z_1, z_2, \cdots, z_k}.$    一般常用 deterministic function maps random samples $z_i = f(x_i)$ from $x$ space to $z$ space.   因此  $p(x)$ distribution 可以轉換成 $p(z)$ distribution.  實務上我們常常用 function 把一個 distribution 轉成另一個 distribution, 例如 uniform distribution to normal distribution.   Neural network 其實就是一個比較複雜的 (deterministic) function.  這部分沒有問題。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;問題是 Bayesian 需要 conditional distribution.&lt;/strong&gt;   如果 $z = f(x)$ 是一個 deterministic neural network (or any deterministic function).  在這種情況下，conditional probability $p(z\mid x)$ 在 given $x$ 時,  $z$ 卻是一個定值 ，無法變成 distribution (or a delta distribution)?  因為每一個 $x$ 只對應一個 $z$, 沒有所謂 distribution.&lt;/p&gt;
+
+&lt;p&gt;因此如何讓 deterministic neural network 用於 Bayesian inference?  似乎有以下幾種可能性：&lt;/p&gt;
+
+&lt;h4 id=&quot;example-1different-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution&quot;&gt;Example 1：Different neural networks from a hidden random variable to create conditional distribution&lt;/h4&gt;
+
+&lt;p&gt;Deterministic functions 可以產生 conditional probability.  如下例&lt;/p&gt;
+
+&lt;p&gt;https://en.wikipedia.org/wiki/Conditional_probability_distribution&lt;/p&gt;
+
+&lt;p&gt;Consider the roll of a fair &lt;a href=&quot;https://en.wikipedia.org/wiki/Dice&quot;&gt;die&lt;/a&gt; and let {\displaystyle X=1}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4&quot; alt=&quot;{\displaystyle X=1}&quot; /&gt; if the number is even (i.e. 2, 4, or 6) and {\displaystyle X=0}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/d519e9e94f279ea82581dfa70a2444e896e2d860&quot; alt=&quot;{\displaystyle X=0}&quot; /&gt; otherwise. Furthermore, let {\displaystyle Y=1}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/867ae2de7c84119e258e68ca484e01e03b00bd73&quot; alt=&quot;Y=1&quot; /&gt; if the number is prime (i.e. 2, 3, or 5) and {\displaystyle Y=0}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/56cd853e6606465d2259975da9d0a0bb08f612af&quot; alt=&quot;Y=0&quot; /&gt; otherwise.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210821221517777.png&quot; alt=&quot;image-20210821221517777&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then the unconditional probability that {\displaystyle X=1}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4&quot; alt=&quot;{\displaystyle X=1}&quot; /&gt; is 3/6 = 1/2 (since there are six possible rolls of the die, of which three are even), whereas the probability that {\displaystyle X=1}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4&quot; alt=&quot;{\displaystyle X=1}&quot; /&gt; conditional on {\displaystyle Y=1}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/867ae2de7c84119e258e68ca484e01e03b00bd73&quot; alt=&quot;Y=1&quot; /&gt; is 1/3 (since there are three possible prime number rolls—2, 3, and 5—of which one is even).&lt;/p&gt;
+
+&lt;p&gt;$X = f_1(Z)$ and $Y=f_2(Z)$   $Z$ 是 die 的 output random variable $1,2,\cdots,6$ 雖然 $f_1$ and $f_2$  都是 deterministic function, 但是 $P(Y\mid X)$ 的確是 distribution, 因為我們不知道 $X=1$ 到底對應 $Z=?$&lt;/p&gt;
+
+&lt;p&gt;所以如果我們有一個 $Z$ random variable, 以及不同的 neural network $X = f_1(Z)$ and $Y = f_2(Z)$.   Then $p(Y\mid X)$  可以是一個 distribution 而非單一 value.&lt;/p&gt;
+
+&lt;h4 id=&quot;interval-instead-of-a-fixed-value&quot;&gt;Interval instead of a fixed value?&lt;/h4&gt;
+
+&lt;h4 id=&quot;example-2parameter-with-conditional-distribution-eg-vae&quot;&gt;Example 2：parameter with conditional distribution (e.g. VAE)&lt;/h4&gt;
+
+&lt;p&gt;The neural network generate the parameters for another distribution.  E.g. mean and variance for a normal distribution.&lt;/p&gt;
+
+&lt;p&gt;例如 VAE neural network 產生 $\mu, \sigma$ for normal distribution.  雖然這解決 deterministic to probabilistic 問題。但聽起來還是有點魔幻寫實方式把 deterministic to probabilistic.  這是 VAE 的實際做法。&lt;/p&gt;
+
+&lt;h4 id=&quot;example-3--parameterizing-conditional-distribution-with-nn&quot;&gt;Example 3:  Parameterizing Conditional Distribution with NN&lt;/h4&gt;
+
+&lt;p&gt;[@kingmaIntroductionVariational2019]&lt;/p&gt;
+
+&lt;p&gt;一般的 differentiable feed-forward neural networks are a particularly flexible and computationally scalable type of &lt;strong&gt;function approximator.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;A particularly interesting application is probabilistic models&lt;/strong&gt;, i.e. the use of neural networks for probability density functions (PDFs) or probability mass functions (PMFs) in probabilistic models (how?). Probabilistic models based on neural networks are computationally scalable since they allow for stochastic gradient-based optimization.&lt;/p&gt;
+
+&lt;p&gt;We will denote a deep NN as a vector function:  NeuraNet(.).  In case of neural entwork based image classifcation, for example, nerual networks parameterize a categorical distrbution $p_{\theta}(y\mid \mathbf{x})$ over a class label $y$,  conditioned on an image $\mathbf{x}$.  ??? y is a single label or distribution?&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathbf{p} &amp;=\operatorname{NeuralNet}(\mathbf{x}) \\
+p_{\boldsymbol{\theta}}(y \mid \mathbf{x}) &amp;=\text { Categorical }(y ; \mathbf{p})
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where the last operation of NeuralNet(.) is typical a softmax() function! such that $\Sigma_i p_i = 1$&lt;/p&gt;
+
+&lt;p&gt;這是很有趣的觀點。 $\mathbf{x}$ and $\mathbf{p}$ 都是 deterministic, 甚至 softmax function 都是 deterministic.  但我們賦予最後的 $y$ probabilistic distribution 涵義！&lt;/p&gt;
+
+&lt;p&gt;例如 $\mathbf{x}$ 可能是一張狗照片， $\mathbf{p}$ 是 feature extraction of $\mathbf{x}$.  兩者都是 deterministic.   但最後 categorical function 直接把 $\mathbf{p}$  賦予多值的 (deterministic) distribution, 例如狗的機率 $p_1 = 0.8,$ 貓的機率  $p_2 = 0.15,$ 其他的機率  $p_3 = 0.05.$    這和我們一般想像的機率性 outcome,   同一個 $\mathbf{p}$ 有時 output 狗，有時 output 貓不同。&lt;/p&gt;
+
+&lt;p&gt;數學上這只是 vector to vector conversion,   $\mathbf{p}$ 是 high dimension feature vector (e.g. 1024x1), $\mathbf{y} = [y_1, y_2, \cdots]$ 是 low dimension output vector (e.g. 3x1 or 10x1) summing to 1.  重點是這個 low dimension vector $\mathbf{y}$ 就是 conditional distribution!  &lt;strong&gt;也就是一個 sample $\mathbf{x}$ 就可以 output 一個 conditional distribution, 而不需要很多 $\mathbf{x}$ samples 產生 conditional distribution!&lt;/strong&gt;   這很像量子力學中一個電子就可以產生 wave distribution, 有點違反直覺。&lt;/p&gt;
+
+&lt;p&gt;這似乎是把一個 random sample 轉換成一個 (deterministic) conditional distribution 的方式。不過是否是 general method, TBC.&lt;/p&gt;
+
+&lt;p&gt;另外這裡的 $\theta$ 就是 neural network 的 weights, determinstic parameters to be optimzed.&lt;/p&gt;
+
+&lt;h3 id=&quot;neural-network-and-dag-directed-acyclic-graph&quot;&gt;Neural Network and DAG (Directed Acyclic Graph)&lt;/h3&gt;
+
+&lt;p&gt;我們 focus on directed probabilistic graphical models  (PGM) or Bayesian networks.
+&lt;script type=&quot;math/tex&quot;&gt;p_{\boldsymbol{\theta}}\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{M}\right)=\prod_{j=1}^{M} p_{\boldsymbol{\theta}}\left(\mathbf{x}_{j} \mid P a\left(\mathbf{x}_{j}\right)\right)&lt;/script&gt;
+where Pa(xj) is the set of parent variables of node j in the directed graph.&lt;/p&gt;
+
+&lt;p&gt;Traditionally, each conditional probability distribution xx is parameterized as a lookup table or a linear model.&lt;/p&gt;
+
+&lt;p&gt;A more flexible way to parameterize such conditional distributions is with neural networks.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\boldsymbol{\eta} &amp;=\operatorname{NeuralNet}(P a(\mathbf{x})) \\
+p_{\boldsymbol{\theta}}(\mathbf{x} \mid P a(\mathbf{x})) &amp;=p_{\boldsymbol{\theta}}(\mathbf{x} \mid \boldsymbol{\eta})
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;同樣這裡的 $\theta$ 就是 neural network 的 weights, determinstic parameters to be optimzed.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;重要！我們用 $\theta$ 代表這個 neural network.  這個 $\theta$ neural network 的方向是從 hidden variable $Pa(\mathbf{x})$ 到 observations $\mathbf{x}$.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;deep-learning-latent-variable-model-dlvm-tractable-and-intractable&quot;&gt;Deep (Learning) Latent Variable Model (DLVM) Tractable and Intractable&lt;/h4&gt;
+
+&lt;p&gt;以下我們用 hand-waving 方法說明幾個&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p_{\boldsymbol{\theta}}(\mathbf{x})=\int p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) d \mathbf{z}&lt;/script&gt;
+
+&lt;p&gt;The above equation is the marginal likelihood or the model evidence, when taken as a function of $\theta$&lt;/p&gt;
+
+&lt;p&gt;$\theta$ 代表這個 neural network.  這個 $\theta$ neural network 的方向是從 hidden variable $\mathbf{z}$ 到 observations $\mathbf{x}$.&lt;/p&gt;
+
+&lt;p&gt;$p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})$ : joint distribution is tractable because it includes both evidence and latent&lt;/p&gt;
+
+&lt;p&gt;$p_{\boldsymbol{\theta}}(\mathbf{x})$ : marginal likelihood is intractable in DLVM; 因此上式的積分也是 intractable&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})=p_{\boldsymbol{\theta}}(\mathbf{z}) p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z})&lt;/script&gt;
+
+&lt;p&gt;$p_{\boldsymbol{\theta}}(\mathbf{z})$ and $p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z})$ : prior and likelihood 一般 tractable because the joint distribution is tractable.  一般 prior 和 likelihood 是 tractable.&lt;/p&gt;
+
+&lt;p&gt;$p_{\boldsymbol{\theta}}(\mathbf{z}\mid \mathbf{x})$: posterior is intractable in DLVM because marginal likelihood is intractable&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})=\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p_{\boldsymbol{\theta}}(\mathbf{x})}&lt;/script&gt;
+
+&lt;p&gt;In summary&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Joint distribution, prior, likelihood 通常是 tractable, 甚至有 analytic solution.&lt;/li&gt;
+  &lt;li&gt;Marginal likelihood, posterior 通常是 intractable, 需要解但只有 approximate solution.
+    &lt;ul&gt;
+      &lt;li&gt;Posterior $p(z\mid x)$ =&amp;gt; discriminative problem!   given high dimension x to get a low dimension z, or $\theta$&lt;/li&gt;
+      &lt;li&gt;Marginal likelihood p(x) =&amp;gt; generative problem!  generate a high dimension x; or sometimes given a low dimension z to generate dimensional x (conditional generative model)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以下是一個例子。&lt;/p&gt;
+
+&lt;h4 id=&quot;example-4-multivariate-bernoulli-data&quot;&gt;Example 4: Multivariate Bernoulli data&lt;/h4&gt;
+
+&lt;p&gt;一個簡單的例子說明 hand-waving 的 assertion for the DLVM.&lt;/p&gt;
+
+&lt;p&gt;Prior $p(z)$ 是簡單的 normal distribution.   Neural network 把 random sample $z$ 轉換成 $\mathbf{p}$, 再來 $\mathbf{p}$ 直接變成 Bernoulli distribution!  就像例三的 softmax 一樣。&lt;/p&gt;
+
+&lt;p&gt;Likelihood $\log p(x\mid z)$ 因此也是簡單的 cross-entropy, i.e. maximum likelihood ~ minimum cross-entropy loss&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+p(\mathbf{z}) &amp;=\mathcal{N}(\mathbf{z} ; 0, \mathbf{I}) \\
+\mathbf{p} &amp;=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\
+\log p(\mathbf{x} \mid \mathbf{z}) &amp;=\sum_{j=1}^{D} \log p\left(x_{j} \mid \mathbf{z}\right)=\sum_{j=1}^{D} \log \operatorname{Bernoulli}\left(x_{j} ; p_{j}\right) \\
+&amp;=\sum_{j=1}^{D} x_{j} \log p_{j}+\left(1-x_{j}\right) \log \left(1-p_{j}\right)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where $\forall p_j \in \mathbf{p}: 0 \le p_j \le 1$&lt;/p&gt;
+
+&lt;p&gt;Joint distribution  $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})=p_{\boldsymbol{\theta}}(\mathbf{z}) p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z})$​ 就是把兩者乘積。雖然看起來 messy, 還夾著 neural network, 但理論上 straightforward, 甚至可以寫出 analytical form.&lt;/p&gt;
+
+&lt;p&gt;但反過來:  posterior $p(z\mid x)$,  marginal likelihood $p(x)$  即使在這麼簡單的 network, 都是難啃的骨頭！&lt;/p&gt;
+
+&lt;h2 id=&quot;vae-and-dlvm&quot;&gt;VAE and DLVM&lt;/h2&gt;
+
+&lt;p&gt;前面提到  基本就是把 intractable posterior inference and learning problem.&lt;/p&gt;
+
+&lt;p&gt;Marginal likelihood, posterior 通常是 intractable, 需要解但只有 approximate solution.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Posterior $p(z\mid x)$ =&amp;gt; discriminative problem!   given high dimension x to get a low dimension z&lt;/li&gt;
+  &lt;li&gt;Marginal likelihood p(x) =&amp;gt; generative problem!  generate a high dimension x; or sometimes given a low dimension z to generate dimensional x (conditional generative model)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;首先 target posterior $p_{\theta}(z\mid x)$ :  注意，此處 $\theta$ 代表的 neural network (weights) from $z$ to $x$.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;我們引入 encoder neural network&lt;/strong&gt; $q_{\phi}(z\mid x)$：注意，此處 $\phi$ 代表 neural network from $x$ to $z$.&lt;/p&gt;
+
+&lt;p&gt;我們希望 optimize the variational parameter $\phi$ such that&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \approx p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})&lt;/script&gt;
+
+&lt;p&gt;就是讓 (tractable) encoder 近似 (intractable) posterior.&lt;/p&gt;
+
+&lt;h2 id=&quot;比較-vae-and-em-algorithm&quot;&gt;比較 VAE and EM Algorithm&lt;/h2&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="VAE" /><category term="Autoencoder" /><category term="Variational" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Math ML - Maximum Likelihood Vs. Bayesian</title><link href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/" rel="alternate" type="text/html" title="Math ML - Maximum Likelihood Vs. Bayesian" /><published>2021-08-17T00:00:00+08:00</published><updated>2021-08-17T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;[@poczosCllusteringEM2015]&lt;/li&gt;
   &lt;li&gt;[@matasExpectationMaximization2018] good reference&lt;/li&gt;
@@ -103,6 +378,12 @@
 
 &lt;p&gt;&lt;strong&gt;Cons:&lt;/strong&gt; (1) point estimator, sensitive to assumption of distribution and parameter.&lt;/p&gt;
 
+&lt;p&gt;另一個 ML twist 可能更常見：maximum log-likelihood estimator (MLL).  基本和 ML 等價。&lt;/p&gt;
+
+&lt;p&gt;$\theta_{MLLE} = \arg_{\theta} \max  \log p(x\mid\theta)$&lt;/p&gt;
+
+&lt;p&gt;Maximization of the log-likelihood criterion is equivalent to minimization of a Kullback Leibler divergence between the data and model distributions.&lt;/p&gt;
+
 &lt;h4 id=&quot;em-estimator-extension-of-ml-for-hidden-data&quot;&gt;EM Estimator (Extension of ML for Hidden Data)&lt;/h4&gt;
 
 &lt;p&gt;$\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} Q(\boldsymbol{\theta}^{t+1} \mid \boldsymbol{\theta}^{t})$ &lt;sup id=&quot;fnref:1:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;    iteratively get the ML estimation of parameter&lt;/p&gt;
@@ -127,6 +408,14 @@
 
 &lt;p&gt;$\theta_{EAP} =E[\theta\mid x]$, 或是 marginal distribution,  或是再進一步做 parameter estimation (e.g. EM) or variational inference, 都屬於 bayesian inference.  此處先不討論。&lt;/p&gt;
 
+&lt;h3 id=&quot;bayesian-inference-and-directed-acyclic-graph-dag&quot;&gt;Bayesian Inference and Directed Acyclic Graph (DAG)&lt;/h3&gt;
+
+&lt;p&gt;Bayesian inference 最有威力的部分是結合 DAG.  不然只是把簡單的問題複雜化。&lt;/p&gt;
+
+&lt;p&gt;在 DAG model 中，可以一路用 conditional probablility back trace 到 root.  TBD&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.stack.imgur.com/BNspA.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
+
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
@@ -139,12 +428,10 @@ MathJax.Hub.Config({
 });
 &lt;/script&gt;
 
-&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+&lt;h2 id=&quot;main-reference&quot;&gt;Main Reference&lt;/h2&gt;
 &lt;ul&gt;
-  &lt;li&gt;[@poczosCllusteringEM2015]&lt;/li&gt;
-  &lt;li&gt;[@matasExpectationMaximization2018] good reference&lt;/li&gt;
-  &lt;li&gt;[@choyExpectationMaximization2017]&lt;/li&gt;
-  &lt;li&gt;[@tzikasVariationalApproximation2008] excellent introductory paper&lt;/li&gt;
+  &lt;li&gt;[@matasExpectationMaximization2018] : good reference&lt;/li&gt;
+  &lt;li&gt;[@tzikasVariationalApproximation2008] : excellent introductory paper&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;em-algorithm&quot;&gt;EM Algorithm&lt;/h2&gt;
@@ -405,7 +692,9 @@ Q^{(t)}(\mathbf{t}, \mathbf{w} ; \alpha, \beta)=&amp; \frac{N}{2} \ln \beta-\fra
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;p(\mathbf{x})=\sum_{j=1}^{M} \pi_{j} N\left(x ; \boldsymbol{\mu}_{j}, \mathbf{T}_{j}\right)&lt;/script&gt;
 
-&lt;p&gt;where $\boldsymbol{\pi} = { \pi_j }$ 代表 weights or mixing coefficients.  $\boldsymbol{\mu} = { \boldsymbol{\mu}&lt;em&gt;{j} }$ 是 means of Gaussian distribution.  $\mathbf{T} = { \mathbf{T}&lt;/em&gt;{j} }$ 是 precision (inverse covariance) matrices.  在 Bayesian GMM 我們更常用 precision matrix.&lt;/p&gt;
+&lt;p&gt;where $\boldsymbol{\pi} =  \{ \pi_j \}$ 代表 weights or mixing coefficients.&lt;br /&gt;
+$\boldsymbol{\mu} =  \{ \mu_{j} \} $ 是 means of Gaussian distribution. &lt;br /&gt;
+$\mathbf{T} = \{ \mathbf{T}_{j} \}$ 是 precision (inverse covariance) matrices.   在 Bayesian GMM 我們更常用 precision matrix.&lt;/p&gt;
 
 &lt;p&gt;Bayesian GMM 和一般 GMM 有什麼不同？ 最大的差別就是 $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$ 不再是 parameters for estimation, 而是 random variables. 這有什麼好處？我們可以 impose or embedded our priors on $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$, 通常是 conjugate priors (i.e. no informative priors) &lt;sup id=&quot;fnref:prior&quot;&gt;&lt;a href=&quot;#fn:prior&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
@@ -434,7 +723,7 @@ q_{T}(\mathbf{T}) &amp;=\prod_{j=1}^{M} W\left(\mathbf{T}_{j} ; \eta_{j}, \mathr
 
 &lt;p&gt;另一個好處是可以直接用 Bayesian GMM 決定 Gaussian component number, 而不需要用其他方法 (e.g. cross-validation)。實作如下圖。(a) 初始是 20 component Gaussians; (b), (c) model evolution; (d) 最終解只剩下 5 個 Gaussian components, 其餘 15 個 Gaussian components weight 為 0。注意收斂的過程中都沒有 singularity.&lt;/p&gt;
 
-&lt;p&gt;這聽起來比較 significant, 不過有一個 catch, 就是 Dirichlet prior 不允許 component mixing weight 為 0.  因此如果要用 Bayesian-GMM 決定 Gaussian component number, 必須 remove $\boldsymbol{\pi} = { \pi_j }$ from priors.  也就是把 $\boldsymbol{\pi} = { \pi_j }$ 視為 parameter to be estimated.&lt;/p&gt;
+&lt;p&gt;這聽起來比較 significant, 不過有一個 catch, 就是 Dirichlet prior 不允許 component mixing weight 為 0.  因此如果要用 Bayesian-GMM 決定 Gaussian component number, 必須 remove $\boldsymbol{\pi} = \{ \pi_j \}$ from priors.  也就是把 $\boldsymbol{\pi} = \{ \pi_j \}$ 視為 parameter to be estimated.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/media/16285916007272.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
@@ -456,8 +745,21 @@ q_{T}(\mathbf{T}) &amp;=\prod_{j=1}^{M} W\left(\mathbf{T}_{j} ; \eta_{j}, \mathr
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\pi_{j}=\frac{\sum_{n=1}^{N} r_{j n}}{\sum_{k=1}^{M} \sum_{n=1}^{N} r_{k n}}&lt;/script&gt;
 
-&lt;p&gt;在 iteration 過程中，有一些 mixing coefficients ${\pi_j}$ 收斂到 0. 定性來說，variational bound 可以視為兩項之和：第一項是 likelihood function, 第二項是 prior 造成的 penalty term to penalizes complex models.&lt;/p&gt;
+&lt;p&gt;在 iteration 過程中，有一些 mixing coefficients $\{\pi_j\}$ 收斂到 0. 定性來說，variational bound 可以視為兩項之和：第一項是 likelihood function, 第二項是 prior 造成的 penalty term to penalizes complex models.&lt;/p&gt;
 
+&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+
+&lt;p&gt;Choy, Chris. 2017. “Expectation Maximization and Variational Inference (Part 1).” February 26, 2017.&lt;br /&gt;
+&lt;a href=&quot;https://chrischoy.github.io/research/Expectation-Maximization-and-Variational-Inference/&quot;&gt;https://chrischoy.github.io/research/Expectation-Maximization-and-Variational-Inference/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Matas, J., and O. Drbohlav. 2018. “Expectation Maximization Algorithm.” December 1, 2018.&lt;br /&gt;
+&lt;a href=&quot;https://cw.fel.cvut.cz/old/_media/courses/a4b33rpz/pr_11_em_2017.pdf&quot;&gt;https://cw.fel.cvut.cz/old/_media/courses/a4b33rpz/pr_11_em_2017.pdf&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Poczos, Barnabas. 2015. “Cllustering and EM.” 2015.&lt;br /&gt;
+&lt;a href=&quot;https://www.cs.cmu.edu/~epxing/Class/10715/lectures/EM.pdf&quot;&gt;https://www.cs.cmu.edu/~epxing/Class/10715/lectures/EM.pdf&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Tzikas, Dimitris G., Aristidis C. Likas, and Nikolaos P. Galatsanos. 2008. “The Variational Approximation for Bayesian Inference.”   &lt;em&gt;IEEE Signal Processing Magazine&lt;/em&gt; 25 (6): 131–46.&lt;br /&gt;
+&lt;a href=&quot;https://doi.org/10.1109/MSP.2008.929620&quot;&gt;https://doi.org/10.1109/MSP.2008.929620&lt;/a&gt;.&lt;/p&gt;
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:prior&quot;&gt;
@@ -480,7 +782,8 @@ MathJax.Hub.Config({
 });
 &lt;/script&gt;
 
-&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+&lt;h2 id=&quot;main-reference&quot;&gt;Main Reference&lt;/h2&gt;
+
 &lt;ul&gt;
   &lt;li&gt;[@poczosCllusteringEM2015]&lt;/li&gt;
   &lt;li&gt;[@matasExpectationMaximization2018] good reference&lt;/li&gt;
@@ -1122,7 +1425,9 @@ E-Step
 &lt;script type=&quot;math/tex&quot;&gt;q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;M-Step 
-&lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="softmax" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Jekyll Memo for Github Blog</title><link href="http://localhost:4000/language/2021/06/30/Jekyll-Memo/" rel="alternate" type="text/html" title="Jekyll Memo for Github Blog" /><published>2021-06-30T16:29:08+08:00</published><updated>2021-06-30T16:29:08+08:00</updated><id>http://localhost:4000/language/2021/06/30/Jekyll-Memo</id><content type="html" xml:base="http://localhost:4000/language/2021/06/30/Jekyll-Memo/">&lt;p&gt;幾個重點&lt;/p&gt;
+&lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="softmax" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Jekyll Memo for Github Blog</title><link href="http://localhost:4000/language/2021/06/30/Jekyll-Memo/" rel="alternate" type="text/html" title="Jekyll Memo for Github Blog" /><published>2021-06-30T16:29:08+08:00</published><updated>2021-06-30T16:29:08+08:00</updated><id>http://localhost:4000/language/2021/06/30/Jekyll-Memo</id><content type="html" xml:base="http://localhost:4000/language/2021/06/30/Jekyll-Memo/">&lt;p&gt;幾個重點&lt;/p&gt;
 
 &lt;h2 id=&quot;header&quot;&gt;Header&lt;/h2&gt;
 &lt;ul&gt;
@@ -2458,308 +2763,4 @@ The last column corresponds to DC eigenvector: [1, -1, …, -1]’.&lt;br /&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Allen Lu (from John Doe)</name></author><summary type="html">Use Julia for Linear Algebra</summary></entry><entry><title type="html">Edge AI Trilogy III - Model Compression</title><link href="http://localhost:4000/ai/2020/04/05/EdgeAI-Compression/" rel="alternate" type="text/html" title="Edge AI Trilogy III - Model Compression" /><published>2020-04-05T16:29:08+08:00</published><updated>2020-04-05T16:29:08+08:00</updated><id>http://localhost:4000/ai/2020/04/05/EdgeAI-Compression</id><content type="html" xml:base="http://localhost:4000/ai/2020/04/05/EdgeAI-Compression/">&lt;h1 id=&quot;edge-ai-trilogy-iii---model-compression&quot;&gt;Edge AI Trilogy III - Model Compression&lt;/h1&gt;
-
-&lt;p&gt;Edge AI 三部曲的最終篇是 model compression.  之後還會有番外篇 on advance topics such as NAS, etc.  為什麼 model compression 放在最終篇？可以用 Han Song 的 deep compression [@hanDeepCompression2016; @hanLearningBoth2015] 為例。下圖架構正好對應三部曲：pruning, quantization, and (parameter) compression.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15842339623232.jpg&quot; alt=&quot;-w687&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;基本上 parameter compression 可以收割之前 sparsity, quantization, weight sharing 帶來的 storage and memory bandwidth reduction (35x-49x) 的好處。當然隨著 parameter reduction, 額外還有 computation and energy reduction 的好處，例如 zero-skipping for sparsity 和 low bitwidth MAC computation for quantization and weight sharing.&lt;/p&gt;
-
-&lt;p&gt;Model compression 包含 parameter compression 以及其他的技巧減少 parameter, 甚至改變 model structure。最後的 model size (in MB) and MAC (in GFlop) 就是 “moment of the truth”.  就像 SNR or BER 是通訊系統的整體檢驗。除了 parameter pruning (sparsity) and sharing (clustering and quantizing) 之外，[@chengSurveyModel2019] 把 model compression 作法分為四類：&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Theme Name&lt;/th&gt;
-      &lt;th&gt;Description&lt;/th&gt;
-      &lt;th&gt;Applications&lt;/th&gt;
-      &lt;th&gt;Details&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Parameter pruning and sharing&lt;/td&gt;
-      &lt;td&gt;Reducing redundant parameters not sensitive to the performance&lt;/td&gt;
-      &lt;td&gt;CONV and FC layer&lt;/td&gt;
-      &lt;td&gt;Robust to various settings, can achieve good performance, support both train from scratch and pre-trained model&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Low-rank factorization&lt;/td&gt;
-      &lt;td&gt;Using matrix/tensor decomposition to estimate the informative parameters&lt;/td&gt;
-      &lt;td&gt;CONV and FC layer&lt;/td&gt;
-      &lt;td&gt;Standardized pipeline, easily to implement, support both train from scratch and pre-trained model&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Transferred/compact convolutional filters&lt;/td&gt;
-      &lt;td&gt;Designing special structural convolutional filters to save parameters&lt;/td&gt;
-      &lt;td&gt;CONV layer only&lt;/td&gt;
-      &lt;td&gt;Algorithms are dependent on applications, usually achieve good performance, only support train from scratch&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Knowledge distillation&lt;/td&gt;
-      &lt;td&gt;Training a compact neural network with distilled knowledge of a large model&lt;/td&gt;
-      &lt;td&gt;CONV and FC layer&lt;/td&gt;
-      &lt;td&gt;Model performances are sensitive to applications and network structure only support train from scratch&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Another paper 提出的 model compression 分類 [@kuzminTaxonomyEvaluation2019].&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;SVD-based methods (low rank)&lt;/li&gt;
-  &lt;li&gt;Tensor decomposition-based methods (low rank)&lt;/li&gt;
-  &lt;li&gt;Pruning methods&lt;/li&gt;
-  &lt;li&gt;Compression ratio selection method&lt;/li&gt;
-  &lt;li&gt;Loss-aware compression&lt;/li&gt;
-  &lt;li&gt;Probabilistic compression&lt;/li&gt;
-  &lt;li&gt;Efficient architecture design&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Another good review paper from Purdue. [@goelSurveyMethods2020]&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Technique&lt;/th&gt;
-      &lt;th&gt;Description&lt;/th&gt;
-      &lt;th&gt;Advantages&lt;/th&gt;
-      &lt;th&gt;Disadvantages&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Quantization and Pruning&lt;/td&gt;
-      &lt;td&gt;Reduces precision/completely removes the redundant parameters and connections from a DNN.&lt;/td&gt;
-      &lt;td&gt;Negligible accuracy loss with small model size. Highly efficient arithmetic operations.&lt;/td&gt;
-      &lt;td&gt;Difficult to implement on CPUs and GPUs because of matrix sparsity. High training costs.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Filter Compression and Matrix Factorization&lt;/td&gt;
-      &lt;td&gt;Decreases the size of DNN filters and layers to improve efficiency.&lt;/td&gt;
-      &lt;td&gt;High accuracy. Compatible with other optimization techniques.&lt;/td&gt;
-      &lt;td&gt;Compact convolutions can be memory inefficient. Matrix factorization is computationally expensive.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Network Architecture Search&lt;/td&gt;
-      &lt;td&gt;Automatically finds a DNN architecture that meets performance and accuracy requirements on a target device.&lt;/td&gt;
-      &lt;td&gt;State-of-the-art accuracy with low energy consumption.&lt;/td&gt;
-      &lt;td&gt;Prohibitively high training costs.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Knowledge Distillation&lt;/td&gt;
-      &lt;td&gt;Trains a small DNN with the knowledge of a larger DNN to reduce model size.&lt;/td&gt;
-      &lt;td&gt;Low computation cost with few DNN parameters.&lt;/td&gt;
-      &lt;td&gt;Strict assumptions on DNN structure. Only compatible with softmax outputs.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Model =&amp;gt; Data =&amp;gt; Memory?? (from Huawei’s talk)&lt;/p&gt;
-
-&lt;h2 id=&quot;my-classification&quot;&gt;My classification:&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;Level 1&lt;/strong&gt;:  Compression Without changing the network layer and architecture, i.e. weight compression including pruning (weight = 0), quantization (reduce weight bitwidth), weight sharing, etc.  可以到達 10x-50x compression for large network (e.g. resnet, alexnet, etc.)&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Level 2&lt;/strong&gt;:  Modify network architecture based on some basic rules (matrix/tensor decomposition), network fusion, etc.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Level 3&lt;/strong&gt;: Change the network architecture completely.  Knowledge transfer (KT) or knowledge distillation (KD) belongs to Level 3 or Level 4?&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Level 4&lt;/strong&gt;: Network architecture search (NAS) to explore a big search space and based on the constraints of edge device capability.  嚴格來說，已經不是 model compression, 而是 model search or exploration.&lt;/p&gt;
-
-&lt;h3 id=&quot;level-1-quantization-and-pruning-and-huffman-encode&quot;&gt;Level 1: Quantization and Pruning and Huffman Encode&lt;/h3&gt;
-&lt;p&gt;Details 可以參考之前兩篇文章。&lt;/p&gt;
-
-&lt;p&gt;In summary, quantization from FP32 to INT8 可以 save up to 75% (4x) storage/bandwidth/computation, 而不損失 accuracy or increase error. 這也代表更低的功耗。如果使用更少 bitwidth (6/4/2/1), 可以省更多，但是可能 trade-off accuracy/error 或是限制應用的範圍。下圖是不同 quantized bitwidth 對應的 energy vs. test error.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15857558344760.jpg&quot; alt=&quot;400&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Pruning 是另一個更深奧更有空間的方式。可以視為 quantization 的 special case (weight and activation = 0), 但更進一步是一個 subset network 可以完全 represent the original network (lottery conjecture).  pruning 對於一些 “fat network” 可以達到 10x 的 saving.  對於一些 “lean network”, e.g. MobileNet 就比較少 saving.&lt;/p&gt;
-
-&lt;p&gt;Parameter compression 也是常用的技巧。包含 weight compression and activation compression.&lt;br /&gt;
-Parameter compression 省最多是 data 包含很多的冗余或是 regular structure，例如大量的 0, 從 information theory 就是 low entropy facilitate compression.  Huffman encoding 是一個有效的方法 for parameter compression.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15857617199358.jpg&quot; alt=&quot;&quot; /&gt;
-pruning, quantization, compression 可以合在一起得到最佳的效果 at a cost of higher training time.&lt;/p&gt;
-
-&lt;h3 id=&quot;level-2-matrix-and-tensor-decomposition&quot;&gt;Level 2: Matrix and Tensor Decomposition&lt;/h3&gt;
-&lt;p&gt;分為兩個部分: CONV layer 和 FC layer.  當然廣義來說，FC layer 也是一種 CONV layer with kernel size WxHxC.  此處 CONV layer 的 kernel size 一般指 1x1, 3x3, …, 11x11, etc.&lt;/p&gt;
-
-&lt;p&gt;對於 CONV layer, 越大 kernel filter 的 parameters and MACs 越大，較小的 kernel filter 的 parameters and MACs 越小。但如果把所有大的 kernel filter 都替換成小的 kernel filter, 會影響 DNN 的平移不變性，這會降低 DNN model 的精度。因此一些策略是識別冗余的 kernel filter, 並用較小 kernel filter 取代。例如 VGG 把所有大於 3x3 (e.g. 5x5, 7x7, etc.) 都用 3x3 filter 取代。SqueezeNet and MobileNet 甚至用 1x1 取代部分的 3x3 filter.&lt;/p&gt;
-
-&lt;h4 id=&quot;convolutional-filter-compression-conv-layer-only&quot;&gt;Convolutional Filter Compression (CONV layer only)&lt;/h4&gt;
-&lt;p&gt;SqueezeNet use 1x1 kernel to replace 3x3 kernel filter. 
-MobileNet use depth-wise + point-wise (1x1) network to replace original kernel to reduce computation by 1/8-1/9 for 3x3 kernel.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15858142132307.jpg&quot; alt=&quot;&quot; /&gt;
-MobileNet v3 可以達到不錯的精度 (75%)，但是 parameter and MAC 比起 AlexNet 少非常多。比起 ResNet50 (parameter 25M, MAC 4G) 也好不少。&lt;/p&gt;
-
-&lt;h4 id=&quot;matrix-factorizationdecomposition-conv-or-fc-layer&quot;&gt;Matrix Factorization/Decomposition (CONV or FC layer)&lt;/h4&gt;
-&lt;p&gt;通過將張量或矩陣分解為合積形式（sum-product form），將多維張量分解為更小的矩陣，從而可以消除冗余計算。一些因子分解方法可以將DNN模型加速4 倍以上，因為它們能夠將矩陣分解為更密集的參數矩陣，且能夠避免非結構化稀疏乘法的局部性問題。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15858148583700.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;目前 Matrix decomposition/factorization 並非主流。原因：&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;關於矩陣分解，有多種技術。Kolda等人證明，大多數因子分解技術都可以用來做DNN模型的加速，但這些技術在精度和計算複雜度之間不一定能夠取得最佳的平衡。&lt;/li&gt;
-  &lt;li&gt;由於缺乏理論解釋，因此很難解釋為什麼一些分解（例如CPD、BMD）能夠獲得較高的精度，而其他分解卻不能。&lt;/li&gt;
-  &lt;li&gt;與矩陣分解相關的計算常常與模型獲得的性能增益相當，造成收益與損耗抵消。&lt;/li&gt;
-  &lt;li&gt;矩陣分解很難在大型DNN模型中實現，因為隨著深度增加分解超參會呈指數增長，訓練時間主要耗費在尋找正確的分解超參。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;更多更 detailed description 可以參考 [@kuzminTaxonomyEvaluation2019].&lt;/p&gt;
-
-&lt;h3 id=&quot;level-3-knowledge-transfer-or-distillation&quot;&gt;Level 3: Knowledge Transfer or Distillation&lt;/h3&gt;
-&lt;p&gt;https://www.leiphone.com/news/202003/cggvDDPFIVTjydxS.html
-大模型比小模型更準確，因為參數越多，允許學習的函數就可以越複雜。那麼能否用小的模型也學習到這樣複雜的函數呢？&lt;/p&gt;
-
-&lt;p&gt;一種方式便是知識遷移（KT, Knowledge Transfer），通過將大的DNN模型獲得的知識遷移到小的DNN模型上。為了學習複雜函數，小的 DNN 模型會在大的 DNN 模型標記處的數據上進行訓練。其背後的思想是，大的 DNN 標記的數據會包含大量對小的DNN有用的信息。例如大的 DNN 模型對一個輸入圖像在一些類標籤上輸出中高機率，那麼這可能意味著這些類共享一些共同的視覺特徵；對於小的 DNN模型，如果去模擬這些機率，相比於直接從數據中學習，要能夠學到更多。&lt;/p&gt;
-
-&lt;p&gt;具體的作法之一是 Hinton 在 2014年 提出的知識蒸餾 (KD, Knowledge Distillation)，這種方法的訓練過程相比於知識遷移 (KT) 要簡單得多。在知識蒸餾中，小的 DNN 模型使用學生-教師模式進行訓練，其中小的 DNN 模型是學生，一組專門的 DNN 模型是教師；通過訓練學生，讓它模仿教師的 &lt;strong&gt;softmax&lt;/strong&gt; 輸出，小的DNN 模型可以完成整體的任務。但在 Hinton 的工作中，小的 DNN 模型的準確度卻相應有些下降。 Li 等人利用最小化教師與學生之間特徵向量的歐氏距離，進一步提高的小的 DNN 模型的精度。類似的，FitNet 讓學生模型中的每一層都來模仿教師的特徵圖。但以上兩種方法都要求對學生模型的結構做出嚴格的假設，其泛化性較差。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15858302664067.jpg&quot; alt=&quot;-w600&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Knowledge transfer/distillation is very interesting and similar to proxy AI I thought before!&lt;/p&gt;
-
-&lt;p&gt;Knowledge transfer or distillation 是個非常有趣而且實用的技術。例如 teacher model 可以是雲端的大 DNN 模型，有比較好的精度以及泛化性。但在 edge or device 可以 deploy student model, i.e. 小 DNN 模型。雖然精度和泛化性比較差，但是 quick response, 以及 edge and device 不一定需要非常強的泛化性 (e.g. &lt;em&gt;local&lt;/em&gt; voice recognition, or &lt;em&gt;local&lt;/em&gt; face detection).&lt;/p&gt;
-
-&lt;p&gt;優點：基於知識遷移和知識蒸餾的技術可以顯著降低大型預訓練模型的計算成本。有研究表明，知識蒸餾的方法不僅可以在計算機視覺中應用，還能用到許多例如半監督學習、域自適應等任務中。&lt;/p&gt;
-
-&lt;p&gt;缺點及改進方向：知識蒸餾通常對學生和教師的結構和規模有嚴格的假設，因此很難推廣到所有的應用中。此外目前的知識蒸餾技術嚴重依賴於 softmax 輸出，不能與不同的輸出層協同工作。作為改進方向，學生可以學習教師模型的神經元激活序列，而不是僅僅模仿教師的神經元/層輸出，這能夠消除對學生和教師結構的限制（提高泛化能力），並減少對softmax輸出層的依賴。&lt;/p&gt;
-
-&lt;h4 id=&quot;transfer-learning-is-different-from-knowledge-transferdistillation&quot;&gt;Transfer learning is different from knowledge transfer/distillation&lt;/h4&gt;
-&lt;p&gt;The objective of transfer learning and knowledge distillation are quite different. &lt;strong&gt;In transfer learning, the weights are transferred&lt;/strong&gt; from a pre-trained network to a new network and the pre-trained network should exactly match the new network architecture.  What this means is that &lt;em&gt;the new network is essentially as deep and complex as the pre-trained network.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;the objective of knowledge distillation is different. The aim is not to transfer weights but to &lt;em&gt;transfer the generalizations of a complex model to a much lighter model.&lt;/em&gt;  如何 transfer generalizations?  使用 student-teach model 是一種方式。還有其他的方式可以參考 [@kompellaTapDark2018].&lt;/p&gt;
-
-&lt;h3 id=&quot;level-4-network-architecture-search-nas&quot;&gt;Level 4: Network Architecture Search (NAS)&lt;/h3&gt;
-&lt;p&gt;在設計低功耗計算機視覺程序時，針對不同的任務可能需要不同的DNN模型架構。但由於存在許多這種結構上的可能性，通過手工去設計一個最佳DNN模型往往是困難的。最好的辦法就是將這個過程自動化，即網絡架構搜索技術（Network Architecture Search）。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15858392710045.jpg&quot; alt=&quot;600&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;NAS使用一個遞歸神經網絡(RNN)作為控制器，並使用增強學習來構建候選的DNN架構。對這些候選DNN架構進行訓練，然後使用驗證集進行測試，測試結果作為獎勵函數，用於優化控制器的下一個候選架構。&lt;/p&gt;
-
-&lt;p&gt;NASNet 和AmoebaNet 證明瞭NAS的有效性，它們通過架構搜索獲得DNN模型能夠獲得SOTA性能。&lt;/p&gt;
-
-&lt;p&gt;為了獲得針對移動設備有效的DNN模型，Tan等人提出了MNasNet，這個模型在控制器中使用了一個多目標獎勵函數。在實驗中，MNasNet 要比NASNet快2.3倍，參數減少4.8倍，操作減少10倍。此外，MNasNet也比NASNet更準確。&lt;/p&gt;
-
-&lt;p&gt;不過，儘管NAS方法的效果顯著，但大多數NAS算法的計算量都非常大。例如，MNasNet需要50,000個GPU 時才能在ImageNet數據集上找到一個高效的DNN架構。&lt;/p&gt;
-
-&lt;p&gt;為了減少與NAS相關的計算成本，一些研究人員建議基於代理任務和獎勵來搜索候選架構。例如在上面的例子中，我們不選用ImageNet，而用更小的數據集CIFAR-10。FBNet正是這樣來處理的，其速度是MNasNet的420倍。但Cai等人表明，在代理任務上優化的DNN架構並不能保證在目標任務上是最優的，為了克服基於代理的NAS解決方案所帶來的局限性，他們提出了Proxyless-NAS，這種方法會使用路徑級剪枝來減少候選架構的數量，並使用基於梯度的方法來處理延遲等目標。他們在300個GPU時內便找到了一個有效的架構。此外，一種稱為單路徑NAS（Single-Path NAS）的方法可以將架構搜索時間壓縮到 4 個GPU時內，不過這種加速是以降低精度為代價的。&lt;/p&gt;
-
-&lt;p&gt;優點：NAS通過在所有可能的架構空間中進行搜索，而不需要任何人工干預，自動平衡準確性、內存和延遲之間的權衡。NAS能夠在許多移動設備上實現準確性、能耗的最佳性能。&lt;/p&gt;
-
-&lt;p&gt;缺點及改進方向：計算量太大，導致很難去搜索大型數據集上任務的架構。另外，要想找到滿足性能需求的架構，必須對每個候選架構進行訓練，並在目標設備上運行來生成獎勵函數，這會導致較高的計算成本。其實，可以將候選DNN在數據的不同子集上進行並行訓練，從而減少訓練時間；從不同數據子集得到的梯度可以合併成一個經過訓練的DNN。不過這種並行訓練方法可能會導致較低的準確性。另一方面，在保持高收斂率的同時，利用自適應學習率可以提高準確性。&lt;/p&gt;
-
-&lt;h3 id=&quot;model-compression-examples&quot;&gt;Model Compression Examples&lt;/h3&gt;
-
-&lt;h4 id=&quot;ex1-deep-compression-by-han-level-1&quot;&gt;Ex1: Deep Compression by Han (Level 1)&lt;/h4&gt;
-&lt;p&gt;參考 fig.1 使用 pruning, quantization, and parameter compression.  整體的效益如下。精度和 AlexNet 差不多 (TBC)。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Step 1: Pruning (9x-13x)&lt;/li&gt;
-  &lt;li&gt;Step 2: Quantizing clustered weights for weight sharing (32bit -&amp;gt; 5bit) (~4x)&lt;/li&gt;
-  &lt;li&gt;Step 3: Compression: encode weights/index for &lt;strong&gt;weight compression&lt;/strong&gt;; Huffman encoding &lt;strong&gt;sparsity/zero and weight sharing compression&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;Total: 35x-49x&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Accuracy result (TBA)&lt;/p&gt;
-
-&lt;h4 id=&quot;ex2-model-compression-via-distillation-and-quantization-level-13&quot;&gt;Ex2: Model compression via &lt;em&gt;distillation&lt;/em&gt; and &lt;em&gt;quantization&lt;/em&gt; (Level 1+3)&lt;/h4&gt;
-&lt;p&gt;This &lt;strong&gt;excellent&lt;/strong&gt; paper [@polinoModelCompression2018] &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; proposes two new compression methods, which jointly leverage weight quantization and distillation of larger networks, called “teachers,” into compressed “student” networks.  簡單說 FP32 model 是 teacher model; quantized model 是 student model. Github code &lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;The first method is called quantized distillation and leverages distillation during the training process, by incorporating distillation loss, expressed with respect to the teacher network, into the training of a smaller student network whose weights are quantized to a limited set of levels. &lt;strong&gt;teacher model 使用 FP32 deep model; student model 則是 uniformly quantized and shallow model.  藉著 distillation loss that teacher model can train student model.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;The second method, differentiable quantization, optimizes the location of quantization points through &lt;em&gt;stochastic gradient descent&lt;/em&gt;, to better fit the behavior of the teacher model. &lt;strong&gt;使用和 student model 同樣的小模型。重點是 linear but non-uniform quantization. 但沒有 distillation loss; 而是用一般的 cross-entropy loss to train this model and optimize the &lt;em&gt;non-uniform&lt;/em&gt; quantization.&lt;/strong&gt;  當然也可以使用 non-uniform quantization for student model.  可能 computation 會太複雜。&lt;/p&gt;
-
-&lt;p&gt;其他細節請參考[@polinoModelCompression2018].  這裏直接討論結果。&lt;/p&gt;
-
-&lt;h4 id=&quot;cifar10-accuracy--teacher-model-53m-param-of-fp32-21mb-accuracy-8971&quot;&gt;CIFAR10 accuracy.  Teacher model: 5.3M param of FP32, 21MB, accuracy 89.71%.&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;有三種 student models, 分別為 1M/0.3M/0.1M param 如下表左第一欄。&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;第一欄 (A) 都是 FP32 full precision training. 例如 A1 代表 student model 1, 1M param, FP32：4MB.  兩個 accuracy 對應 cross-entropy loss and distillation loss.  Accuracy 84.5% 對應 normal training (cross-entropy loss).  Accuracy 88.8% 對應 teacher-student training (distillation loss).&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;第二欄 (B) 都是 quantized training.  PM (post-mortem) Quant. 只是把 FP32 teacher-student training 的 weight 直接 post training &lt;strong&gt;uniform&lt;/strong&gt; quantization without any additional operation. 有兩種 PM Quant., 一是 global scaling (no bucket), 另一個是 local scaling (with bucket size = 256).  所以 (1) PM Quant. accuracy 一定差於 FP32 accuracy (88.8%).  Quantized Distill. 使用 distillation loss back propagation, 因此 accuracy is better than PM Quant.  In summary, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FP Distill. &amp;gt; Quantized Distill. &amp;gt; PM (with bucket) &amp;gt; PM (no bucket)&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Differentiable Quant. 使用 cross-entropy loss training.  從另一個角度, &lt;strong&gt;non-uniform&lt;/strong&gt; quantization, approach this problem.  在 4-bits quantization 的表現不輸於 uniform distillation loss training.  但在 2-bits quantization distillation loss training 還是比較好。合理推論，differentiable non-uniform quantization with distillation loss 應該會有最佳的 accuracy.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Differentiable quantization 在 computation 不容易在 edge AI 實現，因為 quantized values 不會落在 linear grid 上，很難用 finite bitwidth 表示，也很難做 MAC 計算。比較接近的解法是用 k-mean clustering algorithm to cluster weights and adopt the centroids as quantization points. Han 稱為 weight sharing.&lt;/li&gt;
-  &lt;li&gt;最佳的結果 assuming &lt;strong&gt;accuracy loss &amp;lt; 2%&lt;/strong&gt; compared with baseline (89.71%) is student model 1 (1M param) of 4-bit with accuracy &lt;strong&gt;88%&lt;/strong&gt;. The total size of best student model 1 is: 1M param x 0.5 = 0.5MB.  &lt;strong&gt;A factor of 21MB/0.5MB = 42x saving in memory/bandwidth/computation etc.!!!&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15859946738058.jpg&quot; alt=&quot;-w600&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;更好的結果是用比較 deeper student model, 但是用 4-bit (5.8M x 0.5 = 2.9MB), 而且 accuracy 還比較好 (&lt;strong&gt;92.3% vs. 89.71%&lt;/strong&gt;).  &lt;strong&gt;A factor of 21MB/2.9MB = 7.2x saving in memory/bandwidth/computation etc.!!!&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15860150600942.jpg&quot; alt=&quot;-w527&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;cifar100-accuracy--teacher-model-365m-param-of-fp32-146mb-accuracy-7721&quot;&gt;CIFAR100 accuracy.  Teacher model: 36.5M param of FP32, 146MB, accuracy 77.21%.&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Student model is 17.2M param, about 1/2 of teacher model.  4-bit model is 8.2MB with accuracy 76.31%.  A factor of 146MB/8.2MB = 17.8x saving.&lt;/li&gt;
-  &lt;li&gt;Differential quantization seems to perform better, but with more params and more complicated computation.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15860167658569.jpg&quot; alt=&quot;-w600&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;imagenet-accuracy--teacher-model-resnet34-or-resnet50&quot;&gt;Imagenet accuracy.  Teacher model: ResNet34 or ResNet50&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Student model: 2xResNet18 QD 4 bit and 2xResNet34 QD 4 bit&lt;/li&gt;
-  &lt;li&gt;Student model of 4-bit 可以得到和 teacher model 類似 accuracy.  但 size 比起 teacher FP32 model 少了 2x-4x.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/15842337834603/15860186870025.jpg&quot; alt=&quot;-w600&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Distillation + Quantization 結論：&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;FP32 to INT8 已經有很多 post-training quantization or quantization aware training 可以達到同樣的 accuracy.  因此 4x saving 已經很普通。&lt;/li&gt;
-  &lt;li&gt;Teacher-student models 在小 dataset (CIFAR10), model compression 效果比較突出: (1) 8x from FP32 to 4-bit;  (2) student model 可以比 teacher model gain 4x-5x.  但對於大 dataset, CIFAR100 or ImageNet, student model param 已經接近甚至超過 teacher model param.  此時只有 FP32 to 4-bit gain.&lt;/li&gt;
-  &lt;li&gt;對於大 dataset, knowledge distillation 的結果並不突出。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;Level 1 + Level 2 compression 可以同時使用。增加壓縮的倍率。&lt;/li&gt;
-  &lt;li&gt;Level 1 + Level 3 compression 可以同時使用。對於大 dataset 效果有限。但是小 dataset 似乎不錯。&lt;/li&gt;
-  &lt;li&gt;Level 4 NAS 雖然看起來很好，但是需要太多的 computation resource/time to search.  需要更好的方式用於 edge AI.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
-&lt;p&gt;Cheng, Yu, Duo Wang, Pan Zhou, and Tao Zhang. 2019. “A Survey of Model
-Compression and Acceleration for Deep Neural Networks,” September.
-&lt;a href=&quot;https://arxiv.org/abs/1710.09282v8&quot;&gt;https://arxiv.org/abs/1710.09282v8&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Goel, Abhinav, Caleb Tung, Yung-Hsiang Lu, and George K. Thiruvathukal. 2020. “A Survey of Methods for Low-Power Deep Learning and Computer Vision,” March. &lt;a href=&quot;http://arxiv.org/abs/2003.11066&quot;&gt;http://arxiv.org/abs/2003.11066&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Han, Song, Huizi Mao, and William J. Dally. 2016. “Deep Compression:
-Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman Coding,” February. &lt;a href=&quot;http://arxiv.org/abs/1510.00149&quot;&gt;http://arxiv.org/abs/1510.00149&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Han, Song, Jeff Pool, John Tran, and William J. Dally. 2015. “Learning Both Weights and Connections for Efficient Neural Networks,” October. &lt;a href=&quot;http://arxiv.org/abs/1506.02626&quot;&gt;http://arxiv.org/abs/1506.02626&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Kompella, Ravindra. n.d. “Tap into the Dark Knowledge Using Neural Nets Distillation.” Medium. Accessed April 2, 2020.
-&lt;a href=&quot;https://towardsdatascience.com/knowledge-distillation-and-the-concept-of-dark-knowledge-8b7aed8014ac&quot;&gt;https://towardsdatascience.com/knowledge-distillation-and-the-concept-of-dark-knowledge-8b7aed8014ac&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Kuzmin, Andrey, Markus Nagel, Saurabh Pitre, Sandeep Pendyam, Tijmen
-Blankevoort, and Max Welling. 2019. “Taxonomy and Evaluation of
-Structured Compression of Convolutional Neural Networks,” December.
-&lt;a href=&quot;http://arxiv.org/abs/1912.09802&quot;&gt;http://arxiv.org/abs/1912.09802&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Polino, Antonio, Razvan Pascanu, and Dan Alistarh. 2018. “Model
-Compression via Distillation and Quantization,” February.
-&lt;a href=&quot;http://arxiv.org/abs/1802.05668&quot;&gt;http://arxiv.org/abs/1802.05668&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;Published in ICLR 2018 &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;https://github.com/antspy/quantized_distillation &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="python" /><category term="quantization" /><category term="model compression" /><category term="pruning" /><category term="distillation" /><summary type="html">Edge AI Trilogy III - Model Compression</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Allen Lu (from John Doe)</name></author><summary type="html">Use Julia for Linear Algebra</summary></entry></feed>

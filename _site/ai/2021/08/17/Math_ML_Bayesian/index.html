@@ -114,14 +114,16 @@
 <meta name="description" content="Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper">
 <meta name="keywords" content="ML, EM, Bayesian, MAP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Math ML - Bayesian">
+<meta property="og:title" content="Math ML - Maximum Likelihood Vs. Bayesian">
 <meta property="og:url" content="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">
 <meta property="og:site_name" content="NexT">
 <meta property="og:description" content="Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.stack.imgur.com/BNspA.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Math ML - Bayesian">
+<meta name="twitter:title" content="Math ML - Maximum Likelihood Vs. Bayesian">
 <meta name="twitter:description" content="Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper">
+<meta name="twitter:image" content="https://i.stack.imgur.com/BNspA.png">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +156,7 @@
 
 
 
-  <title>Math ML - Bayesian | NexT</title>
+  <title>Math ML - Maximum Likelihood Vs. Bayesian | NexT</title>
   
 
 
@@ -300,7 +302,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Math ML - Bayesian
+            Math ML - Maximum Likelihood Vs. Bayesian
           
         </h1>
         
@@ -494,6 +496,12 @@
 
 <p><strong>Cons:</strong> (1) point estimator, sensitive to assumption of distribution and parameter.</p>
 
+<p>另一個 ML twist 可能更常見：maximum log-likelihood estimator (MLL).  基本和 ML 等價。</p>
+
+<p>$\theta_{MLLE} = \arg_{\theta} \max  \log p(x\mid\theta)$</p>
+
+<p>Maximization of the log-likelihood criterion is equivalent to minimization of a Kullback Leibler divergence between the data and model distributions.</p>
+
 <h4 id="em-estimator-extension-of-ml-for-hidden-data">EM Estimator (Extension of ML for Hidden Data)</h4>
 
 <p>$\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} Q(\boldsymbol{\theta}^{t+1} \mid \boldsymbol{\theta}^{t})$ <sup id="fnref:1:1"><a href="#fn:1" class="footnote">1</a></sup>    iteratively get the ML estimation of parameter</p>
@@ -517,6 +525,14 @@
 <p>Bayesian inference 的精神就是 posterior distribution.  至於從 posterior 再找 maximum (MAP), 或是平均 (EAP)</p>
 
 <p>$\theta_{EAP} =E[\theta\mid x]$, 或是 marginal distribution,  或是再進一步做 parameter estimation (e.g. EM) or variational inference, 都屬於 bayesian inference.  此處先不討論。</p>
+
+<h3 id="bayesian-inference-and-directed-acyclic-graph-dag">Bayesian Inference and Directed Acyclic Graph (DAG)</h3>
+
+<p>Bayesian inference 最有威力的部分是結合 DAG.  不然只是把簡單的問題複雜化。</p>
+
+<p>在 DAG model 中，可以一路用 conditional probablility back trace 到 root.  TBD</p>
+
+<p><img src="https://i.stack.imgur.com/BNspA.png" alt="img" /></p>
 
 <div class="footnotes">
   <ol>
@@ -580,6 +596,10 @@
       
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/ai/2021/08/19/Variational-Autoencoder/" rel="next" title="Math AI - Variational Autoencoder Vs. Variational EM Algorithm">
+                <i class="fa fa-chevron-left"></i> Math AI - Variational Autoencoder Vs. Variational EM Algorithm
+              </a>
             
           </div>
 
@@ -681,7 +701,7 @@ MathJax.Hub.Config({
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -703,7 +723,7 @@ MathJax.Hub.Config({
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -757,7 +777,7 @@ MathJax.Hub.Config({
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">1</span> <span class="nav-text">Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#maximum-likelihood-estimation-vs-bayesian-inference"> <span class="nav-number">2</span> <span class="nav-text">Maximum Likelihood Estimation Vs. Bayesian Inference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#事前事後哪一個重要"> <span class="nav-number">3</span> <span class="nav-text">事前、事後，哪一個重要？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#真的-prior-information-先驗-怎麼辦"> <span class="nav-number">4</span> <span class="nav-text">真的 Prior Information (先驗) 怎麼辦?</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ml-em-map-and-bayesian-inference-difference"> <span class="nav-number">5</span> <span class="nav-text">ML, EM, MAP, and Bayesian Inference Difference</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#ml-maximum-likelihood-estimator"> <span class="nav-number">5.1</span> <span class="nav-text">ML (Maximum likelihood) Estimator</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#em-estimator-extension-of-ml-for-hidden-data"> <span class="nav-number">5.2</span> <span class="nav-text">EM Estimator (Extension of ML for Hidden Data)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#map-maximum-a-posteriori-estimator"> <span class="nav-number">5.3</span> <span class="nav-text">MAP (Maximum A Posteriori) Estimator</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#bayesian-inference"> <span class="nav-number">5.4</span> <span class="nav-text">Bayesian Inference</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">1</span> <span class="nav-text">Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#maximum-likelihood-estimation-vs-bayesian-inference"> <span class="nav-number">2</span> <span class="nav-text">Maximum Likelihood Estimation Vs. Bayesian Inference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#事前事後哪一個重要"> <span class="nav-number">3</span> <span class="nav-text">事前、事後，哪一個重要？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#真的-prior-information-先驗-怎麼辦"> <span class="nav-number">4</span> <span class="nav-text">真的 Prior Information (先驗) 怎麼辦?</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ml-em-map-and-bayesian-inference-difference"> <span class="nav-number">5</span> <span class="nav-text">ML, EM, MAP, and Bayesian Inference Difference</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#bayesian-inference-and-directed-acyclic-graph-dag"> <span class="nav-number">5.1</span> <span class="nav-text">Bayesian Inference and Directed Acyclic Graph (DAG)</span> </a> </li> </ol> </li>
     </ol>
   </div>
             

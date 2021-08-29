@@ -403,12 +403,10 @@ MathJax.Hub.Config({
 });
 </script>
 
-<h2 id="reference">Reference</h2>
+<h2 id="main-reference">Main Reference</h2>
 <ul>
-  <li>[@poczosCllusteringEM2015]</li>
-  <li>[@matasExpectationMaximization2018] good reference</li>
-  <li>[@choyExpectationMaximization2017]</li>
-  <li>[@tzikasVariationalApproximation2008] excellent introductory paper</li>
+  <li>[@matasExpectationMaximization2018] : good reference</li>
+  <li>[@tzikasVariationalApproximation2008] : excellent introductory paper</li>
 </ul>
 
 <h2 id="em-algorithm">EM Algorithm</h2>
@@ -669,7 +667,9 @@ Q^{(t)}(\mathbf{t}, \mathbf{w} ; \alpha, \beta)=& \frac{N}{2} \ln \beta-\frac{\b
 
 <script type="math/tex; mode=display">p(\mathbf{x})=\sum_{j=1}^{M} \pi_{j} N\left(x ; \boldsymbol{\mu}_{j}, \mathbf{T}_{j}\right)</script>
 
-<p>where $\boldsymbol{\pi} = { \pi_j }$ 代表 weights or mixing coefficients.  $\boldsymbol{\mu} = { \boldsymbol{\mu}<em>{j} }$ 是 means of Gaussian distribution.  $\mathbf{T} = { \mathbf{T}</em>{j} }$ 是 precision (inverse covariance) matrices.  在 Bayesian GMM 我們更常用 precision matrix.</p>
+<p>where $\boldsymbol{\pi} =  \{ \pi_j \}$ 代表 weights or mixing coefficients.<br />
+$\boldsymbol{\mu} =  \{ \mu_{j} \} $ 是 means of Gaussian distribution. <br />
+$\mathbf{T} = \{ \mathbf{T}_{j} \}$ 是 precision (inverse covariance) matrices.   在 Bayesian GMM 我們更常用 precision matrix.</p>
 
 <p>Bayesian GMM 和一般 GMM 有什麼不同？ 最大的差別就是 $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$ 不再是 parameters for estimation, 而是 random variables. 這有什麼好處？我們可以 impose or embedded our priors on $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$, 通常是 conjugate priors (i.e. no informative priors) <sup id="fnref:prior"><a href="#fn:prior" class="footnote">1</a></sup>.</p>
 
@@ -698,7 +698,7 @@ q_{T}(\mathbf{T}) &=\prod_{j=1}^{M} W\left(\mathbf{T}_{j} ; \eta_{j}, \mathrm{U}
 
 <p>另一個好處是可以直接用 Bayesian GMM 決定 Gaussian component number, 而不需要用其他方法 (e.g. cross-validation)。實作如下圖。(a) 初始是 20 component Gaussians; (b), (c) model evolution; (d) 最終解只剩下 5 個 Gaussian components, 其餘 15 個 Gaussian components weight 為 0。注意收斂的過程中都沒有 singularity.</p>
 
-<p>這聽起來比較 significant, 不過有一個 catch, 就是 Dirichlet prior 不允許 component mixing weight 為 0.  因此如果要用 Bayesian-GMM 決定 Gaussian component number, 必須 remove $\boldsymbol{\pi} = { \pi_j }$ from priors.  也就是把 $\boldsymbol{\pi} = { \pi_j }$ 視為 parameter to be estimated.</p>
+<p>這聽起來比較 significant, 不過有一個 catch, 就是 Dirichlet prior 不允許 component mixing weight 為 0.  因此如果要用 Bayesian-GMM 決定 Gaussian component number, 必須 remove $\boldsymbol{\pi} = \{ \pi_j \}$ from priors.  也就是把 $\boldsymbol{\pi} = \{ \pi_j \}$ 視為 parameter to be estimated.</p>
 
 <p><img src="/media/16285916007272.jpg" alt="" /></p>
 
@@ -720,8 +720,21 @@ q_{T}(\mathbf{T}) &=\prod_{j=1}^{M} W\left(\mathbf{T}_{j} ; \eta_{j}, \mathrm{U}
 
 <script type="math/tex; mode=display">\pi_{j}=\frac{\sum_{n=1}^{N} r_{j n}}{\sum_{k=1}^{M} \sum_{n=1}^{N} r_{k n}}</script>
 
-<p>在 iteration 過程中，有一些 mixing coefficients ${\pi_j}$ 收斂到 0. 定性來說，variational bound 可以視為兩項之和：第一項是 likelihood function, 第二項是 prior 造成的 penalty term to penalizes complex models.</p>
+<p>在 iteration 過程中，有一些 mixing coefficients $\{\pi_j\}$ 收斂到 0. 定性來說，variational bound 可以視為兩項之和：第一項是 likelihood function, 第二項是 prior 造成的 penalty term to penalizes complex models.</p>
 
+<h2 id="reference">Reference</h2>
+
+<p>Choy, Chris. 2017. “Expectation Maximization and Variational Inference (Part 1).” February 26, 2017.<br />
+<a href="https://chrischoy.github.io/research/Expectation-Maximization-and-Variational-Inference/">https://chrischoy.github.io/research/Expectation-Maximization-and-Variational-Inference/</a>.</p>
+
+<p>Matas, J., and O. Drbohlav. 2018. “Expectation Maximization Algorithm.” December 1, 2018.<br />
+<a href="https://cw.fel.cvut.cz/old/_media/courses/a4b33rpz/pr_11_em_2017.pdf">https://cw.fel.cvut.cz/old/_media/courses/a4b33rpz/pr_11_em_2017.pdf</a>.</p>
+
+<p>Poczos, Barnabas. 2015. “Cllustering and EM.” 2015.<br />
+<a href="https://www.cs.cmu.edu/~epxing/Class/10715/lectures/EM.pdf">https://www.cs.cmu.edu/~epxing/Class/10715/lectures/EM.pdf</a>.</p>
+
+<p>Tzikas, Dimitris G., Aristidis C. Likas, and Nikolaos P. Galatsanos. 2008. “The Variational Approximation for Bayesian Inference.”   <em>IEEE Signal Processing Magazine</em> 25 (6): 131–46.<br />
+<a href="https://doi.org/10.1109/MSP.2008.929620">https://doi.org/10.1109/MSP.2008.929620</a>.</p>
 <div class="footnotes">
   <ol>
     <li id="fn:prior">
@@ -782,8 +795,8 @@ q_{T}(\mathbf{T}) &=\prod_{j=1}^{M} W\left(\mathbf{T}_{j} ; \eta_{j}, \mathrm{U}
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/ai/2021/08/17/Math_ML_Bayesian/" rel="next" title="Math ML - Bayesian">
-                <i class="fa fa-chevron-left"></i> Math ML - Bayesian
+              <a href="/ai/2021/08/17/Math_ML_Bayesian/" rel="next" title="Math ML - Maximum Likelihood Vs. Bayesian">
+                <i class="fa fa-chevron-left"></i> Math ML - Maximum Likelihood Vs. Bayesian
               </a>
             
           </div>
@@ -886,7 +899,7 @@ MathJax.Hub.Config({
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -908,7 +921,7 @@ MathJax.Hub.Config({
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -962,7 +975,7 @@ MathJax.Hub.Config({
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">1</span> <span class="nav-text">Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-algorithm"> <span class="nav-number">2</span> <span class="nav-text">EM Algorithm</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-em-framework"> <span class="nav-number">3</span> <span class="nav-text">Variational EM Framework</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#examples"> <span class="nav-number">4</span> <span class="nav-text">Examples</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例一-linear-regression-filterestimate-a-noisy-signal"> <span class="nav-number">4.1</span> <span class="nav-text">例一： Linear Regression (filter/estimate a noisy signal)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#問題描述"> <span class="nav-number">4.1.1</span> <span class="nav-text">問題描述</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#三種解法圖式"> <span class="nav-number">4.1.2</span> <span class="nav-text">三種解法圖式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-1-ml-for-vanilla-linear-regression"> <span class="nav-number">4.1.3</span> <span class="nav-text">Method 1, ML for Vanilla Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例-1acommunication-equalizationdeconvolution"> <span class="nav-number">4.1.3.1</span> <span class="nav-text">例 1A：Communication equalization/deconvolution</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-2-em-algorithm-for-bayesian-linear-regression"> <span class="nav-number">4.1.4</span> <span class="nav-text">Method 2, EM algorithm for Bayesian Linear Regression</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-3-variational-em-based-bayesian-linear-regression"> <span class="nav-number">4.1.5</span> <span class="nav-text">Method 3, Variational EM-based Bayesian Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例-1bnoisy-signal-estimation"> <span class="nav-number">4.1.5.1</span> <span class="nav-text">例 1B：Noisy Signal Estimation</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例二-bayesian-gmm"> <span class="nav-number">4.2</span> <span class="nav-text">例二： Bayesian GMM</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#main-reference"> <span class="nav-number">1</span> <span class="nav-text">Main Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-algorithm"> <span class="nav-number">2</span> <span class="nav-text">EM Algorithm</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-em-framework"> <span class="nav-number">3</span> <span class="nav-text">Variational EM Framework</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#examples"> <span class="nav-number">4</span> <span class="nav-text">Examples</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例一-linear-regression-filterestimate-a-noisy-signal"> <span class="nav-number">4.1</span> <span class="nav-text">例一： Linear Regression (filter/estimate a noisy signal)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#問題描述"> <span class="nav-number">4.1.1</span> <span class="nav-text">問題描述</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#三種解法圖式"> <span class="nav-number">4.1.2</span> <span class="nav-text">三種解法圖式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-1-ml-for-vanilla-linear-regression"> <span class="nav-number">4.1.3</span> <span class="nav-text">Method 1, ML for Vanilla Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例-1acommunication-equalizationdeconvolution"> <span class="nav-number">4.1.3.1</span> <span class="nav-text">例 1A：Communication equalization/deconvolution</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-2-em-algorithm-for-bayesian-linear-regression"> <span class="nav-number">4.1.4</span> <span class="nav-text">Method 2, EM algorithm for Bayesian Linear Regression</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-3-variational-em-based-bayesian-linear-regression"> <span class="nav-number">4.1.5</span> <span class="nav-text">Method 3, Variational EM-based Bayesian Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例-1bnoisy-signal-estimation"> <span class="nav-number">4.1.5.1</span> <span class="nav-text">例 1B：Noisy Signal Estimation</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例二-bayesian-gmm"> <span class="nav-number">4.2</span> <span class="nav-text">例二： Bayesian GMM</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">5</span> <span class="nav-text">Reference</span> </a> </li>
     </ol>
   </div>
             

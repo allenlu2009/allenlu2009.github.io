@@ -14,11 +14,9 @@ MathJax.Hub.Config({
 </script>
 
 
-## Reference
-* [@poczosCllusteringEM2015]
-* [@matasExpectationMaximization2018] good reference
-* [@choyExpectationMaximization2017]
-* [@tzikasVariationalApproximation2008] excellent introductory paper
+## Main Reference
+* [@matasExpectationMaximization2018] : good reference
+* [@tzikasVariationalApproximation2008] : excellent introductory paper
 
 
 ## EM Algorithm
@@ -286,7 +284,9 @@ $$
 p(\mathbf{x})=\sum_{j=1}^{M} \pi_{j} N\left(x ; \boldsymbol{\mu}_{j}, \mathbf{T}_{j}\right)
 $$
 
-where $\boldsymbol{\pi} = \{ \pi_j \}$ 代表 weights or mixing coefficients.  $\boldsymbol{\mu} = \{ \boldsymbol{\mu}_{j} \}$ 是 means of Gaussian distribution.  $\mathbf{T} = \{ \mathbf{T}_{j} \}$ 是 precision (inverse covariance) matrices.  在 Bayesian GMM 我們更常用 precision matrix.
+where $\boldsymbol{\pi} =  \\{ \pi_j \\}$ 代表 weights or mixing coefficients.  
+$\boldsymbol{\mu} =  \\{ \mu_{j} \\} $ 是 means of Gaussian distribution.   
+$\mathbf{T} = \\{ \mathbf{T}_{j} \\}$ 是 precision (inverse covariance) matrices.   在 Bayesian GMM 我們更常用 precision matrix.  
 
 Bayesian GMM 和一般 GMM 有什麼不同？ 最大的差別就是 $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$ 不再是 parameters for estimation, 而是 random variables. 這有什麼好處？我們可以 impose or embedded our priors on $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$, 通常是 conjugate priors (i.e. no informative priors) [^prior].
 
@@ -318,7 +318,7 @@ Bayesian-GMM 比起 EM-GMM 到底有什麼好處。前面提到可以 impose pri
 
 另一個好處是可以直接用 Bayesian GMM 決定 Gaussian component number, 而不需要用其他方法 (e.g. cross-validation)。實作如下圖。(a) 初始是 20 component Gaussians; (b), (c) model evolution; (d) 最終解只剩下 5 個 Gaussian components, 其餘 15 個 Gaussian components weight 為 0。注意收斂的過程中都沒有 singularity.  
 
-這聽起來比較 significant, 不過有一個 catch, 就是 Dirichlet prior 不允許 component mixing weight 為 0.  因此如果要用 Bayesian-GMM 決定 Gaussian component number, 必須 remove $\boldsymbol{\pi} = \{ \pi_j \}$ from priors.  也就是把 $\boldsymbol{\pi} = \{ \pi_j \}$ 視為 parameter to be estimated. 
+這聽起來比較 significant, 不過有一個 catch, 就是 Dirichlet prior 不允許 component mixing weight 為 0.  因此如果要用 Bayesian-GMM 決定 Gaussian component number, 必須 remove $\boldsymbol{\pi} = \\{ \pi_j \\}$ from priors.  也就是把 $\boldsymbol{\pi} = \\{ \pi_j \\}$ 視為 parameter to be estimated. 
 
 ![](/media/16285916007272.jpg)
 
@@ -339,5 +339,20 @@ $$\begin{aligned}
 
 $$\pi_{j}=\frac{\sum_{n=1}^{N} r_{j n}}{\sum_{k=1}^{M} \sum_{n=1}^{N} r_{k n}}$$
 
-在 iteration 過程中，有一些 mixing coefficients $\{\pi_j\}$ 收斂到 0. 定性來說，variational bound 可以視為兩項之和：第一項是 likelihood function, 第二項是 prior 造成的 penalty term to penalizes complex models.
+在 iteration 過程中，有一些 mixing coefficients $\\{\pi_j\\}$ 收斂到 0. 定性來說，variational bound 可以視為兩項之和：第一項是 likelihood function, 第二項是 prior 造成的 penalty term to penalizes complex models.
 
+
+
+## Reference
+
+Choy, Chris. 2017. “Expectation Maximization and Variational Inference (Part 1).” February 26, 2017.  
+<https://chrischoy.github.io/research/Expectation-Maximization-and-Variational-Inference/>.  
+
+Matas, J., and O. Drbohlav. 2018. “Expectation Maximization Algorithm.” December 1, 2018.  
+<https://cw.fel.cvut.cz/old/_media/courses/a4b33rpz/pr_11_em_2017.pdf>.  
+
+Poczos, Barnabas. 2015. “Cllustering and EM.” 2015.  
+<https://www.cs.cmu.edu/~epxing/Class/10715/lectures/EM.pdf>.
+
+Tzikas, Dimitris G., Aristidis C. Likas, and Nikolaos P. Galatsanos. 2008. “The Variational Approximation for Bayesian Inference.”   *IEEE Signal Processing Magazine* 25 (6): 131–46.  
+<https://doi.org/10.1109/MSP.2008.929620>.

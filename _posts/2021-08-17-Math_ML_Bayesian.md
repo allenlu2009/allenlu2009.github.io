@@ -1,5 +1,5 @@
 ---
-title: Math ML - Bayesian
+title: Math ML - Maximum Likelihood Vs. Bayesian
 categories:
 - AI
 tags: [ML, EM, Bayesian, MAP]
@@ -112,6 +112,14 @@ $\theta_{MLE} = \arg_{\theta} \max  p(x\mid\theta)$   還是強調一下此處 $
 
 
 
+另一個 ML twist 可能更常見：maximum log-likelihood estimator (MLL).  基本和 ML 等價。
+
+$\theta_{MLLE} = \arg_{\theta} \max  \log p(x\mid\theta)$
+
+Maximization of the log-likelihood criterion is equivalent to minimization of a Kullback Leibler divergence between the data and model distributions. 
+
+
+
 #### EM Estimator (Extension of ML for Hidden Data)
 
 $\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} Q(\boldsymbol{\theta}^{t+1} \mid \boldsymbol{\theta}^{t})$ [^1]    iteratively get the ML estimation of parameter
@@ -139,5 +147,18 @@ $\theta_{MAP} =\arg_{\theta} \max p(\theta\mid x) = \arg_{\theta} \max p(x\mid\t
 Bayesian inference 的精神就是 posterior distribution.  至於從 posterior 再找 maximum (MAP), 或是平均 (EAP)
 
 $\theta_{EAP} =E[\theta\mid x]$, 或是 marginal distribution,  或是再進一步做 parameter estimation (e.g. EM) or variational inference, 都屬於 bayesian inference.  此處先不討論。
+
+
+
+### Bayesian Inference and Directed Acyclic Graph (DAG)
+
+Bayesian inference 最有威力的部分是結合 DAG.  不然只是把簡單的問題複雜化。
+
+在 DAG model 中，可以一路用 conditional probablility back trace 到 root.  TBD
+
+
+
+![img](https://i.stack.imgur.com/BNspA.png)
+
 
 
