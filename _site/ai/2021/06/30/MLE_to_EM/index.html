@@ -123,6 +123,7 @@
 <meta property="og:image" content="/media/16247543929429/16265418866309.jpg">
 <meta property="og:image" content="/media/16247543929429/16266210341198.jpg">
 <meta property="og:image" content="/media/16270144925547/16270374215686.jpg">
+<meta property="og:image" content="/media/image-20210905175447897.png">
 <meta property="og:image" content="/media/16270144925547/16274030539044.jpg">
 <meta property="og:image" content="/media/16270144925547/16274031504070.jpg">
 <meta name="twitter:card" content="summary">
@@ -689,113 +690,111 @@ $N_{11} = T_1 \cdot \frac{1}{4} + S_1 \cdot \frac{b}{5a+b}$</p>
 
 <h2 id="em-algorithm-derivation">EM Algorithm Derivation</h2>
 
-<p>EM algorithm 如果只是 heuristic algorithm, 可能有用度減半。這裡討論數學上的 justification.  先定義 terminologies</p>
+<p>EM algorithm 如果只是 heuristic algorithm, 可能有用度大幅縮減。以下討論 EM 數學上的 formulation.  先定義 terminologies</p>
 
 <ul>
-  <li>$\mathbf{o}$: all observed values</li>
-  <li>$\mathbf{z}$: all unobserved values (i.e. hidden variable)</li>
-  <li>$\mathbf{\theta}$: model parameters to be estimated</li>
+  <li>$\mathbf{x}$: observed random variables (下圖雙圓框)</li>
+  <li>$\mathbf{z}$: hidden random variables (下圖單圓框)</li>
+  <li>$\mathbf{\theta}$: fixed model parameters to be estimated (下圖單方框)</li>
 </ul>
 
-<p>目標：Find $\theta^*$ using the Maximum Likelihood approach</p>
+<p><img src="/media/image-20210905175447897.png" alt="image-20210905175447897" style="zoom:80%;" /></p>
 
-<p><script type="math/tex">\begin{equation}
-\boldsymbol{\theta}^{*}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ell(\boldsymbol{\theta})=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o} \mid \boldsymbol{\theta})
-\end{equation}\label{eqMLE}</script>​</p>
+<p>目標：Find $\theta^*$ to maximize likelihood or marginal likelihood 如下 $\eqref{eqMLE}$. 此處 $\theta$ 是一個 fixed parameter, 不是一個 random variable.  所以我們用 $p(x; \theta)$ notation, 而避免用 $p(x \mid \theta)$ notation. 不過有時候引用其他文章還是難以完全避免，可以從上下文判斷。</p>
+
+<p><script type="math/tex">\begin{align}
+\boldsymbol{\theta}^{*}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ell(\boldsymbol{\theta})=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{x} ; \boldsymbol{\theta}) \label{eqMLE}
+\end{align}</script>​</p>
 
 <p>思路：假設解下列完整 data 很容易解 (例如例一和例三)</p>
 
-<script type="math/tex; mode=display">\begin{equation}
-\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})
-\end{equation}\label{eqMLE2}</script>
+<script type="math/tex; mode=display">\begin{align}
+\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) \label{eqMLE2}
+\end{align}</script>
 
 <p>我們的想法是把 $\eqref{eqMLE}$ 先變形成上式 $\eqref{eqMLE2}$，再想辦法優化</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
-\begin{equation}
-\begin{aligned}
-\ln p(\mathbf{o} \mid \boldsymbol{\theta}) &=\ln \sum_{\mathbf{z}} p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) \\
-&=\ln \sum_{\mathbf{z}} q(\mathbf{z}) \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}
-\end{aligned}
-\end{equation}\label{eqMLE3} %]]></script>
+\begin{align}
+\ln p(\mathbf{x} ; \boldsymbol{\theta}) &=\ln \sum_{\mathbf{z}} p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) \nonumber \\
+&=\ln \sum_{\mathbf{z}} q(\mathbf{z}) \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}  \label{eqMLE3}
+\end{align} %]]></script>
 
 <p>這裡引入看似任意 probability distribution $q(\mathbf{z})$ with $\sum_{\mathbf{z}} q(\mathbf{z})=1$. 後面會說明如何選 $q(\mathbf{z})$.</p>
 
 <h3 id="log-likelihood-with-hidden-variable-lower-bound">Log-Likelihood with Hidden Variable Lower Bound</h3>
 
-<p>上式 $\eqref{eqMLE3}$ 利用 Jensen’s inequality 可以導出
-<script type="math/tex">\geq \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}</script></p>
+<p>上式 $\eqref{eqMLE3}$ 利用 Jensen’s inequality 可以導出 $\geq \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}$</p>
 
-<p>我們定義 $\ln p(\mathbf{o} \mid \boldsymbol{\theta})$ 的 lower bound or ELBO (Evidence Lower BOund) 為 $\mathcal{L}(q, \boldsymbol{\theta})$, for any distribution $q$.</p>
+<p>我們定義 $\ln p(\mathbf{x} ; \boldsymbol{\theta})$ 的 lower bound or ELBO (Evidence Lower BOund) 為 $\mathcal{L}(q, \boldsymbol{\theta})$, for any distribution $q(\mathbf{z})$.</p>
 
-<script type="math/tex; mode=display">\begin{equation}
-\mathcal{L}(q, \boldsymbol{\theta})=\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}
-\end{equation}\label{eqELBO}</script>
+<script type="math/tex; mode=display">\begin{align}
+\mathcal{L}(q, \boldsymbol{\theta})=\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} \label{eqELBO}
+\end{align}</script>
 
 <p><strong>這已經非常接近思路！我們的思路修正成把有 hidden data 的 MLE 變成用完整 data 的 MLE 做為 lower bound.  再通過 $q(\mathbf{z})$ 提高 lower bound 逼近原來的目標。</strong></p>
 
-<p>Maximizing $\mathcal{L}(q, \boldsymbol{\theta})$ by choosing $q(z)$ 就可以 push the log likelihood $\ln p(\mathbf{o} \mid \boldsymbol{\theta})$ upwards.</p>
+<p>Maximizing $\mathcal{L}(q, \boldsymbol{\theta})$ by choosing $q(\mathbf{z})$ 就可以 push the log likelihood $\ln p(\mathbf{x} ; \boldsymbol{\theta})$ upwards.</p>
 
 <p>反過來我們可以計算和 lower bound 之間的 gap.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align}
-\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\mathcal{L}(q, \boldsymbol{\theta}) &=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \nonumber\\
-&=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln \underbrace{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}_{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) p(\mathbf{o} \mid \boldsymbol{\theta})}-\ln q(\mathbf{z})\} \nonumber\\
-&=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})+\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\ln q(\mathbf{z})\} \nonumber\\
-&=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q(\mathbf{z})}_{1} \ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})-\ln q(\mathbf{z})\} \nonumber\\
-&=-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})}{q(\mathbf{z})} \label{eqGAP} \\
-&= D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \ge 0 \label{eqKL}
+\ln p(\mathbf{x}, \boldsymbol{\theta})-\mathcal{L}(q; \boldsymbol{\theta}) &=\ln p(\mathbf{x} ; \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} \nonumber\\
+&=\ln p(\mathbf{x} ; \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln \underbrace{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}_{p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) p(\mathbf{x} ; \boldsymbol{\theta})}-\ln q(\mathbf{z})\} \nonumber\\
+&=\ln p(\mathbf{x} ; \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})+\ln p(\mathbf{x} ; \boldsymbol{\theta})-\ln q(\mathbf{z})\} \nonumber\\
+&=\ln p(\mathbf{x} ; \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q(\mathbf{z})}_{1} \ln p(\mathbf{x} ; \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})-\ln q(\mathbf{z})\} \nonumber\\
+&=-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})}{q(\mathbf{z})} \label{eqGAP} \\
+&= D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \ge 0 \label{eqKL}
 \end{align} %]]></script>
 
-<p>這個 gap $\eqref{eqKL}$ 就是 KL divergence between $q(\mathbf{z})$ and $p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$, 永遠大於 0. 這和 Jensen Inequality 的結論一致！</p>
+<p>這個 gap $\eqref{eqKL}$ 深具物理意義，就是 KL divergence between $q(\mathbf{z})$ and posterior  $p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$, 也就是兩者之間的距離，永遠大於 0. 這也和 Jensen Inequality 的結論一致！</p>
 
 <p>以下是關鍵：</p>
 <ul>
-  <li>如果能找到 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$ 的 analytical solution，就可以讓 gap 變成 0.  Lower bound $\eqref{eqELBO}$ 就是我們要 maximize 目標，voila!
+  <li>如果能找到 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$ 的 analytical solution，就可以讓 gap 變成 0.  Lower bound $\eqref{eqELBO}$ 就是我們要 maximize 目標，voila!
     <ul>
-      <li>例如例四 GMM 的 $p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$ 就是 softmax function.</li>
+      <li>例如例四 GMM 的 $p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$ 就是 softmax function.</li>
     </ul>
   </li>
   <li>即使 $q(\mathbf{z})$ 有 analytical solution, e.g. softmax, 不代表容易解 maximum 以及對應的 parameter.  EM algorithm 就是用來處理這個問題，見下文。</li>
-  <li>假如 $q(\mathbf{z})$ 本身就非常複雜，還有另一個方法：variational approximation; 稱為 Bayesian inference. 本文不討論。</li>
+  <li>假如 $q(\mathbf{z})$ 非常複雜沒有 analytical solution，還有另外方法：variational approximation; 稱為 Bayesian inference；或是用一個 neural network approximate posterior；稱為 variational autoencoder (VAE). 本文不討論，下文再討論。</li>
 </ul>
 
 <h3 id="em-algorithm-push-the-lower-bound-upwards">EM Algorithm Push the Lower Bound Upwards</h3>
-<p>Log likelihood function 可以分為兩個部分： lower bound + gap</p>
+<p>Log likelihood function 可以分為兩個部分： ELBO + KL Gap of posterior</p>
 
 <script type="math/tex; mode=display">\begin{equation}
-\ln p(\mathbf{o} \mid \boldsymbol{\theta})=\mathcal{L}(q, \boldsymbol{\theta})+D_{\mathrm{KL}}(q \| p)
+\ln p(\mathbf{x} ; \boldsymbol{\theta})=\mathcal{L}(q, \boldsymbol{\theta})+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) )
 \end{equation}\label{eqSUM}</script>
 
-<p>從 Jensen’s inequality 得到 $\mathcal{L}(q, \boldsymbol{\theta})$ 是 lower bound.  同樣從 KL divergence $\ge$ 0 再度驗證。</p>
+<p>從 Jensen’s inequality 得到 $\mathcal{L}(q; \boldsymbol{\theta})$ 是 lower bound.  從 KL divergence $\ge$ 0 再度驗證。</p>
 
-<p>如果 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$, the bound is tight.</p>
+<p>如果 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$, the bound is tight.</p>
 
 <p>接下來看兩個極端的 examples.</p>
 
-<p><em><strong>Trivial Case:</strong></em>  Hidden variable $\mathbf{z}$ does NOT provide any information of $\mathbf{o}$</p>
+<p><em><strong>Trivial Case:</strong></em>  Hidden variable $\mathbf{z}$ does NOT provide any information of $\mathbf{x}$</p>
 
-<p>如果 $\mathbf{o}$ 和 $\mathbf{z}$ 完全無關，$p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) = p(\mathbf{z} \mid \boldsymbol{\theta})$.  We can make $q(\mathbf{z}) = p(\mathbf{z} \mid \boldsymbol{\theta})$
-such that $D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})) = 0$, 也就是 gap = 0.</p>
-
-<p>Lower bound 就變成原來的 log-likelihood function, trivial case.
-<script type="math/tex">% <![CDATA[
-\begin{aligned}
-\mathcal{L}(q, \boldsymbol{\theta}) &= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
-&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o} \mid \boldsymbol{\theta}) p(\mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \\
-&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o} \mid \boldsymbol{\theta})\\
-&= \ln p(\mathbf{o} \mid \boldsymbol{\theta})
-\end{aligned} %]]></script></p>
-
-<p><em><strong>Case 2:</strong></em> 如果  $p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$ 有 analytical solution, let $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$</p>
+<p>如果 $\mathbf{x}$ 和 $\mathbf{z}$ 完全無關，$p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) = p(\mathbf{z} ; \boldsymbol{\theta})$.  We can make $q(\mathbf{z}) = p(\mathbf{z} ; \boldsymbol{\theta})$
+such that $D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})) = 0$, 也就是 gap = 0. Lower bound 就變成原來的 log-likelihood function, trivial case.</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{aligned}
-\mathcal{L}(q, \boldsymbol{\theta}) &= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
-&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) p(\mathbf{o} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \\
-&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o} \mid \boldsymbol{\theta})\\
-&= \ln p(\mathbf{o} \mid \boldsymbol{\theta})
+\mathcal{L}(q, \boldsymbol{\theta}) &= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x} ; \boldsymbol{\theta}) p(\mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{x} ; \boldsymbol{\theta})\\
+&= \ln p(\mathbf{x} ; \boldsymbol{\theta})
+\end{aligned} %]]></script>
+
+<p><em><strong>Case 2:</strong></em> 如果  $p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$ 有 analytical solution, let $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\mathcal{L}(q, \boldsymbol{\theta}) &= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) p(\mathbf{x} ; \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{x} ; \boldsymbol{\theta})\\
+&= \ln p(\mathbf{x} ; \boldsymbol{\theta})
 \end{aligned} %]]></script>
 
 <p>其實這就是 EM algorithm 的精髓</p>
@@ -808,7 +807,7 @@ such that $D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z} \mid \mathbf{o}, \boldsy
   <li>Lower bound 其實可以視為 MLE of complete data， <strong>對應 EM algorithm 的 M-Step.</strong></li>
 </ul>
 
-<p>Recap lower bound $\eqref{eqELBO}$ 包含兩個部分：(i) $q(\mathbf{z})$ distribution and (ii) log-likelihood of complete data, $\ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})$.</p>
+<p>Recap lower bound $\eqref{eqELBO}$ 包含兩個部分：(i) $q(\mathbf{z})$ distribution and (ii) log-likelihood of complete data, $\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})$.</p>
 
 <p>這兩個部分剛好對應 EM algorithm 的 E-step (i) and M-step (ii).</p>
 <ul>
@@ -816,41 +815,41 @@ such that $D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z} \mid \mathbf{o}, \boldsy
   <li>E-step (Expectation):</li>
 </ul>
 
-<script type="math/tex; mode=display">\begin{equation}
-q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)
-\end{equation}\label{eqEstep}</script>
+<script type="math/tex; mode=display">\begin{align}
+q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right) \label{eqEstep}
+\end{align}</script>
 
 <ul>
   <li>M-step (Maximization):</li>
 </ul>
 
-<script type="math/tex; mode=display">\begin{equation}
-\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right)
-\end{equation}\label{eqMstep}</script>
+<script type="math/tex; mode=display">\begin{align}
+\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right) \label{eqMstep}
+\end{align}</script>
 
 <h3 id="m-step-qt1-is-fixed">M-step: $q^{(t+1)}$ is fixed</h3>
 <p>我們先看 M-step $\eqref{eqMstep}$​​, 因為這和 MLE estimate $\theta$​​ 非常相似。</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{aligned}
-\mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right) &=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q^{(t+1)}(\mathbf{z})} \\
-&=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln q^{(t+1)}(\mathbf{z})}_{\text {const. }}
+\mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right) &=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q^{(t+1)}(\mathbf{z})} \\
+&=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln q^{(t+1)}(\mathbf{z})}_{\text {const. }}
 \end{aligned} %]]></script>
 
-<script type="math/tex; mode=display">\begin{equation}
-\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})
-\end{equation}\label{eqMstep2}</script>
+<script type="math/tex; mode=display">\begin{align}
+\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{(t)}) \label{eqMstep2}
+\end{align}</script>
 
 <p><strong>注意 M-Step 和完整 data 的 MLE 思路如下非常接近，只加了對 $q(\mathbf{z})$ 的 weighted sum.</strong>
-<script type="math/tex">\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})</script></p>
+<script type="math/tex">\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})</script></p>
 
 <p>上式微分等於 0 就可以解 $\theta^{t+1}$。上面例四以及例二就是很好的例子。</p>
 
 <p>另一個常見的寫法</p>
 
-<script type="math/tex; mode=display">\begin{equation}
-\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})
-\end{equation}\label{eqMstep3}</script>
+<script type="math/tex; mode=display">\begin{align}
+\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{(t)}) \label{eqMstep3}
+\end{align}</script>
 
 <p><strong>注意 M-Step 是 maximize lower bound, 並不等於 maximize 不完整 data 的 MLE，因為還差了一個 gap function (i.e. KL divergence).  E-Step 的目標才是縮小 gap function, which is also $\boldsymbol{\theta}$ dependent.</strong></p>
 
@@ -858,13 +857,13 @@ q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\t
 
 <script type="math/tex; mode=display">q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)</script>
 
-<script type="math/tex; mode=display">\mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)=\underbrace{\ln p\left(\mathbf{o} \mid \boldsymbol{\theta}^{(t)}\right)}_{\text {const. }}-D_{\mathrm{KL}}(q \| p)</script>
+<script type="math/tex; mode=display">\mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)=\underbrace{\ln p\left(\mathbf{x} ; \boldsymbol{\theta}^{(t)}\right)}_{\text {const. }}-D_{\mathrm{KL}}(q \| p)</script>
 
 <p>以上 KL divergence 大於等於 0，所以 maximize lower bound 就要讓 要選擇 $q(z)$ 儘量縮小 gap  (i.e. KL divergence) 到 0.  Gap 等於 0 的條件就是</p>
 
-<script type="math/tex; mode=display">\begin{equation}
-q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})
-\end{equation}\label{eqEstep2}</script>
+<script type="math/tex; mode=display">\begin{align}
+q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)}) \label{eqEstep2}
+\end{align}</script>
 
 <p>同樣 E-Step 深具物理意義，就是猜 incomplete/hidden data distribution based on 已知的 observables 和 iterative $\theta$.</p>
 
@@ -873,37 +872,93 @@ q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})
 <h4 id="conditional-vs-joint-distribution">Conditional Vs. Joint Distribution</h4>
 <p><strong>我們可以把 conditional distribution 改成 joint distribution 如下。兩者都可以用來解 E-Step.</strong></p>
 
-<script type="math/tex; mode=display">p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) = p(\mathbf{z}, \mathbf{o} \mid \boldsymbol{\theta}^{(t)}) / p(\mathbf{o} \mid \boldsymbol{\theta}^{(t)})</script>
+<script type="math/tex; mode=display">p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)}) = p(\mathbf{z}, \mathbf{x} ; \boldsymbol{\theta}^{(t)}) / p(\mathbf{x} ; \boldsymbol{\theta}^{(t)})</script>
 
 <h3 id="em-精髓-結合-e-step-and-m-step">EM 精髓: 結合 E-Step and M-Step</h3>
 
-<p>如果 E-Step $\eqref{eqEstep2}$ 有 analytic solution, 可以代入 M-Step $\eqref{eqMstep2}$ 得到</p>
+<p>如果 E-Step $\eqref{eqEstep2}$ 有 analytic solution, 可以代入 M-Step $\eqref{eqMstep2}$ 得到有名的 $Q$ function:</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
-\begin{aligned}
-Q(\theta^{t+1} | \theta^{t}) &=  \sum_{\mathbf{z}} p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{t+1}) \\
-&= \int d \mathbf{z} \, p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{t+1})
-\end{aligned} %]]></script>
+\begin{align}
+Q(\theta^{t+1} | \theta^{t}) &=  \sum_{\mathbf{z}} p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{t+1}) \nonumber \\
+&= \int d \mathbf{z} \, p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{t+1}) \\
+&= E_{z\sim p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)})} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{(t+1)}) 
+\end{align} %]]></script>
 
 <p>New EM algorithm with fixed $\boldsymbol{\theta}^{t}$</p>
 
-<script type="math/tex; mode=display">\begin{equation}
-\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} Q(\boldsymbol{\theta}^{t+1} | \boldsymbol{\theta}^{t})
-\end{equation}\label{eqQ}</script>
+<script type="math/tex; mode=display">\begin{align}
+\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} Q(\boldsymbol{\theta}^{t+1} | \boldsymbol{\theta}^{t}) \label{eqQ}
+\end{align}</script>
+
+<h3 id="qa">Q&amp;A</h3>
+
+<p>From $\eqref{eqELBO}$, 我們可以得到</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\mathcal{L}(q, \boldsymbol{\theta})&=\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} \nonumber \\ 
+&= - D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) ) \label{eqELBOKL}
+\end{align} %]]></script>
+
+<p>代入 $\eqref{eqKL}$, 我們可以得到</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\ln p(\mathbf{x}; \boldsymbol{\theta}) &= \mathcal{L}(q; \boldsymbol{\theta}) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \nonumber \\
+&= - D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) ) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \nonumber
+\end{align} %]]></script>
+
+<p>也就是 <strong>ELBO =</strong> $\mathcal{L}(q; \boldsymbol{\theta}) = - D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) )$. 我們可以反過來驗證</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\ln p(\mathbf{x}; \boldsymbol{\theta}) &= \sum_z q(z) \ln p(\mathbf{x}; \boldsymbol{\theta}) \nonumber \\
+&= \sum_z q(z) \ln \frac{p(z, x; \theta)}{q(z)}  \frac{q(z)}{p(z \mid x; \theta)} \nonumber \\
+&= \sum_z q(z) \ln \frac{p(z, x; \theta)}{q(z)} + \sum q(z) \ln \frac{q(z)}{p(z \mid x; \theta)} \nonumber \\
+&= - D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) ) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \label{eqKL3} 
+\end{align} %]]></script>
+
+<p>$\eqref{eqKL3}$ 不免讓人浮想翩翩。 KL divergence 一定為大於等於 0.</p>
+
+<ul>
+  <li>如果要 maximize (marginal) likelihood $\ln p(x; \theta)$, 好像正確的做法是讓 $\eqref{eqKL3}$ maximize 第一個 KL divergence 為 0； 第二個 KL divergence 越大越好？
+    <ul>
+      <li>e.g. let $q(z) = p(z, x; \theta) \to \ln p(x; \theta) = 0 + D_{K L}(p(z, x; \theta) | p(z \mid x; \theta) \ge 0$</li>
+      <li>但我們知道 $\ln p(x;\theta) &lt; 0$, 如何解釋這個矛盾？</li>
+      <li>一個是 $\eqref{eqELBOKL}$ 寫成 KL divergence 有問題。因為 KL divergence 是兩個同樣 dimension distribution 的距離 measurement.  $\eqref{eqELBOKL}$ 的 joint distribution $(z, x)$ 的 dimension 大於 $q(z)$，寫成 KL divergence 無意義，也沒有距離的觀念。除非把 joint distribution marginalized 成 $p(z)$, i.e. prior, 才能和 $q(z)$ 做 KL divergence.</li>
+      <li>但是 conditional distribution $p(z\mid x)$, i.e. posterior 和 $q(z)$ 則是同樣的 dimension, KL divergence 有意義。</li>
+    </ul>
+  </li>
+  <li>
+    <p>實務上，我們的做法完全不同，甚至相反。正確的表示式 from $\eqref{eqKL}$ 得到：</p>
+
+    <script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\ln p(\mathbf{x}; \boldsymbol{\theta}) &= \sum_z q(z) \ln \frac{p(z, x; \theta)}{q(z)} + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})) 
+\end{align} %]]></script>
+
+    <ul>
+      <li>我們 maximize 第一項 lower bound (ELBO), 以及 minimize 第二項 KL divergence 為 0</li>
+      <li>e.g. $q(z) = p(z \mid x; \theta) \to \ln p(x; \theta) = E_{q(z)} \ln p(z, x; \theta) + H(q) + 0$</li>
+      <li>重點是 find $\theta^* = \arg \max_{\theta} E_{p(z\mid x; \theta)} \ln p(z, x; \theta)$</li>
+    </ul>
+  </li>
+</ul>
 
 <h2 id="free-energy-interpretation-poczoscllusteringem2015">Free Energy Interpretation [@poczosCllusteringEM2015]</h2>
 <p>搞 machine learning 很多是物理學家 (e.g. Max Welling), 習慣用物理觀念套用於 machine learning.  常見的例子是 training 的 <em>momentum</em> method.  另一個是 <em>energy/entropy</em> loss function.  此處我們看的是類似 energy loss function.</p>
 
 <p>我們從 gap 開始</p>
 
-<script type="math/tex; mode=display">\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\mathcal{L}(q, \boldsymbol{\theta}) = D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \ge 0</script>
+<script type="math/tex; mode=display">\ln p(\mathbf{x} ; \boldsymbol{\theta})-\mathcal{L}(q, \boldsymbol{\theta}) = D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \ge 0</script>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{aligned}
-\ln p(\mathbf{o} \mid \boldsymbol{\theta}) &= \mathcal{L}(q, \boldsymbol{\theta}) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
-&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
-&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
-&= E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
+\ln p(\mathbf{x} ; \boldsymbol{\theta}) &= \mathcal{L}(q, \boldsymbol{\theta}) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \\
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \\
+&= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \\
+&= E_{q(z)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \\
 \end{aligned} %]]></script>
 
 <p>where H(q) is the entropy of q,  第一項是負的，第二項和第三項是正的。
@@ -925,36 +980,79 @@ Eq(z) ln p(o, z) = -(0.5 (o-u1)^2 + 0.5 (o-u2)^2 ) / sqrt(2pi) &lt; 0</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{aligned}
-\ln p(D \mid \boldsymbol{\theta}^t) &= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(D, \mathbf{z} \mid \boldsymbol{\theta}^t) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}^t) ) \\
-&= E_{q(z)} \ln p(D, \mathbf{z} \mid \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}) ) \\
-&= F_{\theta^t} (q(\cdot), D) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}) )
+\ln p(D ; \boldsymbol{\theta}^t) &= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(D, \mathbf{z} ; \boldsymbol{\theta}^t) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D; \boldsymbol{\theta}^t) ) \\
+&= E_{q(z)} \ln p(D, \mathbf{z} ; \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D; \boldsymbol{\theta}^t) ) \\
+&= F_{\theta^t} (q(\cdot), D) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D; \boldsymbol{\theta}) )
 \end{aligned} %]]></script>
 
-<p>$F_{\theta^t} (q(\cdot), D)$ 稱為 free energy, 包含 joint distribution expectation 和 self-entropy.  或是稱為 ELBO (Evidence lower bound)</p>
+<p>$F_{\theta^t} (q(\cdot), D)$ 稱為 free energy (也就是 ELBO), 包含 joint distribution expectation 和 self-entropy.</p>
 
-<p>如果 $p(z\mid x; \theta)$ is analytically available (e.g. GMM, this is just a softmax!).  The ELBO becomes a Q(theta, theta^old) function + H(q)</p>
+<p>如果 $p(z\mid x; \theta)$ is analytically available (e.g. GMM, this is just a softmax!).  The E-step 基本就是代入 $p(z\mid x; \theta)$ 到  LBO becomes a Q(theta, theta^old) function + H(q)</p>
 
 <p>The EM algorithm can be summzied as argmax Q!!</p>
 <ul>
-  <li>E-step: $p(z\mid x)$</li>
-  <li>M-step; argmax …</li>
+  <li>
+    <p>E-step:  代入 $p(z\mid D)$ 到 free-energy (ELBO) update Q function (忽略 self-entropy)</p>
+
+    <ul>
+      <li>
+        <script type="math/tex; mode=display">Q\left(\theta \mid \theta^{t}\right)=\int d y P\left(y \mid D, \theta^{t}\right) \log P(y, D \mid \theta)</script>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>M-step; argmax Q</p>
+
+    <ul>
+      <li>
+        <script type="math/tex; mode=display">\theta^{t+1}=\arg \max _{\theta} Q\left(\theta \mid \theta^{t}\right)</script>
+      </li>
+    </ul>
+  </li>
 </ul>
 
-<p>We can prove</p>
+<p>It can be proved</p>
 <ul>
   <li>
-    <p>log likelihood is always increasing!</p>
+    <p>log likelihood is always increasing! i.e. $\ln P(D\mid \theta^t) \le \ln P(D\mid \theta^{t+1})$  這是 EM 的重要特徵！</p>
 
     <p><img src="/media/16270144925547/16274030539044.jpg" alt="-w400" style="zoom: 33%;" /></p>
 
     <p><img src="/media/16270144925547/16274031504070.jpg" alt="-w408" style="zoom:33%;" /></p>
   </li>
+  <li>
+    <p>Use multiple, randomized initialization in practice to avoid strucking at local minima.</p>
+  </li>
 </ul>
 
-<p>Use multiple, randomized initialization in practice.</p>
-
 <h2 id="variational-expectation-maximization">Variational Expectation Maximization</h2>
-<p>EM algorithm 一個問題是對於複雜的問題沒有 close from p(z|x), then toast!</p>
+<p>EM algorithm 一個問題是對於複雜的問題沒有 analytical from $p(z\mid x)$, then (1) variational EM; or (2) use neural network such as variational autoencoder (VAE).</p>
+
+<p>Variational EM 的重點是不用 Q function, 因為沒有 $p(z\mid x)$.  重點變成 minimize KL gap function for E-step.</p>
+
+<ul>
+  <li>
+    <p>Variational E-step:  Fix $\theta^t$</p>
+
+    <ul>
+      <li>
+        <script type="math/tex; mode=display">q^{t}(\cdot)=\arg \max _{q(\cdot)} F_{\theta^{t}}(q(\cdot), D)=\underset{q(\cdot)}{\arg \min } K L\left(q(y) \| P\left(y \mid D, \theta^{t}\right)\right)</script>
+      </li>
+      <li>但並不保證會找到 best max/min  $q(y) = p(y \mid D, \theta^t)$</li>
+    </ul>
+  </li>
+  <li>
+    <p>Variational M-step; Fix $q^t$</p>
+
+    <ul>
+      <li>
+        <script type="math/tex; mode=display">\theta^{t+1}=\arg \max _{\theta} F_{\theta}\left(q^{t}(\cdot), D\right)</script>
+      </li>
+    </ul>
+  </li>
+  <li>Variational EM 並不保證 marginal likelihood 每次都遞增！</li>
+  <li>關鍵問題是如何找到 $q(z)$, 下文會討論。</li>
+</ul>
 
 <h2 id="appendix">Appendix</h2>
 
@@ -1042,10 +1140,10 @@ $(t_1, s_1)$ 個數 $\to N_{11} = \frac{1}{4}T_1+\frac{b}{5a+b}S_1$</p>
 <p>假設可以有一個 close from Q function, e.g. GMM
 <strong>In summary:  M-Step maximize the lower bound;  E-Step close the gap</strong> 
 E-Step
-<script type="math/tex">q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})</script></p>
+<script type="math/tex">q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)})</script></p>
 
 <p>M-Step 
-<script type="math/tex">\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})</script></p>
+<script type="math/tex">\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{(t)})</script></p>
 
 <h2 id="reference">Reference</h2>
 
@@ -1279,7 +1377,7 @@ MathJax.Hub.Config({
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#main-reference"> <span class="nav-number">1</span> <span class="nav-text">Main Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#maximum-likelihood-estimation-mle-和應用"> <span class="nav-number">2</span> <span class="nav-text">Maximum Likelihood Estimation (MLE) 和應用</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#qa-of-mle-versus-em"> <span class="nav-number">3</span> <span class="nav-text">Q&amp;A of MLE Versus EM</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#toy-example-matasexpectationmaximization2018"> <span class="nav-number">4</span> <span class="nav-text">Toy Example [@matasExpectationMaximization2018]</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#前提摘要"> <span class="nav-number">4.1</span> <span class="nav-text">前提摘要</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例一-mle"> <span class="nav-number">4.2</span> <span class="nav-text">例一: MLE</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例二-incompletehidden-data"> <span class="nav-number">4.3</span> <span class="nav-text">例二 incomplete/hidden Data</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#em-algorithm-邏輯"> <span class="nav-number">4.3.1</span> <span class="nav-text">EM algorithm 邏輯</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#前提摘要-1"> <span class="nav-number">4.4</span> <span class="nav-text">前提摘要</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#gmm-特例estimate-means-of-two-gaussian-distributions-known-variance-and-ratio-unknown-means"> <span class="nav-number">4.5</span> <span class="nav-text">GMM 特例：Estimate Means of Two Gaussian Distributions (known variance and ratio; unknown means)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例三-complete-data-easy-case"> <span class="nav-number">4.6</span> <span class="nav-text">例三 Complete Data (Easy case)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例四-incompletehidden-data"> <span class="nav-number">4.7</span> <span class="nav-text">例四 incomplete/hidden Data</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#missing-values-em-approach"> <span class="nav-number">4.7.1</span> <span class="nav-text">Missing Values, EM Approach</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#clustering-soft-assignment-vs-hard-assignment-k-means"> <span class="nav-number">5</span> <span class="nav-text">Clustering: Soft Assignment Vs. Hard Assignment (K-means)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-algorithm-derivation"> <span class="nav-number">6</span> <span class="nav-text">EM Algorithm Derivation</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#log-likelihood-with-hidden-variable-lower-bound"> <span class="nav-number">6.1</span> <span class="nav-text">Log-Likelihood with Hidden Variable Lower Bound</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-algorithm-push-the-lower-bound-upwards"> <span class="nav-number">6.2</span> <span class="nav-text">EM Algorithm Push the Lower Bound Upwards</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-具體步驟"> <span class="nav-number">7</span> <span class="nav-text">EM 具體步驟</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#m-step-qt1-is-fixed"> <span class="nav-number">7.1</span> <span class="nav-text">M-step: $q^{(t+1)}$ is fixed</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#e-step-boldsymbolthetat-is-fixed"> <span class="nav-number">7.2</span> <span class="nav-text">E-step: $\boldsymbol{\theta}^{(t)}$ is fixed</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#conditional-vs-joint-distribution"> <span class="nav-number">7.2.1</span> <span class="nav-text">Conditional Vs. Joint Distribution</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-精髓-結合-e-step-and-m-step"> <span class="nav-number">7.3</span> <span class="nav-text">EM 精髓: 結合 E-Step and M-Step</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#free-energy-interpretation-poczoscllusteringem2015"> <span class="nav-number">8</span> <span class="nav-text">Free Energy Interpretation [@poczosCllusteringEM2015]</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-expectation-maximization"> <span class="nav-number">9</span> <span class="nav-text">Variational Expectation Maximization</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#appendix"> <span class="nav-number">10</span> <span class="nav-text">Appendix</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#例二的-conditional-vs-joint-distribution-解法"> <span class="nav-number">10.1</span> <span class="nav-text">例二的 Conditional Vs. Joint Distribution 解法</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#to-do-next"> <span class="nav-number">11</span> <span class="nav-text">To Do Next</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">12</span> <span class="nav-text">Reference</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#main-reference"> <span class="nav-number">1</span> <span class="nav-text">Main Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#maximum-likelihood-estimation-mle-和應用"> <span class="nav-number">2</span> <span class="nav-text">Maximum Likelihood Estimation (MLE) 和應用</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#qa-of-mle-versus-em"> <span class="nav-number">3</span> <span class="nav-text">Q&amp;A of MLE Versus EM</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#toy-example-matasexpectationmaximization2018"> <span class="nav-number">4</span> <span class="nav-text">Toy Example [@matasExpectationMaximization2018]</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#前提摘要"> <span class="nav-number">4.1</span> <span class="nav-text">前提摘要</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例一-mle"> <span class="nav-number">4.2</span> <span class="nav-text">例一: MLE</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例二-incompletehidden-data"> <span class="nav-number">4.3</span> <span class="nav-text">例二 incomplete/hidden Data</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#em-algorithm-邏輯"> <span class="nav-number">4.3.1</span> <span class="nav-text">EM algorithm 邏輯</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#前提摘要-1"> <span class="nav-number">4.4</span> <span class="nav-text">前提摘要</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#gmm-特例estimate-means-of-two-gaussian-distributions-known-variance-and-ratio-unknown-means"> <span class="nav-number">4.5</span> <span class="nav-text">GMM 特例：Estimate Means of Two Gaussian Distributions (known variance and ratio; unknown means)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例三-complete-data-easy-case"> <span class="nav-number">4.6</span> <span class="nav-text">例三 Complete Data (Easy case)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例四-incompletehidden-data"> <span class="nav-number">4.7</span> <span class="nav-text">例四 incomplete/hidden Data</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#missing-values-em-approach"> <span class="nav-number">4.7.1</span> <span class="nav-text">Missing Values, EM Approach</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#clustering-soft-assignment-vs-hard-assignment-k-means"> <span class="nav-number">5</span> <span class="nav-text">Clustering: Soft Assignment Vs. Hard Assignment (K-means)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-algorithm-derivation"> <span class="nav-number">6</span> <span class="nav-text">EM Algorithm Derivation</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#log-likelihood-with-hidden-variable-lower-bound"> <span class="nav-number">6.1</span> <span class="nav-text">Log-Likelihood with Hidden Variable Lower Bound</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-algorithm-push-the-lower-bound-upwards"> <span class="nav-number">6.2</span> <span class="nav-text">EM Algorithm Push the Lower Bound Upwards</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-具體步驟"> <span class="nav-number">7</span> <span class="nav-text">EM 具體步驟</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#m-step-qt1-is-fixed"> <span class="nav-number">7.1</span> <span class="nav-text">M-step: $q^{(t+1)}$ is fixed</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#e-step-boldsymbolthetat-is-fixed"> <span class="nav-number">7.2</span> <span class="nav-text">E-step: $\boldsymbol{\theta}^{(t)}$ is fixed</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#conditional-vs-joint-distribution"> <span class="nav-number">7.2.1</span> <span class="nav-text">Conditional Vs. Joint Distribution</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-精髓-結合-e-step-and-m-step"> <span class="nav-number">7.3</span> <span class="nav-text">EM 精髓: 結合 E-Step and M-Step</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#qa"> <span class="nav-number">7.4</span> <span class="nav-text">Q&amp;A</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#free-energy-interpretation-poczoscllusteringem2015"> <span class="nav-number">8</span> <span class="nav-text">Free Energy Interpretation [@poczosCllusteringEM2015]</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-expectation-maximization"> <span class="nav-number">9</span> <span class="nav-text">Variational Expectation Maximization</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#appendix"> <span class="nav-number">10</span> <span class="nav-text">Appendix</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#例二的-conditional-vs-joint-distribution-解法"> <span class="nav-number">10.1</span> <span class="nav-text">例二的 Conditional Vs. Joint Distribution 解法</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#to-do-next"> <span class="nav-number">11</span> <span class="nav-text">To Do Next</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">12</span> <span class="nav-text">Reference</span> </a> </li>
     </ol>
   </div>
             

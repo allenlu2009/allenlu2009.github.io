@@ -419,7 +419,7 @@ MathJax.Hub.Config({
 \begin{align*}
 \ln p(\mathbf{x} ; \boldsymbol{\theta})&=F(q, \boldsymbol{\theta})+K L(q \| p) \\
 F(q, \boldsymbol{\theta})&=\int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z} \\
-\mathrm{KL}(q \| p)&=-\int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z}
+\mathrm{KL}(q \| p)&= \int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z}
 \end{align*} %]]></script>
 
 <script type="math/tex; mode=display">% <![CDATA[
@@ -441,8 +441,12 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 
 <h2 id="variational-em-framework">Variational EM Framework</h2>
 
-<p>最簡單的話就是 hidden variable z = z1, z2, .., zM.  and p(z) = p(z1)…p(zM).
-什麼時候會有這種 distribution product?  後面會說明。</p>
+<p><strong>這裡的思路和前文 variation EM minimize KL gap 似乎不同？</strong></p>
+
+<p>這裡的思路還是 maximize ELBO (or F free energy function), 但採取 divide-and-conquer 方法。</p>
+
+<p>最簡單的話就是 hidden variable $\mathbf{z} = [z_1, z_2,\cdots,z_M]$  and $p(\mathbf{z}) = p(z_1)\cdots p(z_M)$.
+什麼時候會有這種 distribution product?  主要是來自 graph model, 後面會說明。</p>
 
 <script type="math/tex; mode=display">\begin{equation}
 q(\mathbf{z})=\prod_{i=1}^{M} q_{i}\left(z_{i}\right) \label{eqFactor}

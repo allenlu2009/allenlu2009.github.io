@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-29T15:38:14+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math AI - Variational Autoencoder Vs. Variational EM Algorithm</title><link href="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/" rel="alternate" type="text/html" title="Math AI - Variational Autoencoder Vs. Variational EM Algorithm" /><published>2021-08-19T07:10:08+08:00</published><updated>2021-08-19T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/19/Variational%20Autoencoder</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-08T22:59:48+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math AI - Variational Autoencoder Vs. Variational EM Algorithm</title><link href="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/" rel="alternate" type="text/html" title="Math AI - Variational Autoencoder Vs. Variational EM Algorithm" /><published>2021-08-19T07:10:08+08:00</published><updated>2021-08-19T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/19/Variational%20Autoencoder</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
 });
@@ -13,18 +13,16 @@ MathJax.Hub.Config({
 &lt;h3 id=&quot;重點-outline&quot;&gt;重點 outline&lt;/h3&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;VAE 第一個 innovation (encoder+decoder): 使用 encoder neural network ($\phi$) 和 decoder neural network ($\theta$) 架構。&lt;strong&gt;從 autoencoder 的延伸&lt;/strong&gt;似乎很直觀。但從 deterministic 延伸到 probabilistic 有點魔幻寫實，需要更嚴謹的數學框架。&lt;/p&gt;
-  &lt;/li&gt;
+  &lt;li&gt;VAE 第一個 innovation (encoder+decoder): 使用 encoder neural network ($\phi$) 和 decoder neural network ($\theta$) 架構。&lt;strong&gt;從 autoencoder 的延伸&lt;/strong&gt;似乎很直觀。但從 deterministic 延伸到 probabilistic 有點魔幻寫實，需要更嚴謹的數學框架。&lt;/li&gt;
   &lt;li&gt;VAE 第二個 innovation (DLVM):  引入 hidden (random) variable $\mathbf{z}$, 從 $\mathbf{z} \to \text{neural network}\,(\theta) \to \mathbf{x}.$  &lt;strong&gt;Hidden variable $\mathbf{z}$ 源自 (variational) EM + DAG;  再用 (deterministic) neural network of $\theta$ for parameter optimization.  這就是 DLVM (Deep Learning Variable Model) 的精神。&lt;/strong&gt;  根據 (variational) EM:
     &lt;ul&gt;
-      &lt;li&gt;E-step: 找到 $q(z) \approx p_{\theta}(\mathbf{z} \mid \mathbf{x})$, &lt;strong&gt;也就是 posterior&lt;/strong&gt;, &lt;strong&gt;但我們知道在 DLVM posterior 是 intractable，必須用近似&lt;/strong&gt;&lt;/li&gt;
-      &lt;li&gt;M-step: optimize $\theta$ based on posterior:  $\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p_{\theta}(\mathbf{x}, \mathbf{z})$,  &lt;strong&gt;其中的 joint distribution 是 tractable, 但是 $q(z)$ intractable&lt;/strong&gt;, 所以是卡在 posterior intractable 這個問題！&lt;/li&gt;
+      &lt;li&gt;E-step: 找到 $q(\mathbf{z}) \approx p_{\theta}(\mathbf{z} \mid \mathbf{x})$, &lt;strong&gt;也就是 posterior&lt;/strong&gt;, &lt;strong&gt;但我們知道在 DLVM posterior 是 intractable，必須用近似&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;M-step: optimize $\theta$ based on posterior:  $\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(\mathbf{z})} \ln p_{\theta}(\mathbf{x}, \mathbf{z})$,  &lt;strong&gt;其中的 joint distribution 是 tractable, 但是 $q(\mathbf{z})$ intractable&lt;/strong&gt;, 所以是卡在 posterior intractable 這個問題！&lt;/li&gt;
       &lt;li&gt;Iterate E-step and M-step in (variational EM); 在 DLVM 就變成 SGD optimization!&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;VAE 第三個 innovation 就是為了解決2.的 posterior 問題  $q(z) \to q_{\phi}(z\mid x)$:  用另一個 (tractable) decoder neural network $\phi$, 來近似 (intractable) posterior $q_{\phi}(z\mid x) \approx p(z\mid x)$&lt;/strong&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;VAE 第三個 innovation 就是為了解決2.的 posterior 問題  $q(\mathbf{z}) \to q_{\phi}(\mathbf{z}\mid x)$:  用另一個 (tractable) decoder neural network $\phi$, 來近似 (intractable) posterior $q_{\phi}(\mathbf{z}\mid x) \approx p(\mathbf{z}\mid x)$&lt;/strong&gt;&lt;/p&gt;
 
     &lt;ul&gt;
       &lt;li&gt;因此 VAE 和 DLVM (or variational EM) 的差別在於 VAE 多了 decoder neural network $\phi$ ，所以三者的數學框架非常相似！&lt;/li&gt;
@@ -35,7 +33,9 @@ MathJax.Hub.Config({
   &lt;li&gt;同樣的方法應該可以用在很多 DLVM 應用中。如果有 intractable posterior, 就用 (encoder) neural network 近似。但問題是要有方法 train 這個 encoder.  VAE 很巧妙的同時 train encoder + decoder 是用原始的 image and generative image.   需要再檢驗。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;img src=&quot;/media/image-20210829150541025.png&quot; alt=&quot;image-20210829150541025&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;下圖顯示 ML, EM, DLVM, VAE 的演進關係；DLVM 和 VAE echo 1-4.  雙圓框代表 observed random variable, 單圓框代表 hidden random variable.  單方框代表 (fixed and to be estimated) parameter.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210830230538496.png&quot; width=&quot;400&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;其他的重點：&lt;/p&gt;
 
@@ -53,20 +53,20 @@ MathJax.Hub.Config({
 
 &lt;h2 id=&quot;variational-autoencoder-again&quot;&gt;Variational Autoencoder, Again!&lt;/h2&gt;
 
-&lt;p&gt;第 N 次討論 VAE (variational autoencoder).  之前從 AE (autoencoder) 出發，有一些手感。但用 deterministic autoencoder 延伸想像力到 probabilistic VAE 還是隔了一層紗。&lt;/p&gt;
+&lt;p&gt;第 N 次討論 VAE (variational autoencoder).  之前從 AE (autoencoder) 出發，有一些手感。但用 deterministic autoencoder 延伸想像力到 probabilistic VAE 還是隔了一層~~紗~~山。有點像二十世紀初把古典力學加上一點量子想像 ($E = h\nu$) 得到氫原子的量子光譜。雖然結果對了，但只能用在特定的情況。&lt;/p&gt;
 
-&lt;p&gt;或是從 “variational” encoder/decoder 的出發, 掉入一堆數學中沒有抓到重點。&lt;/p&gt;
+&lt;p&gt;或是從 “variational inference” 的出發, 掉入一堆數學中沒有抓到重點。&lt;/p&gt;
 
-&lt;p&gt;我們這次從 Bayesian inference 出發。另外我們會比較 VAE 和 EM algorithm 增加印象。&lt;/p&gt;
+&lt;p&gt;我們這次從 gaph+variational inference 出發。引入 neural network 變成 deep learning variable model (DLVM)。再引入 encoder neural network for posterior.  另外我們會比較 variational EM 和 VAE 增加理解。&lt;/p&gt;
 
 &lt;h2 id=&quot;ml-estimation-和-bayesian-inference-到底有什麼差別&quot;&gt;ML estimation 和 Bayesian inference 到底有什麼差別？&lt;/h2&gt;
-&lt;p&gt;簡單說 ML estimation 把 unknown/hidden 視為 a &lt;strong&gt;“fixed parameter”&lt;/strong&gt;.  Bayesian inference 把 unknown/hidden 視為 &lt;strong&gt;“distribution”&lt;/strong&gt; described by a random variable.&lt;/p&gt;
+&lt;p&gt;簡單說 ML estimation 把 unknown/hidden 視為 a &lt;strong&gt;“fixed parameter”&lt;/strong&gt; (上圖左上).  Bayesian inference 把 unknown/hidden 視為 &lt;strong&gt;“distribution”&lt;/strong&gt; described by a random variable (上圖左下).&lt;/p&gt;
 
 &lt;p&gt;有時候我們也把 $p(x;\theta)$ 寫成 conditional distribution 形式 $p(x\mid\theta).$​  嚴格來說並不對。不過可以視為 Bayesian 詮釋的擴展。&lt;/p&gt;
 
 &lt;p&gt;ML estimation 做法是微分上式，解 $\theta$ parameter.&lt;/p&gt;
 
-&lt;p&gt;Bayesian 的觀念是: (1) $\theta$ 視為 hidden random variable; (2) 引入 hidden random variable $z$ with $\theta$ as a parameter.&lt;/p&gt;
+&lt;p&gt;Bayesian 的觀念是: (1) $\theta$ 視為 hidden random variable; (2) 引入 hidden random variable $\mathbf{z}$ with $\theta$ as a parameter.&lt;/p&gt;
 
 &lt;p&gt;我們假設 (1), 利用 Bayes formula&lt;/p&gt;
 
@@ -83,7 +83,7 @@ MathJax.Hub.Config({
 &lt;p&gt;&lt;u&gt;上式的術語和解讀&lt;/u&gt;&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Random variable $x$ :  post (事後) observations, (post) evidence. $p(x)$ 稱為 evidence distribution or marginal likelihood.&lt;/li&gt;
-  &lt;li&gt;Random variable $z$ : 相對於 $x$, $z$ 是 prior (事前, 先驗) 並且是 hidden variable (i.e. not evidence).  擴展我們在 maximum likelihood 的定義，從 parameter 變成 random variable.  $p(z)$​​ &lt;strong&gt;稱為 prior distribution.&lt;/strong&gt;
+  &lt;li&gt;Random variable $\mathbf{z}$ : 相對於 $x$, $\mathbf{z}$ 是 prior (事前, 先驗) 並且是 hidden variable (i.e. not evidence).  擴展我們在 maximum likelihood 的定義，從 parameter 變成 random variable.  $p(z)$​​ &lt;strong&gt;稱為 prior distribution.&lt;/strong&gt;
     &lt;ul&gt;
       &lt;li&gt;&lt;strong&gt;注意 prior 是 distribution&lt;/strong&gt;,  不會出現在 ML, 因為 $z$​ 在 ML 是 parameter.  只有在 Bayesian 才有 prior (distribution)!&lt;/li&gt;
     &lt;/ul&gt;
@@ -97,10 +97,18 @@ MathJax.Hub.Config({
   &lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;簡言之：Posterior&lt;/strong&gt; $\propto$ &lt;strong&gt;Likelihood x Prior&lt;/strong&gt; $\to p(z \mid x) \propto {p(x \mid z) \times p(z)}$
     &lt;ul&gt;
-      &lt;li&gt;&lt;strong&gt;一般我們忽略 $p(x)$ ，因為它和要 estimate 的 $z$​​ distribution (or parameter) 無關，視為常數忽略。&lt;/strong&gt;&lt;/li&gt;
-      &lt;li&gt;很好記: 事後 = 事前 x 喜歡 (likelihood).  如果很喜歡，才會有事後。如果不喜歡，事後不理 (0分)&lt;/li&gt;
-      &lt;li&gt;Prior 和 posterior (事前/先驗，事後) 都是 Bayesian 才有的說法。 ML (or Frequentist) 不會有 prior and posterior 說法。&lt;/li&gt;
-      &lt;li&gt;以通信為例，$z$ 是 transmitted signal (unknown),  $x$ 是 received signal,  $x = z + n$,  是 transmitted signal 加 noise.  如果只根據 $p(\text{received signal}\mid\text{transmitted signal}) = p(x\mid z)$&lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;strong&gt;一般我們忽略 $p(x)$ ，因為它和要 estimate 的 $z$​​ distribution (or parameter) 無關，視為常數忽略。&lt;/strong&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;很好記: 事後 = 事前 x 喜歡 (likelihood).  如果很喜歡，才會有事後。如果不喜歡，事後不理 (0分)&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Prior 和 posterior (事前/先驗，事後) 都是 Bayesian 才有的說法。 ML (or Frequentist) 不會有 prior and posterior 說法。&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;以通信為例，$z$ 是 transmitted signal (unknown),  $x$ 是 received signal,  $x = z + n$,  是 transmitted signal 加 noise.  如果只根據 $p(\text{received signal}\mid\text{transmitted signal}) = p(x\mid z)$&lt;/p&gt;
+      &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
@@ -120,9 +128,9 @@ MathJax.Hub.Config({
 
 &lt;p&gt;&lt;strong&gt;問題是 Bayesian 需要 conditional distribution.&lt;/strong&gt;   如果 $z = f(x)$ 是一個 deterministic neural network (or any deterministic function).  在這種情況下，conditional probability $p(z\mid x)$ 在 given $x$ 時,  $z$ 卻是一個定值 ，無法變成 distribution (or a delta distribution)?  因為每一個 $x$ 只對應一個 $z$, 沒有所謂 distribution.&lt;/p&gt;
 
-&lt;p&gt;因此如何讓 deterministic neural network 用於 Bayesian inference?  似乎有以下幾種可能性：&lt;/p&gt;
+&lt;p&gt;因此如何讓 deterministic neural network 用於 Bayesian inference?  有以下幾種可能性：&lt;/p&gt;
 
-&lt;h4 id=&quot;example-1different-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution&quot;&gt;Example 1：Different neural networks from a hidden random variable to create conditional distribution&lt;/h4&gt;
+&lt;h4 id=&quot;example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here&quot;&gt;Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here!&lt;/h4&gt;
 
 &lt;p&gt;Deterministic functions 可以產生 conditional probability.  如下例&lt;/p&gt;
 
@@ -138,15 +146,7 @@ MathJax.Hub.Config({
 
 &lt;p&gt;所以如果我們有一個 $Z$ random variable, 以及不同的 neural network $X = f_1(Z)$ and $Y = f_2(Z)$.   Then $p(Y\mid X)$  可以是一個 distribution 而非單一 value.&lt;/p&gt;
 
-&lt;h4 id=&quot;interval-instead-of-a-fixed-value&quot;&gt;Interval instead of a fixed value?&lt;/h4&gt;
-
-&lt;h4 id=&quot;example-2parameter-with-conditional-distribution-eg-vae&quot;&gt;Example 2：parameter with conditional distribution (e.g. VAE)&lt;/h4&gt;
-
-&lt;p&gt;The neural network generate the parameters for another distribution.  E.g. mean and variance for a normal distribution.&lt;/p&gt;
-
-&lt;p&gt;例如 VAE neural network 產生 $\mu, \sigma$ for normal distribution.  雖然這解決 deterministic to probabilistic 問題。但聽起來還是有點魔幻寫實方式把 deterministic to probabilistic.  這是 VAE 的實際做法。&lt;/p&gt;
-
-&lt;h4 id=&quot;example-3--parameterizing-conditional-distribution-with-nn&quot;&gt;Example 3:  Parameterizing Conditional Distribution with NN&lt;/h4&gt;
+&lt;h4 id=&quot;example-2--given-input-經過-deterministic-nn-轉成-probabilistic-conditional-distribution&quot;&gt;Example 2:  Given Input 經過 Deterministic NN 轉成 Probabilistic Conditional Distribution&lt;/h4&gt;
 
 &lt;p&gt;[@kingmaIntroductionVariational2019]&lt;/p&gt;
 
@@ -158,13 +158,13 @@ MathJax.Hub.Config({
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
-\mathbf{p} &amp;=\operatorname{NeuralNet}(\mathbf{x}) \\
+\mathbf{p} &amp;=\operatorname{NeuralNet}_{\boldsymbol{\theta}}(\mathbf{x}) \\
 p_{\boldsymbol{\theta}}(y \mid \mathbf{x}) &amp;=\text { Categorical }(y ; \mathbf{p})
 \end{aligned} %]]&gt;&lt;/script&gt;
 
 &lt;p&gt;where the last operation of NeuralNet(.) is typical a softmax() function! such that $\Sigma_i p_i = 1$&lt;/p&gt;
 
-&lt;p&gt;這是很有趣的觀點。 $\mathbf{x}$ and $\mathbf{p}$ 都是 deterministic, 甚至 softmax function 都是 deterministic.  但我們賦予最後的 $y$ probabilistic distribution 涵義！&lt;/p&gt;
+&lt;p&gt;這是很有趣的觀點。 $\mathbf{x}$ and $\mathbf{p}$ 都是 deterministic, 甚至 softmax function 都是 deterministic.  但我們賦予最後的 $y$ probabilistic distribution 涵義！基本上 NN 分類網路都是如此 (e.g. VGG, ResNet, MobileNet)。&lt;/p&gt;
 
 &lt;p&gt;例如 $\mathbf{x}$ 可能是一張狗照片， $\mathbf{p}$ 是 feature extraction of $\mathbf{x}$.  兩者都是 deterministic.   但最後 categorical function 直接把 $\mathbf{p}$  賦予多值的 (deterministic) distribution, 例如狗的機率 $p_1 = 0.8,$ 貓的機率  $p_2 = 0.15,$ 其他的機率  $p_3 = 0.05.$    這和我們一般想像的機率性 outcome,   同一個 $\mathbf{p}$ 有時 output 狗，有時 output 貓不同。&lt;/p&gt;
 
@@ -230,7 +230,7 @@ p_{\boldsymbol{\theta}}(\mathbf{x} \mid P a(\mathbf{x})) &amp;=p_{\boldsymbol{\t
 
 &lt;p&gt;以下是一個例子。&lt;/p&gt;
 
-&lt;h4 id=&quot;example-4-multivariate-bernoulli-data&quot;&gt;Example 4: Multivariate Bernoulli data&lt;/h4&gt;
+&lt;h4 id=&quot;example-3-multivariate-bernoulli-data-3-產生-conditional-distribution-的方法和-2-一樣&quot;&gt;Example 3: Multivariate Bernoulli data (3 產生 conditional distribution 的方法和 2 一樣)&lt;/h4&gt;
 
 &lt;p&gt;一個簡單的例子說明 hand-waving 的 assertion for the DLVM.&lt;/p&gt;
 
@@ -263,9 +263,9 @@ p(\mathbf{z}) &amp;=\mathcal{N}(\mathbf{z} ; 0, \mathbf{I}) \\
   &lt;li&gt;Marginal likelihood p(x) =&amp;gt; generative problem!  generate a high dimension x; or sometimes given a low dimension z to generate dimensional x (conditional generative model)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;首先 target posterior $p_{\theta}(z\mid x)$ :  注意，此處 $\theta$ 代表的 neural network (weights) from $z$ to $x$.&lt;/p&gt;
+&lt;p&gt;首先 target posterior $p_{\theta}(\mathbf{z}\mid \mathbf{x})$ :  注意，此處 $\theta$ 代表的 neural network (weights) from $\mathbf{z}$ to $\mathbf{x}$.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;我們引入 encoder neural network&lt;/strong&gt; $q_{\phi}(z\mid x)$：注意，此處 $\phi$ 代表 neural network from $x$ to $z$.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;引入 encoder neural network&lt;/strong&gt; $q_{\phi}(\mathbf{z}\mid x)$：注意，此處 $\phi$ 代表 neural network from $\mathbf{x}$ to $\mathbf{z}$.&lt;/p&gt;
 
 &lt;p&gt;我們希望 optimize the variational parameter $\phi$ such that&lt;/p&gt;
 
@@ -273,7 +273,276 @@ p(\mathbf{z}) &amp;=\mathcal{N}(\mathbf{z} ; 0, \mathbf{I}) \\
 
 &lt;p&gt;就是讓 (tractable) encoder 近似 (intractable) posterior.&lt;/p&gt;
 
-&lt;h2 id=&quot;比較-vae-and-em-algorithm&quot;&gt;比較 VAE and EM Algorithm&lt;/h2&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="VAE" /><category term="Autoencoder" /><category term="Variational" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Math ML - Maximum Likelihood Vs. Bayesian</title><link href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/" rel="alternate" type="text/html" title="Math ML - Maximum Likelihood Vs. Bayesian" /><published>2021-08-17T00:00:00+08:00</published><updated>2021-08-17T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;現在問題是：這個 neural network 長得怎麼樣？以及如何把 deterministic neural network 轉換成 probabilistic distribution?&lt;/p&gt;
+
+&lt;h4 id=&quot;example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae&quot;&gt;Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)&lt;/h4&gt;
+
+&lt;p&gt;Example 2 and 3 NN 產生 conditional distribution 的方式只能用在 discrete distribution.   對於 continuous distribution, NN 無法產生無限長的 distribution!  例如 VAE 使用 Normal distribution 如下：
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+(\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &amp;=\text { EncoderNeuralNet }_{\boldsymbol{\phi}}(\mathbf{x}) \\
+q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) &amp;=\mathcal{N}(\mathbf{z} ; \boldsymbol{\mu}, \operatorname{diag}(\boldsymbol{\sigma}))
+\end{aligned} %]]&gt;&lt;/script&gt;
+Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解決 deterministic to probabilistic 問題。但聽起來還是有點魔幻寫實方式把 deterministic to probabilistic.  這是 VAE 的實際做法。&lt;/p&gt;
+
+&lt;p&gt;雖然的確產生 conditional distribtuion, 但似乎比直接產生 distribution 更不直觀！例如為什麼是 $\log \sigma$, 不是 $\sigma$ 或 $1/\sigma$ ? 另外只產生 $\mu, \log \sigma$ 兩個 parameters, 是否太簡化？  比起 softmax distribution 可能包含 10-100 parameters.&lt;/p&gt;
+
+&lt;p&gt;Before we can answer this question, let me quote below and move on to algorithm.&lt;/p&gt;
+
+&lt;p&gt;Typically, we use a single encoder neural network to perform posterior inference over all of the datapoints in our dataset. This can be contrasted to more traditional variational inference methods where the variational parameters are not shared, but instead separately and iteratively optimized per datapoint. The strategy used in VAEs of sharing variational parameters across datapoints is also called amortized variational inference (Gershman and Goodman, 2014). With amortized inference we can avoid a per-datapoint optimization loop, and leverage the efficiency of SGD.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-5-decoder--how-to-explain-pxmid-z-的-conditional-distribution&quot;&gt;Example 5: Decoder:  How to explain $p(x\mid z)$ 的 conditional distribution?&lt;/h4&gt;
+
+&lt;p&gt;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Let’s now make the assumption that p(z) is a standard Gaussian distribution and that p(x&lt;/td&gt;
+      &lt;td&gt;z) is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}(\boldsymbol{f(z)}) &amp;=\text { EncoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &amp;=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+&amp;p(z) \equiv \mathcal{N}(0, I) \\
+&amp;p(x \mid z) \equiv \mathcal{N}(f(z), c I) \quad f \in F \quad c&gt;0
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;似乎只能 heuristically 解釋，沒有很深的 math fondation.&lt;/p&gt;
+
+&lt;h2 id=&quot;比較-variational-em-and-vae-algorithm&quot;&gt;比較 Variational EM and VAE Algorithm&lt;/h2&gt;
+
+&lt;p&gt;Recap variational EM algorithm&lt;/p&gt;
+
+&lt;h3 id=&quot;em-and-variation-em-algorithm-recap&quot;&gt;EM and Variation EM Algorithm Recap&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Goal:&lt;/strong&gt; (ML) estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.&lt;/p&gt;
+
+&lt;p&gt;Step 1: 為了 estimate $\theta$ 引入 hidden random variable $z$, log marginal likelihood (negative):&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\ln p(\mathbf{x} \mid \boldsymbol{\theta}) &amp;= \mathcal{L}(q, \boldsymbol{\theta}) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}, \boldsymbol{\theta}) ) \\
+&amp;= \underbrace{\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}}_{\text{ELBO}} + \underbrace{D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}, \boldsymbol{\theta}) )}_{\text{Gap of posterior}} \\
+&amp;= \underbrace{\sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{x}, \mathbf{z} \mid \boldsymbol{\theta}) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}}_{\text{ELBO}}+ \underbrace{D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}, \boldsymbol{\theta}) )}_{\text{Gap of posterior}} \\
+&amp;= \underbrace{E_{q(z)} \ln p(\mathbf{x}, \mathbf{z} \mid \boldsymbol{\theta}) + H(q)}_{\text{ELBO}} + \underbrace{D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}, \boldsymbol{\theta}) )}_{\text{Gap of posterior}} \\
+&amp;= \underbrace{Q(q | \theta) + H(q)}_{\text{ELBO}} + \underbrace{D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}, \boldsymbol{\theta}) )}_{\text{Gap of posterior}} \\
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;第一項 (negative) 加第二項 (self-entropy of q, positive) 稱為 ELBO. 第三項稱為 gap (positive).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Or another formulation (same as above but better notation to compare with DLVM or VAE)&lt;/p&gt;
+
+&lt;p&gt;Let’s start with EM algorithm&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*}
+\ln p(\mathbf{x} ; \boldsymbol{\theta})&amp;=\mathcal{L}(q, \boldsymbol{\theta})+K L(q \| p) \\
+\mathcal{L}(q, \boldsymbol{\theta}) &amp;= \int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z} \\
+\mathrm{KL}(q \| p)&amp;= \int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z}
+\end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Step 2: 假設 posterior $p(z\mid x)$ 有 analytic soluiton, e.g. GMM 的 posterior 是 softmax funtion.&lt;/p&gt;
+
+&lt;p&gt;We let $q(z) = p(z \mid x )$  and define the  $Q$ function (log joint distribution integration over posterior)&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\text {OLD }}\right) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) d \mathbf{z} \nonumber\\
+&amp;=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)}
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;ELBO = Q function (negative value) + self-entropy (postive value)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Q Function = log joint distribution (tractable) expectation over (approx.) posterior&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;此時可以用定義 EM algorithm&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+\text{E-step, Minimize KL Gap : Compute}\quad &amp;p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
+\text{M-step, Maximize ELBO : Evaluate}\quad &amp;\boldsymbol{\theta}^{\mathrm{NEW}}=\underset{\boldsymbol{\theta}}{\arg \max } Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;一般 $\eqref{eqQ}$ 的 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
+大多的問題是 $\eqref{eqE}$ conditional or posterior distribution 是否容易計算，是否有 analytical solution.&lt;/p&gt;
+
+&lt;h3 id=&quot;vae&quot;&gt;VAE&lt;/h3&gt;
+
+&lt;p&gt;主要參考 [@kingmaIntroductionVariational2019].&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210901154112484.png&quot; alt=&quot;image-20210901154112484&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Goal A:&lt;/strong&gt; get the marginal likelihood:  $\ln_{\theta} p(x)$&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Goal B:&lt;/strong&gt; get the $\theta$ (and decoder $\phi$) is to $\arg \max_{\theta} \ln p_{\theta}(x)$&lt;/p&gt;
+
+&lt;p&gt;Step 1: same as above (引入 hidden random variable $z$ and decoder NN $\theta$)&lt;/p&gt;
+
+&lt;p&gt;Step 2: 因為 posterior intractable, 引入另一個 encoder neural network ($\phi$) which is tractable&lt;/p&gt;
+
+&lt;h3 id=&quot;em-algorithm-和-vae-的差別&quot;&gt;EM algorithm 和 VAE 的差別&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;EM posterior is tractable (Q funciton);  VAE posterior is intractable (沒有 analytical form). 我們用另一個 (tractable) neural network $\phi$ 去近似 (intractable) posterior.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\log p_{\boldsymbol{\theta}}(\mathbf{x}) &amp;=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x})\right] \\
+&amp;=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
+&amp;=\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})} \frac{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
+&amp;=\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\boldsymbol{x}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)}
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;把所有 EM 的 $q(z)$  變成 $q_{\phi}(z\mid x)$.    兩者完全一致&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap.&lt;/strong&gt;  兩者完全一致&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;第一項是 ELBO, $\mathcal{L}&lt;em&gt;{\theta,\phi}{(\boldsymbol{x}})$, 第二項是 KL divergence gap, $D&lt;/em&gt;{K L} \ge 0$.
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;KL divergence 決定近似的 NN 和 true posterior 距離多遠。&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;KL divergence gap 也決定 ELBO bound 的 tightness.&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;EM Training 方法：（&lt;strong&gt;假設 posterior is tractable&lt;/strong&gt;）&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;E-step: &lt;strong&gt;update posterior&lt;/strong&gt; ( tractable $q=p(z\mid x)$ ) to &lt;strong&gt;minimize KL gap&lt;/strong&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;M-step: &lt;strong&gt;update parameter&lt;/strong&gt; $\theta$ to &lt;strong&gt;maximize ELBO/Marginal likelihood&lt;/strong&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;E-step and M-step Iterative update 永遠會增加 ELBO, 但這不一定是好事！很有可能會卡在 local maximum, 需要多個 initial condition to avoid some local maximum.&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;VAE 的 posterior is intractable, 但巧妙的利用 encoder ($\phi$) + decoder ($\theta$) structure.  可以用原來的 image 為 golden 做 self-supervise learning.  使用 SGD 於多張 images to back-propagation &lt;strong&gt;同時 update&lt;/strong&gt; $\theta, \phi$  (&lt;strong&gt;這和 EM 不同，一石二鳥&lt;/strong&gt;)&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap  $\to$  ELBO = Log Marginal Likelihood - KL Gap&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;Update $\theta$ and $\phi$  to &lt;strong&gt;maximize ELBO implies maximize the marginal likelihood&lt;/strong&gt;,  equivalent to M-step in EM.&lt;/li&gt;
+      &lt;li&gt;NN $\phi$  近似 posterior ($q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \approx p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})$), &lt;strong&gt;update $\phi$ implies to minimize KL gap&lt;/strong&gt;, equivalent to E-step in EM.&lt;/li&gt;
+      &lt;li&gt;VAE 使用 SGD with mini-batch training iteratively,  並不保證 ELBO 永遠會增加 (or loss function 永遠變小)，但可以 leverage neural network trainging 的經驗，似乎收斂性還不錯，雖然無法證明 global 收斂性, 但不至於卡在太差的 local minimum.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210901180808893.png&quot; alt=&quot;image-20210901180808893&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;VAE 和 AE neural network 不同，中間還卡了一個 random variable $z$!  如何 back-propagation 穿過 $z$? Reparameterization Trick!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;question-maximize-elbo-等價-minimize-gap-between-posterior-and-q&quot;&gt;Question: Maximize ELBO 等價 Minimize GAP between posterior and q?&lt;/h5&gt;
+
+&lt;p&gt;在 EM 這是兩件事：E-step: update posterior q = .. to minimize the gap between ;   M-step: update $\theta$  to maximize ELBO or the simplified version Q function (joint distribution over posterior distribution, remove self-entropy from ELBO)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;ELBO = Q function (negative value) + self-entropy (postive value)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Q Function = log joint distribution (tractable) expectation over (approx.) posterior&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;在 VAE 似乎是同一件事，let’s take a look of minimize KL gap between posterior and approx. q.&lt;/p&gt;
+
+&lt;p&gt;此處 $g^* = \mu$ and $h^* = \log \sigma$,  $g^&lt;em&gt;$ and $h^&lt;/em&gt;$ 其實就是 $\phi$&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\left(g^{*}, h^{*}\right) &amp;=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
+&amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
+&amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
+&amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
+&amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
+\end{aligned} %]]&gt;&lt;/script&gt;
+這個結果好像跟下面 maximize ELBO 的結論一樣？？&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;結論一： 從 joint pdf 出發 (ELBO)&lt;/li&gt;
+  &lt;li&gt;結論二：從 conditional pdf 出發 (posterior)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;vae-的-loss-function&quot;&gt;VAE 的 Loss Function&lt;/h3&gt;
+
+&lt;p&gt;標準 bayesian formulated VAE 的 loss function for a specific $x_i$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;l_{i}(\theta, \phi)=-E_{z \sim q_{\phi}\left(z | x_{i}\right)}\left[\log p_{\theta}(x_{i} | z)\right]+K L\left(q_{\phi}(z | x_{i}) \|\,p(z)\right)&lt;/script&gt;
+
+&lt;p&gt;數學等價上面的 ELBO x (-1)：&lt;/p&gt;
+
+&lt;p&gt;$\underbrace{\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}&lt;em&gt;{=\mathcal{L}&lt;/em&gt;{\theta,\phi}{(\boldsymbol{x}})}$&lt;/p&gt;
+
+&lt;p&gt;$= {\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}$&lt;/p&gt;
+
+&lt;p&gt;$= {\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})p(z)}\right]\right]} = {\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p(z)}\right]\right]} + {\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{ p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}$&lt;/p&gt;
+
+&lt;p&gt;$ = {\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[{p_{\boldsymbol{\theta}}(\mathbf{x}\mid \mathbf{z})}\right]\right]} - K L  { \left[{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) | { p(z)}}\right]}$&lt;/p&gt;
+
+&lt;h4 id=&quot;normal-distribution-assumption&quot;&gt;Normal Distribution Assumption&lt;/h4&gt;
+
+&lt;h5 id=&quot;假設-pz-px--z-為-normal-distribution-vae-的-elbo-可以近似為&quot;&gt;假設 p(z)， p(x | z) 為 Normal distribution, VAE 的 ELBO 可以近似為&lt;/h5&gt;
+
+&lt;p&gt;參考 https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73
+&lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}_{z \sim q_{\phi}(z\mid x)}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{\phi}(z\mid x)\| p(z)\right)&lt;/script&gt;
+第二項假設 prior p(z) and posterior q(z|x) 為 normal distribution, 有 close form.&lt;/p&gt;
+
+&lt;p&gt;ELBO x (-1) 變成 VAE loss function.  此時拆解和解釋和 EM 有些不同。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;EM ELBO 留下 Q function of joint distribution，discard self-entropy independent of parameter.  因為我們目標是&lt;/strong&gt; $\arg \max_{\theta} Q$.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;VAE ELBO loss 第一項則是 reconstruction loss; 第二項代表 regularization.  兩者是互相 balance, 而不是 minimize gap!&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;如果 input/output loss 很小，代表 variance 接近 0。 此時 regularization loss 變大，這是 overfit case like conventional autoencoder, not good.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;如果 regularization 很小，代表 variance 接近 1。此時 reconstruction loss 變大。 encoding or decoding 就不好。&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;ELBO (negative value) = Q function (negative value) + self-entropy (postive value).&lt;/strong&gt; (for EM)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-1 x ELBO = Loss (positive value) = reconstruction loss (positive value) + regularization loss (positive value).&lt;/strong&gt;  (for VAE)&lt;/p&gt;
+
+&lt;p&gt;Very important:  maximize ELBO = minimize gap between posterior and q!!! (by xxx)&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\left(g^{*}, h^{*}\right) &amp;=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
+&amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
+&amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
+&amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
+&amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
+\end{aligned} %]]&gt;&lt;/script&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="VAE" /><category term="Autoencoder" /><category term="Variational" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Math ML - Maximum Likelihood Vs. Bayesian</title><link href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/" rel="alternate" type="text/html" title="Math ML - Maximum Likelihood Vs. Bayesian" /><published>2021-08-17T00:00:00+08:00</published><updated>2021-08-17T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;[@poczosCllusteringEM2015]&lt;/li&gt;
   &lt;li&gt;[@matasExpectationMaximization2018] good reference&lt;/li&gt;
@@ -444,7 +713,7 @@ MathJax.Hub.Config({
 \begin{align*}
 \ln p(\mathbf{x} ; \boldsymbol{\theta})&amp;=F(q, \boldsymbol{\theta})+K L(q \| p) \\
 F(q, \boldsymbol{\theta})&amp;=\int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z} \\
-\mathrm{KL}(q \| p)&amp;=-\int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z}
+\mathrm{KL}(q \| p)&amp;= \int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z}
 \end{align*} %]]&gt;&lt;/script&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
@@ -466,8 +735,12 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 
 &lt;h2 id=&quot;variational-em-framework&quot;&gt;Variational EM Framework&lt;/h2&gt;
 
-&lt;p&gt;最簡單的話就是 hidden variable z = z1, z2, .., zM.  and p(z) = p(z1)…p(zM).
-什麼時候會有這種 distribution product?  後面會說明。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;這裡的思路和前文 variation EM minimize KL gap 似乎不同？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;這裡的思路還是 maximize ELBO (or F free energy function), 但採取 divide-and-conquer 方法。&lt;/p&gt;
+
+&lt;p&gt;最簡單的話就是 hidden variable $\mathbf{z} = [z_1, z_2,\cdots,z_M]$  and $p(\mathbf{z}) = p(z_1)\cdots p(z_M)$.
+什麼時候會有這種 distribution product?  主要是來自 graph model, 後面會說明。&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
 q(\mathbf{z})=\prod_{i=1}^{M} q_{i}\left(z_{i}\right) \label{eqFactor}
@@ -1069,113 +1342,111 @@ $N_{11} = T_1 \cdot \frac{1}{4} + S_1 \cdot \frac{b}{5a+b}$&lt;/p&gt;
 
 &lt;h2 id=&quot;em-algorithm-derivation&quot;&gt;EM Algorithm Derivation&lt;/h2&gt;
 
-&lt;p&gt;EM algorithm 如果只是 heuristic algorithm, 可能有用度減半。這裡討論數學上的 justification.  先定義 terminologies&lt;/p&gt;
+&lt;p&gt;EM algorithm 如果只是 heuristic algorithm, 可能有用度大幅縮減。以下討論 EM 數學上的 formulation.  先定義 terminologies&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;$\mathbf{o}$: all observed values&lt;/li&gt;
-  &lt;li&gt;$\mathbf{z}$: all unobserved values (i.e. hidden variable)&lt;/li&gt;
-  &lt;li&gt;$\mathbf{\theta}$: model parameters to be estimated&lt;/li&gt;
+  &lt;li&gt;$\mathbf{x}$: observed random variables (下圖雙圓框)&lt;/li&gt;
+  &lt;li&gt;$\mathbf{z}$: hidden random variables (下圖單圓框)&lt;/li&gt;
+  &lt;li&gt;$\mathbf{\theta}$: fixed model parameters to be estimated (下圖單方框)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;目標：Find $\theta^*$ using the Maximum Likelihood approach&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/media/image-20210905175447897.png&quot; alt=&quot;image-20210905175447897&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\begin{equation}
-\boldsymbol{\theta}^{*}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ell(\boldsymbol{\theta})=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o} \mid \boldsymbol{\theta})
-\end{equation}\label{eqMLE}&lt;/script&gt;​&lt;/p&gt;
+&lt;p&gt;目標：Find $\theta^*$ to maximize likelihood or marginal likelihood 如下 $\eqref{eqMLE}$. 此處 $\theta$ 是一個 fixed parameter, 不是一個 random variable.  所以我們用 $p(x; \theta)$ notation, 而避免用 $p(x \mid \theta)$ notation. 不過有時候引用其他文章還是難以完全避免，可以從上下文判斷。&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\begin{align}
+\boldsymbol{\theta}^{*}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ell(\boldsymbol{\theta})=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{x} ; \boldsymbol{\theta}) \label{eqMLE}
+\end{align}&lt;/script&gt;​&lt;/p&gt;
 
 &lt;p&gt;思路：假設解下列完整 data 很容易解 (例如例一和例三)&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})
-\end{equation}\label{eqMLE2}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) \label{eqMLE2}
+\end{align}&lt;/script&gt;
 
 &lt;p&gt;我們的想法是把 $\eqref{eqMLE}$ 先變形成上式 $\eqref{eqMLE2}$，再想辦法優化&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{equation}
-\begin{aligned}
-\ln p(\mathbf{o} \mid \boldsymbol{\theta}) &amp;=\ln \sum_{\mathbf{z}} p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) \\
-&amp;=\ln \sum_{\mathbf{z}} q(\mathbf{z}) \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}
-\end{aligned}
-\end{equation}\label{eqMLE3} %]]&gt;&lt;/script&gt;
+\begin{align}
+\ln p(\mathbf{x} ; \boldsymbol{\theta}) &amp;=\ln \sum_{\mathbf{z}} p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) \nonumber \\
+&amp;=\ln \sum_{\mathbf{z}} q(\mathbf{z}) \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}  \label{eqMLE3}
+\end{align} %]]&gt;&lt;/script&gt;
 
 &lt;p&gt;這裡引入看似任意 probability distribution $q(\mathbf{z})$ with $\sum_{\mathbf{z}} q(\mathbf{z})=1$. 後面會說明如何選 $q(\mathbf{z})$.&lt;/p&gt;
 
 &lt;h3 id=&quot;log-likelihood-with-hidden-variable-lower-bound&quot;&gt;Log-Likelihood with Hidden Variable Lower Bound&lt;/h3&gt;
 
-&lt;p&gt;上式 $\eqref{eqMLE3}$ 利用 Jensen’s inequality 可以導出
-&lt;script type=&quot;math/tex&quot;&gt;\geq \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;上式 $\eqref{eqMLE3}$ 利用 Jensen’s inequality 可以導出 $\geq \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}$&lt;/p&gt;
 
-&lt;p&gt;我們定義 $\ln p(\mathbf{o} \mid \boldsymbol{\theta})$ 的 lower bound or ELBO (Evidence Lower BOund) 為 $\mathcal{L}(q, \boldsymbol{\theta})$, for any distribution $q$.&lt;/p&gt;
+&lt;p&gt;我們定義 $\ln p(\mathbf{x} ; \boldsymbol{\theta})$ 的 lower bound or ELBO (Evidence Lower BOund) 為 $\mathcal{L}(q, \boldsymbol{\theta})$, for any distribution $q(\mathbf{z})$.&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-\mathcal{L}(q, \boldsymbol{\theta})=\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}
-\end{equation}\label{eqELBO}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+\mathcal{L}(q, \boldsymbol{\theta})=\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} \label{eqELBO}
+\end{align}&lt;/script&gt;
 
 &lt;p&gt;&lt;strong&gt;這已經非常接近思路！我們的思路修正成把有 hidden data 的 MLE 變成用完整 data 的 MLE 做為 lower bound.  再通過 $q(\mathbf{z})$ 提高 lower bound 逼近原來的目標。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;Maximizing $\mathcal{L}(q, \boldsymbol{\theta})$ by choosing $q(z)$ 就可以 push the log likelihood $\ln p(\mathbf{o} \mid \boldsymbol{\theta})$ upwards.&lt;/p&gt;
+&lt;p&gt;Maximizing $\mathcal{L}(q, \boldsymbol{\theta})$ by choosing $q(\mathbf{z})$ 就可以 push the log likelihood $\ln p(\mathbf{x} ; \boldsymbol{\theta})$ upwards.&lt;/p&gt;
 
 &lt;p&gt;反過來我們可以計算和 lower bound 之間的 gap.&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{align}
-\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\mathcal{L}(q, \boldsymbol{\theta}) &amp;=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \nonumber\\
-&amp;=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln \underbrace{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}_{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) p(\mathbf{o} \mid \boldsymbol{\theta})}-\ln q(\mathbf{z})\} \nonumber\\
-&amp;=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})+\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\ln q(\mathbf{z})\} \nonumber\\
-&amp;=\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q(\mathbf{z})}_{1} \ln p(\mathbf{o} \mid \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})-\ln q(\mathbf{z})\} \nonumber\\
-&amp;=-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})}{q(\mathbf{z})} \label{eqGAP} \\
-&amp;= D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \ge 0 \label{eqKL}
+\ln p(\mathbf{x}, \boldsymbol{\theta})-\mathcal{L}(q; \boldsymbol{\theta}) &amp;=\ln p(\mathbf{x} ; \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} \nonumber\\
+&amp;=\ln p(\mathbf{x} ; \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln \underbrace{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}_{p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) p(\mathbf{x} ; \boldsymbol{\theta})}-\ln q(\mathbf{z})\} \nonumber\\
+&amp;=\ln p(\mathbf{x} ; \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})+\ln p(\mathbf{x} ; \boldsymbol{\theta})-\ln q(\mathbf{z})\} \nonumber\\
+&amp;=\ln p(\mathbf{x} ; \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q(\mathbf{z})}_{1} \ln p(\mathbf{x} ; \boldsymbol{\theta})-\sum_{\mathbf{z}} q(\mathbf{z})\{\ln p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})-\ln q(\mathbf{z})\} \nonumber\\
+&amp;=-\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})}{q(\mathbf{z})} \label{eqGAP} \\
+&amp;= D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \ge 0 \label{eqKL}
 \end{align} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;這個 gap $\eqref{eqKL}$ 就是 KL divergence between $q(\mathbf{z})$ and $p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$, 永遠大於 0. 這和 Jensen Inequality 的結論一致！&lt;/p&gt;
+&lt;p&gt;這個 gap $\eqref{eqKL}$ 深具物理意義，就是 KL divergence between $q(\mathbf{z})$ and posterior  $p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$, 也就是兩者之間的距離，永遠大於 0. 這也和 Jensen Inequality 的結論一致！&lt;/p&gt;
 
 &lt;p&gt;以下是關鍵：&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;如果能找到 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$ 的 analytical solution，就可以讓 gap 變成 0.  Lower bound $\eqref{eqELBO}$ 就是我們要 maximize 目標，voila!
+  &lt;li&gt;如果能找到 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$ 的 analytical solution，就可以讓 gap 變成 0.  Lower bound $\eqref{eqELBO}$ 就是我們要 maximize 目標，voila!
     &lt;ul&gt;
-      &lt;li&gt;例如例四 GMM 的 $p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$ 就是 softmax function.&lt;/li&gt;
+      &lt;li&gt;例如例四 GMM 的 $p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$ 就是 softmax function.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;即使 $q(\mathbf{z})$ 有 analytical solution, e.g. softmax, 不代表容易解 maximum 以及對應的 parameter.  EM algorithm 就是用來處理這個問題，見下文。&lt;/li&gt;
-  &lt;li&gt;假如 $q(\mathbf{z})$ 本身就非常複雜，還有另一個方法：variational approximation; 稱為 Bayesian inference. 本文不討論。&lt;/li&gt;
+  &lt;li&gt;假如 $q(\mathbf{z})$ 非常複雜沒有 analytical solution，還有另外方法：variational approximation; 稱為 Bayesian inference；或是用一個 neural network approximate posterior；稱為 variational autoencoder (VAE). 本文不討論，下文再討論。&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;em-algorithm-push-the-lower-bound-upwards&quot;&gt;EM Algorithm Push the Lower Bound Upwards&lt;/h3&gt;
-&lt;p&gt;Log likelihood function 可以分為兩個部分： lower bound + gap&lt;/p&gt;
+&lt;p&gt;Log likelihood function 可以分為兩個部分： ELBO + KL Gap of posterior&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-\ln p(\mathbf{o} \mid \boldsymbol{\theta})=\mathcal{L}(q, \boldsymbol{\theta})+D_{\mathrm{KL}}(q \| p)
+\ln p(\mathbf{x} ; \boldsymbol{\theta})=\mathcal{L}(q, \boldsymbol{\theta})+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) )
 \end{equation}\label{eqSUM}&lt;/script&gt;
 
-&lt;p&gt;從 Jensen’s inequality 得到 $\mathcal{L}(q, \boldsymbol{\theta})$ 是 lower bound.  同樣從 KL divergence $\ge$ 0 再度驗證。&lt;/p&gt;
+&lt;p&gt;從 Jensen’s inequality 得到 $\mathcal{L}(q; \boldsymbol{\theta})$ 是 lower bound.  從 KL divergence $\ge$ 0 再度驗證。&lt;/p&gt;
 
-&lt;p&gt;如果 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$, the bound is tight.&lt;/p&gt;
+&lt;p&gt;如果 $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$, the bound is tight.&lt;/p&gt;
 
 &lt;p&gt;接下來看兩個極端的 examples.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Trivial Case:&lt;/strong&gt;&lt;/em&gt;  Hidden variable $\mathbf{z}$ does NOT provide any information of $\mathbf{o}$&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Trivial Case:&lt;/strong&gt;&lt;/em&gt;  Hidden variable $\mathbf{z}$ does NOT provide any information of $\mathbf{x}$&lt;/p&gt;
 
-&lt;p&gt;如果 $\mathbf{o}$ 和 $\mathbf{z}$ 完全無關，$p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) = p(\mathbf{z} \mid \boldsymbol{\theta})$.  We can make $q(\mathbf{z}) = p(\mathbf{z} \mid \boldsymbol{\theta})$
-such that $D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})) = 0$, 也就是 gap = 0.&lt;/p&gt;
-
-&lt;p&gt;Lower bound 就變成原來的 log-likelihood function, trivial case.
-&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-\begin{aligned}
-\mathcal{L}(q, \boldsymbol{\theta}) &amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
-&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o} \mid \boldsymbol{\theta}) p(\mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \\
-&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o} \mid \boldsymbol{\theta})\\
-&amp;= \ln p(\mathbf{o} \mid \boldsymbol{\theta})
-\end{aligned} %]]&gt;&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Case 2:&lt;/strong&gt;&lt;/em&gt; 如果  $p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$ 有 analytical solution, let $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta})$&lt;/p&gt;
+&lt;p&gt;如果 $\mathbf{x}$ 和 $\mathbf{z}$ 完全無關，$p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) = p(\mathbf{z} ; \boldsymbol{\theta})$.  We can make $q(\mathbf{z}) = p(\mathbf{z} ; \boldsymbol{\theta})$
+such that $D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})) = 0$, 也就是 gap = 0. Lower bound 就變成原來的 log-likelihood function, trivial case.&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
-\mathcal{L}(q, \boldsymbol{\theta}) &amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
-&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) p(\mathbf{o} \mid \boldsymbol{\theta})}{q(\mathbf{z})} \\
-&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o} \mid \boldsymbol{\theta})\\
-&amp;= \ln p(\mathbf{o} \mid \boldsymbol{\theta})
+\mathcal{L}(q, \boldsymbol{\theta}) &amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x} ; \boldsymbol{\theta}) p(\mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{x} ; \boldsymbol{\theta})\\
+&amp;= \ln p(\mathbf{x} ; \boldsymbol{\theta})
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Case 2:&lt;/strong&gt;&lt;/em&gt; 如果  $p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$ 有 analytical solution, let $q(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathcal{L}(q, \boldsymbol{\theta}) &amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})}\\ 
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) p(\mathbf{x} ; \boldsymbol{\theta})}{q(\mathbf{z})} \\
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{x} ; \boldsymbol{\theta})\\
+&amp;= \ln p(\mathbf{x} ; \boldsymbol{\theta})
 \end{aligned} %]]&gt;&lt;/script&gt;
 
 &lt;p&gt;其實這就是 EM algorithm 的精髓&lt;/p&gt;
@@ -1188,7 +1459,7 @@ such that $D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z} \mid \mathbf{o}, \boldsy
   &lt;li&gt;Lower bound 其實可以視為 MLE of complete data， &lt;strong&gt;對應 EM algorithm 的 M-Step.&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Recap lower bound $\eqref{eqELBO}$ 包含兩個部分：(i) $q(\mathbf{z})$ distribution and (ii) log-likelihood of complete data, $\ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})$.&lt;/p&gt;
+&lt;p&gt;Recap lower bound $\eqref{eqELBO}$ 包含兩個部分：(i) $q(\mathbf{z})$ distribution and (ii) log-likelihood of complete data, $\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})$.&lt;/p&gt;
 
 &lt;p&gt;這兩個部分剛好對應 EM algorithm 的 E-step (i) and M-step (ii).&lt;/p&gt;
 &lt;ul&gt;
@@ -1196,41 +1467,41 @@ such that $D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z} \mid \mathbf{o}, \boldsy
   &lt;li&gt;E-step (Expectation):&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)
-\end{equation}\label{eqEstep}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right) \label{eqEstep}
+\end{align}&lt;/script&gt;
 
 &lt;ul&gt;
   &lt;li&gt;M-step (Maximization):&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right)
-\end{equation}\label{eqMstep}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right) \label{eqMstep}
+\end{align}&lt;/script&gt;
 
 &lt;h3 id=&quot;m-step-qt1-is-fixed&quot;&gt;M-step: $q^{(t+1)}$ is fixed&lt;/h3&gt;
 &lt;p&gt;我們先看 M-step $\eqref{eqMstep}$​​, 因為這和 MLE estimate $\theta$​​ 非常相似。&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
-\mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right) &amp;=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q^{(t+1)}(\mathbf{z})} \\
-&amp;=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln q^{(t+1)}(\mathbf{z})}_{\text {const. }}
+\mathcal{L}\left(q^{(t+1)}, \boldsymbol{\theta}\right) &amp;=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q^{(t+1)}(\mathbf{z})} \\
+&amp;=\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})-\underbrace{\sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln q^{(t+1)}(\mathbf{z})}_{\text {const. }}
 \end{aligned} %]]&gt;&lt;/script&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})
-\end{equation}\label{eqMstep2}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \sum_{\mathbf{z}} q^{(t+1)}(\mathbf{z}) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{(t)}) \label{eqMstep2}
+\end{align}&lt;/script&gt;
 
 &lt;p&gt;&lt;strong&gt;注意 M-Step 和完整 data 的 MLE 思路如下非常接近，只加了對 $q(\mathbf{z})$ 的 weighted sum.&lt;/strong&gt;
-&lt;script type=&quot;math/tex&quot;&gt;\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})&lt;/script&gt;&lt;/p&gt;
+&lt;script type=&quot;math/tex&quot;&gt;\underset{\boldsymbol{\theta}}{\operatorname{argmax}} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;上式微分等於 0 就可以解 $\theta^{t+1}$。上面例四以及例二就是很好的例子。&lt;/p&gt;
 
 &lt;p&gt;另一個常見的寫法&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})
-\end{equation}\label{eqMstep3}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{(t)}) \label{eqMstep3}
+\end{align}&lt;/script&gt;
 
 &lt;p&gt;&lt;strong&gt;注意 M-Step 是 maximize lower bound, 並不等於 maximize 不完整 data 的 MLE，因為還差了一個 gap function (i.e. KL divergence).  E-Step 的目標才是縮小 gap function, which is also $\boldsymbol{\theta}$ dependent.&lt;/strong&gt;&lt;/p&gt;
 
@@ -1238,13 +1509,13 @@ q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\t
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;q^{(t+1)}=\underset{q}{\operatorname{argmax}} \mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)&lt;/script&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)=\underbrace{\ln p\left(\mathbf{o} \mid \boldsymbol{\theta}^{(t)}\right)}_{\text {const. }}-D_{\mathrm{KL}}(q \| p)&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{L}\left(q, \boldsymbol{\theta}^{(t)}\right)=\underbrace{\ln p\left(\mathbf{x} ; \boldsymbol{\theta}^{(t)}\right)}_{\text {const. }}-D_{\mathrm{KL}}(q \| p)&lt;/script&gt;
 
 &lt;p&gt;以上 KL divergence 大於等於 0，所以 maximize lower bound 就要讓 要選擇 $q(z)$ 儘量縮小 gap  (i.e. KL divergence) 到 0.  Gap 等於 0 的條件就是&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})
-\end{equation}\label{eqEstep2}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)}) \label{eqEstep2}
+\end{align}&lt;/script&gt;
 
 &lt;p&gt;同樣 E-Step 深具物理意義，就是猜 incomplete/hidden data distribution based on 已知的 observables 和 iterative $\theta$.&lt;/p&gt;
 
@@ -1253,37 +1524,93 @@ q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})
 &lt;h4 id=&quot;conditional-vs-joint-distribution&quot;&gt;Conditional Vs. Joint Distribution&lt;/h4&gt;
 &lt;p&gt;&lt;strong&gt;我們可以把 conditional distribution 改成 joint distribution 如下。兩者都可以用來解 E-Step.&lt;/strong&gt;&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) = p(\mathbf{z}, \mathbf{o} \mid \boldsymbol{\theta}^{(t)}) / p(\mathbf{o} \mid \boldsymbol{\theta}^{(t)})&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)}) = p(\mathbf{z}, \mathbf{x} ; \boldsymbol{\theta}^{(t)}) / p(\mathbf{x} ; \boldsymbol{\theta}^{(t)})&lt;/script&gt;
 
 &lt;h3 id=&quot;em-精髓-結合-e-step-and-m-step&quot;&gt;EM 精髓: 結合 E-Step and M-Step&lt;/h3&gt;
 
-&lt;p&gt;如果 E-Step $\eqref{eqEstep2}$ 有 analytic solution, 可以代入 M-Step $\eqref{eqMstep2}$ 得到&lt;/p&gt;
+&lt;p&gt;如果 E-Step $\eqref{eqEstep2}$ 有 analytic solution, 可以代入 M-Step $\eqref{eqMstep2}$ 得到有名的 $Q$ function:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{aligned}
-Q(\theta^{t+1} | \theta^{t}) &amp;=  \sum_{\mathbf{z}} p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{t+1}) \\
-&amp;= \int d \mathbf{z} \, p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{t+1})
-\end{aligned} %]]&gt;&lt;/script&gt;
+\begin{align}
+Q(\theta^{t+1} | \theta^{t}) &amp;=  \sum_{\mathbf{z}} p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{t+1}) \nonumber \\
+&amp;= \int d \mathbf{z} \, p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)}) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{t+1}) \\
+&amp;= E_{z\sim p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)})} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{(t+1)}) 
+\end{align} %]]&gt;&lt;/script&gt;
 
 &lt;p&gt;New EM algorithm with fixed $\boldsymbol{\theta}^{t}$&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} Q(\boldsymbol{\theta}^{t+1} | \boldsymbol{\theta}^{t})
-\end{equation}\label{eqQ}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} Q(\boldsymbol{\theta}^{t+1} | \boldsymbol{\theta}^{t}) \label{eqQ}
+\end{align}&lt;/script&gt;
+
+&lt;h3 id=&quot;qa&quot;&gt;Q&amp;amp;A&lt;/h3&gt;
+
+&lt;p&gt;From $\eqref{eqELBO}$, 我們可以得到&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+\mathcal{L}(q, \boldsymbol{\theta})&amp;=\sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} \nonumber \\ 
+&amp;= - D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) ) \label{eqELBOKL}
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;代入 $\eqref{eqKL}$, 我們可以得到&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+\ln p(\mathbf{x}; \boldsymbol{\theta}) &amp;= \mathcal{L}(q; \boldsymbol{\theta}) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \nonumber \\
+&amp;= - D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) ) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \nonumber
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;也就是 &lt;strong&gt;ELBO =&lt;/strong&gt; $\mathcal{L}(q; \boldsymbol{\theta}) = - D_{\mathrm{KL}}(q(\mathbf{z}) | p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) )$. 我們可以反過來驗證&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+\ln p(\mathbf{x}; \boldsymbol{\theta}) &amp;= \sum_z q(z) \ln p(\mathbf{x}; \boldsymbol{\theta}) \nonumber \\
+&amp;= \sum_z q(z) \ln \frac{p(z, x; \theta)}{q(z)}  \frac{q(z)}{p(z \mid x; \theta)} \nonumber \\
+&amp;= \sum_z q(z) \ln \frac{p(z, x; \theta)}{q(z)} + \sum q(z) \ln \frac{q(z)}{p(z \mid x; \theta)} \nonumber \\
+&amp;= - D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) ) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \label{eqKL3} 
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;$\eqref{eqKL3}$ 不免讓人浮想翩翩。 KL divergence 一定為大於等於 0.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;如果要 maximize (marginal) likelihood $\ln p(x; \theta)$, 好像正確的做法是讓 $\eqref{eqKL3}$ maximize 第一個 KL divergence 為 0； 第二個 KL divergence 越大越好？
+    &lt;ul&gt;
+      &lt;li&gt;e.g. let $q(z) = p(z, x; \theta) \to \ln p(x; \theta) = 0 + D_{K L}(p(z, x; \theta) | p(z \mid x; \theta) \ge 0$&lt;/li&gt;
+      &lt;li&gt;但我們知道 $\ln p(x;\theta) &amp;lt; 0$, 如何解釋這個矛盾？&lt;/li&gt;
+      &lt;li&gt;一個是 $\eqref{eqELBOKL}$ 寫成 KL divergence 有問題。因為 KL divergence 是兩個同樣 dimension distribution 的距離 measurement.  $\eqref{eqELBOKL}$ 的 joint distribution $(z, x)$ 的 dimension 大於 $q(z)$，寫成 KL divergence 無意義，也沒有距離的觀念。除非把 joint distribution marginalized 成 $p(z)$, i.e. prior, 才能和 $q(z)$ 做 KL divergence.&lt;/li&gt;
+      &lt;li&gt;但是 conditional distribution $p(z\mid x)$, i.e. posterior 和 $q(z)$ 則是同樣的 dimension, KL divergence 有意義。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;實務上，我們的做法完全不同，甚至相反。正確的表示式 from $\eqref{eqKL}$ 得到：&lt;/p&gt;
+
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+\ln p(\mathbf{x}; \boldsymbol{\theta}) &amp;= \sum_z q(z) \ln \frac{p(z, x; \theta)}{q(z)} + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta})) 
+\end{align} %]]&gt;&lt;/script&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;我們 maximize 第一項 lower bound (ELBO), 以及 minimize 第二項 KL divergence 為 0&lt;/li&gt;
+      &lt;li&gt;e.g. $q(z) = p(z \mid x; \theta) \to \ln p(x; \theta) = E_{q(z)} \ln p(z, x; \theta) + H(q) + 0$&lt;/li&gt;
+      &lt;li&gt;重點是 find $\theta^* = \arg \max_{\theta} E_{p(z\mid x; \theta)} \ln p(z, x; \theta)$&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&quot;free-energy-interpretation-poczoscllusteringem2015&quot;&gt;Free Energy Interpretation [@poczosCllusteringEM2015]&lt;/h2&gt;
 &lt;p&gt;搞 machine learning 很多是物理學家 (e.g. Max Welling), 習慣用物理觀念套用於 machine learning.  常見的例子是 training 的 &lt;em&gt;momentum&lt;/em&gt; method.  另一個是 &lt;em&gt;energy/entropy&lt;/em&gt; loss function.  此處我們看的是類似 energy loss function.&lt;/p&gt;
 
 &lt;p&gt;我們從 gap 開始&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\ln p(\mathbf{o} \mid \boldsymbol{\theta})-\mathcal{L}(q, \boldsymbol{\theta}) = D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \ge 0&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\ln p(\mathbf{x} ; \boldsymbol{\theta})-\mathcal{L}(q, \boldsymbol{\theta}) = D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \ge 0&lt;/script&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
-\ln p(\mathbf{o} \mid \boldsymbol{\theta}) &amp;= \mathcal{L}(q, \boldsymbol{\theta}) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
-&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta})}{q(\mathbf{z})} + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
-&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
-&amp;= E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}) ) \\
+\ln p(\mathbf{x} ; \boldsymbol{\theta}) &amp;= \mathcal{L}(q, \boldsymbol{\theta}) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \\
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \\
+&amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \\
+&amp;= E_{q(z)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}) ) \\
 \end{aligned} %]]&gt;&lt;/script&gt;
 
 &lt;p&gt;where H(q) is the entropy of q,  第一項是負的，第二項和第三項是正的。
@@ -1305,36 +1632,79 @@ Eq(z) ln p(o, z) = -(0.5 (o-u1)^2 + 0.5 (o-u2)^2 ) / sqrt(2pi) &amp;lt; 0&lt;/p&
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
-\ln p(D \mid \boldsymbol{\theta}^t) &amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(D, \mathbf{z} \mid \boldsymbol{\theta}^t) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}^t) ) \\
-&amp;= E_{q(z)} \ln p(D, \mathbf{z} \mid \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}) ) \\
-&amp;= F_{\theta^t} (q(\cdot), D) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D, \boldsymbol{\theta}) )
+\ln p(D ; \boldsymbol{\theta}^t) &amp;= \sum_{\mathbf{z}} q(\mathbf{z}) \ln p(D, \mathbf{z} ; \boldsymbol{\theta}^t) + \sum_{\mathbf{z}} -q(\mathbf{z}) \ln {q(\mathbf{z})}+ D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D; \boldsymbol{\theta}^t) ) \\
+&amp;= E_{q(z)} \ln p(D, \mathbf{z} ; \boldsymbol{\theta}) + H(q) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D; \boldsymbol{\theta}^t) ) \\
+&amp;= F_{\theta^t} (q(\cdot), D) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid D; \boldsymbol{\theta}) )
 \end{aligned} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;$F_{\theta^t} (q(\cdot), D)$ 稱為 free energy, 包含 joint distribution expectation 和 self-entropy.  或是稱為 ELBO (Evidence lower bound)&lt;/p&gt;
+&lt;p&gt;$F_{\theta^t} (q(\cdot), D)$ 稱為 free energy (也就是 ELBO), 包含 joint distribution expectation 和 self-entropy.&lt;/p&gt;
 
-&lt;p&gt;如果 $p(z\mid x; \theta)$ is analytically available (e.g. GMM, this is just a softmax!).  The ELBO becomes a Q(theta, theta^old) function + H(q)&lt;/p&gt;
+&lt;p&gt;如果 $p(z\mid x; \theta)$ is analytically available (e.g. GMM, this is just a softmax!).  The E-step 基本就是代入 $p(z\mid x; \theta)$ 到  LBO becomes a Q(theta, theta^old) function + H(q)&lt;/p&gt;
 
 &lt;p&gt;The EM algorithm can be summzied as argmax Q!!&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;E-step: $p(z\mid x)$&lt;/li&gt;
-  &lt;li&gt;M-step; argmax …&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;E-step:  代入 $p(z\mid D)$ 到 free-energy (ELBO) update Q function (忽略 self-entropy)&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;Q\left(\theta \mid \theta^{t}\right)=\int d y P\left(y \mid D, \theta^{t}\right) \log P(y, D \mid \theta)&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;M-step; argmax Q&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta^{t+1}=\arg \max _{\theta} Q\left(\theta \mid \theta^{t}\right)&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;We can prove&lt;/p&gt;
+&lt;p&gt;It can be proved&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;log likelihood is always increasing!&lt;/p&gt;
+    &lt;p&gt;log likelihood is always increasing! i.e. $\ln P(D\mid \theta^t) \le \ln P(D\mid \theta^{t+1})$  這是 EM 的重要特徵！&lt;/p&gt;
 
     &lt;p&gt;&lt;img src=&quot;/media/16270144925547/16274030539044.jpg&quot; alt=&quot;-w400&quot; style=&quot;zoom: 33%;&quot; /&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;img src=&quot;/media/16270144925547/16274031504070.jpg&quot; alt=&quot;-w408&quot; style=&quot;zoom:33%;&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use multiple, randomized initialization in practice to avoid strucking at local minima.&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Use multiple, randomized initialization in practice.&lt;/p&gt;
-
 &lt;h2 id=&quot;variational-expectation-maximization&quot;&gt;Variational Expectation Maximization&lt;/h2&gt;
-&lt;p&gt;EM algorithm 一個問題是對於複雜的問題沒有 close from p(z|x), then toast!&lt;/p&gt;
+&lt;p&gt;EM algorithm 一個問題是對於複雜的問題沒有 analytical from $p(z\mid x)$, then (1) variational EM; or (2) use neural network such as variational autoencoder (VAE).&lt;/p&gt;
+
+&lt;p&gt;Variational EM 的重點是不用 Q function, 因為沒有 $p(z\mid x)$.  重點變成 minimize KL gap function for E-step.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Variational E-step:  Fix $\theta^t$&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;q^{t}(\cdot)=\arg \max _{q(\cdot)} F_{\theta^{t}}(q(\cdot), D)=\underset{q(\cdot)}{\arg \min } K L\left(q(y) \| P\left(y \mid D, \theta^{t}\right)\right)&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;但並不保證會找到 best max/min  $q(y) = p(y \mid D, \theta^t)$&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Variational M-step; Fix $q^t$&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta^{t+1}=\arg \max _{\theta} F_{\theta}\left(q^{t}(\cdot), D\right)&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Variational EM 並不保證 marginal likelihood 每次都遞增！&lt;/li&gt;
+  &lt;li&gt;關鍵問題是如何找到 $q(z)$, 下文會討論。&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&quot;appendix&quot;&gt;Appendix&lt;/h2&gt;
 
@@ -1422,10 +1792,10 @@ $(t_1, s_1)$ 個數 $\to N_{11} = \frac{1}{4}T_1+\frac{b}{5a+b}S_1$&lt;/p&gt;
 &lt;p&gt;假設可以有一個 close from Q function, e.g. GMM
 &lt;strong&gt;In summary:  M-Step maximize the lower bound;  E-Step close the gap&lt;/strong&gt; 
 E-Step
-&lt;script type=&quot;math/tex&quot;&gt;q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{o}, \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;
+&lt;script type=&quot;math/tex&quot;&gt;q^{(t+1)}(\mathbf{z}) = p(\mathbf{z} \mid \mathbf{x}; \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;M-Step 
-&lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{o}, \mathbf{z} \mid \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;
+&lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\theta}^{(t+1)}=\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(z)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}^{(t)})&lt;/script&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="softmax" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Jekyll Memo for Github Blog</title><link href="http://localhost:4000/language/2021/06/30/Jekyll-Memo/" rel="alternate" type="text/html" title="Jekyll Memo for Github Blog" /><published>2021-06-30T16:29:08+08:00</published><updated>2021-06-30T16:29:08+08:00</updated><id>http://localhost:4000/language/2021/06/30/Jekyll-Memo</id><content type="html" xml:base="http://localhost:4000/language/2021/06/30/Jekyll-Memo/">&lt;p&gt;幾個重點&lt;/p&gt;
 
