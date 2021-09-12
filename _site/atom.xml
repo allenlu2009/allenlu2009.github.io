@@ -1,10 +1,184 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-12T10:31:37+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math AI - Variational Autoencoder Vs. Variational EM Algorithm</title><link href="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/" rel="alternate" type="text/html" title="Math AI - Variational Autoencoder Vs. Variational EM Algorithm" /><published>2021-08-19T07:10:08+08:00</published><updated>2021-08-19T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/19/Variational%20Autoencoder</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-12T18:15:32+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">跨平臺 Markdown Plus MathJax Blog Editing 經驗分享</title><link href="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="alternate" type="text/html" title="跨平臺 Markdown Plus MathJax Blog Editing 經驗分享" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/">&lt;h2 id=&quot;跨平臺-markdownmathjax-blog-editing-分享&quot;&gt;跨平臺 Markdown+MathJax Blog Editing 分享&lt;/h2&gt;
+
+&lt;p&gt;我常用的計算平臺包含：MacBook air/pro (Mac OS),  PC (Windows 10), and iPad air (iPad OS).&lt;/p&gt;
+
+&lt;p&gt;常常使用的 computing platform and offline blog editors 如下：&lt;/p&gt;
+
+&lt;h2 id=&quot;computing-platform-and-editor&quot;&gt;Computing Platform and Editor&lt;/h2&gt;
+
+&lt;p&gt;MacBook air/pro (mobile at work)  - &lt;strong&gt;Marsedit (paid), mweb (paid, Markdown)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Windows (fixed at home) - WLW (Window Live Writer, free), &lt;strong&gt;VScode (free, Markdown), Typora (free, Markdown)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;iPad air (for portability and photo) - &lt;strong&gt;mweb (free for editing, not for creating, publishing, Markdown)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;推薦的-markdownmathjax-editor&quot;&gt;推薦的 Markdown+MathJax Editor&lt;/h2&gt;
+
+&lt;h3 id=&quot;爲什麽使用-markdown-editor-for-blog&quot;&gt;爲什麽使用 Markdown editor for Blog&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;table&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;Math equation input: Markdown editor 大多可以插入 latex-based 數學公式 (e.g. MathJax or KaTex).  搭配 &lt;a href=&quot;https://mathpix.com/&quot;&gt;Mathpix Snip&lt;/a&gt; (大推！) 是我用過最好的 math equation generator!  Example: $i \hbar \frac{d}{d t}&lt;/td&gt;
+          &lt;td&gt;\Psi(t)\rangle=\hat{H}&lt;/td&gt;
+          &lt;td&gt;\Psi(t)\rangle$&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/li&gt;
+  &lt;li&gt;主要的 blog platforms (e.g. Wordpress, 特別是 Github) 都支持 Markdown.&lt;/li&gt;
+  &lt;li&gt;可携性大爲提高。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;因此我從 WYSIWYG editor 像是 Marsedit (Mac), WLW (PC) 改用 Markdown editors.&lt;/p&gt;
+
+&lt;h3 id=&quot;數學公式-rendering-for-blog&quot;&gt;數學公式 rendering for Blog&lt;/h3&gt;
+
+&lt;p&gt;最早的數學公式 rendering 來自 Latex，主打 professional and static publising 例如 thesis, paper, etc. pdf files.&lt;/p&gt;
+
+&lt;p&gt;Latex 的龐大和 static 特性並不適合用於 dynamic rendering 的 blog.  因此有兩種變形：MathJax and KaTex.   MathJax 比較接近 Latex.  KaTex 主打快速 dynamic rendering, 有一些 equation numbering and reference 並不支持，&lt;strong&gt;因此我主要使用 MathJax.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210911234257339.png&quot; alt=&quot;image-20210911234257339&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Latex/MathJax 的輸入可以使用 Mathpix Snip capture, 非常有用！&lt;/p&gt;
+
+&lt;h3 id=&quot;分享我用過的-markdownmath-editors&quot;&gt;分享我用過的 Markdown+Math editors&lt;/h3&gt;
+
+&lt;h4 id=&quot;mweb-built-in-mathjax-support&quot;&gt;mweb (built-in MathJax support)&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;優點:&lt;/strong&gt; (1) 支持 markdown editing, content management, figure management, and blog publishing; (2) 跨 Mac OS and iPad OS or iOS;  (3) 支持 iCloud sync between MacBook pro and iPad air.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;缺點:&lt;/strong&gt; &lt;strong&gt;(1) 沒有 Windows version.&lt;/strong&gt;  (2) mweb3.0 對於 math equation 支持比較差，有一些常用的 math symbol (e.g. Lagrangian) 不支持。不過 mweb4.0 似乎有改善。&lt;strong&gt;(3) 另外對於 Apple M1 晶片的穩定性很差！&lt;/strong&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;typora-built-in-mathjax-support&quot;&gt;Typora (built-in MathJax support)&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;優點:&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;設定簡單，基本打開  (Jekyll _post) directory 就可以編輯。下圖左是 directory file list.  下圖右是 editing&amp;amp;preview together window.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;UI 非常簡潔，不支持 side-by-side markdown and rendering display. 但是使用一陣子發覺 Typora 直接 rendering output to display 很棒。&lt;/strong&gt;不會像 mweb editing 時，另一個 display 動來動去。特別在小銀幕非常適合，mweb 的 iOS 版採用一樣的做法。可惜沒有 iOS/iPad OS version&lt;/li&gt;
+      &lt;li&gt;跨 Windows/Mac OS/Linux, 但沒有 iOS version.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;缺點:&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;只有 Markdown editing, preview, file list, 但是沒有 blog publishing.&lt;/li&gt;
+      &lt;li&gt;Another big disadvantage: math equation number 支持不好 \label{} 常常有問題。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210912100220717.png&quot; alt=&quot;image-20210912100220717&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;設定 root-path for image directory (下面兩步都要做！)
+    &lt;ul&gt;
+      &lt;li&gt;在本文加上： typora-root-url: ../../allenlu2009.github.io&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/media/image-20210814233107185.png&quot; alt=&quot;image-20210814233107185&quot; /&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;Typora: Format: Image: Use Image Root Path: set to the above directory&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;設定 copy and paste image path:  Typora: File : Preference: Image :  設定 copy and paste image directory.&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210912100913945.png&quot; alt=&quot;image-20210912100913945&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;vscode--math-preview-extension&quot;&gt;VSCode + Math Preview Extension&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;優點:&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;VSCode 整合 (via extension) git version control and Github pull/push, 可能對 Github posting 比較容易&lt;/li&gt;
+      &lt;li&gt;VSCode 有很多的 extensions, 例如 jekyll 可以直接 preview post to github blog.  或是 mathjax 以及其他 preview 的功能。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;缺點:&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;VSCode 有 built-in markdown preview!  但完全不支持 Math rendering!!&lt;/strong&gt; 需要 install plug-in.  另外 preview image 非常多坑！&lt;/li&gt;
+      &lt;li&gt;除非是 coding 達人，不然不推用 VSCode 做 math blog!&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;VSCode extension 有兩個 extensions  &lt;strong&gt;(1) Markdown+Math:  only support KaTex;  (2) Markdown Preview Enhaced: Default KaTex, Optional MathJax&lt;/strong&gt;, changed in setting.
+&lt;img src=&quot;/media/image-20210912001358757.png&quot; alt=&quot;image-20210912001358757&quot; style=&quot;zoom:40%;&quot; /&gt; and &lt;img src=&quot;/media/image-20210912001314540.png&quot; alt=&quot;image-20210912001314540&quot; style=&quot;zoom:40%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;兩者各有缺點，所以兩個都用。&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;Markdown+Math (KaTex only): 下圖左是 Markdown, 下圖右是 Markdown+Math preview.  首先這個 markdown 支持 dark mode; 再來 math 只支持 KaTex, 所以 \label{} 以及 cross reference equation 不支持。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210912085129732.png&quot; alt=&quot;image-20210912085129732&quot; style=&quot;zoom:90%;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Markdown Preview Enhanced (Default KaTex, change to MathJax in setting): 下圖左是 Markdown, 下圖右是 Markdown Preview Enhanced (Setting: KaTex -&amp;gt; MathJax).   看起來還不錯。但只要左邊編輯 markdown, 右邊數學公式就出現亂碼！所以只能用於最後確認效果。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210912081052675.png&quot; alt=&quot;image-20210912081052675&quot; style=&quot;zoom:100%;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Image preview 一堆問題！同樣分成 built-in preview 和 Markdown Preview Enhaced.  總結來説都很爛，但是 Markdown Preview Enhanced (差) 比 built-in preview (爛) 好。
+    &lt;ul&gt;
+      &lt;li&gt;image reference 格式:  built-in preview 只接受標準 markdown 格式： &lt;img src=&quot;...jpg&quot; alt=&quot;text&quot; /&gt; ；preview enhanced 支持標準格式以及 html 格式 : &amp;lt;img src =“…”&amp;gt;”&lt;/li&gt;
+      &lt;li&gt;remote image:  由於 secuity concern, built-in preview 只接受 https;  preview enhanced 支持 http or https.  e.g.
+&lt;img src=&quot;https://ww1.sinaimg.cn/mw690/81b78497jw1emfgwkasznj21hc0u0qb7.jpg&quot; alt=&quot;https&quot; /&gt;
+&lt;img src=&quot;http://ww1.sinaimg.cn/mw690/81b78497jw1emfgwkasznj21hc0u0qb7.jpg&quot; alt=&quot;http&quot; /&gt;&lt;/li&gt;
+      &lt;li&gt;local file system image:  這是最糟糕的部分！只支持 local directory 為 root 的絕對 path!!!  也就是説，無法另外設定 root path, 也不能用 ../media/ 往上 path (因爲 root 沒有更上面的 directory).  我最後只能在 _post directory 之下做一個 symbolic link : PS&amp;gt;  new-item -itemtype symboliclink -path ./  -name media -value ../media&lt;/li&gt;
+      &lt;li&gt;完全不建議一般人用 VSCode 作 markdown blog!&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;cloud-platform&quot;&gt;Cloud Platform&lt;/h2&gt;
+
+&lt;p&gt;跨平臺不只是 computing platforms, Windows/Mac OS/iOS, 更重要是要有 cloud platform 同步到一個 database!  從不同的 computing platforms 要很容易讀寫這個 cloud platform.  基本上只有幾個常見 cloud platforms 能達到這個要求：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Google Drive&lt;/li&gt;
+  &lt;li&gt;Microsoft Onedrive&lt;/li&gt;
+  &lt;li&gt;Apple iCloud&lt;/li&gt;
+  &lt;li&gt;Dropbox&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我選擇使用 iCloud, 原因很簡單。因爲 mweb 只支持 iCloud and Dropbox.   Dropbox 的 free quota 只有 2GB.  iCloud 的 free quota 5GB.   本文是先用 MacBook Pro 的 mweb create and start the article.  再使用 PC Typora 纂寫大部分内容。&lt;/p&gt;
+
+&lt;p&gt;最後再切回 iPad Air 使用 MWeb 繼續，並且拍一張照片結束。這是目前我比較滿意的寫作方式。
+最後再再切回 MacBook Pro to publish, have fun!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/16101804667280/16102111356622.jpg&quot; alt=&quot;text&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210911234257339.png&quot; alt=&quot;test&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210911234257339.png&quot; alt=&quot;image-20210911234257339&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="EM" /><category term="Bayesian" /><category term="MAP" /><summary type="html">跨平臺 Markdown+MathJax Blog Editing 分享</summary></entry><entry><title type="html">Math AI - Variational Autoencoder Vs. Variational EM Algorithm</title><link href="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/" rel="alternate" type="text/html" title="Math AI - Variational Autoencoder Vs. Variational EM Algorithm" /><published>2021-08-19T07:10:08+08:00</published><updated>2021-08-19T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/19/Variational%20Autoencoder</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
 });
 &lt;/script&gt;
 
 &lt;h2 id=&quot;main-reference&quot;&gt;Main Reference&lt;/h2&gt;
+
 &lt;ul&gt;
   &lt;li&gt;[@kingmaIntroductionVariational2019] : excellent reference&lt;/li&gt;
   &lt;li&gt;[@escuderoVariationalAutoEncoders2020]&lt;/li&gt;
@@ -51,7 +225,7 @@ MathJax.Hub.Config({
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;variational-autoencoder-again&quot;&gt;Variational Autoencoder, Again!&lt;/h2&gt;
+&lt;h2 id=&quot;variational-autoencoder-again&quot;&gt;Variational Autoencoder, Again&lt;/h2&gt;
 
 &lt;p&gt;第 N 次討論 VAE (variational autoencoder).  之前從 AE (autoencoder) 出發，有一些手感。但用 deterministic autoencoder 延伸想像力到 probabilistic VAE 還是隔了一層~~紗~~山。有點像二十世紀初把古典力學加上一點量子想像 ($E = h\nu$) 得到氫原子的量子光譜。雖然結果對了，但只能用在特定的情況。&lt;/p&gt;
 
@@ -60,6 +234,7 @@ MathJax.Hub.Config({
 &lt;p&gt;我們這次從 gaph+variational inference 出發。引入 neural network 變成 deep learning variable model (DLVM)。再引入 encoder neural network for posterior.  另外我們會比較 variational EM 和 VAE 增加理解。&lt;/p&gt;
 
 &lt;h2 id=&quot;ml-estimation-和-bayesian-inference-到底有什麼差別&quot;&gt;ML estimation 和 Bayesian inference 到底有什麼差別？&lt;/h2&gt;
+
 &lt;p&gt;簡單說 ML estimation 把 unknown/hidden 視為 a &lt;strong&gt;“fixed parameter”&lt;/strong&gt; (上圖左上).  Bayesian inference 把 unknown/hidden 視為 &lt;strong&gt;“distribution”&lt;/strong&gt; described by a random variable (上圖左下).&lt;/p&gt;
 
 &lt;p&gt;有時候我們也把 $p(x;\theta)$ 寫成 conditional distribution 形式 $p(x\mid\theta).$​  嚴格來說並不對。不過可以視為 Bayesian 詮釋的擴展。&lt;/p&gt;
@@ -81,6 +256,7 @@ MathJax.Hub.Config({
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;p_{\theta}(z | x) = \frac{p_{\theta}(x | z) p_{\theta}(z)}{p(x)}&lt;/script&gt;
 
 &lt;p&gt;&lt;u&gt;上式的術語和解讀&lt;/u&gt;&lt;/p&gt;
+
 &lt;ul&gt;
   &lt;li&gt;Random variable $x$ :  post (事後) observations, (post) evidence. $p(x)$ 稱為 evidence distribution or marginal likelihood.&lt;/li&gt;
   &lt;li&gt;Random variable $\mathbf{z}$ : 相對於 $x$, $\mathbf{z}$ 是 prior (事前, 先驗) 並且是 hidden variable (i.e. not evidence).  擴展我們在 maximum likelihood 的定義，從 parameter 變成 random variable.  $p(z)$​​ &lt;strong&gt;稱為 prior distribution.&lt;/strong&gt;
@@ -114,6 +290,7 @@ MathJax.Hub.Config({
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;bayesian-inference-for-vae-思路&quot;&gt;Bayesian Inference for VAE 思路&lt;/h2&gt;
+
 &lt;p&gt;我們的問題比較類似 (2), 引入一個 hidden variable, z, with parameter $\theta$.  這和 EM algorithm 的想法完全一樣。藉著引入 hidden variable to account for some incomplete information (參考 EM article of incomplete data).&lt;/p&gt;
 
 &lt;p&gt;一般 Bayesian inference 是求 posterior $p(z\mid x; \theta)$, or maximize the likelihood $p(x \mid z; \theta)$.   我們待會談到 VAE，卻是要找 $p(x)$, i.e. marginal likelihood.  數學上是 $p(x) = \int_{z} p(x, z; \theta) dz = \int_{z} p(x \mid z; \theta)p(z) dz $; where $\theta$ 是 parameter, not a random variable.&lt;/p&gt;
@@ -130,11 +307,11 @@ MathJax.Hub.Config({
 
 &lt;p&gt;因此如何讓 deterministic neural network 用於 Bayesian inference?  有以下幾種可能性：&lt;/p&gt;
 
-&lt;h4 id=&quot;example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here&quot;&gt;Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here!&lt;/h4&gt;
+&lt;h4 id=&quot;example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here&quot;&gt;Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here&lt;/h4&gt;
 
 &lt;p&gt;Deterministic functions 可以產生 conditional probability.  如下例&lt;/p&gt;
 
-&lt;p&gt;https://en.wikipedia.org/wiki/Conditional_probability_distribution&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Conditional_probability_distribution&quot;&gt;https://en.wikipedia.org/wiki/Conditional_probability_distribution&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Consider the roll of a fair &lt;a href=&quot;https://en.wikipedia.org/wiki/Dice&quot;&gt;die&lt;/a&gt; and let {\displaystyle X=1}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4&quot; alt=&quot;{\displaystyle X=1}&quot; /&gt; if the number is even (i.e. 2, 4, or 6) and {\displaystyle X=0}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/d519e9e94f279ea82581dfa70a2444e896e2d860&quot; alt=&quot;{\displaystyle X=0}&quot; /&gt; otherwise. Furthermore, let {\displaystyle Y=1}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/867ae2de7c84119e258e68ca484e01e03b00bd73&quot; alt=&quot;Y=1&quot; /&gt; if the number is prime (i.e. 2, 3, or 5) and {\displaystyle Y=0}&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/56cd853e6606465d2259975da9d0a0bb08f612af&quot; alt=&quot;Y=0&quot; /&gt; otherwise.&lt;/p&gt;
 
@@ -293,7 +470,7 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 
 &lt;h4 id=&quot;example-5-decoder--how-to-explain-pxmid-z-的-conditional-distribution&quot;&gt;Example 5: Decoder:  How to explain $p(x\mid z)$ 的 conditional distribution?&lt;/h4&gt;
 
-&lt;p&gt;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&quot;&gt;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&lt;/a&gt;&lt;/p&gt;
 
 &lt;table&gt;
   &lt;tbody&gt;
@@ -315,13 +492,11 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 
 &lt;p&gt;似乎只能 heuristically 解釋，沒有很深的 math fondation.&lt;/p&gt;
 
-&lt;h2 id=&quot;比較-variational-em-and-vae-algorithm&quot;&gt;比較 Variational EM and VAE Algorithm&lt;/h2&gt;
+&lt;h2 id=&quot;比較-variational-em-and-vae-algorithm&quot;&gt;比較 (Variational) EM and VAE Algorithm&lt;/h2&gt;
 
-&lt;p&gt;Recap variational EM algorithm&lt;/p&gt;
+&lt;h3 id=&quot;recap-variational-em-algorithm&quot;&gt;Recap (Variational) EM algorithm&lt;/h3&gt;
 
-&lt;h3 id=&quot;em-and-variation-em-algorithm-recap&quot;&gt;EM and Variation EM Algorithm Recap&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;Goal:&lt;/strong&gt; (ML) estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Goal:&lt;/strong&gt; (ML) Estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.&lt;/p&gt;
 
 &lt;p&gt;Step 1: 為了 estimate $\theta$ 引入 hidden random variable $z$, log marginal likelihood (negative):&lt;/p&gt;
 
@@ -466,7 +641,7 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 
 &lt;p&gt;在 VAE 似乎是同一件事，let’s take a look of minimize KL gap between posterior and approx. q.&lt;/p&gt;
 
-&lt;p&gt;此處 $g^* = \mu$ and $h^* = \log \sigma$,  $g^&lt;em&gt;$ and $h^&lt;/em&gt;$ 其實就是 $\phi$&lt;/p&gt;
+&lt;p&gt;此處 $g^&lt;em&gt;= \mu$ and $h^&lt;/em&gt; = \log \sigma$,  $g^&lt;em&gt;$ and $h^&lt;/em&gt;$ 其實就是 $\phi$&lt;/p&gt;
 
 &lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
@@ -503,7 +678,7 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 
 &lt;h5 id=&quot;假設-pz-px--z-為-normal-distribution-vae-的-elbo-可以近似為&quot;&gt;假設 p(z)， p(x | z) 為 Normal distribution, VAE 的 ELBO 可以近似為&lt;/h5&gt;
 
-&lt;p&gt;參考 https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73
+&lt;p&gt;參考 &lt;a href=&quot;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&quot;&gt;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&lt;/a&gt;
 &lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}_{z \sim q_{\phi}(z\mid x)}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{\phi}(z\mid x)\| p(z)\right)&lt;/script&gt;
 第二項假設 prior p(z) and posterior q(z|x) 為 normal distribution, 有 close form.&lt;/p&gt;
 
@@ -2780,397 +2955,4 @@ Dimensions.” Quanta Magazine. January 9, 2020.
 &lt;p&gt;Winkels, Marysia, and Taco S. Cohen. 2018. 「3D G-CNNs for Pulmonary
 Nodule Detection,」 April. &lt;a href=&quot;http://arxiv.org/abs/1804.04656&quot;&gt;http://arxiv.org/abs/1804.04656&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;XinZhiYuan. 2020. 「Geometrical Deep Learning 受愛因斯坦啟示：讓AI擺脫平面看到更高的維度.」 2020. &lt;a href=&quot;https://kknews.cc/tech/gpkgx3e.html&quot;&gt;https://kknews.cc/tech/gpkgx3e.html&lt;/a&gt;.&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="python" /><category term="quantization" /><category term="model compression" /><category term="pruning" /><category term="distillation" /><summary type="html">Math AI - G-CNN (Group + CNN) Where is group theory (G-CNN) + Curved Space (Spherical CNN)</summary></entry><entry><title type="html">增進工程師效率 Julia Linear Algebra</title><link href="http://localhost:4000/2020/04/21/matrix-julia/" rel="alternate" type="text/html" title="增進工程師效率 Julia Linear Algebra" /><published>2020-04-21T00:00:00+08:00</published><updated>2020-04-21T00:00:00+08:00</updated><id>http://localhost:4000/2020/04/21/matrix-julia</id><content type="html" xml:base="http://localhost:4000/2020/04/21/matrix-julia/">&lt;h1 id=&quot;use-julia-for-linear-algebra&quot;&gt;Use Julia for Linear Algebra&lt;/h1&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LinearAlgebra&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;3×3 Array{Int64,2}:
- 1  2  3
- 2  3  4
- 4  5  6
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;eigvals&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;3-element Array{Float64,1}:
- 10.830951894845311     
- -0.8309518948453025    
-  1.0148608166285778e-16
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;det&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0.0:0.01001001001001001:10.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PyPlot&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;grid&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/output_6_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1-element Array{PyCall.PyObject,1}:
- PyObject &amp;lt;matplotlib.lines.Line2D object at 0x140288630&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;discrete-convolution-using-circulant-matrix&quot;&gt;Discrete Convolution Using Circulant Matrix&lt;/h1&gt;
-&lt;p&gt;$y[t] = h[t] * x[t]$  where $x[t] = [1, 2, 3, 0, -3, -1, 1, -2]$, $h[t] = [1, 3, 1]$&lt;/p&gt;
-
-&lt;p&gt;Use Julia LinearAlgebra for matrix/vector operation.  &lt;br /&gt;
-Use two space for new line.&lt;br /&gt;
-Use DSP.conv to perform discrete convolution.  &lt;br /&gt;
-x: length=8; h: length=3; y: length=8+3-1=10 (padding two 0’s at x)&lt;/p&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pkg&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pkg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SpecialMatrices&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LinearAlgebra&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SpecialMatrices&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DSP&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FFTW&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[32m[1m Resolving[22m[39m package versions...
-[32m[1m  Updating[22m[39m `~/.julia/environments/v1.1/Project.toml`
-[90m [no changes][39m
-[32m[1m  Updating[22m[39m `~/.julia/environments/v1.1/Manifest.toml`
-[90m [no changes][39m
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;];&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;];&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;conv&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1×12 Adjoint{Int64,Array{Int64,1}}:
- 1  5  10  11  0  -10  -5  0  -5  -2  0  0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;circulant-matrix-multiplication-approximates-dicrete-convolution&quot;&gt;Circulant Matrix Multiplication Approximates Dicrete Convolution&lt;/h2&gt;
-&lt;p&gt;First extend $h[t]$ by padding seven 0’s (10-3=7).&lt;br /&gt;
-Use SpecialMatrices.Cirlulant to cyclic shift $h[t]$ and form a 10x10 Circulant matrix $\Phi$.
-Use SpecialMatrices.Matrix to convert special matrix type to normal Array&lt;/p&gt;
-
-&lt;p&gt;$y = \Phi x$&lt;/p&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Matrix&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Circulant&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Array{Int64,2}:
- 1  0  0  0  0  0  0  0  1  3
- 3  1  0  0  0  0  0  0  0  1
- 1  3  1  0  0  0  0  0  0  0
- 0  1  3  1  0  0  0  0  0  0
- 0  0  1  3  1  0  0  0  0  0
- 0  0  0  1  3  1  0  0  0  0
- 0  0  0  0  1  3  1  0  0  0
- 0  0  0  0  0  1  3  1  0  0
- 0  0  0  0  0  0  1  3  1  0
- 0  0  0  0  0  0  0  1  3  1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1×10 Adjoint{Int64,Array{Int64,1}}:
- 1  5  10  11  0  -10  -5  0  -5  -2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;find-eigenvalues-and-eigenvectors-of-phi&quot;&gt;Find eigenvalues and eigenvectors of $\Phi$&lt;/h2&gt;
-&lt;p&gt;$\Phi$ is a Circulant matrix, its eigenvalue array s[n] is “equivalent” to DFT($h[t]$), sort of,&lt;br /&gt;
-up to frequency sequence difference.&lt;/p&gt;
-
-&lt;p&gt;For example, DFT frequency sequence is always defined counter clockwise on the unit circle (0,1,2,..,9) for n=10.&lt;br /&gt;
-The eigenvalue/eigenvector decomposition: $\Phi = U P U^{*}$ 
-In this eigvals implementation frequency is defined as conjugate first on the unit circle (0,1,9,2,8…,5)&lt;/p&gt;
-
-&lt;p&gt;The first eigenvalue of $\Phi$ corresponds to Nyquist frequency = 0 (DC: 1+1+3=5)&lt;br /&gt;
-The last eigenvalue of $\Phi$ corresponds to Nyquist frequency = $\pi$ (highest AC: 1+1-3=-1)&lt;/p&gt;
-
-&lt;p&gt;Its eigenvector array P cosists of eigenvectors in column sequences.&lt;br /&gt;
-The first column corresponds to DC eigenvector: [1, 1, …, 1]’.&lt;br /&gt;
-The last column corresponds to DC eigenvector: [1, -1, …, -1]’.&lt;br /&gt;
-&lt;img src=&quot;attachment:image.png&quot; alt=&quot;image.png&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eigvals&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10-element Array{Complex{Float64},1}:
-                 5.0 + 0.0im               
-  3.7360679774997863 + 2.7144122731725697im
-  3.7360679774997863 - 2.7144122731725697im
-   1.118033988749894 + 3.440954801177931im 
-   1.118033988749894 - 3.440954801177931im 
- -0.7360679774997894 + 2.265384296592988im 
- -0.7360679774997894 - 2.265384296592988im 
- -1.1180339887498945 + 0.8122992405822655im
- -1.1180339887498945 - 0.8122992405822655im
- -1.0000000000000002 + 0.0im               
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;fft&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;])&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×1 Adjoint{Complex{Float64},Array{Complex{Float64},2}}:
-                 5.0 - 0.0im               
-    3.73606797749979 + 2.714412273172573im 
-   1.118033988749895 + 3.4409548011779334im
- -0.7360679774997898 + 2.2653842965929876im
-  -1.118033988749895 + 0.8122992405822659im
-                -1.0 - 0.0im               
-  -1.118033988749895 - 0.8122992405822659im
- -0.7360679774997898 - 2.2653842965929876im
-   1.118033988749895 - 3.4409548011779334im
-    3.73606797749979 - 2.714412273172573im 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Diagonal&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Diagonal{Complex{Float64},Array{Complex{Float64},1}}:
- 5.0+0.0im          ⋅          …           ⋅                ⋅    
-     ⋅      3.73607+2.71441im              ⋅                ⋅    
-     ⋅              ⋅                      ⋅                ⋅    
-     ⋅              ⋅                      ⋅                ⋅    
-     ⋅              ⋅                      ⋅                ⋅    
-     ⋅              ⋅          …           ⋅                ⋅    
-     ⋅              ⋅                      ⋅                ⋅    
-     ⋅              ⋅                      ⋅                ⋅    
-     ⋅              ⋅             -1.11803-0.812299im       ⋅    
-     ⋅              ⋅                      ⋅           -1.0+0.0im
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;U&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eigvecs&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;round&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Array{Complex{Float64},2}:
- 1.0+0.0im   0.809+0.588im   0.809-0.588im  …  -0.809-0.588im   1.0+0.0im
- 1.0+0.0im     1.0+0.0im       1.0-0.0im          1.0-0.0im    -1.0+0.0im
- 1.0+0.0im   0.809-0.588im   0.809+0.588im     -0.809+0.588im   1.0+0.0im
- 1.0+0.0im   0.309-0.951im   0.309+0.951im      0.309-0.951im  -1.0+0.0im
- 1.0+0.0im  -0.309-0.951im  -0.309+0.951im      0.309+0.951im   1.0+0.0im
- 1.0+0.0im  -0.809-0.588im  -0.809+0.588im  …  -0.809-0.588im  -1.0+0.0im
- 1.0+0.0im    -1.0-0.0im      -1.0+0.0im          1.0-0.0im     1.0+0.0im
- 1.0+0.0im  -0.809+0.588im  -0.809-0.588im     -0.809+0.588im  -1.0+0.0im
- 1.0+0.0im  -0.309+0.951im  -0.309-0.951im      0.309-0.951im   1.0+0.0im
- 1.0+0.0im   0.309+0.951im   0.309-0.951im      0.309+0.951im  -1.0+0.0im
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;U_b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inv&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;round&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U_b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Array{Complex{Float64},2}:
-    1.0+0.0im       1.0-0.0im    …     1.0+0.0im       1.0-0.0im  
-  0.809-0.588im     1.0-0.0im       -0.309-0.951im   0.309-0.951im
-  0.809+0.588im     1.0+0.0im       -0.309+0.951im   0.309+0.951im
- -0.809-0.588im   0.309-0.951im      0.309+0.951im  -0.809+0.588im
- -0.809+0.588im   0.309+0.951im      0.309-0.951im  -0.809-0.588im
- -0.809+0.588im  -0.309-0.951im  …   0.309-0.951im   0.809+0.588im
- -0.809-0.588im  -0.309+0.951im      0.309+0.951im   0.809-0.588im
- -0.809-0.588im     1.0+0.0im        0.309-0.951im   0.309+0.951im
- -0.809+0.588im     1.0-0.0im        0.309+0.951im   0.309-0.951im
-    1.0-0.0im      -1.0+0.0im          1.0+0.0im      -1.0-0.0im  
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;round&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U_b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# U_b is the same as conjugate transpose&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Array{Complex{Float64},2}:
-  0.0+0.0im   0.0-0.0im   0.0-0.0im  …  -0.0-0.0im  -0.0+0.0im   0.0-0.0im
-  0.0+0.0im  -0.0-0.0im   0.0-0.0im      0.0+0.0im   0.0+0.0im   0.0+0.0im
-  0.0-0.0im  -0.0+0.0im   0.0+0.0im     -0.0+0.0im   0.0-0.0im   0.0-0.0im
-  0.0+0.0im  -0.0+0.0im  -0.0-0.0im      0.0-0.0im  -0.0+0.0im  -0.0+0.0im
-  0.0-0.0im  -0.0-0.0im  -0.0+0.0im     -0.0+0.0im  -0.0-0.0im  -0.0-0.0im
-  0.0-0.0im   0.0+0.0im   0.0+0.0im  …   0.0-0.0im  -0.0-0.0im   0.0+0.0im
-  0.0+0.0im   0.0-0.0im   0.0-0.0im     -0.0+0.0im  -0.0+0.0im   0.0-0.0im
-  0.0+0.0im  -0.0+0.0im   0.0-0.0im      0.0-0.0im   0.0-0.0im  -0.0+0.0im
-  0.0+0.0im  -0.0-0.0im   0.0+0.0im      0.0+0.0im  -0.0+0.0im   0.0-0.0im
- -0.0-0.0im   0.0+0.0im  -0.0+0.0im     -0.0-0.0im   0.0+0.0im   0.0-0.0im
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Phi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U_b&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# verify U*P*U_b is the eigen value decompostion of Φ&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;real&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;round&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Phi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Array{Float64,2}:
-  1.0  -0.0   0.0   0.0   0.0   0.0   0.0  -0.0   1.0   3.0
-  3.0   1.0   0.0   0.0  -0.0  -0.0  -0.0   0.0  -0.0   1.0
-  1.0   3.0   1.0   0.0   0.0   0.0   0.0   0.0  -0.0  -0.0
-  0.0   1.0   3.0   1.0   0.0   0.0   0.0  -0.0  -0.0   0.0
-  0.0   0.0   1.0   3.0   1.0   0.0   0.0  -0.0  -0.0   0.0
-  0.0   0.0   0.0   1.0   3.0   1.0  -0.0   0.0   0.0   0.0
-  0.0   0.0   0.0   0.0   1.0   3.0   1.0   0.0   0.0   0.0
-  0.0   0.0   0.0  -0.0  -0.0   1.0   3.0   1.0  -0.0   0.0
- -0.0   0.0   0.0  -0.0   0.0   0.0   1.0   3.0   1.0  -0.0
-  0.0   0.0  -0.0   0.0   0.0   0.0   0.0   1.0   3.0   1.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;commutative-group---translation-equivariant&quot;&gt;Commutative Group - Translation Equivariant&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;Discrete convolution is equivalent to Circulant matrix multiplication.&lt;/li&gt;
-  &lt;li&gt;Circulant matrix is itself commutative/Abelian group.&lt;/li&gt;
-  &lt;li&gt;All Cirulant matrix multiplication can be decomposed into translation matrix multiplication’s superposition.&lt;/li&gt;
-  &lt;li&gt;Discrete convolution is therefore translation multiplication commutable =&amp;gt; translation equivariant&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;# Random matrix multiplication does NOT commutate with Circulant matrix&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Array{Float64,2}:
- -1.58559   -0.237127  -0.129967  …   0.066688  -1.72504    -1.40459 
-  1.04033    1.08089    0.34026      -0.782441  -1.91891    -1.63573 
-  3.35632    0.831891   0.805718     -0.849477   1.18107     0.183805
-  0.815998  -1.54383   -0.38105      -1.00838   -0.141359   -0.176457
- -0.915783   0.225814  -1.14518       0.5001     0.128517    1.68327 
- -2.07181    1.04074   -2.12622   …   1.62098    0.348925    1.07887 
-  0.313094   1.84738   -0.894152      0.282517  -2.32041    -0.039078
-  1.11406   -0.71119   -1.059        -0.981632  -0.0110641   0.999691
-  1.42449   -1.50675   -1.53478       1.06594    0.590891    2.41234 
- -2.2159    -2.33044   -1.29612       0.626618  -0.119957    0.743334
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Tg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Circulant&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Verify Circulant matrix multiplication is a commutative group&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Circulant{Int64}:
-  1  10   9   8   7   6   5   4   3   2
-  2   1  10   9   8   7   6   5   4   3
-  3   2   1  10   9   8   7   6   5   4
-  4   3   2   1  10   9   8   7   6   5
-  5   4   3   2   1  10   9   8   7   6
-  6   5   4   3   2   1  10   9   8   7
-  7   6   5   4   3   2   1  10   9   8
-  8   7   6   5   4   3   2   1  10   9
-  9   8   7   6   5   4   3   2   1  10
- 10   9   8   7   6   5   4   3   2   1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;   
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Array{Int64,2}:
- 0  0  0  0  0  0  0  0  0  0
- 0  0  0  0  0  0  0  0  0  0
- 0  0  0  0  0  0  0  0  0  0
- 0  0  0  0  0  0  0  0  0  0
- 0  0  0  0  0  0  0  0  0  0
- 0  0  0  0  0  0  0  0  0  0
- 0  0  0  0  0  0  0  0  0  0
- 0  0  0  0  0  0  0  0  0  0
- 0  0  0  0  0  0  0  0  0  0
- 0  0  0  0  0  0  0  0  0  0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Circulant&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;])&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Circulant matrix group generator: right cyclic shift by 1&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Circulant{Int64}:
- 0  0  0  0  0  0  0  0  0  1
- 1  0  0  0  0  0  0  0  0  0
- 0  1  0  0  0  0  0  0  0  0
- 0  0  1  0  0  0  0  0  0  0
- 0  0  0  1  0  0  0  0  0  0
- 0  0  0  0  1  0  0  0  0  0
- 0  0  0  0  0  1  0  0  0  0
- 0  0  0  0  0  0  1  0  0  0
- 0  0  0  0  0  0  0  1  0  0
- 0  0  0  0  0  0  0  0  1  0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# right cyclic shift by 2&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Array{Int64,2}:
- 0  0  0  0  0  0  0  0  1  0
- 0  0  0  0  0  0  0  0  0  1
- 1  0  0  0  0  0  0  0  0  0
- 0  1  0  0  0  0  0  0  0  0
- 0  0  1  0  0  0  0  0  0  0
- 0  0  0  1  0  0  0  0  0  0
- 0  0  0  0  1  0  0  0  0  0
- 0  0  0  0  0  1  0  0  0  0
- 0  0  0  0  0  0  1  0  0  0
- 0  0  0  0  0  0  0  1  0  0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;eye&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Matrix&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;I&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;# Verify Circulant Tg is decomposed into group generator superposition&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;eye&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;10×10 Array{Float64,2}:
-  1.0  10.0   9.0   8.0   7.0   6.0   5.0   4.0   3.0   2.0
-  2.0   1.0  10.0   9.0   8.0   7.0   6.0   5.0   4.0   3.0
-  3.0   2.0   1.0  10.0   9.0   8.0   7.0   6.0   5.0   4.0
-  4.0   3.0   2.0   1.0  10.0   9.0   8.0   7.0   6.0   5.0
-  5.0   4.0   3.0   2.0   1.0  10.0   9.0   8.0   7.0   6.0
-  6.0   5.0   4.0   3.0   2.0   1.0  10.0   9.0   8.0   7.0
-  7.0   6.0   5.0   4.0   3.0   2.0   1.0  10.0   9.0   8.0
-  8.0   7.0   6.0   5.0   4.0   3.0   2.0   1.0  10.0   9.0
-  9.0   8.0   7.0   6.0   5.0   4.0   3.0   2.0   1.0  10.0
- 10.0   9.0   8.0   7.0   6.0   5.0   4.0   3.0   2.0   1.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;# Φ and Tg are commutative on input signal x as expected&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1×10 Adjoint{Int64,Array{Int64,1}}:
- 0  0  0  0  0  0  0  0  0  0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;# normal discrete convolution&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1×10 Adjoint{Int64,Array{Int64,1}}:
- 1  5  10  11  0  -10  -5  0  -5  -2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;# group generator causes discrete convolution right cyclic translation&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1×10 Adjoint{Int64,Array{Int64,1}}:
- -2  1  5  10  11  0  -10  -5  0  -5
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;# group generator's action on x[t] is to right cyclic shift by 1&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1×10 Adjoint{Int64,Array{Int64,1}}:
- 0  1  2  3  0  -3  -1  1  -2  0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# discrete convolution of the right cyclic shift signal&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1×10 Adjoint{Int64,Array{Int64,1}}:
- -2  1  5  10  11  0  -10  -5  0  -5
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Φ&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;# discrete convolution is translation (i.e. g or g*g or g*g*g ...) eqivaraint (commutative)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1×10 Adjoint{Int64,Array{Int64,1}}:
- 0  0  0  0  0  0  0  0  0  0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Allen Lu (from John Doe)</name></author><summary type="html">Use Julia for Linear Algebra</summary></entry></feed>
+&lt;p&gt;XinZhiYuan. 2020. 「Geometrical Deep Learning 受愛因斯坦啟示：讓AI擺脫平面看到更高的維度.」 2020. &lt;a href=&quot;https://kknews.cc/tech/gpkgx3e.html&quot;&gt;https://kknews.cc/tech/gpkgx3e.html&lt;/a&gt;.&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="python" /><category term="quantization" /><category term="model compression" /><category term="pruning" /><category term="distillation" /><summary type="html">Math AI - G-CNN (Group + CNN) Where is group theory (G-CNN) + Curved Space (Spherical CNN)</summary></entry></feed>

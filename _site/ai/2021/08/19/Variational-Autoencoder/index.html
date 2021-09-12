@@ -408,6 +408,7 @@ MathJax.Hub.Config({
 </script>
 
 <h2 id="main-reference">Main Reference</h2>
+
 <ul>
   <li>[@kingmaIntroductionVariational2019] : excellent reference</li>
   <li>[@escuderoVariationalAutoEncoders2020]</li>
@@ -454,7 +455,7 @@ MathJax.Hub.Config({
   </li>
 </ul>
 
-<h2 id="variational-autoencoder-again">Variational Autoencoder, Again!</h2>
+<h2 id="variational-autoencoder-again">Variational Autoencoder, Again</h2>
 
 <p>第 N 次討論 VAE (variational autoencoder).  之前從 AE (autoencoder) 出發，有一些手感。但用 deterministic autoencoder 延伸想像力到 probabilistic VAE 還是隔了一層~~紗~~山。有點像二十世紀初把古典力學加上一點量子想像 ($E = h\nu$) 得到氫原子的量子光譜。雖然結果對了，但只能用在特定的情況。</p>
 
@@ -463,6 +464,7 @@ MathJax.Hub.Config({
 <p>我們這次從 gaph+variational inference 出發。引入 neural network 變成 deep learning variable model (DLVM)。再引入 encoder neural network for posterior.  另外我們會比較 variational EM 和 VAE 增加理解。</p>
 
 <h2 id="ml-estimation-和-bayesian-inference-到底有什麼差別">ML estimation 和 Bayesian inference 到底有什麼差別？</h2>
+
 <p>簡單說 ML estimation 把 unknown/hidden 視為 a <strong>“fixed parameter”</strong> (上圖左上).  Bayesian inference 把 unknown/hidden 視為 <strong>“distribution”</strong> described by a random variable (上圖左下).</p>
 
 <p>有時候我們也把 $p(x;\theta)$ 寫成 conditional distribution 形式 $p(x\mid\theta).$​  嚴格來說並不對。不過可以視為 Bayesian 詮釋的擴展。</p>
@@ -484,6 +486,7 @@ MathJax.Hub.Config({
 <script type="math/tex; mode=display">p_{\theta}(z | x) = \frac{p_{\theta}(x | z) p_{\theta}(z)}{p(x)}</script>
 
 <p><u>上式的術語和解讀</u></p>
+
 <ul>
   <li>Random variable $x$ :  post (事後) observations, (post) evidence. $p(x)$ 稱為 evidence distribution or marginal likelihood.</li>
   <li>Random variable $\mathbf{z}$ : 相對於 $x$, $\mathbf{z}$ 是 prior (事前, 先驗) 並且是 hidden variable (i.e. not evidence).  擴展我們在 maximum likelihood 的定義，從 parameter 變成 random variable.  $p(z)$​​ <strong>稱為 prior distribution.</strong>
@@ -517,6 +520,7 @@ MathJax.Hub.Config({
 </ul>
 
 <h2 id="bayesian-inference-for-vae-思路">Bayesian Inference for VAE 思路</h2>
+
 <p>我們的問題比較類似 (2), 引入一個 hidden variable, z, with parameter $\theta$.  這和 EM algorithm 的想法完全一樣。藉著引入 hidden variable to account for some incomplete information (參考 EM article of incomplete data).</p>
 
 <p>一般 Bayesian inference 是求 posterior $p(z\mid x; \theta)$, or maximize the likelihood $p(x \mid z; \theta)$.   我們待會談到 VAE，卻是要找 $p(x)$, i.e. marginal likelihood.  數學上是 $p(x) = \int_{z} p(x, z; \theta) dz = \int_{z} p(x \mid z; \theta)p(z) dz $; where $\theta$ 是 parameter, not a random variable.</p>
@@ -533,11 +537,11 @@ MathJax.Hub.Config({
 
 <p>因此如何讓 deterministic neural network 用於 Bayesian inference?  有以下幾種可能性：</p>
 
-<h4 id="example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here">Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here!</h4>
+<h4 id="example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here">Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here</h4>
 
 <p>Deterministic functions 可以產生 conditional probability.  如下例</p>
 
-<p>https://en.wikipedia.org/wiki/Conditional_probability_distribution</p>
+<p><a href="https://en.wikipedia.org/wiki/Conditional_probability_distribution">https://en.wikipedia.org/wiki/Conditional_probability_distribution</a></p>
 
 <p>Consider the roll of a fair <a href="https://en.wikipedia.org/wiki/Dice">die</a> and let {\displaystyle X=1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4" alt="{\displaystyle X=1}" /> if the number is even (i.e. 2, 4, or 6) and {\displaystyle X=0}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d519e9e94f279ea82581dfa70a2444e896e2d860" alt="{\displaystyle X=0}" /> otherwise. Furthermore, let {\displaystyle Y=1}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/867ae2de7c84119e258e68ca484e01e03b00bd73" alt="Y=1" /> if the number is prime (i.e. 2, 3, or 5) and {\displaystyle Y=0}<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/56cd853e6606465d2259975da9d0a0bb08f612af" alt="Y=0" /> otherwise.</p>
 
@@ -696,7 +700,7 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 
 <h4 id="example-5-decoder--how-to-explain-pxmid-z-的-conditional-distribution">Example 5: Decoder:  How to explain $p(x\mid z)$ 的 conditional distribution?</h4>
 
-<p>https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73</p>
+<p><a href="https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73">https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73</a></p>
 
 <table>
   <tbody>
@@ -718,13 +722,11 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 
 <p>似乎只能 heuristically 解釋，沒有很深的 math fondation.</p>
 
-<h2 id="比較-variational-em-and-vae-algorithm">比較 Variational EM and VAE Algorithm</h2>
+<h2 id="比較-variational-em-and-vae-algorithm">比較 (Variational) EM and VAE Algorithm</h2>
 
-<p>Recap variational EM algorithm</p>
+<h3 id="recap-variational-em-algorithm">Recap (Variational) EM algorithm</h3>
 
-<h3 id="em-and-variation-em-algorithm-recap">EM and Variation EM Algorithm Recap</h3>
-
-<p><strong>Goal:</strong> (ML) estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.</p>
+<p><strong>Goal:</strong> (ML) Estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.</p>
 
 <p>Step 1: 為了 estimate $\theta$ 引入 hidden random variable $z$, log marginal likelihood (negative):</p>
 
@@ -869,7 +871,7 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 
 <p>在 VAE 似乎是同一件事，let’s take a look of minimize KL gap between posterior and approx. q.</p>
 
-<p>此處 $g^* = \mu$ and $h^* = \log \sigma$,  $g^<em>$ and $h^</em>$ 其實就是 $\phi$</p>
+<p>此處 $g^<em>= \mu$ and $h^</em> = \log \sigma$,  $g^<em>$ and $h^</em>$ 其實就是 $\phi$</p>
 
 <p><script type="math/tex">% <![CDATA[
 \begin{aligned}
@@ -906,7 +908,7 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 
 <h5 id="假設-pz-px--z-為-normal-distribution-vae-的-elbo-可以近似為">假設 p(z)， p(x | z) 為 Normal distribution, VAE 的 ELBO 可以近似為</h5>
 
-<p>參考 https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73
+<p>參考 <a href="https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73">https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73</a>
 <script type="math/tex">\mathbb{E}_{z \sim q_{\phi}(z\mid x)}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{\phi}(z\mid x)\| p(z)\right)</script>
 第二項假設 prior p(z) and posterior q(z|x) 為 normal distribution, 有 close form.</p>
 
@@ -946,7 +948,6 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
 \end{aligned} %]]></script>
-
 
 
       
@@ -1005,6 +1006,10 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
       
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="next" title="跨平臺 Markdown Plus MathJax Blog Editing 經驗分享">
+                <i class="fa fa-chevron-left"></i> 跨平臺 Markdown Plus MathJax Blog Editing 經驗分享
+              </a>
             
           </div>
 
@@ -1106,7 +1111,7 @@ MathJax.Hub.Config({
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1182,7 +1187,7 @@ MathJax.Hub.Config({
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#main-reference"> <span class="nav-number">1</span> <span class="nav-text">Main Reference</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#重點-outline"> <span class="nav-number">1.1</span> <span class="nav-text">重點 outline</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-autoencoder-again"> <span class="nav-number">2</span> <span class="nav-text">Variational Autoencoder, Again!</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ml-estimation-和-bayesian-inference-到底有什麼差別"> <span class="nav-number">3</span> <span class="nav-text">ML estimation 和 Bayesian inference 到底有什麼差別？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#bayesian-inference-for-vae-思路"> <span class="nav-number">4</span> <span class="nav-text">Bayesian Inference for VAE 思路</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#deterministic-neural-network-vs-probabilistic-bayesian-inference-how"> <span class="nav-number">5</span> <span class="nav-text">Deterministic Neural Network Vs. Probabilistic Bayesian Inference, How?</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#neural-network-and-dag-directed-acyclic-graph"> <span class="nav-number">5.1</span> <span class="nav-text">Neural Network and DAG (Directed Acyclic Graph)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#deep-learning-latent-variable-model-dlvm-tractable-and-intractable"> <span class="nav-number">5.1.1</span> <span class="nav-text">Deep (Learning) Latent Variable Model (DLVM) Tractable and Intractable</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-3-multivariate-bernoulli-data-3-產生-conditional-distribution-的方法和-2-一樣"> <span class="nav-number">5.1.2</span> <span class="nav-text">Example 3: Multivariate Bernoulli data (3 產生 conditional distribution 的方法和 2 一樣)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#vae-and-dlvm"> <span class="nav-number">6</span> <span class="nav-text">VAE and DLVM</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae"> <span class="nav-number">6.1</span> <span class="nav-text">Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-5-decoder--how-to-explain-pxmid-z-的-conditional-distribution"> <span class="nav-number">6.2</span> <span class="nav-text">Example 5: Decoder: How to explain $p(x\mid z)$ 的 conditional distribution?</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#比較-variational-em-and-vae-algorithm"> <span class="nav-number">7</span> <span class="nav-text">比較 Variational EM and VAE Algorithm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-and-variation-em-algorithm-recap"> <span class="nav-number">7.1</span> <span class="nav-text">EM and Variation EM Algorithm Recap</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#vae"> <span class="nav-number">7.2</span> <span class="nav-text">VAE</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-algorithm-和-vae-的差別"> <span class="nav-number">7.3</span> <span class="nav-text">EM algorithm 和 VAE 的差別</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#question-maximize-elbo-等價-minimize-gap-between-posterior-and-q"> <span class="nav-number">7.3.1</span> <span class="nav-text">Question: Maximize ELBO 等價 Minimize GAP between posterior and q?</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#vae-的-loss-function"> <span class="nav-number">7.4</span> <span class="nav-text">VAE 的 Loss Function</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#normal-distribution-assumption"> <span class="nav-number">7.4.1</span> <span class="nav-text">Normal Distribution Assumption</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#假設-pz-px--z-為-normal-distribution-vae-的-elbo-可以近似為"> <span class="nav-number">7.4.1.1</span> <span class="nav-text">假設 p(z)， p(x | z) 為 Normal distribution, VAE 的 ELBO 可以近似為</span> </a> </li> </ol> </li> </ol> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#main-reference"> <span class="nav-number">1</span> <span class="nav-text">Main Reference</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#重點-outline"> <span class="nav-number">1.1</span> <span class="nav-text">重點 outline</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-autoencoder-again"> <span class="nav-number">2</span> <span class="nav-text">Variational Autoencoder, Again</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ml-estimation-和-bayesian-inference-到底有什麼差別"> <span class="nav-number">3</span> <span class="nav-text">ML estimation 和 Bayesian inference 到底有什麼差別？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#bayesian-inference-for-vae-思路"> <span class="nav-number">4</span> <span class="nav-text">Bayesian Inference for VAE 思路</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#deterministic-neural-network-vs-probabilistic-bayesian-inference-how"> <span class="nav-number">5</span> <span class="nav-text">Deterministic Neural Network Vs. Probabilistic Bayesian Inference, How?</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#neural-network-and-dag-directed-acyclic-graph"> <span class="nav-number">5.1</span> <span class="nav-text">Neural Network and DAG (Directed Acyclic Graph)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#deep-learning-latent-variable-model-dlvm-tractable-and-intractable"> <span class="nav-number">5.1.1</span> <span class="nav-text">Deep (Learning) Latent Variable Model (DLVM) Tractable and Intractable</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-3-multivariate-bernoulli-data-3-產生-conditional-distribution-的方法和-2-一樣"> <span class="nav-number">5.1.2</span> <span class="nav-text">Example 3: Multivariate Bernoulli data (3 產生 conditional distribution 的方法和 2 一樣)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#vae-and-dlvm"> <span class="nav-number">6</span> <span class="nav-text">VAE and DLVM</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae"> <span class="nav-number">6.1</span> <span class="nav-text">Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-5-decoder--how-to-explain-pxmid-z-的-conditional-distribution"> <span class="nav-number">6.2</span> <span class="nav-text">Example 5: Decoder: How to explain $p(x\mid z)$ 的 conditional distribution?</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#比較-variational-em-and-vae-algorithm"> <span class="nav-number">7</span> <span class="nav-text">比較 (Variational) EM and VAE Algorithm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#recap-variational-em-algorithm"> <span class="nav-number">7.1</span> <span class="nav-text">Recap (Variational) EM algorithm</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#vae"> <span class="nav-number">7.2</span> <span class="nav-text">VAE</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-algorithm-和-vae-的差別"> <span class="nav-number">7.3</span> <span class="nav-text">EM algorithm 和 VAE 的差別</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#question-maximize-elbo-等價-minimize-gap-between-posterior-and-q"> <span class="nav-number">7.3.1</span> <span class="nav-text">Question: Maximize ELBO 等價 Minimize GAP between posterior and q?</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#vae-的-loss-function"> <span class="nav-number">7.4</span> <span class="nav-text">VAE 的 Loss Function</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#normal-distribution-assumption"> <span class="nav-number">7.4.1</span> <span class="nav-text">Normal Distribution Assumption</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#假設-pz-px--z-為-normal-distribution-vae-的-elbo-可以近似為"> <span class="nav-number">7.4.1.1</span> <span class="nav-text">假設 p(z)， p(x | z) 為 Normal distribution, VAE 的 ELBO 可以近似為</span> </a> </li> </ol> </li> </ol> </li> </ol> </li>
     </ol>
   </div>
             

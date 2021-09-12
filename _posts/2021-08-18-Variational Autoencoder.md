@@ -13,17 +13,15 @@ MathJax.Hub.Config({
 });
 </script>
 
-
 ## Main Reference
+
 * [@kingmaIntroductionVariational2019] : excellent reference
 * [@escuderoVariationalAutoEncoders2020]
 
-
-
-### 重點 outline 
+### 重點 outline
 
 1. VAE 第一個 innovation (encoder+decoder): 使用 encoder neural network ($\phi$) 和 decoder neural network ($\theta$) 架構。**從 autoencoder 的延伸**似乎很直觀。但從 deterministic 延伸到 probabilistic 有點魔幻寫實，需要更嚴謹的數學框架。
-2. VAE 第二個 innovation (DLVM):  引入 hidden (random) variable $\mathbf{z}$, 從 $\mathbf{z} \to \text{neural network}\,(\theta) \to \mathbf{x}.$  **Hidden variable $\mathbf{z}$ 源自 (variational) EM + DAG;  再用 (deterministic) neural network of $\theta$ for parameter optimization.  這就是 DLVM (Deep Learning Variable Model) 的精神。**  根據 (variational) EM: 
+2. VAE 第二個 innovation (DLVM):  引入 hidden (random) variable $\mathbf{z}$, 從 $\mathbf{z} \to \text{neural network}\,(\theta) \to \mathbf{x}.$  **Hidden variable $\mathbf{z}$ 源自 (variational) EM + DAG;  再用 (deterministic) neural network of $\theta$ for parameter optimization.  這就是 DLVM (Deep Learning Variable Model) 的精神。**  根據 (variational) EM:
    * E-step: 找到 $q(\mathbf{z}) \approx p_{\theta}(\mathbf{z} \mid \mathbf{x})$, **也就是 posterior**, **但我們知道在 DLVM posterior 是 intractable，必須用近似**
    * M-step: optimize $\theta$ based on posterior:  $\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(\mathbf{z})} \ln p_{\theta}(\mathbf{x}, \mathbf{z})$,  **其中的 joint distribution 是 tractable, 但是 $q(\mathbf{z})$ intractable**, 所以是卡在 posterior intractable 這個問題！
    * Iterate E-step and M-step in (variational EM); 在 DLVM 就變成 SGD optimization!
@@ -33,8 +31,6 @@ MathJax.Hub.Config({
    * **VAE 的 training loss 包含 reconstruction loss (源自 encoder+decoder) + 上面的 M-step loss (源自 variational EM)**
    * Maximum likelihood optimization ~ minimum cross-entropy loss (not in this case)  ~ M-step loss (in this case)
 4. 同樣的方法應該可以用在很多 DLVM 應用中。如果有 intractable posterior, 就用 (encoder) neural network 近似。但問題是要有方法 train 這個 encoder.  VAE 很巧妙的同時 train encoder + decoder 是用原始的 image and generative image.   需要再檢驗。
-
-
 
 下圖顯示 ML, EM, DLVM, VAE 的演進關係；DLVM 和 VAE echo 1-4.  雙圓框代表 observed random variable, 單圓框代表 hidden random variable.  單方框代表 (fixed and to be estimated) parameter.
 
@@ -48,9 +44,7 @@ MathJax.Hub.Config({
 
 * 如何把 intractable posterior 用 tractable neural network encoder 近似?
 
-  
-
-## Variational Autoencoder, Again!
+## Variational Autoencoder, Again
 
 第 N 次討論 VAE (variational autoencoder).  之前從 AE (autoencoder) 出發，有一些手感。但用 deterministic autoencoder 延伸想像力到 probabilistic VAE 還是隔了一層~~紗~~山。有點像二十世紀初把古典力學加上一點量子想像 ($E = h\nu$) 得到氫原子的量子光譜。雖然結果對了，但只能用在特定的情況。
 
@@ -59,9 +53,10 @@ MathJax.Hub.Config({
 我們這次從 gaph+variational inference 出發。引入 neural network 變成 deep learning variable model (DLVM)。再引入 encoder neural network for posterior.  另外我們會比較 variational EM 和 VAE 增加理解。
 
 ## ML estimation 和 Bayesian inference 到底有什麼差別？
+
 簡單說 ML estimation 把 unknown/hidden 視為 a **"fixed parameter"** (上圖左上).  Bayesian inference 把 unknown/hidden 視為 **"distribution"** described by a random variable (上圖左下).
 
-有時候我們也把 $p(x;\theta)$ 寫成 conditional distribution 形式 $p(x\mid\theta).$​  嚴格來說並不對。不過可以視為 Bayesian 詮釋的擴展。 
+有時候我們也把 $p(x;\theta)$ 寫成 conditional distribution 形式 $p(x\mid\theta).$​  嚴格來說並不對。不過可以視為 Bayesian 詮釋的擴展。
 
 ML estimation 做法是微分上式，解 $\theta$ parameter.  
 
@@ -79,20 +74,21 @@ $$
 p(z | x; \theta ) = \frac{p(x | z; \theta) p(z; \theta)}{p(x)}
 $$
 
-or 
+or
 
 $$
 p_{\theta}(z | x) = \frac{p_{\theta}(x | z) p_{\theta}(z)}{p(x)}
 $$
 
-<u>上式的術語和解讀</u> 
+<u>上式的術語和解讀</u>
+
 * Random variable $x$ :  post (事後) observations, (post) evidence. $p(x)$ 稱為 evidence distribution or marginal likelihood.
-* Random variable $\mathbf{z}$ : 相對於 $x$, $\mathbf{z}$ 是 prior (事前, 先驗) 並且是 hidden variable (i.e. not evidence).  擴展我們在 maximum likelihood 的定義，從 parameter 變成 random variable.  $p(z)$​​ **稱為 prior distribution.** 
-  * **注意 prior 是 distribution**,  不會出現在 ML, 因為 $z$​ 在 ML 是 parameter.  只有在 Bayesian 才有 prior (distribution)! 
-* Conditional distribution $p(x\mid z)$ :  likelihood (或然率)。擴展我們在 maximum likelihood 的定義，從 parameter dependent distribution or function 變成 conditional distribution. 
+* Random variable $\mathbf{z}$ : 相對於 $x$, $\mathbf{z}$ 是 prior (事前, 先驗) 並且是 hidden variable (i.e. not evidence).  擴展我們在 maximum likelihood 的定義，從 parameter 變成 random variable.  $p(z)$​​ **稱為 prior distribution.**
+  * **注意 prior 是 distribution**,  不會出現在 ML, 因為 $z$​ 在 ML 是 parameter.  只有在 Bayesian 才有 prior (distribution)!
+* Conditional distribution $p(x\mid z)$ :  likelihood (或然率)。擴展我們在 maximum likelihood 的定義，從 parameter dependent distribution or function 變成 conditional distribution.
 * Conditional distribution $p(z\mid x)$ ： **posterior, 事後機率。就是我們想要求解的東西。**
-  * **注意 posterior 是 conditional distribution**.  有人會以為 $p(z)$ 是 prior distribution, $p(x)$​ 是 posterior distribution. Wrong! 
-  * Posterior 不會出現在 ML, 只有在 Bayesian 才會討論 posterior (distribution)! 
+  * **注意 posterior 是 conditional distribution**.  有人會以為 $p(z)$ 是 prior distribution, $p(x)$​ 是 posterior distribution. Wrong!
+  * Posterior 不會出現在 ML, 只有在 Bayesian 才會討論 posterior (distribution)!
 * **簡言之：Posterior** $\propto$ **Likelihood x Prior** $\to p(z \mid x) \propto {p(x \mid z) \times p(z)}$
   * **一般我們忽略 $p(x)$ ，因為它和要 estimate 的 $z$​​ distribution (or parameter) 無關，視為常數忽略。**
   
@@ -102,18 +98,15 @@ $$
   
   * 以通信為例，$z$ 是 transmitted signal (unknown),  $x$ 是 received signal,  $x = z + n$,  是 transmitted signal 加 noise.  如果只根據 $p(\text{received signal}\mid\text{transmitted signal}) = p(x\mid z)$  
   
-    
-  
 ## Bayesian Inference for VAE 思路
+
 我們的問題比較類似 (2), 引入一個 hidden variable, z, with parameter $\theta$.  這和 EM algorithm 的想法完全一樣。藉著引入 hidden variable to account for some incomplete information (參考 EM article of incomplete data).
 
 一般 Bayesian inference 是求 posterior $p(z\mid x; \theta)$, or maximize the likelihood $p(x \mid z; \theta)$.   我們待會談到 VAE，卻是要找 $p(x)$, i.e. marginal likelihood.  數學上是 $p(x) = \int_{z} p(x, z; \theta) dz = \int_{z} p(x \mid z; \theta)p(z) dz $; where $\theta$ 是 parameter, not a random variable.
 
 另一個表示式 $p(x)= \int_{z} p(z \mid x)p(x) dx$  顯然不行，因為 $p(x)$ 就是我們要找的 unknown.
 
-所以我們現在缺 likelihood $p(x\mid z)$ and prior $p(z)$.  $p(z)$ 不是問題，基本就是假設。會隨著 more evidence x 而被取代。我們在 VAE 一般用 N(0, 1).  理論上可以用其他的 distribution, but why bother.  現在問題就是如何求 posterior $p(x\mid z)$.  結論就是用 VAE 來 train 一個 $p(x\mid z)$.    
-
-
+所以我們現在缺 likelihood $p(x\mid z)$ and prior $p(z)$.  $p(z)$ 不是問題，基本就是假設。會隨著 more evidence x 而被取代。我們在 VAE 一般用 N(0, 1).  理論上可以用其他的 distribution, but why bother.  現在問題就是如何求 posterior $p(x\mid z)$.  結論就是用 VAE 來 train 一個 $p(x\mid z)$.
 
 ## Deterministic Neural Network Vs. Probabilistic Bayesian Inference, How?
 
@@ -123,11 +116,11 @@ $$
 
 因此如何讓 deterministic neural network 用於 Bayesian inference?  有以下幾種可能性：
 
-#### Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here!
+#### Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here
 
 Deterministic functions 可以產生 conditional probability.  如下例
 
-https://en.wikipedia.org/wiki/Conditional_probability_distribution
+<https://en.wikipedia.org/wiki/Conditional_probability_distribution>
 
 Consider the roll of a fair [die](https://en.wikipedia.org/wiki/Dice) and let {\displaystyle X=1}![{\displaystyle X=1}](https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4) if the number is even (i.e. 2, 4, or 6) and {\displaystyle X=0}![{\displaystyle X=0}](https://wikimedia.org/api/rest_v1/media/math/render/svg/d519e9e94f279ea82581dfa70a2444e896e2d860) otherwise. Furthermore, let {\displaystyle Y=1}![Y=1](https://wikimedia.org/api/rest_v1/media/math/render/svg/867ae2de7c84119e258e68ca484e01e03b00bd73) if the number is prime (i.e. 2, 3, or 5) and {\displaystyle Y=0}![Y=0](https://wikimedia.org/api/rest_v1/media/math/render/svg/56cd853e6606465d2259975da9d0a0bb08f612af) otherwise.
 
@@ -135,9 +128,9 @@ Consider the roll of a fair [die](https://en.wikipedia.org/wiki/Dice) and let {\
 
 Then the unconditional probability that {\displaystyle X=1}![{\displaystyle X=1}](https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4) is 3/6 = 1/2 (since there are six possible rolls of the die, of which three are even), whereas the probability that {\displaystyle X=1}![{\displaystyle X=1}](https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4) conditional on {\displaystyle Y=1}![Y=1](https://wikimedia.org/api/rest_v1/media/math/render/svg/867ae2de7c84119e258e68ca484e01e03b00bd73) is 1/3 (since there are three possible prime number rolls—2, 3, and 5—of which one is even).
 
-$X = f_1(Z)$ and $Y=f_2(Z)$   $Z$ 是 die 的 output random variable $1,2,\cdots,6$ 雖然 $f_1$ and $f_2$  都是 deterministic function, 但是 $P(Y\mid X)$ 的確是 distribution, 因為我們不知道 $X=1$ 到底對應 $Z=?$ 
+$X = f_1(Z)$ and $Y=f_2(Z)$   $Z$ 是 die 的 output random variable $1,2,\cdots,6$ 雖然 $f_1$ and $f_2$  都是 deterministic function, 但是 $P(Y\mid X)$ 的確是 distribution, 因為我們不知道 $X=1$ 到底對應 $Z=?$
 
-所以如果我們有一個 $Z$ random variable, 以及不同的 neural network $X = f_1(Z)$ and $Y = f_2(Z)$.   Then $p(Y\mid X)$  可以是一個 distribution 而非單一 value. 
+所以如果我們有一個 $Z$ random variable, 以及不同的 neural network $X = f_1(Z)$ and $Y = f_2(Z)$.   Then $p(Y\mid X)$  可以是一個 distribution 而非單一 value.
 
 #### Example 2:  Given Input 經過 Deterministic NN 轉成 Probabilistic Conditional Distribution
 
@@ -260,11 +253,11 @@ Marginal likelihood, posterior 通常是 intractable, 需要解但只有 approxi
 * Posterior $p(z\mid x)$ => discriminative problem!   given high dimension x to get a low dimension z
 * Marginal likelihood p(x) => generative problem!  generate a high dimension x; or sometimes given a low dimension z to generate dimensional x (conditional generative model)
 
-首先 target posterior $p_{\theta}(\mathbf{z}\mid \mathbf{x})$ :  注意，此處 $\theta$ 代表的 neural network (weights) from $\mathbf{z}$ to $\mathbf{x}$.   
+首先 target posterior $p_{\theta}(\mathbf{z}\mid \mathbf{x})$ :  注意，此處 $\theta$ 代表的 neural network (weights) from $\mathbf{z}$ to $\mathbf{x}$.
 
 **引入 encoder neural network** $q_{\phi}(\mathbf{z}\mid x)$：注意，此處 $\phi$ 代表 neural network from $\mathbf{x}$ to $\mathbf{z}$.
 
-我們希望 optimize the variational parameter $\phi$ such that 
+我們希望 optimize the variational parameter $\phi$ such that
 
 $$
 q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \approx p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})
@@ -291,14 +284,11 @@ Before we can answer this question, let me quote below and move on to algorithm.
 
 Typically, we use a single encoder neural network to perform posterior inference over all of the datapoints in our dataset. This can be contrasted to more traditional variational inference methods where the variational parameters are not shared, but instead separately and iteratively optimized per datapoint. The strategy used in VAEs of sharing variational parameters across datapoints is also called amortized variational inference (Gershman and Goodman, 2014). With amortized inference we can avoid a per-datapoint optimization loop, and leverage the efficiency of SGD.
 
-
-
 #### Example 5: Decoder:  How to explain $p(x\mid z)$ 的 conditional distribution?
 
-https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73
+<https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73>
 
 Let’s now make the assumption that p(z) is a standard Gaussian distribution and that p(x|z) is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)
-
 
 $$
 \begin{aligned}(\boldsymbol{f(z)}) &=\text { EncoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned}
@@ -313,21 +303,13 @@ $$
 
 似乎只能 heuristically 解釋，沒有很深的 math fondation.
 
+## 比較 (Variational) EM and VAE Algorithm
 
+### Recap (Variational) EM algorithm
 
-## 比較 Variational EM and VAE Algorithm
-
-Recap variational EM algorithm 
-
-### EM and Variation EM Algorithm Recap
-
-**Goal:** (ML) estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.
-
-
+**Goal:** (ML) Estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.
 
 Step 1: 為了 estimate $\theta$ 引入 hidden random variable $z$, log marginal likelihood (negative):
-
-
 
 $$\begin{aligned}
 \ln p(\mathbf{x} \mid \boldsymbol{\theta}) &= \mathcal{L}(q, \boldsymbol{\theta}) + D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}, \boldsymbol{\theta}) ) \\
@@ -337,13 +319,9 @@ $$\begin{aligned}
 &= \underbrace{Q(q | \theta) + H(q)}_{\text{ELBO}} + \underbrace{D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z} \mid \mathbf{x}, \boldsymbol{\theta}) )}_{\text{Gap of posterior}} \\
 \end{aligned}$$
 
-
-
 第一項 (negative) 加第二項 (self-entropy of q, positive) 稱為 ELBO. 第三項稱為 gap (positive).
 
 **Log Marginal Likelihood = ELBO + KL Gap**
-
-
 
 Or another formulation (same as above but better notation to compare with DLVM or VAE)
 
@@ -355,40 +333,29 @@ $$\begin{align*}
 \mathrm{KL}(q \| p)&= \int q(\mathbf{z}) \ln \left(\frac{p(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta})}{q(\mathbf{z})}\right) d \mathbf{z}
 \end{align*}$$
 
-
-
 Step 2: 假設 posterior $p(z\mid x)$ 有 analytic soluiton, e.g. GMM 的 posterior 是 softmax funtion.
 
 We let $q(z) = p(z \mid x )$  and define the  $Q$ function (log joint distribution integration over posterior)
 
-
-
 $$\begin{align}
 Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\text {OLD }}\right) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) d \mathbf{z} \nonumber\\
-&=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)}
+&=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)} \\
+&=E_{z\sim p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})
 \end{align}$$
 
-
-
 **Log Marginal Likelihood = ELBO + KL Gap**
-
 **ELBO = Q function (negative value) + self-entropy (postive value)**
-
-**Q Function = log joint distribution (tractable) expectation over (approx.) posterior** 
-
-
+**Q Function = log joint distribution (tractable) expectation over (approx.) posterior**
 
 此時可以用定義 EM algorithm
 
 $$\begin{align}
-\text{E-step, Minimize KL Gap : Compute}\quad &p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
+\text{E-step, Minimize KL Gap : Compute}\quad &p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\,\text{and}\,Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
 \text{M-step, Maximize ELBO : Evaluate}\quad &\boldsymbol{\theta}^{\mathrm{NEW}}=\underset{\boldsymbol{\theta}}{\arg \max } Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)
 \end{align}$$
 
-一般 $\eqref{eqQ}$ 的 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
-大多的問題是 $\eqref{eqE}$ conditional or posterior distribution 是否容易計算，是否有 analytical solution.
-
-
+一般 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
+大多的問題是 conditional or posterior distribution 是否有 analytical solution.
 
 ### VAE
 
@@ -400,26 +367,21 @@ $$\begin{align}
 
 **Goal B:** get the $\theta$ (and decoder $\phi$) is to $\arg \max_{\theta} \ln p_{\theta}(x)$
 
-
-
 Step 1: same as above (引入 hidden random variable $z$ and decoder NN $\theta$)
 
-Step 2: 因為 posterior intractable, 引入另一個 encoder neural network ($\phi$) which is tractable 
-
-
+Step 2: 因為 posterior intractable, 引入另一個 encoder neural network ($\phi$) which is tractable
 
 ### EM algorithm 和 VAE 的差別
 
 * EM posterior is tractable (Q funciton);  VAE posterior is intractable (沒有 analytical form). 我們用另一個 (tractable) neural network $\phi$ 去近似 (intractable) posterior.
 
-
 $$
-\begin{aligned}
+\begin{align}
 \log p_{\boldsymbol{\theta}}(\mathbf{x}) &=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x})\right] \\
 &=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &=\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})} \frac{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &=\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\boldsymbol{x}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)}
-\end{aligned}
+\end{align}
 $$
 
 * 把所有 EM 的 $q(z)$  變成 $q_{\phi}(z\mid x)$.    兩者完全一致
@@ -431,74 +393,58 @@ $$
   
   * KL divergence gap 也決定 ELBO bound 的 tightness.
   
-    
-  
 * EM Training 方法：（**假設 posterior is tractable**）
 
   * E-step: **update posterior** ( tractable $q=p(z\mid x)$ ) to **minimize KL gap**
   
-  * M-step: **update parameter** $\theta$ to **maximize ELBO/Marginal likelihood** 
+  * M-step: **update parameter** $\theta$ to **maximize ELBO/Marginal likelihood**
   
   * E-step and M-step Iterative update 永遠會增加 ELBO, 但這不一定是好事！很有可能會卡在 local maximum, 需要多個 initial condition to avoid some local maximum.
   
-      
-  
 * VAE 的 posterior is intractable, 但巧妙的利用 encoder ($\phi$) + decoder ($\theta$) structure.  可以用原來的 image 為 golden 做 self-supervise learning.  使用 SGD 於多張 images to back-propagation **同時 update** $\theta, \phi$  (**這和 EM 不同，一石二鳥**)
   
-    * **Log Marginal Likelihood = ELBO + KL Gap  $\to$  ELBO = Log Marginal Likelihood - KL Gap**
-    * Update $\theta$ and $\phi$  to **maximize ELBO implies maximize the marginal likelihood**,  equivalent to M-step in EM.
-    * NN $\phi$  近似 posterior ($q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \approx p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})$), **update $\phi$ implies to minimize KL gap**, equivalent to E-step in EM.
-    * VAE 使用 SGD with mini-batch training iteratively,  並不保證 ELBO 永遠會增加 (or loss function 永遠變小)，但可以 leverage neural network trainging 的經驗，似乎收斂性還不錯，雖然無法證明 global 收斂性, 但不至於卡在太差的 local minimum.
+  * **Log Marginal Likelihood = ELBO + KL Gap  $\to$  ELBO = Log Marginal Likelihood - KL Gap**
+  * Update $\theta$ and $\phi$  to **maximize ELBO implies maximize the marginal likelihood**,  equivalent to M-step in EM.
+  * NN $\phi$  近似 posterior ($q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \approx p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})$), **update $\phi$ implies to minimize KL gap**, equivalent to E-step in EM.
+  * VAE 使用 SGD with mini-batch training iteratively,  並不保證 ELBO 永遠會增加 (or loss function 永遠變小)，但可以 leverage neural network trainging 的經驗，似乎收斂性還不錯，雖然無法證明 global 收斂性, 但不至於卡在太差的 local minimum.
 
 <img src="/media/image-20210901180808893.png" alt="image-20210901180808893" style="zoom:80%;" />
 
-
-
 * VAE 和 AE neural network 不同，中間還卡了一個 random variable $z$!  如何 back-propagation 穿過 $z$? Reparameterization Trick!
-
-
 
 ##### Question: Maximize ELBO 等價 Minimize GAP between posterior and q?
 
-在 EM 這是兩件事：E-step: update posterior q = .. to minimize the gap between ;   M-step: update $\theta$  to maximize ELBO or the simplified version Q function (joint distribution over posterior distribution, remove self-entropy from ELBO) 
+在 EM 這是兩件事：E-step: update posterior q = .. to minimize the gap between ;   M-step: update $\theta$  to maximize ELBO or the simplified version Q function (joint distribution over posterior distribution, remove self-entropy from ELBO)
 
 **Log Marginal Likelihood = ELBO + KL Gap**
 
 **ELBO = Q function (negative value) + self-entropy (postive value)**
 
-**Q Function = log joint distribution (tractable) expectation over (approx.) posterior** 
-
-
+**Q Function = log joint distribution (tractable) expectation over (approx.) posterior**
 
 在 VAE 似乎是同一件事，let's take a look of minimize KL gap between posterior and approx. q.
 
-此處 $g^* = \mu$ and $h^* = \log \sigma$,  $g^*$ and $h^*$ 其實就是 $\phi$
+此處 $g^*= \mu$ and $h^* = \log \sigma$,  $g^*$ and $h^*$ 其實就是 $\phi$
 
 $$
-\begin{aligned}
+\begin{align}
 \left(g^{*}, h^{*}\right) &=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
-\end{aligned}
+\end{align}
 $$
 這個結果好像跟下面 maximize ELBO 的結論一樣？？
-
-
 
 1. 結論一： 從 joint pdf 出發 (ELBO)
 2. 結論二：從 conditional pdf 出發 (posterior)
 
-
-
 ### VAE 的 Loss Function
 
-標準 bayesian formulated VAE 的 loss function for a specific $x_i$ 
+標準 bayesian formulated VAE 的 loss function for a specific $x_i$
 
 $$l_{i}(\theta, \phi)=-E_{z \sim q_{\phi}\left(z | x_{i}\right)}\left[\log p_{\theta}(x_{i} | z)\right]+K L\left(q_{\phi}(z | x_{i}) \|\,p(z)\right)$$
-
-
 
 數學等價上面的 ELBO x (-1)：
 
@@ -510,19 +456,15 @@ $= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \le
 
 $ = {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[{p_{\boldsymbol{\theta}}(\mathbf{x}\mid \mathbf{z})}\right]\right]} - K L  { \left[{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| { p(z)}}\right]}$
 
-
-
 #### Normal Distribution Assumption
 
 ##### 假設 p(z)， p(x | z) 為 Normal distribution, VAE 的 ELBO 可以近似為
 
-參考 https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73
+參考 <https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73>
 $$
 \mathbb{E}_{z \sim q_{\phi}(z\mid x)}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{\phi}(z\mid x)\| p(z)\right)
 $$
-第二項假設 prior p(z) and posterior q(z|x) 為 normal distribution, 有 close form. 
-
-
+第二項假設 prior p(z) and posterior q(z|x) 為 normal distribution, 有 close form.
 
 ELBO x (-1) 變成 VAE loss function.  此時拆解和解釋和 EM 有些不同。
 
@@ -530,31 +472,24 @@ ELBO x (-1) 變成 VAE loss function.  此時拆解和解釋和 EM 有些不同�
 
 * **VAE ELBO loss 第一項則是 reconstruction loss; 第二項代表 regularization.  兩者是互相 balance, 而不是 minimize gap!**
 
-  * 如果 input/output loss 很小，代表 variance 接近 0。 此時 regularization loss 變大，這是 overfit case like conventional autoencoder, not good. 
+  * 如果 input/output loss 很小，代表 variance 接近 0。 此時 regularization loss 變大，這是 overfit case like conventional autoencoder, not good.
 
   * 如果 regularization 很小，代表 variance 接近 1。此時 reconstruction loss 變大。 encoding or decoding 就不好。
-
 
 **Log Marginal Likelihood = ELBO + KL Gap**
 
 **ELBO (negative value) = Q function (negative value) + self-entropy (postive value).** (for EM)
 
-**-1 x ELBO = Loss (positive value) = reconstruction loss (positive value) + regularization loss (positive value).**  (for VAE) 
-
-
-
-
+**-1 x ELBO = Loss (positive value) = reconstruction loss (positive value) + regularization loss (positive value).**  (for VAE)
 
 Very important:  maximize ELBO = minimize gap between posterior and q!!! (by xxx)
 
-
 $$
-\begin{aligned}
+\begin{align}
 \left(g^{*}, h^{*}\right) &=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
-\end{aligned}
+\end{align}
 $$
-
