@@ -118,6 +118,20 @@ Markdown resize image 似乎有問題，需要另外的 plug-in => No!
 
 
 
+### Editor
+
+Mweb
+
+Typora
+
+VS Code
+
+* VS code default math rendering tool is KaTex, which is different from MathJax.  KaTex does not support /label and cross reference.   So I install "Mardown Preview Enhance" and switch the default math engine from KaTex to MathJax.
+
+<img src="/media/image-20210911004231947.png" alt="image-20210911004231947" style="zoom:50%;" />
+
+* 問題是 MathJax mode is buggy!!  Not support \boldsymbol!!
+
 ## 結論
 
 1. 使用 Typora for image resize (zoom), 當然要設好 typora-root-url (for display), and image save path.  結果是 typora, Mweb, Jekyll/github OK.

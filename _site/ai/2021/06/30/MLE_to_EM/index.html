@@ -926,7 +926,7 @@ Q(\theta^{t+1} | \theta^{t}) &=  \sum_{\mathbf{z}} p(\mathbf{z} \mid \mathbf{x};
     <ul>
       <li>e.g. let $q(z) = p(z, x; \theta) \to \ln p(x; \theta) = 0 + D_{K L}(p(z, x; \theta) | p(z \mid x; \theta) \ge 0$</li>
       <li>但我們知道 $\ln p(x;\theta) &lt; 0$, 如何解釋這個矛盾？</li>
-      <li>一個是 $\eqref{eqELBOKL}$ 寫成 KL divergence 有問題。因為 KL divergence 是兩個同樣 dimension distribution 的距離 measurement.  $\eqref{eqELBOKL}$ 的 joint distribution $(z, x)$ 的 dimension 大於 $q(z)$，寫成 KL divergence 無意義，也沒有距離的觀念。除非把 joint distribution marginalized 成 $p(z)$, i.e. prior, 才能和 $q(z)$ 做 KL divergence.</li>
+      <li>一個是 $\eqref{eqELBOKL}$ 寫成 KL divergence 有問題。因為 KL divergence 是兩個同樣 dimension distribution 的距離 measurement.  $\eqref{eqELBOKL}$ 的 joint distribution $(z, x)$ 的 dimension 大於 $q(z)$，寫成 KL divergence 無意義，也沒有距離的觀念。除非把 joint distribution marginalized 成 $p(z)$, i.e. prior, 才能和 $q(z)$ 做 KL divergence. 或者 with a fixed $x=c$, $\int p(z, x=c; \theta) = 1$ 才能滿足 distribution 的定義。</li>
       <li>但是 conditional distribution $p(z\mid x)$, i.e. posterior 和 $q(z)$ 則是同樣的 dimension, KL divergence 有意義。</li>
     </ul>
   </li>

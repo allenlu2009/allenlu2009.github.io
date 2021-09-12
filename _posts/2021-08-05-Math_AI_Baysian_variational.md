@@ -7,17 +7,19 @@ tags: [ML, EM, Bayesian]
 typora-root-url: ../../allenlu2009.github.io
 ---
 
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 <script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-});
+//MathJax.Hub.Config({
+//  TeX: { equationNumbers: { autoNumber: "AMS" } }
+//});
 </script>
 
-
 ## Main Reference
+
 * [@matasExpectationMaximization2018] : good reference
 * [@tzikasVariationalApproximation2008] : excellent introductory paper
-
+* [@wikiVariationalBayesian2021]
 
 ## EM Algorithm
 
@@ -46,11 +48,10 @@ $$\begin{align}
 一般 $\eqref{eqQ}$ 的 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
 大多的問題是 $\eqref{eqE}$ conditional or posterior distribution 是否容易計算，是否有 analytical solution.
 
-## Variational EM Framework
+## Variational EM or Variational Bayesian Framework
 
-**這裡的思路和前文 variation EM minimize KL gap 似乎不同？**
-
-這裡的思路還是 maximize ELBO (or F free energy function), 但採取 divide-and-conquer 方法。
+**Q&A 這裡的思路和前文 variation EM minimize KL gap 似乎不同？**  
+A: 這裏定義的 variational EM 比較是一般的定義。思路還是 maximize ELBO (or F free energy function), 但採取 divide-and-conquer 方法。可以和 graph model 結合。前文定義比較有問題。
 
 最簡單的話就是 hidden variable $\mathbf{z} = [z_1, z_2,\cdots,z_M]$  and $p(\mathbf{z}) = p(z_1)\cdots p(z_M)$.
 什麼時候會有這種 distribution product?  主要是來自 graph model, 後面會說明。
@@ -58,7 +59,6 @@ $$\begin{align}
 $$\begin{equation}
 q(\mathbf{z})=\prod_{i=1}^{M} q_{i}\left(z_{i}\right) \label{eqFactor}
 \end{equation}$$
-
 
 $$\begin{align}
 F(q, \boldsymbol{\theta})=& \int \prod_{i} q_{i}\left[\ln p (\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})-\sum_{i} \ln q_{i}\right] d \mathbf{z}\nonumber\\
@@ -68,24 +68,38 @@ F(q, \boldsymbol{\theta})=& \int \prod_{i} q_{i}\left[\ln p (\mathbf{x}, \mathbf
 =&-\mathrm{KL}\left(q_{j} \| \tilde{p}\right)-\sum_{i \neq j} \int q_{i} \ln q_{i} d z \label{eqVarELBO}
 \end{align}$$
 
-where 
+where
 
 $$\begin{equation}
-\ln \tilde{p}\left(\mathbf{x}, z_{j} ; \boldsymbol{\theta}\right)=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j}=\int \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) \prod_{i \neq j}\left(q_{i} d z_{i}\right) \label{eqVarJ}
+\ln \tilde{p}\left(\mathbf{x}, z_{j} ; \boldsymbol{\theta}\right)=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j} =E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) =\int \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) \prod_{i \neq j}\left(q_{i} d z_{i}\right) \label{eqVarJ}
 \end{equation}$$
 
 $\eqref{eqVarELBO}$ 是 (variational, 因為有 KL divergence) lower bound, KL divergence 必大於 0, 負號後必小於 0.  第二項加上負號是 self-entropy 必大於 0.  
+
+**Q&A: 這裏 KL divergence between $q_j(z_j)$ and "joint distribution" $\tilde{p}(\mathbf{x}, z_{j} ; \boldsymbol{\theta})$, 似乎抵觸前文說的 KL divergence between $q(\mathbf{z})$ and joint distribution $p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})$ dimension 不對的問題**  
+
+$$\begin{align}
+F(q, \boldsymbol{\theta})= \mathcal{L}(q, \boldsymbol{\theta})&=\int_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} d\mathbf{z}  \\
+&\ne - D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) )
+\end{align}$$
+
+**A:** $\eqref{eqVarJ}$ 的 "joint distribution" $\tilde{p}$ 不是真的 joint distribution. 重點 $\tilde{p}$ 是不是一個 distribution: (1) $\tilde{p} \ge 0$, and (2) $\int \tilde{p}(\mathbf{x}, z_j; \boldsymbol{\theta})\, dz_j = 1$ for any $\mathbf{x}$.  From $\eqref{eqVarJ}$ 
+
+$$\tilde{p}(\mathbf{x}, z_j; \boldsymbol{\theta}) = \exp(E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})) \ge 0$$ 
+
+滿足 (1).  我們主要檢查 (2), how to prove? TBD
+
 直觀看出讓 KL 為 0，就是 $q_j(z_j) = \tilde{p}(x, z_j; \theta)$, 似乎就是最大值 (how about the self-entropy?).
 也就是 optimal distribution $q_j^* (z_j)$ 是
 
 $$
-\ln q_j^* \left(z_{j}\right)=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j} + \text{const.} 
+\ln q_j^* \left(z_{j}\right)= E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) + \text{const.}
 $$
 
 上面的 const 可以由 distribution normalization 得到。所以我們可以得到一組 consistency conditions $\eqref{eqVarJ2}$ for the maximum of variational lower bound subject to $\eqref{eqFactor}$.
 
 $$\begin{equation}
-q_{j}^{*}\left(z_{j}\right)=\frac{\exp \left(\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j}\right)}{\int \exp \left(\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j}\right) d z_{j}} \quad\text{for}\,\, j=1,\cdots,M \label{eqVarJ2}
+q_{j}^{*}\left(z_{j}\right)=\frac{\exp E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{\int \exp E_{i \neq j}\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) d z_{j}} \quad\text{for}\,\, j=1,\cdots,M \label{eqVarJ2}
 \end{equation}$$
 
 $\eqref{eqVarJ2}$ 顯然不會有 explicit solution, 因為 $q_j$ factors 之間是相互 dependent.  A consistent solution 需要 cycling through these factors.  我們定義 Variational EM algorithm
@@ -98,11 +112,13 @@ $$\begin{aligned}
 ## Examples
 
 ### 例一： Linear Regression (filter/estimate a noisy signal)
+
 我很喜歡這個例子。從簡單的 least-square error filter 進步到 Kalman filter.  類似的應用：deconvolution/equalization, channel estimation, speech recognition, frequency estimation, time series prediction, and
-system identification. 
+system identification.
 
 #### 問題描述
-考慮一個未知信號 $y(x) \in R, x \in \Omega ⊆ R^N$, i.e. $R^N \to R$. 
+
+考慮一個未知信號 $y(x) \in R, x \in \Omega ⊆ R^N$, i.e. $R^N \to R$.
 我們想要 predict its value $t_* = y(x_*)$ at an arbitrary location $x_* \in \Omega$.  
 
 我們用 vector 表示 $(t_1, \cdots, t_N)$
@@ -128,16 +144,16 @@ p(\mathbf{t} ; \mathbf{w}, \beta)&=N\left(\mathbf{t} \mid \mathbf{\Phi} \mathbf{
 
 以下我們用三種 methodologies 用 $\mathbf{t}$ 來 estimate $\mathbf{w}$ (i.e. signal) and $\beta$ (i.e. noise if needed).
 
-*Method 1:* ML Estimation 
-如果 number of parameters (w) is the same as the number of observations (t), the ML estimates are very sensitive to the model noise.  我們可以用 DAG (Directed Acyclic Graphic) 說明，如下圖 (a).  雙圓框 t 代表 observed random variable. 方框 (W, beta) 代表 parameter to be estimated.  單圓框（e.g. (b) W）代表 hidden random variable. 
+*Method 1:* ML Estimation
+如果 number of parameters (w) is the same as the number of observations (t), the ML estimates are very sensitive to the model noise.  我們可以用 DAG (Directed Acyclic Graphic) 說明，如下圖 (a).  雙圓框 t 代表 observed random variable. 方框 (W, beta) 代表 parameter to be estimated.  單圓框（e.g. (b) W）代表 hidden random variable.
 
-*Method 2:* 假設 weight W 是 random variable with imposed prior. 我們先用 a simple Bayesian model with stationary Gaussian prior on weight, 如下圖 (b).  以這個 model 而言，我們用 EM algorithm performs Bayesian inference.  結果 robust to noise, 類似 Kalman filter? 
+*Method 2:* 假設 weight W 是 random variable with imposed prior. 我們先用 a simple Bayesian model with stationary Gaussian prior on weight, 如下圖 (b).  以這個 model 而言，我們用 EM algorithm performs Bayesian inference.  結果 robust to noise, 類似 Kalman filter?
 
 <img src="/media/16286850167880.jpg" width="414">
 
 *Method 3:* method 2 的一個缺點是假設 stationary Gaussian noise (i.e. $\beta$, a fixed value to be estimated, 無法 capture the local signal properties.  我們可以引入更複雜 spatially/temporally varying hierarchical model which is based on a non-stationary Gaussian prior for the weight, W and a hyperprior, $\beta$, 如下圖 (c).
 
-這麼複雜的 DAG 顯然無法用 EM algorithm 解，必須用本文的 "Variational EM Framework" infer values of the unknowns. 
+這麼複雜的 DAG 顯然無法用 EM algorithm 解，必須用本文的 "Variational EM Framework" infer values of the unknowns.
 
 <img src="/media/16286850351205.jpg" width="245">
 
@@ -158,6 +174,7 @@ $$\begin{equation}
 很多情況 $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ 可能是 "ill-conditioned" and difficult to invert.  意味如果 observation t 包含 noise $\varepsilon$, noise 會嚴重干擾 $\mathbf{w}_{L S}$ estimation.  
 
 ##### 例 1A：Communication equalization/deconvolution
+
 Assuming a lowpass channel $\Phi = 1 + 0.9 z^{-1}$.  The equalizer $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)^{-1} \boldsymbol{\Phi}^{T}$ 變成 highpass filter; zero-forcing equalizer (ZFE).  如果 noise $\varepsilon$ 是 broadband noise, high frequency noise 會被放大。
 
 In the case of ML, 我們必須小心選 basis functions to ensure matrix $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ can be inverted and avoid "ill-condition".  通常使用 sparse model with few basis functions.
@@ -174,9 +191,9 @@ $$
 p(\mathbf{w} ; \alpha)=\prod_{m=1}^{M} N\left(w_{m} \mid 0, \alpha^{-1}\right)
 $$
 
-當然假設 zero-mean 聽起來有點奇怪，有可能引入 bias, 但好處是有 regularization 的效果，儘量讓 $w_m$ 不要太大。 
+當然假設 zero-mean 聽起來有點奇怪，有可能引入 bias, 但好處是有 regularization 的效果，儘量讓 $w_m$ 不要太大。
 
-Bayesian inference 接下來是計算 posterior distribution of the hidden variable 
+Bayesian inference 接下來是計算 posterior distribution of the hidden variable
 
 $$\begin{equation}
 p(\mathbf{w} \mid \mathbf{t} ; \alpha, \beta)=\frac{p(\mathrm{t} \mid \mathbf{w} ; \beta) p(\mathbf{w} ; \alpha)}{p(\mathbf{t} ; \alpha, \beta)} \label{eqMAP}
@@ -188,11 +205,11 @@ $$p(\mathbf{t} ; \alpha, \beta)=\int p(\mathbf{t} \mid \mathbf{w} ; \beta) p(\ma
 
 $\eqref{eqMAP}$，posterior of the hidden variable，可以寫成：
 
-$$\begin{equation} 
+$$\begin{equation}
 p(\mathbf{w} \mid \mathbf{t} ; \alpha, \beta)=N(\mathbf{w} \mid \boldsymbol{\mu}, \boldsymbol{\mathbf{\Sigma}}) \label{eqPost}
 \end{equation}$$
 
-where 
+where
 
 $$\begin{align}
 \boldsymbol{\mu} &=\beta \boldsymbol{\Sigma} \Phi^{T} \mathbf{t} \label{eqMean}\\
@@ -206,7 +223,7 @@ $$\begin{align}
 &\left.+\mathbf{t}^{T}\left(\beta^{-1} \mathbf{I}+\alpha^{-1} \boldsymbol{\Phi} \boldsymbol{\Phi}^{T}\right)^{-1} \mathbf{t}\right\} \label{eqab}
 \end{align}$$
 
-直接計算 $\eqref{eqab}$ 非常困難。除了 $\eqref{eqab}$ 微分非常複雜。$\alpha, \beta \ge 0$ 是一個 constrained optimization 問題。 EM algorithm 提供一個有效的方法解 $\alpha, \beta$ and infer $\mathbf{w}$ 
+直接計算 $\eqref{eqab}$ 非常困難。除了 $\eqref{eqab}$ 微分非常複雜。$\alpha, \beta \ge 0$ 是一個 constrained optimization 問題。 EM algorithm 提供一個有效的方法解 $\alpha, \beta$ and infer $\mathbf{w}$
 
 **E-step** Compute the Q function
 
@@ -255,6 +272,7 @@ $$
 $\eqref{eqa}$ 和 $\eqref{eqb}$ 同時保證 $\alpha, \beta$ 永遠為正值。
 
 幾個重點：
+
 * EM algorithm 有可能收斂到 local minimum; initial condition 很重要
 * 注意 $\mathbf{w}$ 不是一個值，而是 distribution.  Inference of $\mathbf{w}$ 就是 posterior distribution $\eqref{eqPost}$.  Posterior distribution 的 mean $\eqref{eqMean}$ 稱為 Bayesian linear minimum mean squire error (LMMSE) inference for $\mathbf{w}$.
 
@@ -289,7 +307,7 @@ p(\mathbf{x})=\sum_{j=1}^{M} \pi_{j} N\left(x ; \boldsymbol{\mu}_{j}, \mathbf{T}
 $$
 
 where $\boldsymbol{\pi} =  \\{ \pi_j \\}$ 代表 weights or mixing coefficients.  
-$\boldsymbol{\mu} =  \\{ \mu_{j} \\} $ 是 means of Gaussian distribution.   
+$\boldsymbol{\mu} =  \\{ \mu_{j} \\} $ 是 means of Gaussian distribution.
 $\mathbf{T} = \\{ \mathbf{T}_{j} \\}$ 是 precision (inverse covariance) matrices.   在 Bayesian GMM 我們更常用 precision matrix.  
 
 Bayesian GMM 和一般 GMM 有什麼不同？ 最大的差別就是 $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$ 不再是 parameters for estimation, 而是 random variables. 這有什麼好處？我們可以 impose or embedded our priors on $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$, 通常是 conjugate priors (i.e. no informative priors) [^prior].
@@ -322,7 +340,7 @@ Bayesian-GMM 比起 EM-GMM 到底有什麼好處。前面提到可以 impose pri
 
 另一個好處是可以直接用 Bayesian GMM 決定 Gaussian component number, 而不需要用其他方法 (e.g. cross-validation)。實作如下圖。(a) 初始是 20 component Gaussians; (b), (c) model evolution; (d) 最終解只剩下 5 個 Gaussian components, 其餘 15 個 Gaussian components weight 為 0。注意收斂的過程中都沒有 singularity.  
 
-這聽起來比較 significant, 不過有一個 catch, 就是 Dirichlet prior 不允許 component mixing weight 為 0.  因此如果要用 Bayesian-GMM 決定 Gaussian component number, 必須 remove $\boldsymbol{\pi} = \\{ \pi_j \\}$ from priors.  也就是把 $\boldsymbol{\pi} = \\{ \pi_j \\}$ 視為 parameter to be estimated. 
+這聽起來比較 significant, 不過有一個 catch, 就是 Dirichlet prior 不允許 component mixing weight 為 0.  因此如果要用 Bayesian-GMM 決定 Gaussian component number, 必須 remove $\boldsymbol{\pi} = \\{ \pi_j \\}$ from priors.  也就是把 $\boldsymbol{\pi} = \\{ \pi_j \\}$ 視為 parameter to be estimated.
 
 ![](/media/16285916007272.jpg)
 
@@ -344,8 +362,6 @@ $$\begin{aligned}
 $$\pi_{j}=\frac{\sum_{n=1}^{N} r_{j n}}{\sum_{k=1}^{M} \sum_{n=1}^{N} r_{k n}}$$
 
 在 iteration 過程中，有一些 mixing coefficients $\\{\pi_j\\}$ 收斂到 0. 定性來說，variational bound 可以視為兩項之和：第一項是 likelihood function, 第二項是 prior 造成的 penalty term to penalizes complex models.
-
-
 
 ## Reference
 

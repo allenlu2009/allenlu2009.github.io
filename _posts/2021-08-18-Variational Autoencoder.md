@@ -1,6 +1,4 @@
 ---
-
-
 title: Math AI - Variational Autoencoder Vs. Variational EM Algorithm 
 date: 2021-08-18 23:10:08
 categories:

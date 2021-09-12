@@ -397,16 +397,20 @@
 
 
 
-  <script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-});
+  <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<script type="text/x-mathjax-config">
+//MathJax.Hub.Config({
+//  TeX: { equationNumbers: { autoNumber: "AMS" } }
+//});
 </script>
 
 <h2 id="main-reference">Main Reference</h2>
+
 <ul>
   <li>[@matasExpectationMaximization2018] : good reference</li>
   <li>[@tzikasVariationalApproximation2008] : excellent introductory paper</li>
+  <li>[@wikiVariationalBayesian2021]</li>
 </ul>
 
 <h2 id="em-algorithm">EM Algorithm</h2>
@@ -439,11 +443,10 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 <p>一般 $\eqref{eqQ}$ 的 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
 大多的問題是 $\eqref{eqE}$ conditional or posterior distribution 是否容易計算，是否有 analytical solution.</p>
 
-<h2 id="variational-em-framework">Variational EM Framework</h2>
+<h2 id="variational-em-or-variational-bayesian-framework">Variational EM or Variational Bayesian Framework</h2>
 
-<p><strong>這裡的思路和前文 variation EM minimize KL gap 似乎不同？</strong></p>
-
-<p>這裡的思路還是 maximize ELBO (or F free energy function), 但採取 divide-and-conquer 方法。</p>
+<p><strong>Q&amp;A 這裡的思路和前文 variation EM minimize KL gap 似乎不同？</strong><br />
+A: 這裏定義的 variational EM 比較是一般的定義。思路還是 maximize ELBO (or F free energy function), 但採取 divide-and-conquer 方法。可以和 graph model 結合。前文定義比較有問題。</p>
 
 <p>最簡單的話就是 hidden variable $\mathbf{z} = [z_1, z_2,\cdots,z_M]$  and $p(\mathbf{z}) = p(z_1)\cdots p(z_M)$.
 什麼時候會有這種 distribution product?  主要是來自 graph model, 後面會說明。</p>
@@ -464,19 +467,34 @@ F(q, \boldsymbol{\theta})=& \int \prod_{i} q_{i}\left[\ln p (\mathbf{x}, \mathbf
 <p>where</p>
 
 <script type="math/tex; mode=display">\begin{equation}
-\ln \tilde{p}\left(\mathbf{x}, z_{j} ; \boldsymbol{\theta}\right)=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j}=\int \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) \prod_{i \neq j}\left(q_{i} d z_{i}\right) \label{eqVarJ}
+\ln \tilde{p}\left(\mathbf{x}, z_{j} ; \boldsymbol{\theta}\right)=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j} =E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) =\int \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) \prod_{i \neq j}\left(q_{i} d z_{i}\right) \label{eqVarJ}
 \end{equation}</script>
 
-<p>$\eqref{eqVarELBO}$ 是 (variational, 因為有 KL divergence) lower bound, KL divergence 必大於 0, 負號後必小於 0.  第二項加上負號是 self-entropy 必大於 0.<br />
-直觀看出讓 KL 為 0，就是 $q_j(z_j) = \tilde{p}(x, z_j; \theta)$, 似乎就是最大值 (how about the self-entropy?).
+<p>$\eqref{eqVarELBO}$ 是 (variational, 因為有 KL divergence) lower bound, KL divergence 必大於 0, 負號後必小於 0.  第二項加上負號是 self-entropy 必大於 0.</p>
+
+<p><strong>Q&amp;A: 這裏 KL divergence between $q_j(z_j)$ and “joint distribution” $\tilde{p}(\mathbf{x}, z_{j} ; \boldsymbol{\theta})$, 似乎抵觸前文說的 KL divergence between $q(\mathbf{z})$ and joint distribution $p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})$ dimension 不對的問題</strong></p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+F(q, \boldsymbol{\theta})= \mathcal{L}(q, \boldsymbol{\theta})&=\int_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} d\mathbf{z}  \\
+&\ne - D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) )
+\end{align} %]]></script>
+
+<p><strong>A:</strong> $\eqref{eqVarJ}$ 的 “joint distribution” $\tilde{p}$ 不是真的 joint distribution. 重點 $\tilde{p}$ 是不是一個 distribution: (1) $\tilde{p} \ge 0$, and (2) $\int \tilde{p}(\mathbf{x}, z_j; \boldsymbol{\theta})\, dz_j = 1$ for any $\mathbf{x}$.  From $\eqref{eqVarJ}$</p>
+
+<script type="math/tex; mode=display">\tilde{p}(\mathbf{x}, z_j; \boldsymbol{\theta}) = \exp(E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})) \ge 0</script>
+
+<p>滿足 (1).  我們主要檢查 (2), how to prove? TBD</p>
+
+<p>直觀看出讓 KL 為 0，就是 $q_j(z_j) = \tilde{p}(x, z_j; \theta)$, 似乎就是最大值 (how about the self-entropy?).
 也就是 optimal distribution $q_j^* (z_j)$ 是</p>
 
-<script type="math/tex; mode=display">\ln q_j^* \left(z_{j}\right)=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j} + \text{const.}</script>
+<script type="math/tex; mode=display">\ln q_j^* \left(z_{j}\right)= E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) + \text{const.}</script>
 
 <p>上面的 const 可以由 distribution normalization 得到。所以我們可以得到一組 consistency conditions $\eqref{eqVarJ2}$ for the maximum of variational lower bound subject to $\eqref{eqFactor}$.</p>
 
 <script type="math/tex; mode=display">\begin{equation}
-q_{j}^{*}\left(z_{j}\right)=\frac{\exp \left(\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j}\right)}{\int \exp \left(\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j}\right) d z_{j}} \quad\text{for}\,\, j=1,\cdots,M \label{eqVarJ2}
+q_{j}^{*}\left(z_{j}\right)=\frac{\exp E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{\int \exp E_{i \neq j}\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) d z_{j}} \quad\text{for}\,\, j=1,\cdots,M \label{eqVarJ2}
 \end{equation}</script>
 
 <p>$\eqref{eqVarJ2}$ 顯然不會有 explicit solution, 因為 $q_j$ factors 之間是相互 dependent.  A consistent solution 需要 cycling through these factors.  我們定義 Variational EM algorithm</p>
@@ -490,11 +508,13 @@ q_{j}^{*}\left(z_{j}\right)=\frac{\exp \left(\langle\ln p(\mathbf{x}, \mathbf{z}
 <h2 id="examples">Examples</h2>
 
 <h3 id="例一-linear-regression-filterestimate-a-noisy-signal">例一： Linear Regression (filter/estimate a noisy signal)</h3>
+
 <p>我很喜歡這個例子。從簡單的 least-square error filter 進步到 Kalman filter.  類似的應用：deconvolution/equalization, channel estimation, speech recognition, frequency estimation, time series prediction, and
 system identification.</p>
 
 <h4 id="問題描述">問題描述</h4>
-<p>考慮一個未知信號 $y(x) \in R, x \in \Omega ⊆ R^N$, i.e. $R^N \to R$. 
+
+<p>考慮一個未知信號 $y(x) \in R, x \in \Omega ⊆ R^N$, i.e. $R^N \to R$.
 我們想要 predict its value $t_* = y(x_<em>)$ at an arbitrary location $x_</em> \in \Omega$.</p>
 
 <p>我們用 vector 表示 $(t_1, \cdots, t_N)$
@@ -517,7 +537,7 @@ p(\mathbf{t} ; \mathbf{w}, \beta)&=N\left(\mathbf{t} \mid \mathbf{\Phi} \mathbf{
 
 <p>以下我們用三種 methodologies 用 $\mathbf{t}$ 來 estimate $\mathbf{w}$ (i.e. signal) and $\beta$ (i.e. noise if needed).</p>
 
-<p><em>Method 1:</em> ML Estimation 
+<p><em>Method 1:</em> ML Estimation
 如果 number of parameters (w) is the same as the number of observations (t), the ML estimates are very sensitive to the model noise.  我們可以用 DAG (Directed Acyclic Graphic) 說明，如下圖 (a).  雙圓框 t 代表 observed random variable. 方框 (W, beta) 代表 parameter to be estimated.  單圓框（e.g. (b) W）代表 hidden random variable.</p>
 
 <p><em>Method 2:</em> 假設 weight W 是 random variable with imposed prior. 我們先用 a simple Bayesian model with stationary Gaussian prior on weight, 如下圖 (b).  以這個 model 而言，我們用 EM algorithm performs Bayesian inference.  結果 robust to noise, 類似 Kalman filter?</p>
@@ -547,6 +567,7 @@ p(\mathbf{t} ; \mathbf{w}, \beta)=(2 \pi)^{-\frac{N}{2}} \beta^{\frac{N}{2}} \ex
 <p>很多情況 $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ 可能是 “ill-conditioned” and difficult to invert.  意味如果 observation t 包含 noise $\varepsilon$, noise 會嚴重干擾 $\mathbf{w}_{L S}$ estimation.</p>
 
 <h5 id="例-1acommunication-equalizationdeconvolution">例 1A：Communication equalization/deconvolution</h5>
+
 <p>Assuming a lowpass channel $\Phi = 1 + 0.9 z^{-1}$.  The equalizer $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)^{-1} \boldsymbol{\Phi}^{T}$ 變成 highpass filter; zero-forcing equalizer (ZFE).  如果 noise $\varepsilon$ 是 broadband noise, high frequency noise 會被放大。</p>
 
 <p>In the case of ML, 我們必須小心選 basis functions to ensure matrix $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ can be inverted and avoid “ill-condition”.  通常使用 sparse model with few basis functions.</p>
@@ -575,7 +596,7 @@ p(\mathbf{w} \mid \mathbf{t} ; \alpha, \beta)=\frac{p(\mathrm{t} \mid \mathbf{w}
 
 <p>$\eqref{eqMAP}$，posterior of the hidden variable，可以寫成：</p>
 
-<script type="math/tex; mode=display">\begin{equation} 
+<script type="math/tex; mode=display">\begin{equation}
 p(\mathbf{w} \mid \mathbf{t} ; \alpha, \beta)=N(\mathbf{w} \mid \boldsymbol{\mu}, \boldsymbol{\mathbf{\Sigma}}) \label{eqPost}
 \end{equation}</script>
 
@@ -640,6 +661,7 @@ Q^{(t)}(\mathbf{t}, \mathbf{w} ; \alpha, \beta)=& \frac{N}{2} \ln \beta-\frac{\b
 <p>$\eqref{eqa}$ 和 $\eqref{eqb}$ 同時保證 $\alpha, \beta$ 永遠為正值。</p>
 
 <p>幾個重點：</p>
+
 <ul>
   <li>EM algorithm 有可能收斂到 local minimum; initial condition 很重要</li>
   <li>注意 $\mathbf{w}$ 不是一個值，而是 distribution.  Inference of $\mathbf{w}$ 就是 posterior distribution $\eqref{eqPost}$.  Posterior distribution 的 mean $\eqref{eqMean}$ 稱為 Bayesian linear minimum mean squire error (LMMSE) inference for $\mathbf{w}$.</li>
@@ -672,7 +694,7 @@ Q^{(t)}(\mathbf{t}, \mathbf{w} ; \alpha, \beta)=& \frac{N}{2} \ln \beta-\frac{\b
 <script type="math/tex; mode=display">p(\mathbf{x})=\sum_{j=1}^{M} \pi_{j} N\left(x ; \boldsymbol{\mu}_{j}, \mathbf{T}_{j}\right)</script>
 
 <p>where $\boldsymbol{\pi} =  \{ \pi_j \}$ 代表 weights or mixing coefficients.<br />
-$\boldsymbol{\mu} =  \{ \mu_{j} \} $ 是 means of Gaussian distribution. <br />
+$\boldsymbol{\mu} =  \{ \mu_{j} \} $ 是 means of Gaussian distribution.
 $\mathbf{T} = \{ \mathbf{T}_{j} \}$ 是 precision (inverse covariance) matrices.   在 Bayesian GMM 我們更常用 precision matrix.</p>
 
 <p>Bayesian GMM 和一般 GMM 有什麼不同？ 最大的差別就是 $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$ 不再是 parameters for estimation, 而是 random variables. 這有什麼好處？我們可以 impose or embedded our priors on $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$, 通常是 conjugate priors (i.e. no informative priors) <sup id="fnref:prior"><a href="#fn:prior" class="footnote">1</a></sup>.</p>
@@ -979,7 +1001,7 @@ MathJax.Hub.Config({
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#main-reference"> <span class="nav-number">1</span> <span class="nav-text">Main Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-algorithm"> <span class="nav-number">2</span> <span class="nav-text">EM Algorithm</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-em-framework"> <span class="nav-number">3</span> <span class="nav-text">Variational EM Framework</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#examples"> <span class="nav-number">4</span> <span class="nav-text">Examples</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例一-linear-regression-filterestimate-a-noisy-signal"> <span class="nav-number">4.1</span> <span class="nav-text">例一： Linear Regression (filter/estimate a noisy signal)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#問題描述"> <span class="nav-number">4.1.1</span> <span class="nav-text">問題描述</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#三種解法圖式"> <span class="nav-number">4.1.2</span> <span class="nav-text">三種解法圖式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-1-ml-for-vanilla-linear-regression"> <span class="nav-number">4.1.3</span> <span class="nav-text">Method 1, ML for Vanilla Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例-1acommunication-equalizationdeconvolution"> <span class="nav-number">4.1.3.1</span> <span class="nav-text">例 1A：Communication equalization/deconvolution</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-2-em-algorithm-for-bayesian-linear-regression"> <span class="nav-number">4.1.4</span> <span class="nav-text">Method 2, EM algorithm for Bayesian Linear Regression</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-3-variational-em-based-bayesian-linear-regression"> <span class="nav-number">4.1.5</span> <span class="nav-text">Method 3, Variational EM-based Bayesian Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例-1bnoisy-signal-estimation"> <span class="nav-number">4.1.5.1</span> <span class="nav-text">例 1B：Noisy Signal Estimation</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例二-bayesian-gmm"> <span class="nav-number">4.2</span> <span class="nav-text">例二： Bayesian GMM</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">5</span> <span class="nav-text">Reference</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#main-reference"> <span class="nav-number">1</span> <span class="nav-text">Main Reference</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#em-algorithm"> <span class="nav-number">2</span> <span class="nav-text">EM Algorithm</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-em-or-variational-bayesian-framework"> <span class="nav-number">3</span> <span class="nav-text">Variational EM or Variational Bayesian Framework</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#examples"> <span class="nav-number">4</span> <span class="nav-text">Examples</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例一-linear-regression-filterestimate-a-noisy-signal"> <span class="nav-number">4.1</span> <span class="nav-text">例一： Linear Regression (filter/estimate a noisy signal)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#問題描述"> <span class="nav-number">4.1.1</span> <span class="nav-text">問題描述</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#三種解法圖式"> <span class="nav-number">4.1.2</span> <span class="nav-text">三種解法圖式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-1-ml-for-vanilla-linear-regression"> <span class="nav-number">4.1.3</span> <span class="nav-text">Method 1, ML for Vanilla Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例-1acommunication-equalizationdeconvolution"> <span class="nav-number">4.1.3.1</span> <span class="nav-text">例 1A：Communication equalization/deconvolution</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-2-em-algorithm-for-bayesian-linear-regression"> <span class="nav-number">4.1.4</span> <span class="nav-text">Method 2, EM algorithm for Bayesian Linear Regression</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#method-3-variational-em-based-bayesian-linear-regression"> <span class="nav-number">4.1.5</span> <span class="nav-text">Method 3, Variational EM-based Bayesian Linear Regression</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#例-1bnoisy-signal-estimation"> <span class="nav-number">4.1.5.1</span> <span class="nav-text">例 1B：Noisy Signal Estimation</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#例二-bayesian-gmm"> <span class="nav-number">4.2</span> <span class="nav-text">例二： Bayesian GMM</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#reference"> <span class="nav-number">5</span> <span class="nav-text">Reference</span> </a> </li>
     </ol>
   </div>
             

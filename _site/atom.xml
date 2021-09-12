@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-08T22:59:48+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math AI - Variational Autoencoder Vs. Variational EM Algorithm</title><link href="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/" rel="alternate" type="text/html" title="Math AI - Variational Autoencoder Vs. Variational EM Algorithm" /><published>2021-08-19T07:10:08+08:00</published><updated>2021-08-19T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/19/Variational%20Autoencoder</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-12T10:31:37+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">Math AI - Variational Autoencoder Vs. Variational EM Algorithm</title><link href="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/" rel="alternate" type="text/html" title="Math AI - Variational Autoencoder Vs. Variational EM Algorithm" /><published>2021-08-19T07:10:08+08:00</published><updated>2021-08-19T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/19/Variational%20Autoencoder</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
 });
@@ -691,16 +691,20 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
       &lt;p&gt;$Q(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}) = \langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)}$​ &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt; &lt;a href=&quot;#fnref:1:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="EM" /><category term="Bayesian" /><category term="MAP" /><summary type="html">Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper</summary></entry><entry><title type="html">Math AI - From EM to Variational Bayesian Inference</title><link href="http://localhost:4000/ai/2021/08/16/Math_AI_Baysian_variational/" rel="alternate" type="text/html" title="Math AI - From EM to Variational Bayesian Inference" /><published>2021-08-16T07:10:08+08:00</published><updated>2021-08-16T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/16/Math_AI_Baysian_variational</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/16/Math_AI_Baysian_variational/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
-MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
-});
+&lt;/div&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="EM" /><category term="Bayesian" /><category term="MAP" /><summary type="html">Reference [@poczosCllusteringEM2015] [@matasExpectationMaximization2018] good reference [@choyExpectationMaximization2017] [@tzikasVariationalApproximation2008] excellent introductory paper</summary></entry><entry><title type="html">Math AI - From EM to Variational Bayesian Inference</title><link href="http://localhost:4000/ai/2021/08/16/Math_AI_Baysian_variational/" rel="alternate" type="text/html" title="Math AI - From EM to Variational Bayesian Inference" /><published>2021-08-16T07:10:08+08:00</published><updated>2021-08-16T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/16/Math_AI_Baysian_variational</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/16/Math_AI_Baysian_variational/">&lt;script id=&quot;MathJax-script&quot; async=&quot;&quot; src=&quot;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+//MathJax.Hub.Config({
+//  TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
+//});
 &lt;/script&gt;
 
 &lt;h2 id=&quot;main-reference&quot;&gt;Main Reference&lt;/h2&gt;
+
 &lt;ul&gt;
   &lt;li&gt;[@matasExpectationMaximization2018] : good reference&lt;/li&gt;
   &lt;li&gt;[@tzikasVariationalApproximation2008] : excellent introductory paper&lt;/li&gt;
+  &lt;li&gt;[@wikiVariationalBayesian2021]&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;em-algorithm&quot;&gt;EM Algorithm&lt;/h2&gt;
@@ -733,11 +737,10 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 &lt;p&gt;一般 $\eqref{eqQ}$ 的 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
 大多的問題是 $\eqref{eqE}$ conditional or posterior distribution 是否容易計算，是否有 analytical solution.&lt;/p&gt;
 
-&lt;h2 id=&quot;variational-em-framework&quot;&gt;Variational EM Framework&lt;/h2&gt;
+&lt;h2 id=&quot;variational-em-or-variational-bayesian-framework&quot;&gt;Variational EM or Variational Bayesian Framework&lt;/h2&gt;
 
-&lt;p&gt;&lt;strong&gt;這裡的思路和前文 variation EM minimize KL gap 似乎不同？&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;這裡的思路還是 maximize ELBO (or F free energy function), 但採取 divide-and-conquer 方法。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Q&amp;amp;A 這裡的思路和前文 variation EM minimize KL gap 似乎不同？&lt;/strong&gt;&lt;br /&gt;
+A: 這裏定義的 variational EM 比較是一般的定義。思路還是 maximize ELBO (or F free energy function), 但採取 divide-and-conquer 方法。可以和 graph model 結合。前文定義比較有問題。&lt;/p&gt;
 
 &lt;p&gt;最簡單的話就是 hidden variable $\mathbf{z} = [z_1, z_2,\cdots,z_M]$  and $p(\mathbf{z}) = p(z_1)\cdots p(z_M)$.
 什麼時候會有這種 distribution product?  主要是來自 graph model, 後面會說明。&lt;/p&gt;
@@ -758,19 +761,34 @@ F(q, \boldsymbol{\theta})=&amp; \int \prod_{i} q_{i}\left[\ln p (\mathbf{x}, \ma
 &lt;p&gt;where&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-\ln \tilde{p}\left(\mathbf{x}, z_{j} ; \boldsymbol{\theta}\right)=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j}=\int \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) \prod_{i \neq j}\left(q_{i} d z_{i}\right) \label{eqVarJ}
+\ln \tilde{p}\left(\mathbf{x}, z_{j} ; \boldsymbol{\theta}\right)=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j} =E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) =\int \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) \prod_{i \neq j}\left(q_{i} d z_{i}\right) \label{eqVarJ}
 \end{equation}&lt;/script&gt;
 
-&lt;p&gt;$\eqref{eqVarELBO}$ 是 (variational, 因為有 KL divergence) lower bound, KL divergence 必大於 0, 負號後必小於 0.  第二項加上負號是 self-entropy 必大於 0.&lt;br /&gt;
-直觀看出讓 KL 為 0，就是 $q_j(z_j) = \tilde{p}(x, z_j; \theta)$, 似乎就是最大值 (how about the self-entropy?).
+&lt;p&gt;$\eqref{eqVarELBO}$ 是 (variational, 因為有 KL divergence) lower bound, KL divergence 必大於 0, 負號後必小於 0.  第二項加上負號是 self-entropy 必大於 0.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Q&amp;amp;A: 這裏 KL divergence between $q_j(z_j)$ and “joint distribution” $\tilde{p}(\mathbf{x}, z_{j} ; \boldsymbol{\theta})$, 似乎抵觸前文說的 KL divergence between $q(\mathbf{z})$ and joint distribution $p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})$ dimension 不對的問題&lt;/strong&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+F(q, \boldsymbol{\theta})= \mathcal{L}(q, \boldsymbol{\theta})&amp;=\int_{\mathbf{z}} q(\mathbf{z}) \ln \frac{p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{q(\mathbf{z})} d\mathbf{z}  \\
+&amp;\ne - D_{\mathrm{KL}}(q(\mathbf{z}) \| p(\mathbf{z}, \mathbf{x}; \boldsymbol{\theta}) )
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;A:&lt;/strong&gt; $\eqref{eqVarJ}$ 的 “joint distribution” $\tilde{p}$ 不是真的 joint distribution. 重點 $\tilde{p}$ 是不是一個 distribution: (1) $\tilde{p} \ge 0$, and (2) $\int \tilde{p}(\mathbf{x}, z_j; \boldsymbol{\theta})\, dz_j = 1$ for any $\mathbf{x}$.  From $\eqref{eqVarJ}$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\tilde{p}(\mathbf{x}, z_j; \boldsymbol{\theta}) = \exp(E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})) \ge 0&lt;/script&gt;
+
+&lt;p&gt;滿足 (1).  我們主要檢查 (2), how to prove? TBD&lt;/p&gt;
+
+&lt;p&gt;直觀看出讓 KL 為 0，就是 $q_j(z_j) = \tilde{p}(x, z_j; \theta)$, 似乎就是最大值 (how about the self-entropy?).
 也就是 optimal distribution $q_j^* (z_j)$ 是&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\ln q_j^* \left(z_{j}\right)=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j} + \text{const.}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\ln q_j^* \left(z_{j}\right)= E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) + \text{const.}&lt;/script&gt;
 
 &lt;p&gt;上面的 const 可以由 distribution normalization 得到。所以我們可以得到一組 consistency conditions $\eqref{eqVarJ2}$ for the maximum of variational lower bound subject to $\eqref{eqFactor}$.&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
-q_{j}^{*}\left(z_{j}\right)=\frac{\exp \left(\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j}\right)}{\int \exp \left(\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{i \neq j}\right) d z_{j}} \quad\text{for}\,\, j=1,\cdots,M \label{eqVarJ2}
+q_{j}^{*}\left(z_{j}\right)=\frac{\exp E_{i \neq j} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})}{\int \exp E_{i \neq j}\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) d z_{j}} \quad\text{for}\,\, j=1,\cdots,M \label{eqVarJ2}
 \end{equation}&lt;/script&gt;
 
 &lt;p&gt;$\eqref{eqVarJ2}$ 顯然不會有 explicit solution, 因為 $q_j$ factors 之間是相互 dependent.  A consistent solution 需要 cycling through these factors.  我們定義 Variational EM algorithm&lt;/p&gt;
@@ -784,11 +802,13 @@ q_{j}^{*}\left(z_{j}\right)=\frac{\exp \left(\langle\ln p(\mathbf{x}, \mathbf{z}
 &lt;h2 id=&quot;examples&quot;&gt;Examples&lt;/h2&gt;
 
 &lt;h3 id=&quot;例一-linear-regression-filterestimate-a-noisy-signal&quot;&gt;例一： Linear Regression (filter/estimate a noisy signal)&lt;/h3&gt;
+
 &lt;p&gt;我很喜歡這個例子。從簡單的 least-square error filter 進步到 Kalman filter.  類似的應用：deconvolution/equalization, channel estimation, speech recognition, frequency estimation, time series prediction, and
 system identification.&lt;/p&gt;
 
 &lt;h4 id=&quot;問題描述&quot;&gt;問題描述&lt;/h4&gt;
-&lt;p&gt;考慮一個未知信號 $y(x) \in R, x \in \Omega ⊆ R^N$, i.e. $R^N \to R$. 
+
+&lt;p&gt;考慮一個未知信號 $y(x) \in R, x \in \Omega ⊆ R^N$, i.e. $R^N \to R$.
 我們想要 predict its value $t_* = y(x_&lt;em&gt;)$ at an arbitrary location $x_&lt;/em&gt; \in \Omega$.&lt;/p&gt;
 
 &lt;p&gt;我們用 vector 表示 $(t_1, \cdots, t_N)$
@@ -811,7 +831,7 @@ p(\mathbf{t} ; \mathbf{w}, \beta)&amp;=N\left(\mathbf{t} \mid \mathbf{\Phi} \mat
 
 &lt;p&gt;以下我們用三種 methodologies 用 $\mathbf{t}$ 來 estimate $\mathbf{w}$ (i.e. signal) and $\beta$ (i.e. noise if needed).&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Method 1:&lt;/em&gt; ML Estimation 
+&lt;p&gt;&lt;em&gt;Method 1:&lt;/em&gt; ML Estimation
 如果 number of parameters (w) is the same as the number of observations (t), the ML estimates are very sensitive to the model noise.  我們可以用 DAG (Directed Acyclic Graphic) 說明，如下圖 (a).  雙圓框 t 代表 observed random variable. 方框 (W, beta) 代表 parameter to be estimated.  單圓框（e.g. (b) W）代表 hidden random variable.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Method 2:&lt;/em&gt; 假設 weight W 是 random variable with imposed prior. 我們先用 a simple Bayesian model with stationary Gaussian prior on weight, 如下圖 (b).  以這個 model 而言，我們用 EM algorithm performs Bayesian inference.  結果 robust to noise, 類似 Kalman filter?&lt;/p&gt;
@@ -841,6 +861,7 @@ p(\mathbf{t} ; \mathbf{w}, \beta)=(2 \pi)^{-\frac{N}{2}} \beta^{\frac{N}{2}} \ex
 &lt;p&gt;很多情況 $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ 可能是 “ill-conditioned” and difficult to invert.  意味如果 observation t 包含 noise $\varepsilon$, noise 會嚴重干擾 $\mathbf{w}_{L S}$ estimation.&lt;/p&gt;
 
 &lt;h5 id=&quot;例-1acommunication-equalizationdeconvolution&quot;&gt;例 1A：Communication equalization/deconvolution&lt;/h5&gt;
+
 &lt;p&gt;Assuming a lowpass channel $\Phi = 1 + 0.9 z^{-1}$.  The equalizer $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)^{-1} \boldsymbol{\Phi}^{T}$ 變成 highpass filter; zero-forcing equalizer (ZFE).  如果 noise $\varepsilon$ 是 broadband noise, high frequency noise 會被放大。&lt;/p&gt;
 
 &lt;p&gt;In the case of ML, 我們必須小心選 basis functions to ensure matrix $\left(\boldsymbol{\Phi}^{T} \boldsymbol{\Phi}\right)$ can be inverted and avoid “ill-condition”.  通常使用 sparse model with few basis functions.&lt;/p&gt;
@@ -869,7 +890,7 @@ p(\mathbf{w} \mid \mathbf{t} ; \alpha, \beta)=\frac{p(\mathrm{t} \mid \mathbf{w}
 
 &lt;p&gt;$\eqref{eqMAP}$，posterior of the hidden variable，可以寫成：&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation} 
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{equation}
 p(\mathbf{w} \mid \mathbf{t} ; \alpha, \beta)=N(\mathbf{w} \mid \boldsymbol{\mu}, \boldsymbol{\mathbf{\Sigma}}) \label{eqPost}
 \end{equation}&lt;/script&gt;
 
@@ -934,6 +955,7 @@ Q^{(t)}(\mathbf{t}, \mathbf{w} ; \alpha, \beta)=&amp; \frac{N}{2} \ln \beta-\fra
 &lt;p&gt;$\eqref{eqa}$ 和 $\eqref{eqb}$ 同時保證 $\alpha, \beta$ 永遠為正值。&lt;/p&gt;
 
 &lt;p&gt;幾個重點：&lt;/p&gt;
+
 &lt;ul&gt;
   &lt;li&gt;EM algorithm 有可能收斂到 local minimum; initial condition 很重要&lt;/li&gt;
   &lt;li&gt;注意 $\mathbf{w}$ 不是一個值，而是 distribution.  Inference of $\mathbf{w}$ 就是 posterior distribution $\eqref{eqPost}$.  Posterior distribution 的 mean $\eqref{eqMean}$ 稱為 Bayesian linear minimum mean squire error (LMMSE) inference for $\mathbf{w}$.&lt;/li&gt;
@@ -966,7 +988,7 @@ Q^{(t)}(\mathbf{t}, \mathbf{w} ; \alpha, \beta)=&amp; \frac{N}{2} \ln \beta-\fra
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;p(\mathbf{x})=\sum_{j=1}^{M} \pi_{j} N\left(x ; \boldsymbol{\mu}_{j}, \mathbf{T}_{j}\right)&lt;/script&gt;
 
 &lt;p&gt;where $\boldsymbol{\pi} =  \{ \pi_j \}$ 代表 weights or mixing coefficients.&lt;br /&gt;
-$\boldsymbol{\mu} =  \{ \mu_{j} \} $ 是 means of Gaussian distribution. &lt;br /&gt;
+$\boldsymbol{\mu} =  \{ \mu_{j} \} $ 是 means of Gaussian distribution.
 $\mathbf{T} = \{ \mathbf{T}_{j} \}$ 是 precision (inverse covariance) matrices.   在 Bayesian GMM 我們更常用 precision matrix.&lt;/p&gt;
 
 &lt;p&gt;Bayesian GMM 和一般 GMM 有什麼不同？ 最大的差別就是 $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$ 不再是 parameters for estimation, 而是 random variables. 這有什麼好處？我們可以 impose or embedded our priors on $\boldsymbol{\pi}, \boldsymbol{\mu}, \mathbf{T}$, 通常是 conjugate priors (i.e. no informative priors) &lt;sup id=&quot;fnref:prior&quot;&gt;&lt;a href=&quot;#fn:prior&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
@@ -1578,7 +1600,7 @@ Q(\theta^{t+1} | \theta^{t}) &amp;=  \sum_{\mathbf{z}} p(\mathbf{z} \mid \mathbf
     &lt;ul&gt;
       &lt;li&gt;e.g. let $q(z) = p(z, x; \theta) \to \ln p(x; \theta) = 0 + D_{K L}(p(z, x; \theta) | p(z \mid x; \theta) \ge 0$&lt;/li&gt;
       &lt;li&gt;但我們知道 $\ln p(x;\theta) &amp;lt; 0$, 如何解釋這個矛盾？&lt;/li&gt;
-      &lt;li&gt;一個是 $\eqref{eqELBOKL}$ 寫成 KL divergence 有問題。因為 KL divergence 是兩個同樣 dimension distribution 的距離 measurement.  $\eqref{eqELBOKL}$ 的 joint distribution $(z, x)$ 的 dimension 大於 $q(z)$，寫成 KL divergence 無意義，也沒有距離的觀念。除非把 joint distribution marginalized 成 $p(z)$, i.e. prior, 才能和 $q(z)$ 做 KL divergence.&lt;/li&gt;
+      &lt;li&gt;一個是 $\eqref{eqELBOKL}$ 寫成 KL divergence 有問題。因為 KL divergence 是兩個同樣 dimension distribution 的距離 measurement.  $\eqref{eqELBOKL}$ 的 joint distribution $(z, x)$ 的 dimension 大於 $q(z)$，寫成 KL divergence 無意義，也沒有距離的觀念。除非把 joint distribution marginalized 成 $p(z)$, i.e. prior, 才能和 $q(z)$ 做 KL divergence. 或者 with a fixed $x=c$, $\int p(z, x=c; \theta) = 1$ 才能滿足 distribution 的定義。&lt;/li&gt;
       &lt;li&gt;但是 conditional distribution $p(z\mid x)$, i.e. posterior 和 $q(z)$ 則是同樣的 dimension, KL divergence 有意義。&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
@@ -1945,6 +1967,24 @@ F = ma  \label{eqF} \\.
   &lt;li&gt;
     &lt;p&gt;不過我發現有更好的方法，就是直接用 typora 的 image zoom 設定。自動就會轉成 &amp;lt;src img,  , zoom xxx&amp;gt; 可以 image resize!!&lt;/p&gt;
   &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;editor&quot;&gt;Editor&lt;/h3&gt;
+
+&lt;p&gt;Mweb&lt;/p&gt;
+
+&lt;p&gt;Typora&lt;/p&gt;
+
+&lt;p&gt;VS Code&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;VS code default math rendering tool is KaTex, which is different from MathJax.  KaTex does not support /label and cross reference.   So I install “Mardown Preview Enhance” and switch the default math engine from KaTex to MathJax.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210911004231947.png&quot; alt=&quot;image-20210911004231947&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;問題是 MathJax mode is buggy!!  Not support \boldsymbol!!&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;結論&quot;&gt;結論&lt;/h2&gt;
