@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-12T18:15:32+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">跨平臺 Markdown Plus MathJax Blog Editing 經驗分享</title><link href="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="alternate" type="text/html" title="跨平臺 Markdown Plus MathJax Blog Editing 經驗分享" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/">&lt;h2 id=&quot;跨平臺-markdownmathjax-blog-editing-分享&quot;&gt;跨平臺 Markdown+MathJax Blog Editing 分享&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-12T19:23:48+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">跨平臺 Markdown Plus MathJax Blog Editing 經驗分享</title><link href="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="alternate" type="text/html" title="跨平臺 Markdown Plus MathJax Blog Editing 經驗分享" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/">&lt;h2 id=&quot;跨平臺-markdownmathjax-blog-editing-分享&quot;&gt;跨平臺 Markdown+MathJax Blog Editing 分享&lt;/h2&gt;
 
 &lt;p&gt;我常用的計算平臺包含：MacBook air/pro (Mac OS),  PC (Windows 10), and iPad air (iPad OS).&lt;/p&gt;
 
@@ -531,25 +531,24 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{align}
 Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\text {OLD }}\right) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) d \mathbf{z} \nonumber\\
-&amp;=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)}
+&amp;=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)} \\
+&amp;=E_{z\sim p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})
 \end{align} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;ELBO = Q function (negative value) + self-entropy (postive value)&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Q Function = log joint distribution (tractable) expectation over (approx.) posterior&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap&lt;/strong&gt;
+&lt;strong&gt;ELBO = Q function (negative value) + self-entropy (postive value)&lt;/strong&gt;
+&lt;strong&gt;Q Function = log joint distribution (tractable) expectation over (approx.) posterior&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;此時可以用定義 EM algorithm&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{align}
-\text{E-step, Minimize KL Gap : Compute}\quad &amp;p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
+\text{E-step, Minimize KL Gap : Compute}\quad &amp;p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\,\text{and}\,Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
 \text{M-step, Maximize ELBO : Evaluate}\quad &amp;\boldsymbol{\theta}^{\mathrm{NEW}}=\underset{\boldsymbol{\theta}}{\arg \max } Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)
 \end{align} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;一般 $\eqref{eqQ}$ 的 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
-大多的問題是 $\eqref{eqE}$ conditional or posterior distribution 是否容易計算，是否有 analytical solution.&lt;/p&gt;
+&lt;p&gt;一般 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
+大多的問題是 conditional or posterior distribution 是否有 analytical solution.&lt;/p&gt;
 
 &lt;h3 id=&quot;vae&quot;&gt;VAE&lt;/h3&gt;
 
@@ -572,12 +571,12 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 &lt;/ul&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{aligned}
+\begin{align}
 \log p_{\boldsymbol{\theta}}(\mathbf{x}) &amp;=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x})\right] \\
 &amp;=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &amp;=\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})} \frac{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &amp;=\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\boldsymbol{x}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)}
-\end{aligned} %]]&gt;&lt;/script&gt;
+\end{align} %]]&gt;&lt;/script&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
@@ -644,13 +643,13 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 &lt;p&gt;此處 $g^&lt;em&gt;= \mu$ and $h^&lt;/em&gt; = \log \sigma$,  $g^&lt;em&gt;$ and $h^&lt;/em&gt;$ 其實就是 $\phi$&lt;/p&gt;
 
 &lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-\begin{aligned}
+\begin{align}
 \left(g^{*}, h^{*}\right) &amp;=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
-\end{aligned} %]]&gt;&lt;/script&gt;
+\end{align} %]]&gt;&lt;/script&gt;
 這個結果好像跟下面 maximize ELBO 的結論一樣？？&lt;/p&gt;
 
 &lt;ol&gt;
@@ -711,13 +710,13 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 &lt;p&gt;Very important:  maximize ELBO = minimize gap between posterior and q!!! (by xxx)&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{aligned}
+\begin{align}
 \left(g^{*}, h^{*}\right) &amp;=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
-\end{aligned} %]]&gt;&lt;/script&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="VAE" /><category term="Autoencoder" /><category term="Variational" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Math ML - Maximum Likelihood Vs. Bayesian</title><link href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/" rel="alternate" type="text/html" title="Math ML - Maximum Likelihood Vs. Bayesian" /><published>2021-08-17T00:00:00+08:00</published><updated>2021-08-17T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+\end{align} %]]&gt;&lt;/script&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="VAE" /><category term="Autoencoder" /><category term="Variational" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Math ML - Maximum Likelihood Vs. Bayesian</title><link href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/" rel="alternate" type="text/html" title="Math ML - Maximum Likelihood Vs. Bayesian" /><published>2021-08-17T00:00:00+08:00</published><updated>2021-08-17T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;[@poczosCllusteringEM2015]&lt;/li&gt;
   &lt;li&gt;[@matasExpectationMaximization2018] good reference&lt;/li&gt;
