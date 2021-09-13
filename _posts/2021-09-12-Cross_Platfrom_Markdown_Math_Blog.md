@@ -25,7 +25,7 @@ iPad air (for portability and photo) - **mweb (free for editing, not for creatin
 
 ### 爲什麽使用 Markdown editor for Blog
 
-* Math equation input: Markdown editor 大多可以插入 latex-based 數學公式 (e.g. MathJax or KaTex).  搭配 [Mathpix Snip](https://mathpix.com/) (大推！) 是我用過最好的 math equation generator!  Example: $i \hbar \frac{d}{d t}|\Psi(t)\rangle=\hat{H}|\Psi(t)\rangle$
+* Math equation input: Markdown editor 大多可以插入 latex-based 數學公式 (e.g. MathJax or KaTex).  搭配 [Mathpix Snip](https://mathpix.com/) (大推！) 是我用過最好的 math equation generator!  Example: $i \hbar \frac{d}{d t}\mid \Psi(t)\rangle=\hat{H}\mid \Psi(t)\rangle$
 * 主要的 blog platforms (e.g. Wordpress, 特別是 Github) 都支持 Markdown.  
 * 可携性大爲提高。
 
