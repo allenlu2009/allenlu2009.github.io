@@ -537,7 +537,7 @@ MathJax.Hub.Config({
 
 <p>因此如何讓 deterministic neural network 用於 Bayesian inference?  有以下幾種可能性：</p>
 
-<h4 id="example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here">Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here</h4>
+<h3 id="example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here">Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here</h3>
 
 <p>Deterministic functions 可以產生 conditional probability.  如下例</p>
 
@@ -682,7 +682,7 @@ p(\mathbf{z}) &=\mathcal{N}(\mathbf{z} ; 0, \mathbf{I}) \\
 
 <p>現在問題是：這個 neural network 長得怎麼樣？以及如何把 deterministic neural network 轉換成 probabilistic distribution?</p>
 
-<h4 id="example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae">Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)</h4>
+<h3 id="example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae">Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)</h3>
 
 <p>Example 2 and 3 NN 產生 conditional distribution 的方式只能用在 discrete distribution.   對於 continuous distribution, NN 無法產生無限長的 distribution!  例如 VAE 使用 Normal distribution 如下：
 <script type="math/tex">% <![CDATA[
@@ -702,14 +702,7 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 
 <p><a href="https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73">https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73</a></p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>Let’s now make the assumption that p(z) is a standard Gaussian distribution and that p(x</td>
-      <td>z) is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)</td>
-    </tr>
-  </tbody>
-</table>
+<p>Let’s now make the assumption that p(z) is a standard Gaussian distribution and that &amp;p(x\mid z)&amp; is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{aligned}(\boldsymbol{f(z)}) &=\text { EncoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned} %]]></script>
@@ -720,13 +713,15 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 &p(x \mid z) \equiv \mathcal{N}(f(z), c I) \quad f \in F \quad c>0
 \end{aligned} %]]></script>
 
-<p>似乎只能 heuristically 解釋，沒有很深的 math fondation.</p>
+<p>似乎只能 heuristically 解釋，沒有很 solid math fondation.</p>
 
-<h2 id="比較-variational-em-and-vae-algorithm">比較 (Variational) EM and VAE Algorithm</h2>
+<h2 id="比較-variational-em-and-vae-algorithm">比較 Variational EM and VAE Algorithm</h2>
 
-<h3 id="recap-variational-em-algorithm">Recap (Variational) EM algorithm</h3>
+<p>Recap variational EM algorithm</p>
 
-<p><strong>Goal:</strong> (ML) Estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.</p>
+<h3 id="em-and-variation-em-algorithm-recap">EM and Variation EM Algorithm Recap</h3>
+
+<p><strong>Goal:</strong> (ML) estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.</p>
 
 <p>Step 1: 為了 estimate $\theta$ 引入 hidden random variable $z$, log marginal likelihood (negative):</p>
 
@@ -761,8 +756,7 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align}
 Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\text {OLD }}\right) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) d \mathbf{z} \nonumber\\
-&=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)} \\
-&=E_{z\sim p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})
+&=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)}
 \end{align} %]]></script>
 
 <p><strong>Log Marginal Likelihood = ELBO + KL Gap</strong>
@@ -773,12 +767,12 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 
 <script type="math/tex; mode=display">% <![CDATA[
 \begin{align}
-\text{E-step, Minimize KL Gap : Compute}\quad &p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\,\text{and}\,Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
+\text{E-step, Minimize KL Gap : Compute}\quad &p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
 \text{M-step, Maximize ELBO : Evaluate}\quad &\boldsymbol{\theta}^{\mathrm{NEW}}=\underset{\boldsymbol{\theta}}{\arg \max } Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)
 \end{align} %]]></script>
 
-<p>一般 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
-大多的問題是 conditional or posterior distribution 是否有 analytical solution.</p>
+<p>一般 $\eqref{eqQ}$ 的 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
+大多的問題是 $\eqref{eqE}$ conditional or posterior distribution 是否容易計算，是否有 analytical solution.</p>
 
 <h3 id="vae">VAE</h3>
 
@@ -801,12 +795,12 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 </ul>
 
 <script type="math/tex; mode=display">% <![CDATA[
-\begin{align}
+\begin{aligned}
 \log p_{\boldsymbol{\theta}}(\mathbf{x}) &=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x})\right] \\
 &=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &=\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})} \frac{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &=\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\boldsymbol{x}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)}
-\end{align} %]]></script>
+\end{aligned} %]]></script>
 
 <ul>
   <li>
@@ -858,28 +852,26 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
   <li>VAE 和 AE neural network 不同，中間還卡了一個 random variable $z$!  如何 back-propagation 穿過 $z$? Reparameterization Trick!</li>
 </ul>
 
-<h5 id="question-maximize-elbo-等價-minimize-gap-between-posterior-and-q">Question: Maximize ELBO 等價 Minimize GAP between posterior and q?</h5>
+<h4 id="question-maximize-elbo-等價-minimize-gap-between-posterior-and-q">Question: Maximize ELBO 等價 Minimize GAP between posterior and q?</h4>
 
 <p>在 EM 這是兩件事：E-step: update posterior q = .. to minimize the gap between ;   M-step: update $\theta$  to maximize ELBO or the simplified version Q function (joint distribution over posterior distribution, remove self-entropy from ELBO)</p>
 
-<p><strong>Log Marginal Likelihood = ELBO + KL Gap</strong></p>
-
-<p><strong>ELBO = Q function (negative value) + self-entropy (postive value)</strong></p>
-
-<p><strong>Q Function = log joint distribution (tractable) expectation over (approx.) posterior</strong></p>
+<p><strong>Log Marginal Likelihood = ELBO + KL Gap</strong>
+<strong>ELBO = Q function (negative value) + self-entropy (postive value)</strong>
+<strong>Q Function = log joint distribution (tractable) expectation over (approx.) posterior</strong></p>
 
 <p>在 VAE 似乎是同一件事，let’s take a look of minimize KL gap between posterior and approx. q.</p>
 
 <p>此處 $g^<em>= \mu$ and $h^</em> = \log \sigma$,  $g^<em>$ and $h^</em>$ 其實就是 $\phi$</p>
 
 <p><script type="math/tex">% <![CDATA[
-\begin{align}
+\begin{aligned}
 \left(g^{*}, h^{*}\right) &=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
-\end{align} %]]></script>
+\end{aligned} %]]></script>
 這個結果好像跟下面 maximize ELBO 的結論一樣？？</p>
 
 <ol>
@@ -895,13 +887,13 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 
 <p>數學等價上面的 ELBO x (-1)：</p>
 
-<p>$\underbrace{\mathbb{E}<em>{q</em>{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}<em>{=\mathcal{L}</em>{\theta,\phi}{(\boldsymbol{x}})}$</p>
+<script type="math/tex; mode=display">\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}</script>
 
-<p>$= {\mathbb{E}<em>{q</em>{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}$</p>
+<script type="math/tex; mode=display">= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}</script>
 
-<p>$= {\mathbb{E}<em>{q</em>{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})p(z)}\right]\right]} = {\mathbb{E}<em>{q</em>{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p(z)}\right]\right]} + {\mathbb{E}<em>{q</em>{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{ p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}$</p>
+<script type="math/tex; mode=display">= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})p(z)}\right]\right]} = {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p(z)}\right]\right]} + {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{ p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}</script>
 
-<p>$ = {\mathbb{E}<em>{q</em>{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[{p_{\boldsymbol{\theta}}(\mathbf{x}\mid \mathbf{z})}\right]\right]} - K L  { \left[{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) | { p(z)}}\right]}$</p>
+<script type="math/tex; mode=display">= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[{p_{\boldsymbol{\theta}}(\mathbf{x}\mid \mathbf{z})}\right]\right]} - K L  { \left[{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| { p(z)}}\right]}</script>
 
 <h4 id="normal-distribution-assumption">Normal Distribution Assumption</h4>
 
@@ -940,13 +932,50 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 <p>Very important:  maximize ELBO = minimize gap between posterior and q!!! (by xxx)</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
-\begin{align}
+\begin{aligned}
 \left(g^{*}, h^{*}\right) &=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
+\end{aligned} %]]></script>
+
+<h3 id="vae-elbo-用-sgd-optimization">VAE ELBO 用 SGD Optimization</h3>
+
+<p>VAE 的 ELBO 是 joint optimization of parameters ($\phi$ and $\theta$) using SGD!  這和 EM algorithm 不同，也不保證遞增。</p>
+
+<p>VAE training 一般用 mini-batch. 假設 i.i.d dataset, the ELBO objective is the sum (or average) of each datapont ELBO:</p>
+
+<script type="math/tex; mode=display">\begin{align}
+\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathcal{D})=\sum_{\mathbf{x} \in \mathcal{D}} \mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x}) \label{eqELBO3}
+\end{align}</script>
+
+<p>$\eqref{eqELBO3}$ 的 gradient $\nabla_{\theta, \phi}\mathcal{L}<em>{\boldsymbol{\theta}, \phi}(\mathbf{x})$ intratable.  不過存在 unbiased estimators $\tilde{\nabla}</em>{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$，可以使用 mini-batch SGD.</p>
+
+<p>Unbiased gradients of the ELBO w.r.t. the generative model (也就是 decoder) parameter $\theta$ are simple:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\nabla_{\boldsymbol{\theta}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\theta}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \label{eqGd1}\\
+&=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \label{eqGd2}\\
+& \simeq \nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right) \label{eqGd3}\\
+&=\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right) \label{eqGd4}
 \end{align} %]]></script>
+
+<p>The last line $\eqref{eqGd4}$ is a simple Monte Carlo estimator of the second line $\eqref{eqGd2}$, where z in the last two lines $\eqref{eqGd3}$ and $\eqref{eqGd4}$ is a random sample from $q_{\phi}(z\mid x)$.</p>
+
+<p>Unbiased gradients w.r.t. the variational parameters $\phi$ are more difficult, since the ELBO’s expectation is taken w.r.t. the distribution $q_{\phi}(z\mid x)$, which is a function of $\phi$. In general</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\nabla_{\boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\phi}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})\right] \\
+& \neq \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\phi}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right]
+\end{aligned} %]]></script>
+
+<p>我們可以用 reparameterization trick 計算 unbiased estimates of $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$.</p>
+
+<h3 id="reparameterization-trick">Reparameterization Trick</h3>
+
 
 
       
@@ -1006,8 +1035,8 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="next" title="跨平臺 Markdown Plus MathJax Blog Editing 經驗分享">
-                <i class="fa fa-chevron-left"></i> 跨平臺 Markdown Plus MathJax Blog Editing 經驗分享
+              <a href="/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="next" title="跨平臺 Markdown Plus MathJax Blog Editing 分享">
+                <i class="fa fa-chevron-left"></i> 跨平臺 Markdown Plus MathJax Blog Editing 分享
               </a>
             
           </div>
@@ -1132,7 +1161,7 @@ MathJax.Hub.Config({
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -1186,7 +1215,7 @@ MathJax.Hub.Config({
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#main-reference"> <span class="nav-number">1</span> <span class="nav-text">Main Reference</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#重點-outline"> <span class="nav-number">1.1</span> <span class="nav-text">重點 outline</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-autoencoder-again"> <span class="nav-number">2</span> <span class="nav-text">Variational Autoencoder, Again</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ml-estimation-和-bayesian-inference-到底有什麼差別"> <span class="nav-number">3</span> <span class="nav-text">ML estimation 和 Bayesian inference 到底有什麼差別？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#bayesian-inference-for-vae-思路"> <span class="nav-number">4</span> <span class="nav-text">Bayesian Inference for VAE 思路</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#deterministic-neural-network-vs-probabilistic-bayesian-inference-how"> <span class="nav-number">5</span> <span class="nav-text">Deterministic Neural Network Vs. Probabilistic Bayesian Inference, How?</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#neural-network-and-dag-directed-acyclic-graph"> <span class="nav-number">5.1</span> <span class="nav-text">Neural Network and DAG (Directed Acyclic Graph)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#deep-learning-latent-variable-model-dlvm-tractable-and-intractable"> <span class="nav-number">5.1.1</span> <span class="nav-text">Deep (Learning) Latent Variable Model (DLVM) Tractable and Intractable</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-3-multivariate-bernoulli-data-3-產生-conditional-distribution-的方法和-2-一樣"> <span class="nav-number">5.1.2</span> <span class="nav-text">Example 3: Multivariate Bernoulli data (3 產生 conditional distribution 的方法和 2 一樣)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#vae-and-dlvm"> <span class="nav-number">6</span> <span class="nav-text">VAE and DLVM</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae"> <span class="nav-number">6.1</span> <span class="nav-text">Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-5-decoder--how-to-explain-pxmid-z-的-conditional-distribution"> <span class="nav-number">6.2</span> <span class="nav-text">Example 5: Decoder: How to explain $p(x\mid z)$ 的 conditional distribution?</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#比較-variational-em-and-vae-algorithm"> <span class="nav-number">7</span> <span class="nav-text">比較 (Variational) EM and VAE Algorithm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#recap-variational-em-algorithm"> <span class="nav-number">7.1</span> <span class="nav-text">Recap (Variational) EM algorithm</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#vae"> <span class="nav-number">7.2</span> <span class="nav-text">VAE</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-algorithm-和-vae-的差別"> <span class="nav-number">7.3</span> <span class="nav-text">EM algorithm 和 VAE 的差別</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#question-maximize-elbo-等價-minimize-gap-between-posterior-and-q"> <span class="nav-number">7.3.1</span> <span class="nav-text">Question: Maximize ELBO 等價 Minimize GAP between posterior and q?</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#vae-的-loss-function"> <span class="nav-number">7.4</span> <span class="nav-text">VAE 的 Loss Function</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#normal-distribution-assumption"> <span class="nav-number">7.4.1</span> <span class="nav-text">Normal Distribution Assumption</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#假設-pz-px--z-為-normal-distribution-vae-的-elbo-可以近似為"> <span class="nav-number">7.4.1.1</span> <span class="nav-text">假設 p(z)， p(x | z) 為 Normal distribution, VAE 的 ELBO 可以近似為</span> </a> </li> </ol> </li> </ol> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#main-reference"> <span class="nav-number">1</span> <span class="nav-text">Main Reference</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#重點-outline"> <span class="nav-number">1.1</span> <span class="nav-text">重點 outline</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#variational-autoencoder-again"> <span class="nav-number">2</span> <span class="nav-text">Variational Autoencoder, Again</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ml-estimation-和-bayesian-inference-到底有什麼差別"> <span class="nav-number">3</span> <span class="nav-text">ML estimation 和 Bayesian inference 到底有什麼差別？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#bayesian-inference-for-vae-思路"> <span class="nav-number">4</span> <span class="nav-text">Bayesian Inference for VAE 思路</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#deterministic-neural-network-vs-probabilistic-bayesian-inference-how"> <span class="nav-number">5</span> <span class="nav-text">Deterministic Neural Network Vs. Probabilistic Bayesian Inference, How?</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here"> <span class="nav-number">5.1</span> <span class="nav-text">Example 1：Two neural networks from a hidden random variable to create conditional distribution. Only for demonstration, not use here</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-2--given-input-經過-deterministic-nn-轉成-probabilistic-conditional-distribution"> <span class="nav-number">5.1.1</span> <span class="nav-text">Example 2: Given Input 經過 Deterministic NN 轉成 Probabilistic Conditional Distribution</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#neural-network-and-dag-directed-acyclic-graph"> <span class="nav-number">5.2</span> <span class="nav-text">Neural Network and DAG (Directed Acyclic Graph)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#deep-learning-latent-variable-model-dlvm-tractable-and-intractable"> <span class="nav-number">5.2.1</span> <span class="nav-text">Deep (Learning) Latent Variable Model (DLVM) Tractable and Intractable</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-3-multivariate-bernoulli-data-3-產生-conditional-distribution-的方法和-2-一樣"> <span class="nav-number">5.2.2</span> <span class="nav-text">Example 3: Multivariate Bernoulli data (3 產生 conditional distribution 的方法和 2 一樣)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#vae-and-dlvm"> <span class="nav-number">6</span> <span class="nav-text">VAE and DLVM</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae"> <span class="nav-number">6.1</span> <span class="nav-text">Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#example-5-decoder--how-to-explain-pxmid-z-的-conditional-distribution"> <span class="nav-number">6.1.1</span> <span class="nav-text">Example 5: Decoder: How to explain $p(x\mid z)$ 的 conditional distribution?</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#比較-variational-em-and-vae-algorithm"> <span class="nav-number">7</span> <span class="nav-text">比較 Variational EM and VAE Algorithm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-and-variation-em-algorithm-recap"> <span class="nav-number">7.1</span> <span class="nav-text">EM and Variation EM Algorithm Recap</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#vae"> <span class="nav-number">7.2</span> <span class="nav-text">VAE</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#em-algorithm-和-vae-的差別"> <span class="nav-number">7.3</span> <span class="nav-text">EM algorithm 和 VAE 的差別</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#question-maximize-elbo-等價-minimize-gap-between-posterior-and-q"> <span class="nav-number">7.3.1</span> <span class="nav-text">Question: Maximize ELBO 等價 Minimize GAP between posterior and q?</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#vae-的-loss-function"> <span class="nav-number">7.4</span> <span class="nav-text">VAE 的 Loss Function</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#normal-distribution-assumption"> <span class="nav-number">7.4.1</span> <span class="nav-text">Normal Distribution Assumption</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#假設-pz-px--z-為-normal-distribution-vae-的-elbo-可以近似為"> <span class="nav-number">7.4.1.1</span> <span class="nav-text">假設 p(z)， p(x | z) 為 Normal distribution, VAE 的 ELBO 可以近似為</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#vae-elbo-用-sgd-optimization"> <span class="nav-number">7.5</span> <span class="nav-text">VAE ELBO 用 SGD Optimization</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#reparameterization-trick"> <span class="nav-number">7.6</span> <span class="nav-text">Reparameterization Trick</span> </a> </li> </ol> </li>
     </ol>
   </div>
             

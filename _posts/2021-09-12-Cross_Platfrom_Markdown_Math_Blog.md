@@ -1,13 +1,10 @@
 ---
-title: 跨平臺 Markdown Plus MathJax Blog Editing 經驗分享
+title: 跨平臺 Markdown Plus MathJax Blog Editing 分享
 categories:
 - AI
-tags: [ML, EM, Bayesian, MAP]
+tags: [markdown, mathjax]
 typora-root-url: ../../allenlu2009.github.io
 ---
-
-
-## 跨平臺 Markdown+MathJax Blog Editing 分享
 
 我常用的計算平臺包含：MacBook air/pro (Mac OS),  PC (Windows 10), and iPad air (iPad OS).
 

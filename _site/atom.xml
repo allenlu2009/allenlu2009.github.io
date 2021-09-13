@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-13T23:49:06+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">跨平臺 Markdown Plus MathJax Blog Editing 分享</title><link href="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="alternate" type="text/html" title="跨平臺 Markdown Plus MathJax Blog Editing 分享" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/">&lt;p&gt;我常用的計算平臺包含：MacBook air/pro (Mac OS),  PC (Windows 10), and iPad air (iPad OS).&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-14T00:11:06+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">跨平臺 Markdown Plus MathJax Blog Editing 分享</title><link href="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="alternate" type="text/html" title="跨平臺 Markdown Plus MathJax Blog Editing 分享" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/">&lt;p&gt;我常用的計算平臺包含：MacBook air/pro (Mac OS),  PC (Windows 10), and iPad air (iPad OS).&lt;/p&gt;
 
 &lt;p&gt;常常使用的 computing platform and offline blog editors 如下：&lt;/p&gt;
 
@@ -460,14 +460,7 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 
 &lt;p&gt;&lt;a href=&quot;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&quot;&gt;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&lt;/a&gt;&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Let’s now make the assumption that p(z) is a standard Gaussian distribution and that p(x&lt;/td&gt;
-      &lt;td&gt;z) is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;Let’s now make the assumption that p(z) is a standard Gaussian distribution and that &amp;amp;p(x\mid z)&amp;amp; is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{aligned}(\boldsymbol{f(z)}) &amp;=\text { EncoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &amp;=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned} %]]&gt;&lt;/script&gt;
@@ -652,13 +645,13 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 
 &lt;p&gt;數學等價上面的 ELBO x (-1)：&lt;/p&gt;
 
-&lt;p&gt;$\underbrace{\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}&lt;em&gt;{=\mathcal{L}&lt;/em&gt;{\theta,\phi}{(\boldsymbol{x}})}$&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}&lt;/script&gt;
 
-&lt;p&gt;$= {\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}$&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}&lt;/script&gt;
 
-&lt;p&gt;$= {\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})p(z)}\right]\right]} = {\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p(z)}\right]\right]} + {\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{ p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}$&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})p(z)}\right]\right]} = {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p(z)}\right]\right]} + {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{ p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}&lt;/script&gt;
 
-&lt;p&gt;$ = {\mathbb{E}&lt;em&gt;{q&lt;/em&gt;{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[{p_{\boldsymbol{\theta}}(\mathbf{x}\mid \mathbf{z})}\right]\right]} - K L  { \left[{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) | { p(z)}}\right]}$&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[{p_{\boldsymbol{\theta}}(\mathbf{x}\mid \mathbf{z})}\right]\right]} - K L  { \left[{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| { p(z)}}\right]}&lt;/script&gt;
 
 &lt;h4 id=&quot;normal-distribution-assumption&quot;&gt;Normal Distribution Assumption&lt;/h4&gt;
 
@@ -2323,7 +2316,7 @@ and
 &lt;p&gt;如果把 $\cos \theta \to \cos (m\theta)$,&lt;/p&gt;
 
 &lt;p&gt;$x\in$ Class 1:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( m\theta_{1}\right)&amp;gt;\left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$.
-&lt;/p&gt;
+ &lt;/p&gt;
 
 &lt;p&gt;Assuming $|W_1| = |W_2| \to \theta_1 &amp;lt; \theta_2/m$, 因為 $\cos\theta$ 是遞減函數。&lt;/p&gt;
 

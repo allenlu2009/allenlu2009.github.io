@@ -116,7 +116,7 @@ $$
 
 因此如何讓 deterministic neural network 用於 Bayesian inference?  有以下幾種可能性：
 
-#### Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here
+### Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here
 
 Deterministic functions 可以產生 conditional probability.  如下例
 
@@ -267,7 +267,7 @@ $$
 
 現在問題是：這個 neural network 長得怎麼樣？以及如何把 deterministic neural network 轉換成 probabilistic distribution?
 
-#### Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)
+### Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)
 
 Example 2 and 3 NN 產生 conditional distribution 的方式只能用在 discrete distribution.   對於 continuous distribution, NN 無法產生無限長的 distribution!  例如 VAE 使用 Normal distribution 如下：
 $$
@@ -288,7 +288,7 @@ Typically, we use a single encoder neural network to perform posterior inference
 
 <https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73>
 
-Let’s now make the assumption that p(z) is a standard Gaussian distribution and that p(x|z) is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)
+Let’s now make the assumption that p(z) is a standard Gaussian distribution and that &p(x\mid z)& is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)
 
 $$
 \begin{aligned}(\boldsymbol{f(z)}) &=\text { EncoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned}
@@ -301,13 +301,15 @@ $$
 \end{aligned}
 $$
 
-似乎只能 heuristically 解釋，沒有很深的 math fondation.
+似乎只能 heuristically 解釋，沒有很 solid math fondation.
 
-## 比較 (Variational) EM and VAE Algorithm
+## 比較 Variational EM and VAE Algorithm
 
-### Recap (Variational) EM algorithm
+Recap variational EM algorithm
 
-**Goal:** (ML) Estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.
+### EM and Variation EM Algorithm Recap
+
+**Goal:** (ML) estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.
 
 Step 1: 為了 estimate $\theta$ 引入 hidden random variable $z$, log marginal likelihood (negative):
 
@@ -339,8 +341,7 @@ We let $q(z) = p(z \mid x )$  and define the  $Q$ function (log joint distributi
 
 $$\begin{align}
 Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\text {OLD }}\right) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) d \mathbf{z} \nonumber\\
-&=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)} \\
-&=E_{z\sim p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})
+&=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)}
 \end{align}$$
 
 **Log Marginal Likelihood = ELBO + KL Gap**
@@ -350,12 +351,12 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 此時可以用定義 EM algorithm
 
 $$\begin{align}
-\text{E-step, Minimize KL Gap : Compute}\quad &p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\,\text{and}\,Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
+\text{E-step, Minimize KL Gap : Compute}\quad &p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
 \text{M-step, Maximize ELBO : Evaluate}\quad &\boldsymbol{\theta}^{\mathrm{NEW}}=\underset{\boldsymbol{\theta}}{\arg \max } Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)
 \end{align}$$
 
-一般 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
-大多的問題是 conditional or posterior distribution 是否有 analytical solution.
+一般 $\eqref{eqQ}$ 的 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
+大多的問題是 $\eqref{eqE}$ conditional or posterior distribution 是否容易計算，是否有 analytical solution.
 
 ### VAE
 
@@ -376,12 +377,12 @@ Step 2: 因為 posterior intractable, 引入另一個 encoder neural network ($\
 * EM posterior is tractable (Q funciton);  VAE posterior is intractable (沒有 analytical form). 我們用另一個 (tractable) neural network $\phi$ 去近似 (intractable) posterior.
 
 $$
-\begin{align}
+\begin{aligned}
 \log p_{\boldsymbol{\theta}}(\mathbf{x}) &=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x})\right] \\
 &=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &=\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})} \frac{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &=\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\boldsymbol{x}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)}
-\end{align}
+\end{aligned}
 $$
 
 * 把所有 EM 的 $q(z)$  變成 $q_{\phi}(z\mid x)$.    兩者完全一致
@@ -412,14 +413,12 @@ $$
 
 * VAE 和 AE neural network 不同，中間還卡了一個 random variable $z$!  如何 back-propagation 穿過 $z$? Reparameterization Trick!
 
-##### Question: Maximize ELBO 等價 Minimize GAP between posterior and q?
+#### Question: Maximize ELBO 等價 Minimize GAP between posterior and q?
 
 在 EM 這是兩件事：E-step: update posterior q = .. to minimize the gap between ;   M-step: update $\theta$  to maximize ELBO or the simplified version Q function (joint distribution over posterior distribution, remove self-entropy from ELBO)
 
 **Log Marginal Likelihood = ELBO + KL Gap**
-
 **ELBO = Q function (negative value) + self-entropy (postive value)**
-
 **Q Function = log joint distribution (tractable) expectation over (approx.) posterior**
 
 在 VAE 似乎是同一件事，let's take a look of minimize KL gap between posterior and approx. q.
@@ -427,13 +426,13 @@ $$
 此處 $g^*= \mu$ and $h^* = \log \sigma$,  $g^*$ and $h^*$ 其實就是 $\phi$
 
 $$
-\begin{align}
+\begin{aligned}
 \left(g^{*}, h^{*}\right) &=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
-\end{align}
+\end{aligned}
 $$
 這個結果好像跟下面 maximize ELBO 的結論一樣？？
 
@@ -448,13 +447,13 @@ $$l_{i}(\theta, \phi)=-E_{z \sim q_{\phi}\left(z | x_{i}\right)}\left[\log p_{\t
 
 數學等價上面的 ELBO x (-1)：
 
-$\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}$
+$$\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}$$
 
-$= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}$
+$$= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}$$
 
-$= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})p(z)}\right]\right]} = {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p(z)}\right]\right]} + {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{ p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}$
+$$= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})p(z)}\right]\right]} = {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p(z)}\right]\right]} + {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{ p(z)}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}$$
 
-$ = {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[{p_{\boldsymbol{\theta}}(\mathbf{x}\mid \mathbf{z})}\right]\right]} - K L  { \left[{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| { p(z)}}\right]}$
+$$ = {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[{p_{\boldsymbol{\theta}}(\mathbf{x}\mid \mathbf{z})}\right]\right]} - K L  { \left[{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| { p(z)}}\right]}$$
 
 #### Normal Distribution Assumption
 
@@ -485,11 +484,52 @@ ELBO x (-1) 變成 VAE loss function.  此時拆解和解釋和 EM 有些不同�
 Very important:  maximize ELBO = minimize gap between posterior and q!!! (by xxx)
 
 $$
-\begin{align}
+\begin{aligned}
 \left(g^{*}, h^{*}\right) &=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
+\end{aligned}
+$$
+
+### VAE ELBO 用 SGD Optimization
+
+VAE 的 ELBO 是 joint optimization of parameters ($\phi$ and $\theta$) using SGD!  這和 EM algorithm 不同，也不保證遞增。
+
+VAE training 一般用 mini-batch. 假設 i.i.d dataset, the ELBO objective is the sum (or average) of each datapont ELBO:
+
+$$
+\begin{align}
+\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathcal{D})=\sum_{\mathbf{x} \in \mathcal{D}} \mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x}) \label{eqELBO3}
 \end{align}
 $$
+
+$\eqref{eqELBO3}$ 的 gradient $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$ intratable.  不過存在 unbiased estimators $\tilde{\nabla}_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$，可以使用 mini-batch SGD. 
+
+Unbiased gradients of the ELBO w.r.t. the generative model (也就是 decoder) parameter $\theta$ are simple:
+
+$$
+\begin{align}
+\nabla_{\boldsymbol{\theta}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\theta}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \label{eqGd1}\\
+&=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \label{eqGd2}\\
+& \simeq \nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right) \label{eqGd3}\\
+&=\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right) \label{eqGd4}
+\end{align}
+$$
+
+The last line $\eqref{eqGd4}$ is a simple Monte Carlo estimator of the second line $\eqref{eqGd2}$, where z in the last two lines $\eqref{eqGd3}$ and $\eqref{eqGd4}$ is a random sample from $q_{\phi}(z\mid x)$.
+
+Unbiased gradients w.r.t. the variational parameters $\phi$ are more difficult, since the ELBO’s expectation is taken w.r.t. the distribution $q_{\phi}(z\mid x)$, which is a function of $\phi$. In general
+
+$$
+\begin{aligned}
+\nabla_{\boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\phi}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})\right] \\
+& \neq \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\phi}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right]
+\end{aligned}
+$$
+
+我們可以用 reparameterization trick 計算 unbiased estimates of $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$.
+
+### Reparameterization Trick
+
