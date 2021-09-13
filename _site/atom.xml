@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-13T21:03:41+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">跨平臺 Markdown Plus MathJax Blog Editing 經驗分享</title><link href="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="alternate" type="text/html" title="跨平臺 Markdown Plus MathJax Blog Editing 經驗分享" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/">&lt;h2 id=&quot;跨平臺-markdownmathjax-blog-editing-分享&quot;&gt;跨平臺 Markdown+MathJax Blog Editing 分享&lt;/h2&gt;
-
-&lt;p&gt;我常用的計算平臺包含：MacBook air/pro (Mac OS),  PC (Windows 10), and iPad air (iPad OS).&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-13T23:49:06+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">跨平臺 Markdown Plus MathJax Blog Editing 分享</title><link href="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="alternate" type="text/html" title="跨平臺 Markdown Plus MathJax Blog Editing 分享" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/">&lt;p&gt;我常用的計算平臺包含：MacBook air/pro (Mac OS),  PC (Windows 10), and iPad air (iPad OS).&lt;/p&gt;
 
 &lt;p&gt;常常使用的 computing platform and offline blog editors 如下：&lt;/p&gt;
 
@@ -161,7 +159,7 @@
 
 &lt;p&gt;&lt;img src=&quot;/media/image-20210911234257339.png&quot; alt=&quot;test&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/media/image-20210911234257339.png&quot; alt=&quot;image-20210911234257339&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="EM" /><category term="Bayesian" /><category term="MAP" /><summary type="html">跨平臺 Markdown+MathJax Blog Editing 分享</summary></entry><entry><title type="html">Math AI - Variational Autoencoder Vs. Variational EM Algorithm</title><link href="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/" rel="alternate" type="text/html" title="Math AI - Variational Autoencoder Vs. Variational EM Algorithm" /><published>2021-08-19T07:10:08+08:00</published><updated>2021-08-19T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/19/Variational%20Autoencoder</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;/media/image-20210911234257339.png&quot; alt=&quot;image-20210911234257339&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="markdown" /><category term="mathjax" /><summary type="html">我常用的計算平臺包含：MacBook air/pro (Mac OS), PC (Windows 10), and iPad air (iPad OS).</summary></entry><entry><title type="html">Math AI - Variational Autoencoder Vs. Variational EM Algorithm</title><link href="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/" rel="alternate" type="text/html" title="Math AI - Variational Autoencoder Vs. Variational EM Algorithm" /><published>2021-08-19T07:10:08+08:00</published><updated>2021-08-19T07:10:08+08:00</updated><id>http://localhost:4000/ai/2021/08/19/Variational%20Autoencoder</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/19/Variational-Autoencoder/">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
 });
@@ -297,7 +295,7 @@ MathJax.Hub.Config({
 
 &lt;p&gt;因此如何讓 deterministic neural network 用於 Bayesian inference?  有以下幾種可能性：&lt;/p&gt;
 
-&lt;h4 id=&quot;example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here&quot;&gt;Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here&lt;/h4&gt;
+&lt;h3 id=&quot;example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here&quot;&gt;Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here&lt;/h3&gt;
 
 &lt;p&gt;Deterministic functions 可以產生 conditional probability.  如下例&lt;/p&gt;
 
@@ -442,7 +440,7 @@ p(\mathbf{z}) &amp;=\mathcal{N}(\mathbf{z} ; 0, \mathbf{I}) \\
 
 &lt;p&gt;現在問題是：這個 neural network 長得怎麼樣？以及如何把 deterministic neural network 轉換成 probabilistic distribution?&lt;/p&gt;
 
-&lt;h4 id=&quot;example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae&quot;&gt;Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)&lt;/h4&gt;
+&lt;h3 id=&quot;example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae&quot;&gt;Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)&lt;/h3&gt;
 
 &lt;p&gt;Example 2 and 3 NN 產生 conditional distribution 的方式只能用在 discrete distribution.   對於 continuous distribution, NN 無法產生無限長的 distribution!  例如 VAE 使用 Normal distribution 如下：
 &lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
@@ -480,13 +478,15 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 &amp;p(x \mid z) \equiv \mathcal{N}(f(z), c I) \quad f \in F \quad c&gt;0
 \end{aligned} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;似乎只能 heuristically 解釋，沒有很深的 math fondation.&lt;/p&gt;
+&lt;p&gt;似乎只能 heuristically 解釋，沒有很 solid math fondation.&lt;/p&gt;
 
-&lt;h2 id=&quot;比較-variational-em-and-vae-algorithm&quot;&gt;比較 (Variational) EM and VAE Algorithm&lt;/h2&gt;
+&lt;h2 id=&quot;比較-variational-em-and-vae-algorithm&quot;&gt;比較 Variational EM and VAE Algorithm&lt;/h2&gt;
 
-&lt;h3 id=&quot;recap-variational-em-algorithm&quot;&gt;Recap (Variational) EM algorithm&lt;/h3&gt;
+&lt;p&gt;Recap variational EM algorithm&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Goal:&lt;/strong&gt; (ML) Estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.&lt;/p&gt;
+&lt;h3 id=&quot;em-and-variation-em-algorithm-recap&quot;&gt;EM and Variation EM Algorithm Recap&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Goal:&lt;/strong&gt; (ML) estimate $\theta$ of $\arg \max_{\theta} \ln p(x;\theta)$  from posterior $p(z\mid x; \theta)$.&lt;/p&gt;
 
 &lt;p&gt;Step 1: 為了 estimate $\theta$ 引入 hidden random variable $z$, log marginal likelihood (negative):&lt;/p&gt;
 
@@ -521,8 +521,7 @@ Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解�
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{align}
 Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\text {OLD }}\right) \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}) d \mathbf{z} \nonumber\\
-&amp;=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)} \\
-&amp;=E_{z\sim p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)} \ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})
+&amp;=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)}
 \end{align} %]]&gt;&lt;/script&gt;
 
 &lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap&lt;/strong&gt;
@@ -533,12 +532,12 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{align}
-\text{E-step, Minimize KL Gap : Compute}\quad &amp;p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\,\text{and}\,Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
+\text{E-step, Minimize KL Gap : Compute}\quad &amp;p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{\mathrm{OLD}}\right)\\
 \text{M-step, Maximize ELBO : Evaluate}\quad &amp;\boldsymbol{\theta}^{\mathrm{NEW}}=\underset{\boldsymbol{\theta}}{\arg \max } Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right)
 \end{align} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;一般 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
-大多的問題是 conditional or posterior distribution 是否有 analytical solution.&lt;/p&gt;
+&lt;p&gt;一般 $\eqref{eqQ}$ 的 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
+大多的問題是 $\eqref{eqE}$ conditional or posterior distribution 是否容易計算，是否有 analytical solution.&lt;/p&gt;
 
 &lt;h3 id=&quot;vae&quot;&gt;VAE&lt;/h3&gt;
 
@@ -561,12 +560,12 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 &lt;/ul&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{align}
+\begin{aligned}
 \log p_{\boldsymbol{\theta}}(\mathbf{x}) &amp;=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x})\right] \\
 &amp;=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &amp;=\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})} \frac{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &amp;=\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\boldsymbol{x}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)}
-\end{align} %]]&gt;&lt;/script&gt;
+\end{aligned} %]]&gt;&lt;/script&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
@@ -618,28 +617,26 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
   &lt;li&gt;VAE 和 AE neural network 不同，中間還卡了一個 random variable $z$!  如何 back-propagation 穿過 $z$? Reparameterization Trick!&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h5 id=&quot;question-maximize-elbo-等價-minimize-gap-between-posterior-and-q&quot;&gt;Question: Maximize ELBO 等價 Minimize GAP between posterior and q?&lt;/h5&gt;
+&lt;h4 id=&quot;question-maximize-elbo-等價-minimize-gap-between-posterior-and-q&quot;&gt;Question: Maximize ELBO 等價 Minimize GAP between posterior and q?&lt;/h4&gt;
 
 &lt;p&gt;在 EM 這是兩件事：E-step: update posterior q = .. to minimize the gap between ;   M-step: update $\theta$  to maximize ELBO or the simplified version Q function (joint distribution over posterior distribution, remove self-entropy from ELBO)&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;ELBO = Q function (negative value) + self-entropy (postive value)&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Q Function = log joint distribution (tractable) expectation over (approx.) posterior&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap&lt;/strong&gt;
+&lt;strong&gt;ELBO = Q function (negative value) + self-entropy (postive value)&lt;/strong&gt;
+&lt;strong&gt;Q Function = log joint distribution (tractable) expectation over (approx.) posterior&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;在 VAE 似乎是同一件事，let’s take a look of minimize KL gap between posterior and approx. q.&lt;/p&gt;
 
 &lt;p&gt;此處 $g^&lt;em&gt;= \mu$ and $h^&lt;/em&gt; = \log \sigma$,  $g^&lt;em&gt;$ and $h^&lt;/em&gt;$ 其實就是 $\phi$&lt;/p&gt;
 
 &lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-\begin{align}
+\begin{aligned}
 \left(g^{*}, h^{*}\right) &amp;=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
-\end{align} %]]&gt;&lt;/script&gt;
+\end{aligned} %]]&gt;&lt;/script&gt;
 這個結果好像跟下面 maximize ELBO 的結論一樣？？&lt;/p&gt;
 
 &lt;ol&gt;
@@ -700,13 +697,49 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 &lt;p&gt;Very important:  maximize ELBO = minimize gap between posterior and q!!! (by xxx)&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{align}
+\begin{aligned}
 \left(g^{*}, h^{*}\right) &amp;=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
-\end{align} %]]&gt;&lt;/script&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="VAE" /><category term="Autoencoder" /><category term="Variational" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Math ML - Maximum Likelihood Vs. Bayesian</title><link href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/" rel="alternate" type="text/html" title="Math ML - Maximum Likelihood Vs. Bayesian" /><published>2021-08-17T00:00:00+08:00</published><updated>2021-08-17T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;vae-elbo-用-sgd-optimization&quot;&gt;VAE ELBO 用 SGD Optimization&lt;/h3&gt;
+
+&lt;p&gt;VAE 的 ELBO 是 joint optimization of parameters ($\phi$ and $\theta$) using SGD!  這和 EM algorithm 不同，也不保證遞增。&lt;/p&gt;
+
+&lt;p&gt;VAE training 一般用 mini-batch. 假設 i.i.d dataset, the ELBO objective is the sum (or average) of each datapont ELBO:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathcal{D})=\sum_{\mathbf{x} \in \mathcal{D}} \mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x}) \label{eqELBO3}
+\end{align}&lt;/script&gt;
+
+&lt;p&gt;$\eqref{eqELBO3}$ 的 gradient $\nabla_{\theta, \phi}\mathcal{L}&lt;em&gt;{\boldsymbol{\theta}, \phi}(\mathbf{x})$ intratable.  不過存在 unbiased estimators $\tilde{\nabla}&lt;/em&gt;{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$，可以使用 mini-batch SGD.&lt;/p&gt;
+
+&lt;p&gt;Unbiased gradients of the ELBO w.r.t. the generative model (也就是 decoder) parameter $\theta$ are simple:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+\nabla_{\boldsymbol{\theta}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &amp;=\nabla_{\boldsymbol{\theta}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \label{eqGd1}\\
+&amp;=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \label{eqGd2}\\
+&amp; \simeq \nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right) \label{eqGd3}\\
+&amp;=\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right) \label{eqGd4}
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The last line $\eqref{eqGd4}$ is a simple Monte Carlo estimator of the second line $\eqref{eqGd2}$, where z in the last two lines $\eqref{eqGd3}$ and $\eqref{eqGd4}$ is a random sample from $q_{\phi}(z\mid x)$.&lt;/p&gt;
+
+&lt;p&gt;Unbiased gradients w.r.t. the variational parameters $\phi$ are more difficult, since the ELBO’s expectation is taken w.r.t. the distribution $q_{\phi}(z\mid x)$, which is a function of $\phi$. In general&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\nabla_{\boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &amp;=\nabla_{\boldsymbol{\phi}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})\right] \\
+&amp; \neq \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\phi}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right]
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;我們可以用 reparameterization trick 計算 unbiased estimates of $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$.&lt;/p&gt;
+
+&lt;h3 id=&quot;reparameterization-trick&quot;&gt;Reparameterization Trick&lt;/h3&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="VAE" /><category term="Autoencoder" /><category term="Variational" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Math ML - Maximum Likelihood Vs. Bayesian</title><link href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/" rel="alternate" type="text/html" title="Math ML - Maximum Likelihood Vs. Bayesian" /><published>2021-08-17T00:00:00+08:00</published><updated>2021-08-17T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;[@poczosCllusteringEM2015]&lt;/li&gt;
   &lt;li&gt;[@matasExpectationMaximization2018] good reference&lt;/li&gt;
@@ -2290,7 +2323,7 @@ and
 &lt;p&gt;如果把 $\cos \theta \to \cos (m\theta)$,&lt;/p&gt;
 
 &lt;p&gt;$x\in$ Class 1:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( m\theta_{1}\right)&amp;gt;\left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$.
- &lt;/p&gt;
+&lt;/p&gt;
 
 &lt;p&gt;Assuming $|W_1| = |W_2| \to \theta_1 &amp;lt; \theta_2/m$, 因為 $\cos\theta$ 是遞減函數。&lt;/p&gt;
 
