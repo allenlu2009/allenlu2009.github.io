@@ -27,6 +27,8 @@ typora-root-url: ../../allenlu2009.github.io
 
 * Equation number:  必須先加上 header 如下。Reference: https://jdhao.github.io/2018/01/25/hexo-mathjax-equation-number/
 
+* The commands \tilde, \dot, \ddot, \hat, and \bar mess up with subscripts;  https://github.com/mathjax/MathJax/issues/2474
+   solution for me:  add a \_ instead of _!!!
 ```
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({

@@ -99,8 +99,13 @@ Latex/MathJax 的輸入可以使用 Mathpix Snip capture, 非常有用！
   * remote image:  由於 secuity concern, built-in preview 只接受 https;  preview enhanced 支持 http or https.  e.g.
   ![https](https://ww1.sinaimg.cn/mw690/81b78497jw1emfgwkasznj21hc0u0qb7.jpg)
   ![http](http://ww1.sinaimg.cn/mw690/81b78497jw1emfgwkasznj21hc0u0qb7.jpg)
-  * local file system image:  這是最糟糕的部分！只支持 local directory 為 root 的絕對 path!!!  也就是説，無法另外設定 root path, 也不能用 ../media/ 往上 path (因爲 root 沒有更上面的 directory).  我最後只能在 _post directory 之下做一個 symbolic link : PS>  new-item -itemtype symboliclink -path ./  -name media -value ../media
+  * ~~local file system image:  這是最糟糕的部分！只支持 local directory 為 root 的絕對 path!!!  也就是説，無法另外設定 root path, 也不能用 ../media/ 往上 path (因爲 root 沒有更上面的 directory).  我最後只能在 _post directory 之下做一個 symbolic link : PS>  new-item -itemtype symboliclink -path ./  -name media -value ../media~~
+  * 找到正確做法。 File: Add folder to workspace: pick allenlu.github.io as workspace.  此時就成爲 root path.  不用再設定 symbolic link. 不過以下的結論相同。
   * 完全不建議一般人用 VSCode 作 markdown blog!
+  * Solve another issue of image copy and paste.   Image copy:  "shift+windows(cmd)+s"
+  image paste -> install paste image extension!!!  
+ then set image path and prefix => ctl+windows(cmd)+v   Ctrl+Alt+V (Cmd+Alt+V on Mac).
+ 
 
 ## Cloud Platform
 

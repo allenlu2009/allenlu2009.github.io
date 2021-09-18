@@ -429,14 +429,17 @@
   <li>
     <p>Equation number:  必須先加上 header 如下。Reference: https://jdhao.github.io/2018/01/25/hexo-mathjax-equation-number/</p>
   </li>
-</ul>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>&lt;script type="text/x-mathjax-config"&gt;
+  <li>
+    <p>The commands \tilde, \dot, \ddot, \hat, and \bar mess up with subscripts;  https://github.com/mathjax/MathJax/issues/2474
+ solution for me:  add a _ instead of _!!!</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>&lt;script type="text/x-mathjax-config"&gt;
 MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
+TeX: { equationNumbers: { autoNumber: "AMS" } }
 });
 &lt;/script&gt;
-</code></pre></td></tr></tbody></table></div></div>
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+</ul>
 
 <p>Equation 本體</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>$$\begin{equation}

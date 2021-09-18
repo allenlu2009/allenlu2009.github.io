@@ -122,11 +122,11 @@ Deterministic functions 可以產生 conditional probability.  如下例
 
 <https://en.wikipedia.org/wiki/Conditional_probability_distribution>
 
-Consider the roll of a fair [die](https://en.wikipedia.org/wiki/Dice) and let {\displaystyle X=1}![{\displaystyle X=1}](https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4) if the number is even (i.e. 2, 4, or 6) and {\displaystyle X=0}![{\displaystyle X=0}](https://wikimedia.org/api/rest_v1/media/math/render/svg/d519e9e94f279ea82581dfa70a2444e896e2d860) otherwise. Furthermore, let {\displaystyle Y=1}![Y=1](https://wikimedia.org/api/rest_v1/media/math/render/svg/867ae2de7c84119e258e68ca484e01e03b00bd73) if the number is prime (i.e. 2, 3, or 5) and {\displaystyle Y=0}![Y=0](https://wikimedia.org/api/rest_v1/media/math/render/svg/56cd853e6606465d2259975da9d0a0bb08f612af) otherwise.
+Consider the roll of a fair die and let $X=1$ if the number is even (i.e. 2, 4, or 6) and $X=0$ otherwise. Furthermore, let $Y=1$ if the number is prime (i.e. 2, 3, or 5) and $Y=0$ otherwise.
 
 ![image-20210821221517777](/media/image-20210821221517777.png)
 
-Then the unconditional probability that {\displaystyle X=1}![{\displaystyle X=1}](https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4) is 3/6 = 1/2 (since there are six possible rolls of the die, of which three are even), whereas the probability that {\displaystyle X=1}![{\displaystyle X=1}](https://wikimedia.org/api/rest_v1/media/math/render/svg/889527b2a786390a016fc3ef7cd8eee77e86b6f4) conditional on {\displaystyle Y=1}![Y=1](https://wikimedia.org/api/rest_v1/media/math/render/svg/867ae2de7c84119e258e68ca484e01e03b00bd73) is 1/3 (since there are three possible prime number rolls—2, 3, and 5—of which one is even).
+Then the unconditional probability that $X=1$ is 3/6 = 1/2 (since there are six possible rolls of the die, of which three are even), whereas the probability that $X=1$ conditional on $Y=1$ is 1/3 (since there are three possible prime number rolls—2, 3, and 5—of which one is even).
 
 $X = f_1(Z)$ and $Y=f_2(Z)$   $Z$ 是 die 的 output random variable $1,2,\cdots,6$ 雖然 $f_1$ and $f_2$  都是 deterministic function, 但是 $P(Y\mid X)$ 的確是 distribution, 因為我們不知道 $X=1$ 到底對應 $Z=?$
 
@@ -267,15 +267,17 @@ $$
 
 現在問題是：這個 neural network 長得怎麼樣？以及如何把 deterministic neural network 轉換成 probabilistic distribution?
 
-### Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE)
+### Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE encoder)
 
 Example 2 and 3 NN 產生 conditional distribution 的方式只能用在 discrete distribution.   對於 continuous distribution, NN 無法產生無限長的 distribution!  例如 VAE 使用 Normal distribution 如下：
+
 $$
 \begin{aligned}
 (\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &=\text { EncoderNeuralNet }_{\boldsymbol{\phi}}(\mathbf{x}) \\
 q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) &=\mathcal{N}(\mathbf{z} ; \boldsymbol{\mu}, \operatorname{diag}(\boldsymbol{\sigma}))
 \end{aligned}
 $$
+
 Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解決 deterministic to probabilistic 問題。但聽起來還是有點魔幻寫實方式把 deterministic to probabilistic.  這是 VAE 的實際做法。
 
 雖然的確產生 conditional distribtuion, 但似乎比直接產生 distribution 更不直觀！例如為什麼是 $\log \sigma$, 不是 $\sigma$ 或 $1/\sigma$ ? 另外只產生 $\mu, \log \sigma$ 兩個 parameters, 是否太簡化？  比起 softmax distribution 可能包含 10-100 parameters.
@@ -288,7 +290,7 @@ Typically, we use a single encoder neural network to perform posterior inference
 
 <https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73>
 
-Let’s now make the assumption that p(z) is a standard Gaussian distribution and that &p(x\mid z)& is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)
+Let’s now make the assumption that p(z) is a standard Gaussian distribution and that $p(x\mid z)$ is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)
 
 $$
 \begin{aligned}(\boldsymbol{f(z)}) &=\text { EncoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned}
@@ -364,9 +366,11 @@ $$\begin{align}
 
 <img src="/media/image-20210901154112484.png" alt="image-20210901154112484" style="zoom:80%;" />
 
-**Goal A:** get the marginal likelihood:  $\ln_{\theta} p(x)$
 
-**Goal B:** get the $\theta$ (and decoder $\phi$) is to $\arg \max_{\theta} \ln p_{\theta}(x)$
+
+**Goal A:** get the $\theta$ (and decoder $\phi$) is to $\arg \max_{\theta} \ln p_{\theta}(x)$  --> **Should be arg max ELBO?**
+
+**Goal B:** get the marginal likelihood:  $\ln_{\theta} p(x)$
 
 Step 1: same as above (引入 hidden random variable $z$ and decoder NN $\theta$)
 
@@ -386,14 +390,12 @@ $$
 $$
 
 * 把所有 EM 的 $q(z)$  變成 $q_{\phi}(z\mid x)$.    兩者完全一致
-
 * **Log Marginal Likelihood = ELBO + KL Gap.**  兩者完全一致
-
-* 第一項是 ELBO, $\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})$, 第二項是 KL divergence gap, $D_{K L} \ge 0$.  
+* 第一項是 ELBO, $\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})$,
+  * 第二項是 KL divergence gap, $D_{K L} \ge 0$.  
   * KL divergence 決定近似的 NN 和 true posterior 距離多遠。
   
   * KL divergence gap 也決定 ELBO bound 的 tightness.
-  
 * EM Training 方法：（**假設 posterior is tractable**）
 
   * E-step: **update posterior** ( tractable $q=p(z\mid x)$ ) to **minimize KL gap**
@@ -401,7 +403,6 @@ $$
   * M-step: **update parameter** $\theta$ to **maximize ELBO/Marginal likelihood**
   
   * E-step and M-step Iterative update 永遠會增加 ELBO, 但這不一定是好事！很有可能會卡在 local maximum, 需要多個 initial condition to avoid some local maximum.
-  
 * VAE 的 posterior is intractable, 但巧妙的利用 encoder ($\phi$) + decoder ($\theta$) structure.  可以用原來的 image 為 golden 做 self-supervise learning.  使用 SGD 於多張 images to back-propagation **同時 update** $\theta, \phi$  (**這和 EM 不同，一石二鳥**)
   
   * **Log Marginal Likelihood = ELBO + KL Gap  $\to$  ELBO = Log Marginal Likelihood - KL Gap**
@@ -434,6 +435,7 @@ $$
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
 \end{aligned}
 $$
+
 這個結果好像跟下面 maximize ELBO 的結論一樣？？
 
 1. 結論一： 從 joint pdf 出發 (ELBO)
@@ -499,24 +501,22 @@ VAE 的 ELBO 是 joint optimization of parameters ($\phi$ and $\theta$) using SG
 
 VAE training 一般用 mini-batch. 假設 i.i.d dataset, the ELBO objective is the sum (or average) of each datapont ELBO:
 
-$$
-\begin{align}
+$$\begin{align}
 \mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathcal{D})=\sum_{\mathbf{x} \in \mathcal{D}} \mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x}) \label{eqELBO3}
-\end{align}
-$$
+\end{align}$$
 
-$\eqref{eqELBO3}$ 的 gradient $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$ intratable.  不過存在 unbiased estimators $\tilde{\nabla}_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$，可以使用 mini-batch SGD. 
+$\eqref{eqELBO3}$ 的 gradient $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$  is intratable.
+
+不過存在 unbiased estimators  $\tilde{\nabla}\_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$，可以使用 mini-batch SGD.
 
 Unbiased gradients of the ELBO w.r.t. the generative model (也就是 decoder) parameter $\theta$ are simple:
 
-$$
-\begin{align}
+$$\begin{align}
 \nabla_{\boldsymbol{\theta}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\theta}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \label{eqGd1}\\
 &=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \label{eqGd2}\\
 & \simeq \nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right) \label{eqGd3}\\
 &=\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right) \label{eqGd4}
-\end{align}
-$$
+\end{align}$$
 
 The last line $\eqref{eqGd4}$ is a simple Monte Carlo estimator of the second line $\eqref{eqGd2}$, where z in the last two lines $\eqref{eqGd3}$ and $\eqref{eqGd4}$ is a random sample from $q_{\phi}(z\mid x)$.
 
@@ -532,4 +532,195 @@ $$
 我們可以用 reparameterization trick 計算 unbiased estimates of $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$.
 
 ### Reparameterization Trick
+
+Example 4 提到 VAE 的 forward path 如下圖右：input $x$ 經過 encoder NN $\phi$ 產生 parameters ($\mu, \log \sigma$) of a random variable $\mathbf{z}$  再 with distribution $q_{\phi}(z\mid x)$.  從 $\mathbf{z}$ 產生 sample f 經過 decoder NN $\theta$  (not shown here).  問題在於 (SGD) back propagation 整條路徑需要是 differentiable.  顯然 random variable $\mathbf{z}$ 的 sample process 不是 differentiable, back propagation 無法 update encoder NN $\phi$.
+
+<img src="/media/img-2021-09-14-23-34-51.png" style="zoom:80%;" />
+
+
+
+Reparameterization trick 就是為了解決這個問題。How?
+
+
+
+1. 把 $\mathbf{z} \sim q_{\phi}(z\mid x)$ 轉換 (differentiable and invertable) 成另一個 random variable $\boldsymbol{\epsilon}$, given $\mathbf{z}$ and $\phi$:
+
+$$
+\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})
+$$
+
+where the distribution of random variable $\boldsymbol{\epsilon}$ is indepedent of $\boldsymbol{\phi}, \mathbf{x}$.
+
+2. Gradient of expectation under change of variable
+   $$
+   \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}[f(\mathbf{z})]=\mathbb{E}_{p(\epsilon)}[f(\mathbf{z})]
+   $$
+
+where $\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})$, and the gradient and expectation becomes commutative,  結果如上圖右。
+
+$$
+\begin{aligned}
+   \nabla_{\phi} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}[f(\mathbf{z})] &=\nabla_{\phi} \mathbb{E}_{p(\boldsymbol{\epsilon})}[f(\mathbf{z})] \\
+   &=\mathbb{E}_{p(\boldsymbol{\epsilon})}\left[\nabla_{\phi} f(\mathbf{z})\right] \\
+   & \simeq \nabla_{\phi} f(\mathbf{z})
+   \end{aligned}
+$$
+
+更多的數學推導可以參考 ref[Maxwelling], 最後完整的形式如下：
+
+
+
+#### 假設 factorized Gaussian encoder
+
+$$
+\begin{array}{r}
+q_{\phi}(\mathbf{z} \mid \mathbf{x})=\mathcal{N}\left(\mathbf{z} ; \boldsymbol{\mu}, \operatorname{diag}\left(\boldsymbol{\sigma}^{2}\right)\right): \\
+(\boldsymbol{\mu}, \log \boldsymbol{\sigma})=\text { EncoderNeuralNet }_{\boldsymbol{\phi}}(\mathbf{x}) \\
+q_{\phi}(\mathbf{z} \mid \mathbf{x})=\prod_{i} q_{\phi}\left(z_{i} \mid \mathbf{x}\right)=\prod_{i} \mathcal{N}\left(z_{i} ; \mu_{i}, \sigma_{i}^{2}\right)
+\end{array}
+$$
+
+
+
+做完 reparametrization, 我們得到
+
+$$
+\begin{aligned}
+\boldsymbol{\epsilon} & \sim \mathcal{N}(0, \mathbf{I}) \\
+(\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &=\text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\
+\mathbf{z} &=\boldsymbol{\mu}+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon}
+\end{aligned}
+$$
+where $\odot$ is the element-wise product.  The Jacobian of the transformation from $\boldsymbol{\epsilon}$ to $\mathbf{z}$ is:
+$$
+\log d_{\boldsymbol{\phi}}(\mathbf{x}, \boldsymbol{\epsilon})=\log \left|\operatorname{det}\left(\frac{\partial \mathbf{z}}{\partial \boldsymbol{\epsilon}}\right)\right|=\sum_{i} \log \sigma_{i}
+$$
+and the posterior distribution is:
+$$
+\begin{aligned}
+\log q_{\phi}(\mathbf{z} \mid \mathbf{x}) &=\log p(\boldsymbol{\epsilon})-\log d_{\phi}(\mathbf{x}, \boldsymbol{\epsilon}) \\
+&=\sum_{i} \log \mathcal{N}\left(\epsilon_{i} ; 0,1\right)-\log \sigma_{i}
+\end{aligned}
+$$
+when $\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})$
+
+**Goal A - Algorithm 1: Not VAE, since using minibatch.  Similar to ??**
+
+SGD optimization of ELBO.  這裡的 noise 包含 sampling of $p(\boldsymbol{\epsilon})$ 以及 mini-batch sampling.  
+
+**Data:**
+
+​	$\mathcal{D}$ : Dataset
+
+​	$q_{\phi}(\mathbf{z}\mid \mathbf{x})$ : Inference model
+
+​	$p_{\theta}(\mathbf{z}, \mathbf{x})$ : Generative model
+
+**Result:**
+
+​	$\theta, \phi$ : Learned parameters
+
+**ALG:**
+
+($\theta, \phi$)  Initialize parameters
+
+**while** SGD not converged **do**
+
+​	$\mathcal{M} \sim \mathcal{D}$ (Random minibatch of data)
+
+​	$\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})$  (Random noise for every datapoint in $\mathcal{M}$)
+
+​	Compute  $\tilde{\mathcal{L}}\_{\theta, \phi}(\mathcal{M}, \boldsymbol{\epsilon})$  and gradients $\nabla_{\boldsymbol{\theta}, \phi} \tilde{\mathcal{L}}_{\boldsymbol{\theta}, \phi}(\mathcal{M}, \boldsymbol{\epsilon})$
+​	Update $\theta$ and $\phi$ using SGD optimizer
+
+**end**
+
+
+####  Full-covariance Gaussian encoder
+
+$$
+q_{\phi}(\mathbf{z} \mid \mathbf{x})=\mathcal{N}(\mathbf{z} ; \boldsymbol{\mu}, \boldsymbol{\Sigma})
+$$
+
+A reparameterization of this distribution is given by:
+
+$$
+\begin{aligned}
+&\boldsymbol{\epsilon} \sim \mathcal{N}(0, \mathbf{I}) \\
+&\mathbf{z}=\boldsymbol{\mu}+\mathbf{L} \boldsymbol{\epsilon}
+\end{aligned}
+$$
+
+where $\mathbf{L}$ is a lower (or upper) triangular matrix, with non-zero entries on the diagonal.  The off-diagonal elements defines the correlations of elements in $\mathbf{z}$.
+
+**Goal A - Algorithm 2**
+
+Computation of unbiased estimate of **single datapoint ELBO for example VAE** with a full-covariance Gaussian inference model and a factorized Bernoulli generative model. $\mathbf{L}_{mask}$ is a masking matrix with zeros on and above the diagonal, and ones below the diagonal.  
+
+**Data:**
+
+​	$\mathbf{x}$ : a datapoint, and optionally other conditioning information
+
+​	$\boldsymbol{\epsilon}$ : a random sample from $p(\boldsymbol{\epsilon}) =  \mathcal{N}(0, \mathbf{I})$
+
+​	$\boldsymbol{\theta}$ : Generative model parameter
+
+​	$\boldsymbol{\phi}$ : Inference model parameter
+
+​	$q_{\phi}(\mathbf{z}\mid \mathbf{x})$ : Inference model
+
+​	$p_{\theta}(\mathbf{z}, \mathbf{x})$ : Generative model
+
+**Result:**
+
+​	$\tilde{\mathcal{L}}$ : unbiased estimate of the signle-datapoint ELBO $\mathcal{L}_{\theta,\phi}(\mathbf{x})$
+
+**ALG:**
+
+$$
+\begin{align*}
+&\left(\boldsymbol{\mu}, \log \boldsymbol{\sigma}, \mathbf{L}^{\prime}\right) \leftarrow \text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\
+&\mathbf{L} \leftarrow \mathbf{L}_{\text {mask }} \odot \mathbf{L}^{\prime}+\operatorname{diag}(\boldsymbol{\sigma}) \\
+&\boldsymbol{\epsilon} \sim \mathcal{N}(0, \mathbf{I}) \\
+&\mathbf{z} \leftarrow \mathbf{L} \boldsymbol{\epsilon}+\boldsymbol{\mu} \\
+&\tilde{\mathcal{L}}_{\text {logqz }} \leftarrow-\sum_{i}\left(\frac{1}{2}\left(\epsilon_{i}^{2}+\log (2 \pi)+\log \sigma_{i}\right)\right)_{i} & \triangleright=q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})\\
+&\tilde{\mathcal{L}}_{\operatorname{logpz}} \leftarrow-\sum_{i}\left(\frac{1}{2}\left(z_{i}^{2}+\log (2 \pi)\right)\right) & \triangleright=p_{\boldsymbol{\theta}}(\mathbf{z})\\
+&\mathbf{p} \leftarrow \text { DecoderNeuralNet }_{\theta}(\mathbf{z}) \\
+&\tilde{\mathcal{L}}_{\operatorname{logpx}} \leftarrow \sum_{i}\left(x_{i} \log p_{i}+\left(1-x_{i}\right) \log \left(1-p_{i}\right)\right) & \triangleright=p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) \\
+&\tilde{\mathcal{L}}=\tilde{\mathcal{L}}_{\operatorname{logpx}}+\tilde{\mathcal{L}}_{\operatorname{logpz}}-\tilde{\mathcal{L}}_{\operatorname{logqz}}
+\end{align*}
+$$
+
+第一項 loss function 就是 reconstruction loss, 不過是 Bernoulli distribution，可以視爲 black-and-white image.  第二項是 prior loss gauge how far it is from normal distribution?  第三項是 regularization term? $\sigma = 1$ 是 minimum loss point.
+
+#### Goal B - Estimation of Marginal Likelihood (Generative)
+
+在 VAE training $(\theta, \phi)$ 之後，下一步是可以 estimate marginal likelihood, $p_{\theta}(\mathbf{x})$, using **important sampling** technique.  The marginal likelihood likelihood of a datapoint is:
+
+$$
+\log p_{\boldsymbol{\theta}}(\mathbf{x})=\log \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) / q_{\phi}(\mathbf{z} \mid \mathbf{x})\right]
+$$
+
+Taking random samples from $q_{\phi}(\mathbf{z} \mid \mathbf{x})$, a Monte Carlo estimator is:
+
+$$
+\log p_{\boldsymbol{\theta}}(\mathbf{x}) \approx \log \frac{1}{L} \sum_{l=1}^{L} p_{\boldsymbol{\theta}}\left(\mathbf{x}, \mathbf{z}^{(l)}\right) / q_{\phi}\left(\mathbf{z}^{(l)} \mid \mathbf{x}\right)
+$$
+
+where each $\mathbf{z}^{(l)}\sim q_{\phi}(\mathbf{z} \mid \mathbf{x})$ is a random sample from the inference (i.e. encoder) model.
+
+如果讓 $L$ 足夠大 $L\to\infty$，這個 Monte Carlo approximate estimator 就會越來越接近 marginal likelihood estimation.  
+
+相反 $L=1$， 基本就變成 VAE 的 ELBO estimation.  
+
+先停在這裡。
+
+
+
+### Q&A
+
+1. Decoder NN 的 probablistic interprestation 如何解釋？
+2. ML (maximum marginal likelihood) objective ; maximize ELBO objective,  Minimize KL of $(q_{\phi}(x \mid z) \| p_{\theta} (x\mid z) $)  objective.  這三個 objectives 的關係?
+   1. EM:  final ML objective :  first minimize KL objective (E-step);  then maximize ELBO objective (M-step); and iteration
+   2. VAE:  maximize ELBO objective!   Does it equal to Minimize KL objective? and equal to ML objective? (No, not equivalent?) 
 
