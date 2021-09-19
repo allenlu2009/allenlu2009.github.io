@@ -1,4 +1,147 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-19T00:06:59+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html">跨平臺 Markdown Plus MathJax Blog Editing 分享</title><link href="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/" rel="alternate" type="text/html" title="跨平臺 Markdown Plus MathJax Blog Editing 分享" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/12/Cross_Platfrom_Markdown_Math_Blog/">&lt;p&gt;我常用的計算平臺包含：MacBook air/pro (Mac OS),  PC (Windows 10), and iPad air (iPad OS).&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-19T14:28:53+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html"></title><link href="http://localhost:4000/2021/09/19/2021-09-19-Deterministic_Probabilistic/" rel="alternate" type="text/html" title="" /><published>2021-09-19T14:28:53+08:00</published><updated>2021-09-19T14:28:53+08:00</updated><id>http://localhost:4000/2021/09/19/2021-09-19-Deterministic_Probabilistic</id><content type="html" xml:base="http://localhost:4000/2021/09/19/2021-09-19-Deterministic_Probabilistic/">&lt;p&gt;Machine learning 就是一個 determinstic 和 probabilistic 擺盪和交織的過程。&lt;/p&gt;
+
+&lt;p&gt;(Input) dataset 一般是 deterministic.&lt;/p&gt;
+
+&lt;p&gt;傳統的 machine learning technique, e.g. linear regression, SVM, decision tree, etc. 也很多是 deterministic math.&lt;/p&gt;
+
+&lt;p&gt;但是 ML 背後的 modeling, 邏輯，和解釋卻可以用 probabilistic 統一解釋。例如 logistic regression, 甚至 neural network 的分類網路卻可以有 probability 的詮釋。&lt;/p&gt;
+
+&lt;p&gt;最後一類從頭到尾都是 probabilistic.  例如 bayesian inference, variational autoencoder.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;Input&lt;/th&gt;
+      &lt;th&gt;Model&lt;/th&gt;
+      &lt;th&gt;Output&lt;/th&gt;
+      &lt;th&gt;Comment&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Linear regression&lt;/td&gt;
+      &lt;td&gt;(D) dataset&lt;/td&gt;
+      &lt;td&gt;(D) linear function&lt;/td&gt;
+      &lt;td&gt;(D) error&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Logistic regression&lt;/td&gt;
+      &lt;td&gt;(D) dataset&lt;/td&gt;
+      &lt;td&gt;(D) logistic function&lt;/td&gt;
+      &lt;td&gt;(P) probability distribution&lt;/td&gt;
+      &lt;td&gt;distribution is a (D) function&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Classification NN&lt;/td&gt;
+      &lt;td&gt;(D) dataset&lt;/td&gt;
+      &lt;td&gt;(D) NN&lt;/td&gt;
+      &lt;td&gt;(P) probability distribution&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;VAE encoder, training&lt;/td&gt;
+      &lt;td&gt;(D) 1-data&lt;/td&gt;
+      &lt;td&gt;(D) NN&lt;/td&gt;
+      &lt;td&gt;(P) random variable&lt;/td&gt;
+      &lt;td&gt;parameter to RV&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;VAE decoder, generation&lt;/td&gt;
+      &lt;td&gt;(P) RV 1-sample&lt;/td&gt;
+      &lt;td&gt;(D) NN&lt;/td&gt;
+      &lt;td&gt;(P) random variable&lt;/td&gt;
+      &lt;td&gt;output sample&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SVM&lt;/td&gt;
+      &lt;td&gt;(D) dataset&lt;/td&gt;
+      &lt;td&gt;(D) kernel function&lt;/td&gt;
+      &lt;td&gt;(D) binary&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;absolute deterministic:  function, NN? (input/output), not parameter
+deterministic/probabilistic:  random variable, distribution; ideal is random, but representation (function) is determinstic!
+probabilistic:  sampling, MC&lt;/p&gt;
+
+&lt;p&gt;single data-point and collective data&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author></entry><entry><title type="html">Machine Learning Database</title><link href="http://localhost:4000/ai/2021/09/19/Machine_Learning_Database/" rel="alternate" type="text/html" title="Machine Learning Database" /><published>2021-09-19T00:00:00+08:00</published><updated>2021-09-19T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/19/Machine_Learning_Database</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/19/Machine_Learning_Database/">&lt;p&gt;AI, 特別是深度學習的 ABC 是 Algorithm, Big data, and Computation.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Algorithm: CNN (image, vision), LSTM (voice), Transformer (NLP), etc.&lt;/li&gt;
+  &lt;li&gt;Big data: ImageNet, and other big datasets.&lt;/li&gt;
+  &lt;li&gt;Computation: GPU, TPU/NPU/APU, etc.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;其中 (2) 顯然和 database 高度相關。不過早期的 big data 都是非常結構化的資料，簡單的 table or dataframe 類似 csv 就可以用來 training. 似乎沒有強烈的 database 需求。&lt;/p&gt;
+
+&lt;h2 id=&quot;ai-幾個趨勢&quot;&gt;AI 幾個趨勢&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;從雲 (cloud) 擴散到端/終端裝置 (edge/device)。對於 cloud 而言，有無限的 computation and storage resources, 1-3 都不是問題。目前端主要是 inference 為主，2 並不重要。不過 on-device learning 越來越重要，edge AI 需要 on-device database 處理 real-time update data.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;結構化資料變成非結構化資料。甚至 fused structured/unstructured data, e.g. image+voice, video+radar, etc.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Centralized learning (and database) 變成 distributed learning (and database).  由於隱私考量，還有 federated learning, etc.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;our-goal&quot;&gt;Our Goal&lt;/h2&gt;
+&lt;p&gt;Edge or on-device learning.  可以 real-time training (~1sec)! base on dynamically updated data.  不是等到 idle time or sleep time 才 training.  此時要同時解決 database + learning 的問題。另外也需要支持 distributed learning or federated learning 和 cloud or 其他的 edge device exchange information.&lt;/p&gt;
+
+&lt;h2 id=&quot;方法&quot;&gt;方法&lt;/h2&gt;
+&lt;p&gt;Method 1: Database is database;  Learning is learning.&lt;/p&gt;
+
+&lt;p&gt;Method 2: Keep your friends close, and your enemies closer -&amp;gt; Keep your ML close, and your data closer. 直接在 database 支持 ML!
+WHY?
+    * Real-time, low latency
+    * AutoML for database!  Extract feature automatically&lt;/p&gt;
+
+&lt;h2 id=&quot;database-candidate-choudhurytopdatabases2020&quot;&gt;Database candidate [@choudhuryTopDatabases2020]&lt;/h2&gt;
+&lt;p&gt;Method 1:&lt;/p&gt;
+
+&lt;p&gt;MySQL
+    Most popular open-source relational database manageemnet systems (RDBMS).
+    Acquired by Oracle, paid for commerical application.
+MariaDB
+    Open source, similar to MySQL (by MySQL inventor)
+MongoDB
+    Document database. Store data in JSON-like documents.  It seems useful for non-stuctured data.&lt;/p&gt;
+
+&lt;p&gt;PostgreSQL
+    Extensibility.  Tensorflow support PostgreSQL.&lt;/p&gt;
+
+&lt;p&gt;Method 2:
+MLDB
+    Open source real time prediction endpoints.  Integrate ML functions.&lt;/p&gt;
+
+&lt;p&gt;Redis
+    built-in Lua scripting, Redis-ML.&lt;/p&gt;
+
+&lt;p&gt;MindsDB&lt;/p&gt;
+
+&lt;p&gt;隨著網際網路的發展，我們把一台一台伺服器變成多台伺服器。當開始建立資料備份時，需要加一個緩衝層來調整所有的查詢，投入更多硬體。最後，需要將資料切分多個集群上，並重構大量的應用邏輯以適應這種切分。不久之後，你就會發現被自己數月前的設計資料結構限制住了。&lt;/p&gt;
+
+&lt;p&gt;隨著web2.0的興起，關聯式資料庫本身無法克服的缺陷越來越明顯，主要表現為如下幾點：
+1.對資料高併發讀寫的需求
+2.對海量資料的高效率存儲和訪問的需求。
+3.對資料庫的高可擴展性和高可用性的需求。
+4.資料庫事務一致性需求。
+5.資料庫寫實性和讀寫時性需求。
+6.對複雜SQL的查詢，特別是對關聯查詢的需求。&lt;/p&gt;
+
+&lt;p&gt;NoSQL是Notonly SQL的縮寫，NoSQL不使用SQL作為查詢語言。其資料存儲可以不需要固定的表格模式，也經常避免使用SQL的join操作，一般有水準可擴展性的特徵。&lt;/p&gt;
+
+&lt;p&gt;NoSQL又分成四大類：
+1.Key-Value，如Redis。
+2.Document-Oriented，如MongoDB。
+3.Wide Column Store，如Cassandra。
+4.Graph-Oriented，如Neo4J。
+而本篇要介紹的主角則是Key-Value的Redis。&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="database" /><category term="machine learning" /><category term="ML" /><summary type="html">AI, 特別是深度學習的 ABC 是 Algorithm, Big data, and Computation. Algorithm: CNN (image, vision), LSTM (voice), Transformer (NLP), etc. Big data: ImageNet, and other big datasets. Computation: GPU, TPU/NPU/APU, etc.</summary></entry><entry><title type="html">跨平臺 Markdown Plus MathJax Blog Editing 分享</title><link href="http://localhost:4000/ai/2021/09/12/Cross_Platform_Markdown_Math_Blog/" rel="alternate" type="text/html" title="跨平臺 Markdown Plus MathJax Blog Editing 分享" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/12/Cross_Platform_Markdown_Math_Blog</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/12/Cross_Platform_Markdown_Math_Blog/">&lt;p&gt;我常用的計算平臺包含：MacBook air/pro (Mac OS),  PC (Windows 10), and iPad air (iPad OS).&lt;/p&gt;
 
 &lt;p&gt;常常使用的 computing platform and offline blog editors 如下：&lt;/p&gt;
 
@@ -2382,769 +2525,4 @@ A[方形] --&amp;gt;B(圆角)
     C --&amp;gt;|a=1| D[结果1]
     C --&amp;gt;|a=2| E[结果2]
     F[横向流程图]
-&lt;/code&gt;&lt;/pre&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="softmax" /><summary type="html">本文測試 Typora 加上 Mermaid script.</summary></entry><entry><title type="html">Math ML - Modified Softmax w/ Margin</title><link href="http://localhost:4000/ai/2021/01/16/softmax/" rel="alternate" type="text/html" title="Math ML - Modified Softmax w/ Margin" /><published>2021-01-16T16:29:08+08:00</published><updated>2021-01-16T16:29:08+08:00</updated><id>http://localhost:4000/ai/2021/01/16/softmax</id><content type="html" xml:base="http://localhost:4000/ai/2021/01/16/softmax/">&lt;h1 id=&quot;math-ml---modified-softmax-w-margin&quot;&gt;Math ML - Modified Softmax w/ Margin&lt;/h1&gt;
-&lt;p&gt;[@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017]
-Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。&lt;/p&gt;
-
-&lt;h2 id=&quot;softmax-in-dl-or-ml-recap&quot;&gt;Softmax in DL or ML Recap&lt;/h2&gt;
-&lt;p&gt;Softmax 最常用於 DL (i.e. deep layers) 神經網絡最後一層(幾層)的 multi-class classification 如下圖。
-&lt;script type=&quot;math/tex&quot;&gt;\sigma(j)=\frac{\exp \left(\mathbf{w}_{j}^{\top} \mathbf{x}\right)}{\sum_{k=1}^{K} \exp \left(\mathbf{w}_{k}^{\top} \mathbf{x}\right)}=\frac{\exp \left(z_{j}\right)}{\sum_{k=1}^{K} \exp \left(z_{k}\right)}&lt;/script&gt;
-and
-&lt;script type=&quot;math/tex&quot;&gt;\frac{\partial}{\partial z_{i}} \sigma\left(z_{j}\right)=\sigma\left(z_{j}\right)\left(\delta_{i j}-\sigma\left(z_{i}\right)\right)&lt;/script&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Input vector, $\mathbf{x}$, dimension $n\times 1$.&lt;/li&gt;
-  &lt;li&gt;Weight matrix, $\mathbf[w_1’, w_2’, .., w_K’]’$, dimension $K\times n$&lt;/li&gt;
-  &lt;li&gt;Output vector, $\mathbf{z}$, dimension $K\times 1$.&lt;/li&gt;
-  &lt;li&gt;Softmax output vector, $0\le\sigma(j)\le 1, j=[1:K]$, dimension $K\times 1$.&lt;/li&gt;
-  &lt;li&gt;注意 bias 如果是一個 fixed number, $b$, softmax 分子分母會抵銷。bias 如果不同 $b_1, b_2, …, b_n$，可以擴展 $\mathbf{x’ = [x, }1]$ and $\mathbf{w’_j = [w_j}, b_j]$, 同樣如前適用。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/16102567367645/16103750431293.jpg&quot; alt=&quot;-w718&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Softmax 也常用於 ML (i.e. shallow layers) 的 multi-class classification, 常和 SVM 一起比較。為了處理 nonlinear dataset or decision boundary, Softmax + kernel method 是一個選項。&lt;/p&gt;
-
-&lt;p&gt;Softmax 另外用於 attention network, TBD.&lt;/p&gt;
-
-&lt;h3 id=&quot;parameter-notation-and-range-for-ml-and-dl&quot;&gt;Parameter Notation and Range for ML and DL&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;$N$: number of data points.  100 to 10,000 for ML, &amp;gt; 1M for DL.&lt;/li&gt;
-  &lt;li&gt;$n$: input vector dimension. maybe from 1~ to 100~ for ML, 1000-4000 for DL.&lt;/li&gt;
-  &lt;li&gt;$K$ or $m$ or $C$: output vector dimension, number of classes, maybe from 1 (binary) to 100 (Imaginet)&lt;/li&gt;
-  &lt;li&gt;$k$: kernel feature space dimension, maybe from 10s’ - $\infty$ for ML.  Usually not use for DL.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Summarize the result in table.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt; &lt;/th&gt;
-      &lt;th&gt;N&lt;/th&gt;
-      &lt;th&gt;n&lt;/th&gt;
-      &lt;th&gt;k&lt;/th&gt;
-      &lt;th&gt;K&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;ML&lt;/td&gt;
-      &lt;td&gt;100-10,000&lt;/td&gt;
-      &lt;td&gt;1s’- 100s’&lt;/td&gt;
-      &lt;td&gt;10s’- $\infty$&lt;/td&gt;
-      &lt;td&gt;1s’-10s’&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;DL&lt;/td&gt;
-      &lt;td&gt;&amp;gt; 1M&lt;/td&gt;
-      &lt;td&gt;1000-4000&lt;/td&gt;
-      &lt;td&gt;NA&lt;/td&gt;
-      &lt;td&gt;10-100&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;softmax-w-margin-via-training&quot;&gt;Softmax w/ Margin Via Training&lt;/h2&gt;
-&lt;p&gt;根據前文討論，$w_i$ vectors 代表和 class &lt;em&gt;i&lt;/em&gt; data 的&lt;strong&gt;相似性&lt;/strong&gt;。&lt;br /&gt;
-普通的 softmax classification 如下圖左所示。&lt;/p&gt;
-
-&lt;p&gt;Decision boundary 是 data point 和 $w_1$ and $w_2$ 的機率一樣。
-因為 softmax (or logistic regression) 只要求 $\sigma_1(x) &amp;gt; \sigma_2(x)$ or vice versa to classify $x \in$ class 1 (or class 2).  &lt;strong&gt;這裡完全沒有 margin 的觀念。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/16102567367645/16103799219592.jpg&quot; alt=&quot;-w480&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;推廣到 multiple class 更是如此，如下圖。因為是取 $\sigma(j)$ 的最大值。除了 $\sigma(j) &amp;gt; 0.5$ 有明顯的歸類。但在三不管地帶，很可能雜錯在一起。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;因爲 training 是基於 loss function, 解法是在 loss function 加入 margin term 做為 driving force (check the back-prop gradient!), 讓 training process 竭盡所能 “擠出” margin, 如上圖右。&lt;/strong&gt;
-&lt;img src=&quot;/media/16102567367645/16103795147028.jpg&quot; alt=&quot;-w528&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;如何在-softmax-加入-margin-for-training&quot;&gt;如何在 softmax 加入 margin for training&lt;/h2&gt;
-&lt;p&gt;SVM 是從 decision boundary 的平行線距離著手（margin = 1/|w|, minimize |w| ~ maximum margin)。
-本文討論 Softmax 加上 margin 有三種方式，都是從&lt;strong&gt;角度&lt;/strong&gt; $\theta$ 著手，概念如圖二右 (平面角度)，或是下圖右 (球面角度)。maximize $\theta$ 剛好和 minimize |w| 正交 (orthogonal). 這是巧合嗎？&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/16102567367645/16105488389665.jpg&quot; alt=&quot;-w475&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;我們先看 Softmax 的 loss function 如下圖。先是 softmax function, inference/test 只要 再來通過 cross-entropy loss.  Cross-entropy loss 對應 log likelihood. 
-&lt;script type=&quot;math/tex&quot;&gt;L=\frac{1}{N} \sum_{i} L_{i}=\frac{1}{N} \sum_{i}-\log \left(\frac{e^{f_{y_{i}}}}{\sum_{j} e^{f_{j}}}\right)&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;where $f_{y_{i}}=\boldsymbol{W}&lt;em&gt;{y&lt;/em&gt;{i}}^{T} \boldsymbol{x}&lt;em&gt;{i}$ 代表 data $x_i$ 和 $W&lt;/em&gt;{y_i}$ 的相似性。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/16102567367645/16104627418371.jpg&quot; alt=&quot;-w300&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;三種用角度增加-softmax-inter-class-margin&quot;&gt;三種用角度增加 SoftMax inter-class margin&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;L-Softmax (Large Margin Softmax) [@liuLargeMarginSoftmax2017]&lt;/li&gt;
-  &lt;li&gt;A-Softmax (Angular Softmax) [@liuSphereFaceDeep2018]&lt;/li&gt;
-  &lt;li&gt;AM-Softmax (Additive Margin Softmax)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;l-softmax-large-margin-softmax-cos-theta-to-cos-mtheta&quot;&gt;L-Softmax (Large Margin Softmax): $\cos \theta \to \cos (m\theta)$&lt;/h4&gt;
-&lt;p&gt;因為 $f_{j}=\left| \boldsymbol{W_j} \right|\left| \boldsymbol{x_i} \right|\cos\left(\theta_{j}\right)$.  如何在 $x_i$ 和 $W_j$ 加上 margin？  一個方法就是把 $\cos \theta$ 改成 $\cos m\theta$, why?&lt;/p&gt;
-
-&lt;p&gt;從相似性來看，$\cos(m\theta)$ 在同樣的角度”相似性”掉的比較快。因此在 training 時會強迫把同一 feature 的 data 擠壓在一起, &lt;strong&gt;reduce the intra-class distance. 達到增加 inter-class margin 的目的。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;另外可以從 decision boundary 理解。Softmax 的 decision boundary,&lt;/p&gt;
-
-&lt;p&gt;$x\in$ Class 1:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( \theta_{1}\right)&amp;gt;\left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$&lt;/p&gt;
-
-&lt;p&gt;$x\in$ Class 2:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( \theta_{1}\right) &amp;lt; \left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$&lt;/p&gt;
-
-&lt;p&gt;and $\theta_1 + \theta_2 = \theta$ which is the angle between $W_1$ and $W_2$&lt;/p&gt;
-
-&lt;p&gt;如果把 $\cos \theta \to \cos (m\theta)$,&lt;/p&gt;
-
-&lt;p&gt;$x\in$ Class 1:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( m\theta_{1}\right)&amp;gt;\left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(\theta_{2}\right)$.
- &lt;/p&gt;
-
-&lt;p&gt;Assuming $|W_1| = |W_2| \to \theta_1 &amp;lt; \theta_2/m$, 因為 $\cos\theta$ 是遞減函數。&lt;/p&gt;
-
-&lt;p&gt;$x\in$ Class 2:  $\left|\boldsymbol{W_1}\right||\boldsymbol{x}| \cos \left( \theta_{1}\right) &amp;lt; \left|\boldsymbol{W_2}\right||\boldsymbol{x}| \cos \left(m\theta_{2}\right)$.&lt;/p&gt;
-
-&lt;p&gt;Assuming $|W_1| = |W_2| \to \theta_1/m &amp;gt; \theta_2$.&lt;/p&gt;
-
-&lt;p&gt;此時我們有兩個 decision boundaries, 兩個 boundaries 之間可以視為 decision margin, 如下圖。
-&lt;img src=&quot;/media/16102567367645/16107219487390.jpg&quot; alt=&quot;-w400&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;In summary, 就是在 labelled $c$ class 的 data 時，就把對應的 $\cos\theta_c$ 改成 $\cos (m\theta_c)$. $m$ 愈大，margin 就愈大。但過之猶如不及，如果 $m$ 太大，可能無法正確 capture features (TBC)? $m$ 應該有一個 optimal value.&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;L_{i}=-\log \left(\frac{e^{\left\|\boldsymbol{W}_{y_{i}}\right\|\left\|\boldsymbol{x}_{i}\right\| \psi\left(\theta_{y_{i}}\right)}}{e^{\left\|\boldsymbol{W}_{y_{i}}\right\|\left\|\boldsymbol{x}_{i}\right\| \psi\left(\theta_{y_{i}}\right)}+\sum_{j \neq y_{i}} e^{\left\|\boldsymbol{W}_{j}\right\|\left\|\boldsymbol{x}_{i}\right\| \cos \left(\theta_{j}\right)}}\right)&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\psi(\theta)=\left\{\begin{array}{l}
-\cos (m \theta), \quad 0 \leq \theta \leq \frac{\pi}{m} \\
-\mathcal{D}(\theta), \quad \frac{\pi}{m}&lt;\theta \leq \pi
-\end{array}\right. %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;為什麼會有 $D(\theta)$？ 原因是要維持 $\psi(\theta)$ 的&lt;strong&gt;遞減性，連續性，和可微分性&lt;/strong&gt; over $[0, \pi]$.  一旦定義出 $\psi(\theta)$ over $[0, \pi]$. 左右 flip (y 軸對稱) 得到 $\theta\in[-\pi, 0]$. 其他的 $\theta$ 都可以移到 $[-\pi, \pi]$.&lt;/p&gt;
-
-&lt;p&gt;舉一個例子如下式，$\psi(\theta)$ 的 curve 如下圖。
-&lt;script type=&quot;math/tex&quot;&gt;\psi(\theta)=(-1)^{k} \cos (m \theta)-2 k, \quad \theta \in\left[\frac{k \pi}{m}, \frac{(k+1) \pi}{m}\right]&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/16102567367645/16107278677656.jpg&quot; alt=&quot;-w386&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;a-softmax-angular-softmax-cos-theta-to-cos-mtheta-and-w1&quot;&gt;A-Softmax (Angular Softmax): $\cos \theta \to \cos (m\theta)$ and $|W|=1$&lt;/h4&gt;
-&lt;p&gt;在 L-Softmax 可以同時調整 $|W|$ and $\theta$, 在 A-Softmax 進一步限制 $|W|=1$, 其他都和 L-Softmax 相同。A-Soft 的 Loss function 如下， 
-&lt;script type=&quot;math/tex&quot;&gt;L_{\mathrm{ang}}=\frac{1}{N} \sum_{i}-\log \left(\frac{e^{\left\|\boldsymbol{x}_{i}\right\| \cos \left(m \theta_{y_{i}, i}\right)}}{e^{\left\|\boldsymbol{x}_{i}\right\| \cos \left(m \theta_{y_{i}, i}\right)}+\sum_{j \neq y_{i}} e^{\left\|\boldsymbol{x}_{i}\right\| \cos \left(\theta_{j, i}\right)}}\right)&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;後來有再修正 $\psi(\theta)$, 多加一個 hyper-parameter $\lambda$, angle similarity curve 如下圖。注意 A-Softmax 的 $\psi(0)=1.$
-&lt;script type=&quot;math/tex&quot;&gt;\psi(\theta)=\frac{(-1)^{k} \cos (m \theta)-2 k+\lambda \cos (\theta)}{1+\lambda}&lt;/script&gt;
-&lt;img src=&quot;/media/16102567367645/16108061480853.jpg&quot; alt=&quot;-w427&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;因為 $|W|=1$, A-Softmax 一個用途是 hyper-sphere explanation 如下圖。理論上 L-Softmax 包含 A-Softmax, 但在某一些情況下，A-Softmax 似乎效果更好，less is more? (同一作者，2017 L-SoftMax; 2018 A-Softmax).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/16102567367645/16108029553353.jpg&quot; alt=&quot;-w648&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;am-softmax-additive-margin-softmax-cos-theta-to-cos-theta--m&quot;&gt;AM-Softmax (Additive Margin Softmax): $\cos \theta \to \cos \theta -m$&lt;/h4&gt;
-&lt;p&gt;AM-Softmax 非常有趣，它把 $\cos\theta \to \cos(m\theta) \to \cos\theta -m$, 也就是，
-&lt;script type=&quot;math/tex&quot;&gt;\psi(\theta)=\cos \theta-m&lt;/script&gt;
-AM-Softmax 的 loss function, 但多了一個 hyper-parameter $s$(?)
-&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-\begin{aligned}
-\mathcal{L}_{A M S} &amp;=-\frac{1}{n} \sum_{i=1}^{n} \log \frac{e^{s \cdot\left(\cos \theta_{y_{i}}-m\right)}}{e^{s \cdot\left(\cos \theta_{y_{i}}-m\right)}+\sum_{j=1, j \neq y_{i}}^{c} e^{s \cdot \cos \theta_{j}}} \\
-&amp;=-\frac{1}{n} \sum_{i=1}^{n} \log \frac{e^{s \cdot\left(W_{y_{i}}^{T} \boldsymbol{f}_{i}-m\right)}}{e^{s \cdot\left(W_{y_{i}}^{T} \boldsymbol{f}_{i}-m\right)}+\sum_{j=1, j \neq y_{i}}^{c} e^{s W_{j}^{T} \boldsymbol{f}_{i}}} .
-\end{aligned} %]]&gt;&lt;/script&gt;
-這有很多好處：&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;不用再分段算 $\psi(\theta)$, forward and backward 計算變成很容易。&lt;/li&gt;
-  &lt;li&gt;$m$ 是 continuous variable, 不是 discrete variable in A-Softmax. $m$ 可以 fine-grain optimized hyper-parameter. 而且是 differentiable, 我認為可以是 trainable variable.&lt;/li&gt;
-  &lt;li&gt;AM-Softmax 同時 push angle and magnitude?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;qa&quot;&gt;Q&amp;amp;A&lt;/h2&gt;
-&lt;p&gt;Q. Data 不是固定的嗎？為什麼會隨 loss function 改變？
-A. 此處是假設 CNN network 的最後一層是 Softmax, 因此 input data 對應的 feature extraction 並非固定而且會隨 loss function 改變如下圖。如果 input data 直接進入 Softmax with or without margin, the input data 顯然不會改變，但是 decision boundary may change? (next Q)&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/media/16102567367645/16107599078389.jpg&quot; alt=&quot;-w456&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Q. 在 inference/test 時，以上的公式 (check class $c$) 加起來不等於 1？ 如何解決？
-A: 以上的公式只用於 training 增加 margin? 在 inference/test 時，仍然用原來的 softmax 公式，因此機率仍然為 1.&lt;/p&gt;
-
-&lt;p&gt;Q. 以上 $cos(m \theta)$ 的 $m$ 一定要整數嗎？
-A. 整數可以定義 continuous and differentiable loss function in $0-\pi$ 角度。上上圖的角度顯示 $0-\pi/2$ 角度，$\pi/2 - \pi$ 是 $0-\pi/2$ 的左右 flip curve.  如果 $m$ 不是整數，在 $\pi/2$ is non-differentiable.  另外也讓 loss function 的分段比較麻煩。不過我認為這都不是什麼問題。重點是 $m$ 不是整數有沒有用？ 我認為有用，可以視為另一個 hyper-parameter, or trainable parameter for optimization!  $m$ 太小沒有 margin, $m$ 太大會 filter out some features (under-fit)?&lt;/p&gt;
-
-&lt;h2 id=&quot;策略同時使用角度-maximize-theta-and-magnitude-minimize-w&quot;&gt;策略：同時使用角度 maximize $\theta$ and Magnitude minimize $|w|$！&lt;/h2&gt;
-&lt;p&gt;Magnitude margin: 增加 inter-class margin?
-Angle margin: compress intra-class?
-先 push 角度，再 push w, 再角度, ….
-角度 m, make it differentiable!&lt;/p&gt;
-
-&lt;h2 id=&quot;to-do&quot;&gt;To Do&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;check the SVM, check the logistic regression, check import vector&lt;/li&gt;
-  &lt;li&gt;Use binary classification as an example&lt;/li&gt;
-  &lt;li&gt;Pro and Con of the three types.&lt;/li&gt;
-  &lt;li&gt;Most importantly, try to use both amplitude and angle for learning!!  TBD&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
-&lt;p&gt;Liu, Weiyang, Yandong Wen, Zhiding Yu, Ming Li, Bhiksha Raj, and Le
-Song. 2018. “SphereFace: Deep Hypersphere Embedding for Face
-Recognition.” January 29, 2018. &lt;a href=&quot;http://arxiv.org/abs/1704.08063&quot;&gt;http://arxiv.org/abs/1704.08063&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Liu, Weiyang, Yandong Wen, Zhiding Yu, and Meng Yang. 2017.
-“Large-Margin Softmax Loss for Convolutional Neural Networks.” November
-17, 2017. &lt;a href=&quot;http://arxiv.org/abs/1612.02295&quot;&gt;http://arxiv.org/abs/1612.02295&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Rashad, Fathy. n.d. “Additive Margin Softmax Loss (AM-Softmax).” Medium.
-Accessed December 27, 2020.
-&lt;a href=&quot;https://towardsdatascience.com/additive-margin-softmax-loss-am-softmax-912e11ce1c6b&quot;&gt;https://towardsdatascience.com/additive-margin-softmax-loss-am-softmax-912e11ce1c6b&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Wang, Feng, Weiyang Liu, Haijun Liu, and Jian Cheng. 2018. “Additive
-Margin Softmax for Face Verification.” May 30, 2018.
-&lt;a href=&quot;https://doi.org/10.1109/LSP.2018.2822810&quot;&gt;https://doi.org/10.1109/LSP.2018.2822810&lt;/a&gt;.&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="softmax" /><summary type="html">Math ML - Modified Softmax w/ Margin [@rashadAdditiveMargin2020] and [@liuLargeMarginSoftmax2017] Softmax classification 是陳年技術，可還是有人在老幹上長出新枝。其中一類是在 softmax 加上 maximum margin 概念 (sometimes refers to metric learning), 另一類是在 softmax 所有 dataset 中找出 “supporting vectors” 減少 computation 卻不失準確率。實際做法都是從修改 loss function 著手。本文聚焦在第一類增加 margin 的 算法。</summary></entry><entry><title type="html">Math AI - G-CNN (Group + CNN)</title><link href="http://localhost:4000/ai/2020/05/08/G-CNN/" rel="alternate" type="text/html" title="Math AI - G-CNN (Group + CNN)" /><published>2020-05-08T16:29:08+08:00</published><updated>2020-05-08T16:29:08+08:00</updated><id>http://localhost:4000/ai/2020/05/08/G-CNN</id><content type="html" xml:base="http://localhost:4000/ai/2020/05/08/G-CNN/">&lt;h1 id=&quot;math-ai---g-cnn-group--cnn&quot;&gt;Math AI - G-CNN (Group + CNN)&lt;/h1&gt;
-&lt;p&gt;Where is group theory (G-CNN) + Curved Space (Spherical CNN)&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Manifold learning 是機器學習的分支，屬於淺層學習 (shallow learning).  Manifold learning 的技巧 (kernel PCA?, Laplacian Eigenmap, etc.) 是否能用於&lt;strong&gt;深度學習&lt;/strong&gt;？ Yes, via kernel!   PCA =&amp;gt; CNN kernel;  LE etc. =&amp;gt; geometric kernel?&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Why 結合深度學習和 manifold learning?
-    &lt;ul&gt;
-      &lt;li&gt;深度學習 based on CNN kernel =&amp;gt; translation covariant (not invariant, invariant 是指純量 independent of coordinate system, e.g. Lagrangian, action, or $ds^2$.  Covariant means coordinate …) on 2D Euclidean plane,  Need based on ??? kernel  =&amp;gt; translation/rotation covariant on manifold  =&amp;gt; 結合深度學習和 manifold learning&lt;/li&gt;
-      &lt;li&gt;&lt;strong&gt;可以減少 training set!&lt;/strong&gt;  因為 manifold learning 自帶 translation/rotation covariant, 甚至可以 extend to manifold deformation (e.g.姿體移動?)  可以結合 prior information? (姿體移動，蛋白質移動,旋轉,鏡像 …)&lt;/li&gt;
-      &lt;li&gt;Can this resist adversarial attack?&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;translation equivariant - CNN, plus rotation/mirror equivariant - g-CNN&lt;/li&gt;
-  &lt;li&gt;then sphere equivariant - sphere CNN (non-flat); finally ??&lt;/li&gt;
-  &lt;li&gt;How about scale invariant or equivariant?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;終於了解 G-CNN 的意義，就是把 kernel 2D convolution (Z2 commutative group) expand to a 4D G-convolution (p4m: Di4 non-commutative group).&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;只有 input image 是 (x, y) base, 經過 layer-1 G-convolution 轉為 p4m g space.  所有之後的 layers’ convolution 都是在 g space 做, i.e. input and output activation 都是在 {4D g space + 1D Depth=5D} space instead of {2D (x,y) + 1D depth = 3D} space.  到了最後 fully connected 再變成分類網路。  這真是 particle physicist 才會有的高維思維！一般人還是習慣每一層 input output activation 老老實實在 2D (x,y) space.  (example: https://arxiv.org/pdf/1807.11156.pdf).  I like this idea: Go high dimension all the way!  In some sense, channel or depth dimension 也是一個人造的 dimension!&lt;/li&gt;
-  &lt;li&gt;More parameters?  Should be.&lt;/li&gt;
-  &lt;li&gt;Still can find the (x,y) for location?  Yes, it is a superset!&lt;/li&gt;
-  &lt;li&gt;Use 1D convolution with mirror group as an example.&lt;/li&gt;
-  &lt;li&gt;How about broken symmetry? 或是 miss some kernel?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;再推廣-group-equivariance-estevespolartransformer2018&quot;&gt;再推廣 Group Equivariance [@estevesPOLARTRANSFORMER2018]&lt;/h2&gt;
-&lt;p&gt;Equivariant representations are highly sought after as they encode both class and deformation information in a predictable way. Let $G$ be a transformation group and $L_g I$ be the group action applied to an image $I$. A mapping $\Phi : E \to F$ is said to be equivariant to the group action $L_g$, $g \in G$ if&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\Phi\left(L_{g} I\right)=L_{g}^{\prime}(\Phi(I))&lt;/script&gt;
-
-&lt;p&gt;where $L_g$ and $L’&lt;em&gt;g$ correspond to application of $g$ to $E$ and $F$ respectively and satisfy $L&lt;/em&gt;{gh} = L_g L_h$ and $L’_{gh} = L’_g L’_h$.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Invariance is a special case of equivariance where $L’_g = I$.&lt;/li&gt;
-  &lt;li&gt;Another special case is $L_g = L’_g$.&lt;/li&gt;
-  &lt;li&gt;Image classification and CNN, $g \in G$ can be thought of as an image deformation and $\Phi$ a mapping from the image to a feature map.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Next step:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Image $I$ is a function of coordinate, x, $I = f(x)$ at first layer.&lt;/li&gt;
-  &lt;li&gt;Group operation on f(x) is 
- $L_g f(x) = f(g^{-1}x)$.  原因很簡單，就是在 $x = gx’$ 會得到原來的 $f(x’)$.&lt;/li&gt;
-  &lt;li&gt;2D discrete convolution, $L_g f(x) = &lt;a href=&quot;g^{-1}x&quot;&gt;f\circ \phi&lt;/a&gt; $ 定義如下。$x, y \in Z^2$&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;[f * \phi](x)=\sum_{y \in \mathbb{Z}^{2}} f(y) \phi(x-y)&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;[f \star \phi](x)=\sum_{y \in \mathbb{Z}^{2}} f(y) \phi(y-x)&lt;/script&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;CNN 3D convolution, $L_g f(x) = &lt;a href=&quot;g^{-1}x&quot;&gt;f\circ \phi&lt;/a&gt; $ 定義如下。$x, y \in Z^2$; $k$ and $i$ 分別代表 input/output channel depth&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;[f * \phi^i](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{k=1}^{K^{l}} f_{k}(y) \phi^i_{k}(x-y)&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;[f \star \phi^i](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{k=1}^{K^{l}} f_{k}(y) \phi^i_{k}(y-x)&lt;/script&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;推廣到 2D group convolution.  $g, h \in G$&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;(f *_{G} \phi)(g)=\int_{h \in G} f(h) \phi(h^{-1} g) d h&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;(f \star_{G} \phi)(g)=\int_{h \in G} f(h) \phi(g^{-1} h) d h&lt;/script&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;推廣到 3D Group CNN or G-CNN.  $g, h \in G$, $k$ and $i$ 分別代表 input/output channel depth
-&lt;script type=&quot;math/tex&quot;&gt;\begin{array}{l}
-{\left[f * \phi^i\right](g)=\sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \phi^i_{k}(h^{-1}g)} \\
-{\left[f \star \phi^i\right](g)=\sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \phi^i_{k}(g^{-1}h)}
-\end{array}&lt;/script&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Convolution and CNN 具有 translational equivariance and independent of kernel $\phi$.  直觀而言，就是把 input image (or feature map) 和 kernel filter 的 symmetry group (e.g. translation, rotation, reflection) 做 similarity (inner product), 但保留印記 (coordinate (x,y), reflection (m=1, -1), rotation (r=0, 1, 2, 3)) 到 output feature map.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;2D convolution or 3D CNN 的 $g^{-1} h = y-x$  and $h^{-1} g = (g^{-1} h)^{-1} = x-y$ 是 $Z^2$ 反元素。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;其中 layer1 的 input image 因為只有 2D coordinate (x,y) + 1D depth (c=3, e.g. RGB) = 3D tensor, 但是 output feature map 變成 2D coordinate (x,y) + 1D reflection(m) + 1D rotation(r) + 1D depth (c) = 5D tensor.&lt;/li&gt;
-  &lt;li&gt;其他 layers 的 input and output 都是 5D tensors.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;group-equivariant-operation&quot;&gt;Group Equivariant Operation&lt;/h2&gt;
-
-&lt;p&gt;參考 [@prismGroupEquivariant2019] and [@cohenGroupEquivariant2019].&lt;/p&gt;
-
-&lt;p&gt;在這篇文章中，作者以初學者的角度，從最基本的概念開始，解釋對稱性並通俗地引入群論的理論框架。所謂對稱性，就是目標在經歷一定變換以後保持不變的性質。而這裡用到的對稱性群（symmetry group），可理解為一系列滿足某些限制條件的對稱性變換的集合。下面是文中對對稱性群的定義：&lt;/p&gt;
-
-&lt;p&gt;而在卷積網絡裡面涉及到的，最簡單的例子就是二維整數平移操作所組成的群 $\mathbb{Z}^2$。&lt;/p&gt;
-
-&lt;p&gt;接下來，我們簡單回顧一下傳統卷積網絡的等變（Equivariance）性質。平移等變性質是CNN對目標的響應能夠不受目標在圖像中的位置影響的基礎。《深度學習》花書裡面是這樣描述等變性質：&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如果一個函數滿足，輸入改變而輸出也以同樣的方式改變的這一性質，我們就說它是等變的。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;簡單的例子，就是當目標出現在輸入圖片中的不同位置，輸出的feature map應該是只是進行了平移變換。
-&lt;img src=&quot;/media/15790137525682/15866188574631.jpg&quot; alt=&quot;-w600&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;而從數學上，從算符対易性的角度，等變性質可以這樣定義：對於群對稱 $g \in G$ ，其算符 $L_g$ 和函數 $f(x)$，有 $f(L_g x) = L_g(f(x))$ ，也就是 $f$ 與 $L_g$ 対易，則稱$f(x)$ 對於變換 $g$ 有等變性。&lt;/p&gt;
-
-&lt;p&gt;在深度學習當中，我們更希望卷積網絡具有等變性，而不是不變性（Invariance）:
-&lt;img src=&quot;media/15790137525682/15866220196651.jpg&quot; alt=&quot;-w600&quot; /&gt;
-在畢卡索的這幅畫中，臉部五官都在，但是顯然被解構和調整。如果神經網絡對目標的響應具有「不變性」，顯然仍然會認為這就是一張普通人臉。&lt;/p&gt;
-
-&lt;p&gt;接下來作者引入一個結論：&lt;/p&gt;
-
-&lt;p&gt;這個公式的含義是：要得到經過 [公式] 變換的feature map [公式] 在 [公式] 處的值，可以通過計算在 [公式] 位置上面 [公式] 的值。舉例來說，如果 [公式] 是平移操作t，則 [公式] ，那我們只需計算在 [公式] 這一點feature的值便可得到。這個公式將在推到等變性的時候用到。&lt;/p&gt;
-
-&lt;p&gt;對於傳統卷積網絡， [公式] 則對應平移操作 [公式] 。也就是說，由於平移操作雖然會對卷積操作的輸出產生改變，但是這種改變是線性的，可以預測的。反之，不等變的操作則會對輸出帶來非線性的影響。&lt;/p&gt;
-
-&lt;p&gt;為了證明傳統卷積網絡裡面，平移與卷積操作対易，首先明確定義傳統卷積操作和互相關操作：&lt;/p&gt;
-
-&lt;p&gt;在這裡，filter對輸入層的滑動掃描被看做對其平移操作。需要注意的是在傳統的卷積網絡裡面，前向過程事實上用的是互相關操作卻被泛泛稱為「卷積操作」。&lt;/p&gt;
-
-&lt;p&gt;然後文章中很容易證明瞭互相關操作( [公式] )和卷積（ [公式] ）操作都與平移操作 [公式] 対易（commute）:&lt;/p&gt;
-
-&lt;p&gt;[公式]&lt;/p&gt;
-
-&lt;p&gt;[公式]&lt;/p&gt;
-
-&lt;p&gt;由這兩個操作対易，從而得出結論：卷積是平移操作的等變映射。&lt;/p&gt;
-
-&lt;p&gt;另外一方面，作者發現旋轉操作與卷積操作是不対易的，「correlation is not an equivariant map for the rotation group」，但是feature map的堆疊卻可能是等變的。也正是因為旋轉操作不是卷積的等變映射，往傳統的CNN裡面輸入旋轉了的圖像，圖像識別的效果則會大打折扣。為瞭解決這個問題，最傳統直接的方法是數據增強，直接把圖像旋轉再輸入網絡進行訓練，但是這種方法顯然不是最優的。為了改進網絡本身來解決這個問題，考慮一個簡單的具有四重旋轉對稱軸的對稱性群 [公式] (wiki). 對於這個群，有四種對稱性操作：平移，旋轉90°，旋轉180°，旋轉270°。我們要設計一個新的CNN結構，使得當輸入圖像有以上變換時，網絡仍然具有等變性質。&lt;/p&gt;
-
-&lt;p&gt;為了這個目的，仿照(2)(3)，根據(1)的結論，作者提出的 G-correlation，其定義為：&lt;/p&gt;
-
-&lt;p&gt;對於第一層G-CNN（first-layer G-correlation）， [公式] 和[公式] 定義在平面 [公式] 上：&lt;/p&gt;
-
-&lt;p&gt;[公式]&lt;/p&gt;
-
-&lt;p&gt;對於接下來的G-CNN層（full G-correlation）， [公式] 和[公式] 定義在群G上：&lt;/p&gt;
-
-&lt;p&gt;[公式]&lt;/p&gt;
-
-&lt;p&gt;由此帶來的改變是，作者很容易證明瞭G-CNN對於群G的變換操作是等變的（「G-correlation is an equivariant map for the translation group」）: [公式]&lt;/p&gt;
-
-&lt;p&gt;詳細推導見文章。值得注意的是， 經師弟提醒，對第一層G-CNN的等變性推到，需要把 [公式] 和 [公式] 拓展到群 [公式] 上，否則將無法推導（因為 [公式] 顯然不再屬於群 [公式] ）。&lt;/p&gt;
-
-&lt;p&gt;也就是說，G-CNN推廣了對feature map的變換操作，從傳統的只有平移變換的群 [公式] 到某個對稱性群 [公式] 。而且推廣以後，G-CNN卷積層對於該群的對稱性變換操作具有等變性質。&lt;/p&gt;
-
-&lt;p&gt;雖然作者在文中沒有提及，不難看到，G-CNN可以自然退化到傳統的CNN。當對稱性群G只有平移 [公式] 一種對稱性操作，也就是 [公式] 時，則G-CNN也就是傳統的CNN。&lt;/p&gt;
-
-&lt;p&gt;總而言之，當輸入圖像是按照特定角度旋轉的，G-CNN網絡的輸出結果應該是按照預定規律變化的。因此，G-CNN具備了更強的旋轉輸入圖像特徵提取的能力。&lt;/p&gt;
-
-&lt;p&gt;可以完全從 math 角度來看深度學習。
-CNN 的核心是 convolution, math 抽象來看是 Euclidean translation invariance (Z^2).  更進一步的是 Euclidean rotation invariance (U(1), SO(2) group?).  或者 manifold (sphere) translation/rotation invariance.&lt;/p&gt;
-
-&lt;p&gt;Gauge Convolutional Networks
-[@xinzhiyuanGeometricalDeep2020] and [@pavlusIdeaPhysics2020]
-https://kknews.cc/tech/gpkgx3e.html&lt;/p&gt;
-
-&lt;h2 id=&quot;math-formulation&quot;&gt;Math Formulation&lt;/h2&gt;
-&lt;p&gt;前面說的都是描述性的語言，再來是干貨。
-先澄清一些&lt;em&gt;無關&lt;/em&gt;的 ideas.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Symmetric Group&lt;/strong&gt; 
-Group theory 中的 symmetric group 有明確的定義，就是 n symbol 所有 permutation (i.e. self bijections) 形成的 group, 稱為 $S_n$, with $n!$ group element. 下圖是 $S_4$ 的 Cayley graph, total 4! = 24 elements. 所有的 finite group 可以證明都是某個 symmetric group 的子群。&lt;strong&gt;不過這裡的 symmetric group 和本文無關。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;media/15790137525682/15873110898403.jpg&quot; alt=&quot;-w400&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Symmetry Brings Conservation (Noether Theorem)&lt;/strong&gt; (check 廣義相對論 article)
-A physic law is invariant of different observer.  For example the Lagrangian is invariant (or covariant?) under certain coordinate transformation (different observers).  We called these coordinate transformation as symmetry operation.  These symmetry operation corresponds to a specific conservation law.&lt;/p&gt;
-
-&lt;p&gt;再來進入主題。&lt;/p&gt;
-
-&lt;h3 id=&quot;equivariance-math-formulation-of-neural-network&quot;&gt;Equivariance Math Formulation of Neural Network&lt;/h3&gt;
-
-&lt;p&gt;$y = \Phi(x)$ where $\Phi$ represents (part of) the neural network. $y$ is network output feature tensor; x is input image tensor.  Tensor can be viewed as a high dimension matrix.&lt;br /&gt;
-$\Phi$ 可以是一個複雜的 cascaded nonlinear function (with CNN, ReLU, Pooling, etc.) or a simple linear function with tensor input and tensor output.&lt;/p&gt;
-
-&lt;p&gt;$\Phi$ 可以是 injective/bijective or non-injective.  例如，input image tensor 是 WxHxCin, 如果 output tensor 是 WxHxCout (stride=1) and Cout $\ge$ Cin, 一般是 injective or bijective.  如果 stride &amp;gt; 1 or Cout &amp;lt; Cin, 則是 non-injective, 也就是存在 $x’\ne x$, and $\Phi(x’) = \Phi(x)$.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;media/15790137525682/15873841531452.jpg&quot; alt=&quot;-w766&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;$x’ = T x$ where $T$ is a linear transformation (&lt;strong&gt;a multi-dimension matrix&lt;/strong&gt;) corresponding to a new observer (coordinate).  此處 T 是 bijective transform, or full rank transformation, 例如 translation, rotation, affine transformation.&lt;/p&gt;
-
-&lt;p&gt;The new observer obtains the new output feature tensor 
-$y’ = \Phi(x’) = \Phi(T x)$&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Our goal is to explore the relationship between $\Phi(T x)$ and $\Phi(x)$.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;In general, $\Phi(T x)$ 和 $\Phi(x)$ 可能有各種不同的關係。&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;如果 $\Phi(T x) = \Phi(x) \; \forall x$, 滿足的所有 $T$ 稱為 $\Phi$ 的 invariant group.
-    &lt;ul&gt;
-      &lt;li&gt;Ex. $\Phi$ is norm of x, $T_g$ 是所有 metric-perserve transformation (translation, rotation, mirror, etc.)&lt;/li&gt;
-      &lt;li&gt;It losses all T information, all completely independent of coordinate.&lt;/li&gt;
-      &lt;li&gt;Usually for scalar.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;如果 $\Phi(T x) = T \Phi(x) \; \forall x$, 滿足的所有 $T$ 稱為 $\Phi$ 的 equivariant group.
-    &lt;ul&gt;
-      &lt;li&gt;Keep spatial information&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;equivariant-group-phi-is-linear-and-bijective-full-rank&quot;&gt;Equivariant Group: $\Phi$ is Linear and Bijective (full rank)&lt;/h3&gt;
-
-&lt;p&gt;If $\Phi$ is a linear network, 可視為一個 matrix $\Phi$, i.e. $\Phi(T x) = \Phi T x$.  為了簡化，假設 $\Phi$ and $T$ 是 2D matrix.&lt;/p&gt;
-
-&lt;p&gt;現在需要找到 given $\Phi$, 什麼 $T$ 可以得到 
-$\Phi(T x) = \Phi T x = T \Phi x = T \Phi(x)$ for $\forall x$
-$\Rightarrow \Phi T = T \Phi$, 也就是 $\Phi$ and $T$ commute, 因此變成 commuting matrices problem, 可以參考 [@wikiCommutingMatrices2019].&lt;/p&gt;
-
-&lt;p&gt;One sufficient (not a necessary) condition: $\Phi$ and $T$ are simultaneously diagonalizable, i.e. 
-$\Phi = P^{-1} D P$ and $T = P^{-1} Q P$ where $D$ and $Q$ 都是 diagonal matrix. 
-$\Phi T = P^{-1} D Q P = P^{-1} Q D P = T \Phi$&lt;/p&gt;
-
-&lt;p&gt;也就是只要 $T = P^{-1} Q P$ where P comes from eigenvectors of $\Phi$,  $\Phi T x = T \Phi x \; \forall x$.  Commuting matrices preserve each other’s eigenspaces.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;這樣的 $T$ form a commuting (Abelian) group $T_g$ (assuming T is full rank, exclude 0 in the eigenvalues of T and Q)&lt;/strong&gt;, 因為 $T_1  T_2 = P^{-1} Q_1 P P^{-1} Q_2 P = P^{-1} (Q_1 Q_2) P = P^{-1} (Q_2 Q_1) P = T_2 T_1 = T_3$ (multiplication closure and commuting), 並且每一個 $T$ 都存在唯一的反元素 $P^{-1} Q^{-1} P$ (inverse closure).&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;In summary, given a linear and bijective network $\Phi$, 可以定義一個 equivarient commutative group $T_g$ such that $\Phi(T x) = T \Phi(x) \; \forall x$.  這個群的元素(matrix) 的 eigenvectors 都和 $\Phi$ eigenvectors 一致。&lt;/strong&gt;  也可以把 $\Phi$ 視為這個 group, $T_g$ 的一個 element.&lt;/p&gt;
-
-&lt;h4 id=&quot;simple-phi-2d-matrix-equivariant-group-example&quot;&gt;Simple $\Phi$: 2D Matrix Equivariant Group Example&lt;/h4&gt;
-&lt;p&gt;Ex1: $\Phi$ = [1, 0; 0, 2]  $\Rightarrow T_g =[k_1, 0; 0, k_2]$. 所有 &lt;strong&gt;unequal scaling 都是 equivariant group.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Ex2: $\Phi$ = [2, 1; 1, 2]  $\Rightarrow T_g =[c, s; s, c]$.  所有 &lt;strong&gt;hyperbolic rotation 都是 equivariant group (with a normalization constant).&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Ex3: $\Phi$ = [2, -1; 1, 2]  $\Rightarrow T_g =[c, -s; s, c]$.  所有 &lt;strong&gt;rotation 都是 equivariant group (with a normalization constant).&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Ex4: &lt;strong&gt;Horizontal shear 也是一個 equivariant group.&lt;/strong&gt;&lt;br /&gt;
-Proof: $[1, k_1; 0, 1] \times [1, k_2; 0, 1] = [1, k_1+k_2; 0, 1] \to$ multiplication closure and 反元素是 $[1, -k; 0, 1] \to$ inverse closure.&lt;/p&gt;
-
-&lt;p&gt;Ex5: Uniform scaling 也是一個 (trivial) equivariant group.&lt;/p&gt;
-
-&lt;p&gt;下圖摘自 [@wikiEigenvaluesEigenvectors2020].
-&lt;img src=&quot;media/15790137525682/15875295928215.jpg&quot; alt=&quot;-w700&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;discrete-convolution-wikitoeplitzmatrix2020&quot;&gt;Discrete Convolution: [@wikiToeplitzMatrix2020]&lt;/h4&gt;
-&lt;p&gt;Discrete convolution (離散卷積) 廣泛用於數位訊號處理和深度學習 for audio and video.  Discrete convolution 基本是 linear bijective operation, 同樣適用 equivariant group 的結論。我們用 1D discrete convolution 為例如下：&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-y=h * x=\left[\begin{array}{ccccc}
-h_{1} &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
-h_{2} &amp; h_{1} &amp; &amp; \vdots &amp; \vdots \\
-h_{3} &amp; h_{2} &amp; \cdots &amp; 0 &amp; 0 \\
-\vdots &amp; h_{3} &amp; \cdots &amp; h_{1} &amp; 0 \\
-h_{m-1} &amp; \vdots &amp; \ddots &amp; h_{2} &amp; h_{1} \\
-h_{m} &amp; h_{m-1} &amp; &amp; \vdots &amp; h_{2} \\
-0 &amp; h_{m} &amp; \ddots &amp; h_{m-2} &amp; \vdots \\
-0 &amp; 0 &amp; \cdots &amp; h_{m-1} &amp; h_{m-2} \\
-\vdots &amp; \vdots &amp; &amp; h_{m} &amp; h_{m-1} \\
-0 &amp; 0 &amp; 0 &amp; \cdots &amp; h_{m}
-\end{array}\right]\left[\begin{array}{c}
-x_{1} \\
-x_{2} \\
-x_{3} \\
-\vdots \\
-x_{n}
-\end{array}\right] %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;$y = h * x = \Phi x$ where $\Phi$ is a $n\times n$ matrix, 就是把 m-tap kernel filter $[h_1, h_2, …, h_m]$ &lt;strong&gt;shift (平移)&lt;/strong&gt; n 次造出的 matrix, 稱為 Toeplitz matrix. 一般 n » m, 因此是 “band matrix” with high sparsity. 後面會看到 $\Phi$ 的 equivariant group $T_g$ 和這個操作直接相關。&lt;/p&gt;
-
-&lt;p&gt;下一步是要找出 $\Phi$ 的 eigenvectors 以及構成的 commutative group. 可以參考 [@grayToeplitzCirculant1971], excel article about Toeplitz matrix.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;有一個 “trick” 就是用 Circulant matrix 取代 Toeplitz matrix by using cyclic shift to replace regular shift!&lt;/strong&gt;  因為 n » m, 實務上Toeplitz 和 Circulant matrix 得到的 $y$ 差異很小。但 Circulant matrix 好求解而且具有物理意義。&lt;/p&gt;
-
-&lt;p&gt;Follow [@grayToeplitzCirculant1971] 的 notation on p.31, 我們用 $C$ 代替 $\Phi$.&lt;/p&gt;
-
-&lt;p&gt;A $n\times n$ circulant matrix $C$ has the form 
-&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-C=\left[\begin{array}{cccccc}
-c_{0} &amp; c_{1} &amp; c_{2} &amp; &amp; \cdots &amp; c_{n-1} \\
-c_{n-1} &amp; c_{0} &amp; c_{1} &amp; c_{2} &amp; &amp; \vdots \\
-&amp; &amp; c_{n-1} &amp; c_{0} &amp; c_{1} &amp; \ddots &amp; \\
-\vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp; &amp; c_{2} \\
-&amp; &amp; &amp; &amp; &amp; c_{1} \\
-c_{1} &amp; \cdots &amp; &amp; c_{n-1} &amp; &amp; c_{0}
-\end{array}\right] %]]&gt;&lt;/script&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;circulant-matrix-eigenvalues-and-eigenvectors&quot;&gt;Circulant matrix eigenvalues and eigenvectors&lt;/h4&gt;
-&lt;p&gt;The eigenvalues $\psi_m$ and the eigenvectors $y^{(m)}$ are the solution of
-&lt;script type=&quot;math/tex&quot;&gt;C y = \psi y&lt;/script&gt;
-我們引入一個 variable $\rho$, which is one of the n distinct complex root of unity ($\rho_m = e^{-2\pi i m/n}$, $m = 0, … n-1$), we have the eigenvalue and eigenvector
-&lt;script type=&quot;math/tex&quot;&gt;\psi=\sum_{k=0}^{n-1} c_{k} \rho^{k}&lt;/script&gt; 
-and 
-&lt;script type=&quot;math/tex&quot;&gt;y=n^{-1 / 2}\left(1, \rho, \rho^{2}, \ldots, \rho^{n-1}\right)^{\prime}&lt;/script&gt;
-帶入 $\rho_m$, we have eigenvalue $(m = 0, … n)$
-&lt;script type=&quot;math/tex&quot;&gt;\psi_{m}=\sum_{k=0}^{n-1} c_{k} e^{-2 \pi i m k / n}&lt;/script&gt;
-&lt;strong&gt;!!注意：$\psi_{m}$ is the DFT of $c_k$&lt;/strong&gt;, i.e. $\psi = DFT(c)$.  反之，$c = IDFT(\psi)$
-&lt;script type=&quot;math/tex&quot;&gt;c_{m}= \frac{1}{n} \sum_{k=0}^{n-1} \psi_{k} e^{2 \pi i m k / n}&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;$\psi_{m}$ 對應的 (column) eigenvector 
-&lt;script type=&quot;math/tex&quot;&gt;y^{(m)}=\frac{1}{\sqrt{n}}\left(1, e^{-2 \pi i m / n}, \cdots, e^{-2 \pi i m(n-1) / n}\right)^{\prime}&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;檢查幾個 eigenvalue. First, $m=0$ is the DC component of $c_k$
-&lt;script type=&quot;math/tex&quot;&gt;\psi_{0}=\sum_{k=0}^{n-1} c_{k}&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;對應的 (column) eigenvector
-&lt;script type=&quot;math/tex&quot;&gt;y^{(0)}=\frac{1}{\sqrt{n}}\left(1, 1, \cdots, 1\right)^{\prime}&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;帶入驗證  $ C y^{(0)} = \psi_{0} y^{(0)}  $.&lt;/p&gt;
-
-&lt;p&gt;Next $m=1$ is the 1st fundamental component of $c_k$
-&lt;script type=&quot;math/tex&quot;&gt;\psi_{1}=\sum_{k=0}^{n-1} c_{k} e^{-2 \pi i k / n}&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;對應的 (column) eigenvector 
-&lt;script type=&quot;math/tex&quot;&gt;y^{(1)}=\frac{1}{\sqrt{n}}\left(1, e^{-2 \pi i / n}, \cdots, e^{-2 \pi i (n-1) / n}\right)^{\prime}&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;Next $m=2$ is the 2nd fundamental component of $c_k$
-&lt;script type=&quot;math/tex&quot;&gt;\psi_{2}=\sum_{k=0}^{n-1} c_{k} (e^{-2 \pi i k / n})^2&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;對應的 (column) eigenvector 
-&lt;script type=&quot;math/tex&quot;&gt;y^{(2)}=\frac{1}{\sqrt{n}}\left(1, (e^{-2 \pi i / n})^2, \cdots, (e^{-2 \pi i (n-1) / n})^2\right)^{\prime}&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;可以驗證  $ C y^{(m)} = \psi_{m} y^{(m)}  $.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;我們用 one equation to summarize the results. 其實就是 $C$ 的 eigenvalue decomposition 如下。$\Psi$ 是 diagonal matrix with eigenvalues, 剛好就是 $C$ matrix 第一列 (row 1) 的 DFT 結果。&lt;/strong&gt;
-&lt;script type=&quot;math/tex&quot;&gt;CU = U \Psi \quad\quad C = U \Psi U^{-1} = U \Psi U^{*}&lt;/script&gt;  where
-&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-\begin{aligned}
-U &amp;=\left[y^{(0)}\left|y^{(1)}\right| \cdots | y^{(n-1)}\right] \\
-&amp;=n^{-1 / 2}\left[e^{-2 \pi i m k / n} ; m, k=0,1, \ldots, n-1\right]
-\end{aligned} %]]&gt;&lt;/script&gt;&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-= n^{-1/2} \left[\begin{array}{cccccc}
-1 &amp; 1 &amp; 1 &amp;  \cdots &amp; 1 \\
-1 &amp; \omega &amp; \omega^{2}  &amp;  \cdots &amp; \omega^{n-1} \\
-1 &amp; \omega^2 &amp; (\omega^{2})^2  &amp;  \cdots &amp; (\omega^{n-1})^2 \\
-\vdots &amp; \vdots &amp; \vdots &amp; \cdots &amp; \vdots \\
-1 &amp; \omega^{n-1} &amp; (\omega^{2})^{n-1} &amp; \cdots &amp; (\omega^{n-1})^{n-1}
-\end{array}\right] %]]&gt;&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-U^{-1} = U^{*} = n^{-1/2} \left[\begin{array}{cccccc}
-1 &amp; 1 &amp; 1 &amp;  \cdots &amp; 1 \\
-1 &amp; \bar{\omega} &amp; \bar{\omega}^{2}  &amp;  \cdots &amp; \bar{\omega}^{n-1} \\
-1 &amp; \bar{\omega}^2 &amp; (\bar{\omega}^{2})^2  &amp;  \cdots &amp; (\bar{\omega}^{n-1})^2 \\
-\vdots &amp; \vdots &amp; \vdots &amp; \cdots &amp; \vdots \\
-1 &amp; \bar{\omega}^{n-1} &amp; (\bar{\omega}^{2})^{n-1} &amp; \cdots &amp; (\bar{\omega}^{n-1})^{n-1}
-\end{array}\right] %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;with $\omega = e^{-2 \pi i / n}$ and $\bar{\omega} = \omega^{*} = e^{+2 \pi i / n}$&lt;/p&gt;
-
-&lt;p&gt;Complex conjugate frequency sequence
-另一種的順序是 complex conjugate (Nyquist) frequency sequence, 就是 [DC, +f, -f, +2f, -2f, …, AC]  如果 n 是偶數，AC = [1, -1, 1, -1…].  如果 n 是奇數，….&lt;/p&gt;
-
-&lt;h4 id=&quot;equivariant-phi-is-circulant-matrix-for-discrete-convolution&quot;&gt;Equivariant: $\Phi$ is Circulant Matrix for Discrete Convolution&lt;/h4&gt;
-&lt;p&gt;Given $\Phi = C$, a circulant matrix, 現在需要找到 equivariant group $T$ to make $\Phi(T x) = \Phi T x = T \Phi x = T \Phi(x)$.  答案是  $T_g= U Q U^{&lt;em&gt;}$ where $U$ and $U^{&lt;/em&gt;}$ 就是以上的 matrices (n 點分圓函數) and $Q$ is a diagonal matrix.&lt;/p&gt;
-
-&lt;p&gt;注意 $U$ and $U^{&lt;em&gt;}$ 是 complex matrix, Q in general 也是 complex matrix.  但實際應用會限制 $T_g = U Q U^{&lt;/em&gt;}$ 必須是 real matrix.  因此會要求 Q matrix 滿足一些特性。因為 Q matrix 其實是另一個 circulant matrix 的 row 1 FFT 結果。&lt;/p&gt;
-
-&lt;p&gt;In summary, circulant matrix 本身 forms a commutative group, i.e. $A B = B A = C$ (multiplication closure and commuting) is circulant matrix, $A^{-1}$ 也是 circulant matrix, 甚至 $A + B$ 也是 circulant matrix [@wikiCirculantMatrix2020].&lt;/p&gt;
-
-&lt;p&gt;整理一下：&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;$y = \Phi(x) = h * x$ performs discrete convolution (i.e. 1D CNN) where $x$ and $y$ are input and output signals of n-dimension.  $h$ is the kernel filter of m dimension. 一般 n » m.  可以用 $n\times n$ Circulant matrix multiplication 近似 discrete convolution by zero padding, i.e. $y = C x$.  $C$ 是把 $h$ 放在 $C$ 的 row1, 再 cyclic right shift by 1 放在 row 2, and so on.  &lt;strong&gt;In summary, discrete convolution is equivalent to Circulant matrix multiplication.&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;$n \times n$ Circulant matrices form a commutative group, $T_g$, i.e. $\Phi(T_g x) = T_g \Phi(x)$ as long as $T_g$ is a $n\times n$ Circulant matrix.  Actually, $\Phi \in T_g$.  $T_g$ is equivariant operation.&lt;/li&gt;
-  &lt;li&gt;Circulant group 的 generating element is $g$ = [0, 1, 0…, 0; 0, 0, 1, …,0,; ….; 1, 0, 0, …, 0]‘ 代表 right cyclic shift by 1; $g^2 = g&lt;em&gt;g, g^k = g&lt;/em&gt;g&lt;em&gt;..&lt;/em&gt;g$. Therefore, $I, g^2, g^3, ..g^{n-1}$ 構成 basis for 所有 $n\times n$ Circulant matrix.  For any Circulant matrix by $[a_0, a_1, …, a_{n-1}] = a_0 I + a_1 g^2 + …, + a_{n-1} g^{n-1}$.  也就是說，Circulant matrix can be decomposed to translation matrix superposition.&lt;/li&gt;
-  &lt;li&gt;Discrete convolution is therefore translation multiplication commutable =&amp;gt; translation equivariant, i.e. $\Phi ( T_g x) = T_g (\Phi x)$&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;A discrete convolution example in appendix A.&lt;/p&gt;
-
-&lt;h4 id=&quot;equivariant-phi-is-circulant-matrix-for-2d-discrete-convolution&quot;&gt;Equivariant: $\Phi$ is Circulant Matrix for 2D Discrete Convolution&lt;/h4&gt;
-&lt;p&gt;$y(t) = h(t) * x(t)$ 可以直接推廣到 2D,  $y(u, v) = h(u, v) * x(u, v)$&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;因為 $u$ and $v$ are independent on the Cartesian coordinate.  注意這並不代表 $y, h, x$ are $u, v$ separable.&lt;/li&gt;
-  &lt;li&gt;Circulant group 是兩個 Circulant group 的 &lt;strong&gt;direct sum&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;Generator 是 $g_u$ and $g_v$.&lt;/li&gt;
-  &lt;li&gt;The DFT core is exp(-2piinu/.) exp(-2pimv/.)&lt;/li&gt;
-  &lt;li&gt;How about eigenvalue and eigenvectors?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;how-about-other-equivariant-for-1d-signal-processing&quot;&gt;How about other equivariant for 1D signal processing?&lt;/h4&gt;
-&lt;p&gt;Mirror, scale equivariant?&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;$\Phi(x)$ 
-condition of Q?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;use-cohens-paper-notation-and-concept&quot;&gt;Use Cohen’s paper notation and concept&lt;/h2&gt;
-&lt;p&gt;以上的推導太狹隘，接下來採用 Cohen’s paper notation and ideas.&lt;/p&gt;
-
-&lt;h3 id=&quot;the-group-p4m-non-commutative-group&quot;&gt;The group $p4m$ (non-commutative group)&lt;/h3&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-g(m, r, u, v)=\left[\begin{array}{ccc}
-(-1)^{m} \cos \left(\frac{r \pi}{2}\right) &amp; -(-1)^{m} \sin \left(\frac{r \pi}{2}\right) &amp; u \\
-\sin \left(\frac{r \pi}{2}\right) &amp; \cos \left(\frac{r \pi}{2}\right) &amp; v \\
-0 &amp; 0 &amp; 1
-\end{array}\right] %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;以上是 2D Cartesian coordinate (+1D depth) generates to 4D symmetry G space (+1D depth).  分為兩種 case: (1) input 仍然是 3D tensor, but output is converted to 5D tensor.  僅用於神經網絡的第一層。之後就轉換成 (2) both input/output 都是 5D tensors.  原文有簡化版 p4 (no mirror reflection) and 2D translation only.&lt;/p&gt;
-
-&lt;p&gt;此處考慮更簡單的 case, 1D translation and 1D translation + mirror reflection.&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-g(m, u)=\left[\begin{array}{ccc}
-(-1)^{m} &amp; u \\
-0 &amp; 1
-\end{array}\right] %]]&gt;&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-g^{-1}(m, u)=\left[\begin{array}{ccc}
-(-1)^{m} &amp; (-u)(-1)^m \\
-0 &amp; 1
-\end{array}\right] %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;Next step:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Function f(x)&lt;/li&gt;
-  &lt;li&gt;Group operation on f(x) is 
- $L_g f(x) = f(g^{-1}x)$.  原因很簡單，就是在 $x‘=gx$ 會得到原來的函數。&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;考慮 CNN convolution 函數，定義如下。$x, y \in Z^2$
-&lt;script type=&quot;math/tex&quot;&gt;\begin{array}{l}
-{\left[f * \psi^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{k=1}^{K^{l}} f_{k}(y) \psi_{k}^{i}(x-y)} \\
-{\left[f \star \psi^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{k=1}^{K^{l}} f_{k}(y) \psi_{k}^{i}(y-x)}
-\end{array}&lt;/script&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;推廣到 G-CNN convolution.  $g, h \in G$
-&lt;script type=&quot;math/tex&quot;&gt;\begin{array}{l}
-{\left[f * \psi^{i}\right](g)=\sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(h^{-1}g)} \\
-{\left[f \star \psi^{i}\right](g)=\sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(g^{-1}h)}
-\end{array}&lt;/script&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;上式是 forward pass 的 convolution ($\ast$).  下式是 backward pass 的 correlation ($\star$).&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Combine 2 and 3, $L_u &lt;a href=&quot;g&quot;&gt;f \star \psi&lt;/a&gt; = &lt;a href=&quot;u^{-1}g&quot;&gt;f \star \psi&lt;/a&gt; \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}((u^{-1}g)^{-1}h) \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(g^{-1}uh)   \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(u^{-1}h) \psi_{k}^{i}(g^{-1}h) \  = &lt;a href=&quot;g&quot;&gt;[L_u f] \star \psi&lt;/a&gt;$&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Combine 2 and 3, $L_u &lt;a href=&quot;g&quot;&gt;f * \psi&lt;/a&gt; = &lt;a href=&quot;u^{-1}g&quot;&gt;f * \psi&lt;/a&gt; \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(h^{-1} (u^{-1}g)) \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(h^{-1}u^{-1}g)   \ = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(u^{-1}h) \psi_{k}^{i}(h^{-1}g) \  = &lt;a href=&quot;g&quot;&gt;[L_u f] * \psi&lt;/a&gt;$&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;我們用一個 1D convolution 來驗證。 
-Example: g = [(-1)^m, u; 0, 1]   g^-1 = [(-1)^m, -u*(-1)^m; 0 , 1]
-&lt;script type=&quot;math/tex&quot;&gt;[f \star \psi^{i}](g) = [f \star \psi^{i}](x, m) = \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(h) \psi_{k}^{i}(g^{-1}h) \\
-= \sum_{h \in G} \sum_{k=1}^{K^{l}} f_{k}(y) \psi_{k}^{i}((-1)^{m}(y-x))\\ \ne \sum_{y \in \mathbb{Z}^{2}} \sum_{k=1}^{K^{l}} f_{k}(y) (\psi_{k}^{i}(x-y) +  \psi_{k}^{i}(y-x) )&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;Does it make sense?   If $\psi$ is an odd function, $f \star \psi^{i} =0$?
-No, g = (x, m) =&amp;gt; m should be kept instead of disappear after summation!!&lt;/p&gt;
-
-&lt;p&gt;Let’s look at another example, polar transform. [@estevesPOLARTRANSFORMER2018]&lt;/p&gt;
-
-&lt;h3 id=&quot;polar-coordinate&quot;&gt;Polar Coordinate&lt;/h3&gt;
-
-&lt;p&gt;A similarity transformation, i.e. conformal mapping, 旋轉(R)+scaling(s)+平移(t), $\rho \in $ SIM(2), acts on a point in $x \in R^2$ by
-&lt;script type=&quot;math/tex&quot;&gt;\rho x \to s Rx + t \quad s \in R^+, R \in SO(2), t \in R^2&lt;/script&gt;
-where &lt;em&gt;SO(2)&lt;/em&gt; is the rotation group.&lt;/p&gt;
-
-&lt;p&gt;Equivariance to SIM(2) is achieved by (1) learning the center of the dilated rotation, (2) shifting the original image accordingly then (3) transforming the image to canonical coordinates.&lt;/p&gt;
-
-&lt;p&gt;Q1: How to find the center of rotation? Need an origin predictor.&lt;/p&gt;
-
-&lt;p&gt;Transformation of the image $L_t I = I(t-t_o)$ reduces the SIM(2) deformation to a dilated-rotation if $t_o$ is the true translation. After centering, we perform $SO(2) \times R^+$ convolutions on the new image $I_o = I(x-t_o)$.&lt;/p&gt;
-
-&lt;p&gt;Layer 1 convolution 變成：
-&lt;script type=&quot;math/tex&quot;&gt;f(r)=\int_{x \in \mathbb{R}^{2}} I_{o}(x) \phi\left(r^{-1} x\right) d x&lt;/script&gt;&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\int_{s} f(s) \phi\left(s^{-1} r\right) d s=\int_{s} \lambda(\xi, \theta) \phi\left(\xi_{r}-\xi, \theta_{r}-\theta\right) d \xi d \theta&lt;/script&gt;
-
-&lt;p&gt;In summary,
-本文 (polar transformation) 比較像是 coordinate transformation instead of adding group dimension.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;No. 從原始的 $t \in R^2$, 多了 rotation and scale dimension $SO(2) \times R^+$.&lt;/li&gt;
-  &lt;li&gt;But yes, 就 convolution 而言，feature extraction 已經不是 (x,y) convolution, 而是 $\epsilon, \theta$&lt;/li&gt;
-  &lt;li&gt;location information 仍然存在，但用 origin predictor 取代 (x,y) convolution learning.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;media/15884328451601/15890439753317.jpg&quot; alt=&quot;-w907&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;equivariant-phi-is-cnn-and-bijective-reversible-stride1-ignore-boundary&quot;&gt;Equivariant: $\Phi$ is CNN and Bijective (reversible, stride=1, ignore boundary)&lt;/h4&gt;
-
-&lt;p&gt;&lt;strong&gt;(Translation) Equivariant:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;= T’y = T’f(x)&lt;/strong&gt; where T’ is another coordinate which could be different from T because of scaling, etc.   But both T and T’ are linear operators. This orange part is the crucial step assuming translation equivariant!!   However, T is translation equivariant, but NOT rotational equivariant. 
-y’ = T’y = T’ f(x) = T’ f(T^-1 x’)  assuming linear inversible operation.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;Use [@cohenGroupEquivariant2019] notation $f \to \Phi$ and $T \to T_g$ 
-Original output feature is $\Phi(x)$, where $\Phi$ can be a nonlinear (complicated) mapping, such as convolution + pooling + ReLU.&lt;/p&gt;
-
-&lt;p&gt;Given input image x is transformed by $T_g$ operator/transform, new output feature is $\Phi(T_g x)$.
-如果具有 translation equivariant =&amp;gt; $\Phi(T_g x) = T’_g \Phi(x)$ where T’_g 是同樣的 translation operator/transform, but may have different scaling factor (stride &amp;gt; 1).&lt;/p&gt;
-
-&lt;p&gt;所以 $T_g$ and $T’_g$ 需要有什麼特性？只需要 linear, i.e. $T(gh) = T(g)T(h)$.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;如果 $T’_g = I$ for all g&lt;/strong&gt;, 是 special case, 稱為 invariant.  這和一般物理定義的 invariant 似乎不同?  對於&lt;strong&gt;深度學習 invariant 會失去 spatial information, $T’_g$ 而變得無用&lt;/strong&gt;, equivariance 是更有用。&lt;/p&gt;
-
-&lt;p&gt;另一個極端是沒有 equivariant, 也就是 $\Phi(T_g x)$ 和 $\Phi(x)$ 沒有簡單的 linear mapping, 例如 Multi-layer Perceptron (MLP).&lt;/p&gt;
-
-&lt;p&gt;Paper 另外一段話如下，似乎和 invariant 相抵觸? No, 是擴充到 non-injective (降維) network.
-A network $\Phi$ &lt;strong&gt;can be&lt;/strong&gt; non-injective, meaning that non-identical vectors $x$ and $y$ in the input space become identical in the output space.  (for example, two instances of a face may be mapped onto a single vector indicating the presence of any face, e.g. 人臉偵測而非識別，兩個不同的人臉對應到相同的 feature map or bounding box).  If $\Phi$ is equivariant, then the G-transformed inputs $T_g x$ and $T_g y$ must also mapped to the same output.  Their “sameness” is preserved under symmetry transformations.&lt;/p&gt;
-
-&lt;p&gt;數學表示：
-Non-injective network: $\Phi(x) = \Phi(y)$ with $x \ne y$ 
-If $\Phi$ is equivariant, then the G-transform (symmetry transform) has:
-$\Phi(T_g x)  = T’_g \Phi(x) = T’_g \Phi(y) = \Phi(T_g y)$ with $x \ne y$&lt;/p&gt;
-
-&lt;p&gt;g represents general group, in the paper considering three groups: Z2, p4, p4m.  Conclusion.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;On MNIST and CIFAR, G-CNN performs better than CNN at about same parameter number.&lt;/li&gt;
-  &lt;li&gt;G-CNN also benefit from data augment.&lt;/li&gt;
-  &lt;li&gt;Step 1: G-CNN to include translation, rotation, mirror on grid&lt;/li&gt;
-  &lt;li&gt;Step 2: G-CNN on hexagon grid&lt;/li&gt;
-  &lt;li&gt;Step 3: On 3D sphere and use G-FFT to compute sphere convolution for 3D application.&lt;/li&gt;
-  &lt;li&gt;Step 4: Gauge CNN?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;CNN, pooling, ReLU are translation equivariant (up to edge effect); but MLP is &lt;em&gt;NOT&lt;/em&gt; translation equivariant.&lt;/p&gt;
-
-&lt;p&gt;Translation Equivariant:  There is a function (e.g. CNN)&lt;/p&gt;
-
-&lt;p&gt;1D =&amp;gt; 2D convolution =&amp;gt; high dimension tensor convolution&lt;/p&gt;
-
-&lt;p&gt;Step 1: Define the network operator $\Phi$
- Step 2: Find the commuting operator $T$, actually, a commutative group $T_g$.  $\Phi$ 可以視為 $T_g$ 的一個 element.
- Step 3: Find the group generator for the commutative group.&lt;/p&gt;
-
-&lt;p&gt;What is the fundamental element of a group? =&amp;gt; generator &amp;lt;g, ..&amp;gt;!
-所有的 group element 都可以從 generator &amp;lt;g, ..&amp;gt; 產生。
-All Abelian group is isomorphic to direct sum of primed cycle group =&amp;gt; generator g, gg, ggg, …&lt;/p&gt;
-
-&lt;h3 id=&quot;group-examples&quot;&gt;Group Examples&lt;/h3&gt;
-
-&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
-
-&lt;p&gt;Bronstein, Michael M., Joan Bruna, Yann LeCun, Arthur Szlam, and Pierre
-Vandergheynst. 2017. “Geometric Deep Learning: Going Beyond Euclidean
-Data.” &lt;em&gt;IEEE Signal Processing Magazine&lt;/em&gt; 34 (4): 18–42.
-&lt;a href=&quot;https://doi.org/10.1109/MSP.2017.2693418&quot;&gt;https://doi.org/10.1109/MSP.2017.2693418&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Cohen, Taco S, T S Cohen, and Uva Nl. 2019. “Group Equivariant Convolutional Networks,” 10.&lt;/p&gt;
-
-&lt;p&gt;Cohen, Taco S., Maurice Weiler, Berkay Kicanaoglu, and Max Welling.&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;“Gauge Equivariant Convolutional Networks and the Icosahedral
-CNN,” May. &lt;a href=&quot;http://arxiv.org/abs/1902.04615&quot;&gt;http://arxiv.org/abs/1902.04615&lt;/a&gt;.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Pavlus, John. 2020. “An Idea from Physics Helps AI See in Higher
-Dimensions.” Quanta Magazine. January 9, 2020.
-&lt;a href=&quot;https://www.quantamagazine.org/an-idea-from-physics-helps-ai-see-in-higher-dimensions-20200109/&quot;&gt;https://www.quantamagazine.org/an-idea-from-physics-helps-ai-see-in-higher-dimensions-20200109/&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;prism. 2019. 「Group Equivariant CNN to Spherical CNNs: 從群等變卷積網絡到球面卷積網絡.」 知乎專欄. 2019.
-&lt;a href=&quot;https://zhuanlan.zhihu.com/p/34042888&quot;&gt;https://zhuanlan.zhihu.com/p/34042888&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Winkels, Marysia, and Taco S. Cohen. 2018. 「3D G-CNNs for Pulmonary
-Nodule Detection,」 April. &lt;a href=&quot;http://arxiv.org/abs/1804.04656&quot;&gt;http://arxiv.org/abs/1804.04656&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;XinZhiYuan. 2020. 「Geometrical Deep Learning 受愛因斯坦啟示：讓AI擺脫平面看到更高的維度.」 2020. &lt;a href=&quot;https://kknews.cc/tech/gpkgx3e.html&quot;&gt;https://kknews.cc/tech/gpkgx3e.html&lt;/a&gt;.&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="python" /><category term="quantization" /><category term="model compression" /><category term="pruning" /><category term="distillation" /><summary type="html">Math AI - G-CNN (Group + CNN) Where is group theory (G-CNN) + Curved Space (Spherical CNN)</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="softmax" /><summary type="html">本文測試 Typora 加上 Mermaid script.</summary></entry></feed>

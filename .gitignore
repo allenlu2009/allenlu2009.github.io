@@ -38,7 +38,10 @@ xcuserdata/**
 /api_init_files_list.txt
 /estimator_api_init_files_list.txt
 *.whl
-
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
 # Android
 .gradle
 .idea
