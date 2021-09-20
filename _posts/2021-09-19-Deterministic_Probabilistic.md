@@ -1,5 +1,5 @@
 ---
-title: Math AI: Deterministic and Probabilistic?
+title: Math AI - Deterministic and Probabilistic?
 categories:
 - AI
 tags: [machine learning, deep learning, ML]
