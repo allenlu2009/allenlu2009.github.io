@@ -116,7 +116,7 @@ $$
 
 因此如何讓 deterministic neural network 用於 Bayesian inference?  有以下幾種可能性：
 
-### Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here
+#### Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here
 
 Deterministic functions 可以產生 conditional probability.  如下例
 
@@ -267,7 +267,7 @@ $$
 
 現在問題是：這個 neural network 長得怎麼樣？以及如何把 deterministic neural network 轉換成 probabilistic distribution?
 
-### Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE encoder)
+#### Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE encoder)
 
 Example 2 and 3 NN 產生 conditional distribution 的方式只能用在 discrete distribution.   對於 continuous distribution, NN 無法產生無限長的 distribution!  例如 VAE 使用 Normal distribution 如下：
 
@@ -293,7 +293,7 @@ Typically, we use a single encoder neural network to perform posterior inference
 Let’s now make the assumption that p(z) is a standard Gaussian distribution and that $p(x\mid z)$ is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)
 
 $$
-\begin{aligned}(\boldsymbol{f(z)}) &=\text { EncoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned}
+\begin{aligned}(\boldsymbol{f(z)}) &=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned}
 $$
 
 $$
@@ -303,7 +303,30 @@ $$
 \end{aligned}
 $$
 
-似乎只能 heuristically 解釋，沒有很 solid math fondation.
+What is $c$? 似乎只能 heuristically 解釋，沒有很 solid math fondation.
+
+##### 一個 random generator 不夠解釋 encoder and decoder？ 那就兩個
+
+我再想了一下，其實這可以視為 $z$ 的定義問題。我們借用 reparameterization trick 的 encoder formulation for $z$ 如下：
+
+$$
+\begin{aligned}\boldsymbol{\epsilon} & \sim \mathcal{N}(0, \mathbf{I}) \\(\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &=\text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\\mathbf{z} &=\boldsymbol{\mu}+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon}\end{aligned}
+$$
+
+我們可以分解  $\boldsymbol{\epsilon} = \boldsymbol{\epsilon}_1 + \boldsymbol{\epsilon}_2$ 都是 random variables.
+
+$$
+\begin{aligned}
+\boldsymbol{\epsilon_1}, \boldsymbol{\epsilon_2} & \sim \mathcal{N}(0, \mathbf{I}/\sqrt{2}) \\
+(\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &=\text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\
+\mathbf{z}' &=\boldsymbol{\mu}+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon_1} \\
+\boldsymbol{f(z')} &=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z'}) \\
+\mathbf{x}' = \boldsymbol{f(z')}+\boldsymbol{\delta} &=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}'+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon}_2) \\
+p_{\boldsymbol{\theta}}(\mathbf{x}' \mid \mathbf{z}') &=\mathcal{N}(\mathbf{x}' ; \boldsymbol{f(z')}, c)
+\end{aligned}
+$$
+
+where $c$ is the standard deviation of $\boldsymbol{\delta}$. 用 $z$' 取代 $z$.
 
 ## 比較 Variational EM and VAE Algorithm
 
@@ -378,35 +401,58 @@ Step 2: 因為 posterior intractable, 引入另一個 encoder neural network ($\
 
 ### EM algorithm 和 VAE 的差別
 
-* EM posterior is tractable (Q funciton);  VAE posterior is intractable (沒有 analytical form). 我們用另一個 (tractable) neural network $\phi$ 去近似 (intractable) posterior.
-
+EM posterior is tractable (Q funciton);  **VAE posterior is intractable (沒有 analytical form). 我們用另一個 (tractable) neural network $\phi$ 去近似 (intractable) posterior.**
 $$
 \begin{aligned}
 \log p_{\boldsymbol{\theta}}(\mathbf{x}) &=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x})\right] \\
 &=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &=\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})} \frac{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
-&=\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\boldsymbol{x}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)}
+&=\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})\,\text{, ELBO}}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\boldsymbol{x}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)}
 \end{aligned}
 $$
 
-* 把所有 EM 的 $q(z)$  變成 $q_{\phi}(z\mid x)$.    兩者完全一致
-* **Log Marginal Likelihood = ELBO + KL Gap.**  兩者完全一致
-* 第一項是 ELBO, $\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})$,
-  * 第二項是 KL divergence gap, $D_{K L} \ge 0$.  
-  * KL divergence 決定近似的 NN 和 true posterior 距離多遠。
-  
+再來我們比較一般 VAE 的 loss function [Wiki?]:
+
+$$
+\begin{align}
+l_{i}(\theta, \phi)=-E_{z \sim q_{\phi}\left(z | x_{i}\right)}\left[\log p_{\theta}(x_{i} | z)\right]+D_{K L} \left(q_{\phi}(z | x_{i}) \|\,p(z)\right) \label{eqVAEloss}
+\end{align}
+$$
+
+以下證明 **VAE loss function 只有等價 ELBO x (-1)**，注意**不等價 Log Marginal  Likelihood x (-1)**!
+
+$$
+\begin{aligned}
+&\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})\,\text{, ELBO}} \\
+&= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) p(\mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})p(\mathbf{z})}\right]\right]} \\
+&= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{\mathbf{z}} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p(\mathbf{z})}\right]\right]} + {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{ p(\mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]} \\
+&= \mathbb{E}_{q_{\phi}(\mathbf{z} | \mathbf{x})}\left[\log p_{\theta}(\mathbf{x} | \mathbf{z})\right] - D_{K L}\left(q_{\phi}(\mathbf{z} | \mathbf{x}) \|\,p(\mathbf{z})\right)
+\end{aligned}
+$$
+EM optimization 是 **Maximize Marginal Likelihood** $\eqref{eqEM}$  **= maximize ELBO (M-step) and minimize KL gap (E-step)** 
+
+* **Log Marginal Likelihood = ELBO + KL Gap.**  
+* 第一項是 ELBO, $\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})$；第二項是 KL divergence gap, $D_{K L} \ge 0$.  
+  * KL divergence 決定近似的 NN encoder 和 true posterior 距離多遠。
+
   * KL divergence gap 也決定 ELBO bound 的 tightness.
 * EM Training 方法：（**假設 posterior is tractable**）
 
   * E-step: **update posterior** ( tractable $q=p(z\mid x)$ ) to **minimize KL gap**
-  
   * M-step: **update parameter** $\theta$ to **maximize ELBO/Marginal likelihood**
-  
   * E-step and M-step Iterative update 永遠會增加 ELBO, 但這不一定是好事！很有可能會卡在 local maximum, 需要多個 initial condition to avoid some local maximum.
+
+
+
+VAE 似乎有兩種不同的 optimization! **(1) maximize Marginal Likelihood**; (2) **maximize ELBO = minimize VAE loss**.
+
+* EM 的 **ELBO term** 和 VAE loss function x (-1) 等價，但不包含 KL gap between encoder, $q_\phi(z\mid  x)$, and posterior, $p_\theta(z\mid x)$! 
+* 但是 VAE loss function 也可以整理出一個 **KL term** between encoder, $q_\phi(z\mid x)$, and prior, $p(z)$.  不過這是一個 regularization term, 並不是愈小愈好！
+  * 如果 maximize marginal likelihood,  希望 encoder 愈接近 posterior 愈好。
+  * 如果 minimize VAE loss, 並不是希望 encoder 愈接近 prior 愈好，而是要在 reconstruction loss and regularization loss 得到一個平衡。
 * VAE 的 posterior is intractable, 但巧妙的利用 encoder ($\phi$) + decoder ($\theta$) structure.  可以用原來的 image 為 golden 做 self-supervise learning.  使用 SGD 於多張 images to back-propagation **同時 update** $\theta, \phi$  (**這和 EM 不同，一石二鳥**)
-  
-  * **Log Marginal Likelihood = ELBO + KL Gap  $\to$  ELBO = Log Marginal Likelihood - KL Gap**
-  * Update $\theta$ and $\phi$  to **maximize ELBO implies maximize the marginal likelihood**,  equivalent to M-step in EM.
+  * **Log Marginal Likelihood = ELBO + KL Gap  $\to$  ELBO = Log Marginal Likelihood - KL Gap （Wrong!)**
+  * Update $\theta$ and $\phi$  to **maximize ELBO implies maximize the marginal likelihood or minimize the KL gap**,  equivalent to M-step in EM?  really, how to prove?
   * NN $\phi$  近似 posterior ($q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \approx p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})$), **update $\phi$ implies to minimize KL gap**, equivalent to E-step in EM.
   * VAE 使用 SGD with mini-batch training iteratively,  並不保證 ELBO 永遠會增加 (or loss function 永遠變小)，但可以 leverage neural network trainging 的經驗，似乎收斂性還不錯，雖然無法證明 global 收斂性, 但不至於卡在太差的 local minimum.
 
@@ -419,13 +465,18 @@ $$
 在 EM 這是兩件事：E-step: update posterior q = .. to minimize the gap between ;   M-step: update $\theta$  to maximize ELBO or the simplified version Q function (joint distribution over posterior distribution, remove self-entropy from ELBO)
 
 **Log Marginal Likelihood = ELBO + KL Gap**
-**ELBO = Q function (negative value) + self-entropy (postive value)**
-**Q Function = log joint distribution (tractable) expectation over (approx.) posterior**
+EM 邏輯：maximize Likelihood:  E-step minimize KL gap using Q function;  M-step maximize ELBO using Q function, 忽略 self-entropy since it's parameter independent?
+
+* **ELBO = Q function (negative value) + self-entropy (postive value)**
+* **Q Function = log joint distribution (tractable) expectation over (approx.) posterior**
+
+VAE 邏輯 : 直接忽略 KL Gap, focus on maximize ELBO (在 VAE 似乎是同一件事, does it make sense?)
+*  **ELBO = log likelihood/conditional distribution (tractable) expectation over (approx.) posterior （negative) - regularization loss (positive) = - (reconstruction loss + regularization loss)** 
+*  reconstruction loss and regularization loss 是互相 trade-off, 並不是一個愈大，一個愈小。
 
 在 VAE 似乎是同一件事，let's take a look of minimize KL gap between posterior and approx. q.
 
 此處 $g^*= \mu$ and $h^* = \log \sigma$,  $g^*$ and $h^*$ 其實就是 $\phi$
-
 $$
 \begin{aligned}
 \left(g^{*}, h^{*}\right) &=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
@@ -435,7 +486,6 @@ $$
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
 \end{aligned}
 $$
-
 這個結果好像跟下面 maximize ELBO 的結論一樣？？
 
 1. 結論一： 從 joint pdf 出發 (ELBO)
@@ -465,7 +515,9 @@ $$ = {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \
 $$
 \mathbb{E}_{z \sim q_{\phi}(z\mid x)}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{\phi}(z\mid x)\| p(z)\right)
 $$
-第二項假設 prior p(z) and posterior q(z|x) 為 normal distribution, 有 close form.
+第二項是 regularization term,  避免 posterior approximiation collapse to deterministic.  假設 prior p(z) and posterior q(z|x) 為 normal distribution, 有 close form.
+
+第一項很明顯是 reconstruction loss x (-1)!
 
 ELBO x (-1) 變成 VAE loss function.  此時拆解和解釋和 EM 有些不同。
 
@@ -484,7 +536,6 @@ ELBO x (-1) 變成 VAE loss function.  此時拆解和解釋和 EM 有些不同�
 **-1 x ELBO = Loss (positive value) = reconstruction loss (positive value) + regularization loss (positive value).**  (for VAE)
 
 Very important:  maximize ELBO = minimize gap between posterior and q!!! (by xxx)
-
 $$
 \begin{aligned}
 \left(g^{*}, h^{*}\right) &=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
@@ -494,7 +545,6 @@ $$
 &=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
 \end{aligned}
 $$
-
 ### VAE ELBO 用 SGD Optimization
 
 VAE 的 ELBO 是 joint optimization of parameters ($\phi$ and $\theta$) using SGD!  這和 EM algorithm 不同，也不保證遞增。
@@ -521,14 +571,12 @@ $$\begin{align}
 The last line $\eqref{eqGd4}$ is a simple Monte Carlo estimator of the second line $\eqref{eqGd2}$, where z in the last two lines $\eqref{eqGd3}$ and $\eqref{eqGd4}$ is a random sample from $q_{\phi}(z\mid x)$.
 
 Unbiased gradients w.r.t. the variational parameters $\phi$ are more difficult, since the ELBO’s expectation is taken w.r.t. the distribution $q_{\phi}(z\mid x)$, which is a function of $\phi$. In general
-
 $$
 \begin{aligned}
 \nabla_{\boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\phi}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})\right] \\
 & \neq \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\phi}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right]
 \end{aligned}
 $$
-
 我們可以用 reparameterization trick 計算 unbiased estimates of $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$.
 
 ### Reparameterization Trick
@@ -544,20 +592,16 @@ Reparameterization trick 就是為了解決這個問題。How?
 
 
 1. 把 $\mathbf{z} \sim q_{\phi}(z\mid x)$ 轉換 (differentiable and invertable) 成另一個 random variable $\boldsymbol{\epsilon}$, given $\mathbf{z}$ and $\phi$:
-
 $$
 \mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})
 $$
-
 where the distribution of random variable $\boldsymbol{\epsilon}$ is indepedent of $\boldsymbol{\phi}, \mathbf{x}$.
 
 2. Gradient of expectation under change of variable
-   $$
+$$
    \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}[f(\mathbf{z})]=\mathbb{E}_{p(\epsilon)}[f(\mathbf{z})]
-   $$
-
+$$
 where $\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})$, and the gradient and expectation becomes commutative,  結果如上圖右。
-
 $$
 \begin{aligned}
    \nabla_{\phi} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}[f(\mathbf{z})] &=\nabla_{\phi} \mathbb{E}_{p(\boldsymbol{\epsilon})}[f(\mathbf{z})] \\
@@ -565,13 +609,11 @@ $$
    & \simeq \nabla_{\phi} f(\mathbf{z})
    \end{aligned}
 $$
-
 更多的數學推導可以參考 ref[Maxwelling], 最後完整的形式如下：
 
 
 
 #### 假設 factorized Gaussian encoder
-
 $$
 \begin{array}{r}
 q_{\phi}(\mathbf{z} \mid \mathbf{x})=\mathcal{N}\left(\mathbf{z} ; \boldsymbol{\mu}, \operatorname{diag}\left(\boldsymbol{\sigma}^{2}\right)\right): \\
@@ -579,11 +621,7 @@ q_{\phi}(\mathbf{z} \mid \mathbf{x})=\mathcal{N}\left(\mathbf{z} ; \boldsymbol{\
 q_{\phi}(\mathbf{z} \mid \mathbf{x})=\prod_{i} q_{\phi}\left(z_{i} \mid \mathbf{x}\right)=\prod_{i} \mathcal{N}\left(z_{i} ; \mu_{i}, \sigma_{i}^{2}\right)
 \end{array}
 $$
-
-
-
 做完 reparametrization, 我們得到
-
 $$
 \begin{aligned}
 \boldsymbol{\epsilon} & \sim \mathcal{N}(0, \mathbf{I}) \\
@@ -637,20 +675,16 @@ SGD optimization of ELBO.  這裡的 noise 包含 sampling of $p(\boldsymbol{\ep
 
 
 ####  Full-covariance Gaussian encoder
-
 $$
 q_{\phi}(\mathbf{z} \mid \mathbf{x})=\mathcal{N}(\mathbf{z} ; \boldsymbol{\mu}, \boldsymbol{\Sigma})
 $$
-
 A reparameterization of this distribution is given by:
-
 $$
 \begin{aligned}
 &\boldsymbol{\epsilon} \sim \mathcal{N}(0, \mathbf{I}) \\
 &\mathbf{z}=\boldsymbol{\mu}+\mathbf{L} \boldsymbol{\epsilon}
 \end{aligned}
 $$
-
 where $\mathbf{L}$ is a lower (or upper) triangular matrix, with non-zero entries on the diagonal.  The off-diagonal elements defines the correlations of elements in $\mathbf{z}$.
 
 **Goal A - Algorithm 2**
@@ -676,7 +710,6 @@ Computation of unbiased estimate of **single datapoint ELBO for example VAE** wi
 ​	$\tilde{\mathcal{L}}$ : unbiased estimate of the signle-datapoint ELBO $\mathcal{L}_{\theta,\phi}(\mathbf{x})$
 
 **ALG:**
-
 $$
 \begin{align*}
 &\left(\boldsymbol{\mu}, \log \boldsymbol{\sigma}, \mathbf{L}^{\prime}\right) \leftarrow \text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\
@@ -690,19 +723,15 @@ $$
 &\tilde{\mathcal{L}}=\tilde{\mathcal{L}}_{\operatorname{logpx}}+\tilde{\mathcal{L}}_{\operatorname{logpz}}-\tilde{\mathcal{L}}_{\operatorname{logqz}}
 \end{align*}
 $$
-
 第一項 loss function 就是 reconstruction loss, 不過是 Bernoulli distribution，可以視爲 black-and-white image.  第二項是 prior loss gauge how far it is from normal distribution?  第三項是 regularization term? $\sigma = 1$ 是 minimum loss point.
 
 #### Goal B - Estimation of Marginal Likelihood (Generative)
 
 在 VAE training $(\theta, \phi)$ 之後，下一步是可以 estimate marginal likelihood, $p_{\theta}(\mathbf{x})$, using **important sampling** technique.  The marginal likelihood likelihood of a datapoint is:
-
 $$
 \log p_{\boldsymbol{\theta}}(\mathbf{x})=\log \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) / q_{\phi}(\mathbf{z} \mid \mathbf{x})\right]
 $$
-
 Taking random samples from $q_{\phi}(\mathbf{z} \mid \mathbf{x})$, a Monte Carlo estimator is:
-
 $$
 \log p_{\boldsymbol{\theta}}(\mathbf{x}) \approx \log \frac{1}{L} \sum_{l=1}^{L} p_{\boldsymbol{\theta}}\left(\mathbf{x}, \mathbf{z}^{(l)}\right) / q_{\phi}\left(\mathbf{z}^{(l)} \mid \mathbf{x}\right)
 $$
@@ -721,6 +750,7 @@ where each $\mathbf{z}^{(l)}\sim q_{\phi}(\mathbf{z} \mid \mathbf{x})$ is a rand
 
 1. Decoder NN 的 probablistic interprestation 如何解釋？
 2. ML (maximum marginal likelihood) objective ; maximize ELBO objective,  Minimize KL of $(q_{\phi}(x \mid z) \| p_{\theta} (x\mid z) $)  objective.  這三個 objectives 的關係?
-   1. EM:  final ML objective :  first minimize KL objective (E-step);  then maximize ELBO objective (M-step); and iteration
-   2. VAE:  maximize ELBO objective!   Does it equal to Minimize KL objective? and equal to ML objective? (No, not equivalent?) 
+   1. **EM:  final ML objective :  first minimize KL objective (E-step);  then maximize ELBO objective (M-step); and iteration**
+   2. **VAE:  maximize ELBO objective!   Does it equal to Minimize KL objective? and equal to ML objective? (No, not equivalent?)** 
 
+<img src="/media/image-20210920143828170.png" alt="image-20210920143828170" style="zoom:67%;" />

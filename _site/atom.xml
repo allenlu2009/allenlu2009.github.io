@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-19T14:28:53+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html"></title><link href="http://localhost:4000/2021/09/19/2021-09-19-Deterministic_Probabilistic/" rel="alternate" type="text/html" title="" /><published>2021-09-19T14:28:53+08:00</published><updated>2021-09-19T14:28:53+08:00</updated><id>http://localhost:4000/2021/09/19/2021-09-19-Deterministic_Probabilistic</id><content type="html" xml:base="http://localhost:4000/2021/09/19/2021-09-19-Deterministic_Probabilistic/">&lt;p&gt;Machine learning 就是一個 determinstic 和 probabilistic 擺盪和交織的過程。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-20T21:38:51+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">NexT</title><author><name>Allen Lu (from John Doe)</name></author><entry><title type="html"></title><link href="http://localhost:4000/2021/09/20/2021-09-19-Deterministic_Probabilistic/" rel="alternate" type="text/html" title="" /><published>2021-09-20T21:38:51+08:00</published><updated>2021-09-20T21:38:51+08:00</updated><id>http://localhost:4000/2021/09/20/2021-09-19-Deterministic_Probabilistic</id><content type="html" xml:base="http://localhost:4000/2021/09/20/2021-09-19-Deterministic_Probabilistic/">&lt;p&gt;Machine learning 就是一個 determinstic 和 probabilistic 擺盪和交織的過程。&lt;/p&gt;
 
 &lt;p&gt;(Input) dataset 一般是 deterministic.&lt;/p&gt;
 
@@ -7,6 +7,8 @@
 &lt;p&gt;但是 ML 背後的 modeling, 邏輯，和解釋卻可以用 probabilistic 統一解釋。例如 logistic regression, 甚至 neural network 的分類網路卻可以有 probability 的詮釋。&lt;/p&gt;
 
 &lt;p&gt;最後一類從頭到尾都是 probabilistic.  例如 bayesian inference, variational autoencoder.&lt;/p&gt;
+
+&lt;p&gt;假設我們都先限制在 training; all data; mini-batch (some randomness) or 1-point.   Inference 都可以假設是 1-point.&lt;/p&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -21,37 +23,51 @@
   &lt;tbody&gt;
     &lt;tr&gt;
       &lt;td&gt;Linear regression&lt;/td&gt;
-      &lt;td&gt;(D) dataset&lt;/td&gt;
+      &lt;td&gt;(D) all data&lt;/td&gt;
       &lt;td&gt;(D) linear function&lt;/td&gt;
       &lt;td&gt;(D) error&lt;/td&gt;
       &lt;td&gt; &lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;Logistic regression&lt;/td&gt;
-      &lt;td&gt;(D) dataset&lt;/td&gt;
+      &lt;td&gt;(D) all data&lt;/td&gt;
       &lt;td&gt;(D) logistic function&lt;/td&gt;
       &lt;td&gt;(P) probability distribution&lt;/td&gt;
       &lt;td&gt;distribution is a (D) function&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td&gt;Classification NN&lt;/td&gt;
-      &lt;td&gt;(D) dataset&lt;/td&gt;
+      &lt;td&gt;Classification NN learning&lt;/td&gt;
+      &lt;td&gt;(P) random minibatch data&lt;/td&gt;
+      &lt;td&gt;(D) NN&lt;/td&gt;
+      &lt;td&gt;(P) random gradient&lt;/td&gt;
+      &lt;td&gt;Loss + SGD&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Classification NN inference&lt;/td&gt;
+      &lt;td&gt;(D) fixed 1-data&lt;/td&gt;
       &lt;td&gt;(D) NN&lt;/td&gt;
       &lt;td&gt;(P) probability distribution&lt;/td&gt;
       &lt;td&gt; &lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td&gt;VAE encoder, training&lt;/td&gt;
-      &lt;td&gt;(D) 1-data&lt;/td&gt;
+      &lt;td&gt;VAE training&lt;/td&gt;
+      &lt;td&gt;(P) fixed 1-data&lt;/td&gt;
       &lt;td&gt;(D) NN&lt;/td&gt;
-      &lt;td&gt;(P) random variable&lt;/td&gt;
+      &lt;td&gt;(P) random gradient&lt;/td&gt;
+      &lt;td&gt;Loss + SGD&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;VAE encoder, training&lt;/td&gt;
+      &lt;td&gt;(D) fixed 1-data&lt;/td&gt;
+      &lt;td&gt;(D) NN&lt;/td&gt;
+      &lt;td&gt;(P) parameter of distribution&lt;/td&gt;
       &lt;td&gt;parameter to RV&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;VAE decoder, generation&lt;/td&gt;
-      &lt;td&gt;(P) RV 1-sample&lt;/td&gt;
+      &lt;td&gt;(P) random 1-sample from z&lt;/td&gt;
       &lt;td&gt;(D) NN&lt;/td&gt;
-      &lt;td&gt;(P) random variable&lt;/td&gt;
+      &lt;td&gt;(P) random output variable&lt;/td&gt;
       &lt;td&gt;output sample&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
@@ -64,11 +80,285 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 
+&lt;p&gt;&lt;strong&gt;Some misc note&lt;/strong&gt;&lt;/p&gt;
+
 &lt;p&gt;absolute deterministic:  function, NN? (input/output), not parameter
 deterministic/probabilistic:  random variable, distribution; ideal is random, but representation (function) is determinstic!
 probabilistic:  sampling, MC&lt;/p&gt;
 
-&lt;p&gt;single data-point and collective data&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author></entry><entry><title type="html">Machine Learning Database</title><link href="http://localhost:4000/ai/2021/09/19/Machine_Learning_Database/" rel="alternate" type="text/html" title="Machine Learning Database" /><published>2021-09-19T00:00:00+08:00</published><updated>2021-09-19T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/19/Machine_Learning_Database</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/19/Machine_Learning_Database/">&lt;p&gt;AI, 特別是深度學習的 ABC 是 Algorithm, Big data, and Computation.&lt;/p&gt;
+&lt;p&gt;single data-point and collective data&lt;/p&gt;
+
+&lt;p&gt;我們分析什麼 input-model-output pattern 是合理的？&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;D-D-D or P-P-P 顯然合理 (everything is deterministic or probabilistic)&lt;/li&gt;
+  &lt;li&gt;P-D-P or D-P-P 也合理 (probabilistic input or model 產生 probabilistic output)&lt;/li&gt;
+  &lt;li&gt;D-D-P 看起來奇怪需要解釋 (determinsitic input and model 產生 probabilistic output)&lt;/li&gt;
+  &lt;li&gt;D-P-D or P-P-D or P-D-D 似乎不 make sense (probabilistic input or model 產生 deterministic output)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;deterministic-inside-probabilistic-d-d-p&quot;&gt;Deterministic inside Probabilistic (D-D-P)&lt;/h4&gt;
+
+&lt;p&gt;只看上表又太簡化。例如 input (D), model (D), 如何產生 output (P)?&lt;/p&gt;
+
+&lt;p&gt;我們更進一步分析 probabilistic: 包含 distribution 和 sampling.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Distribution (function) 和 parameters 可以視為另一類 deterministic!  因為 distribution function 本身並非 random.&lt;/li&gt;
+  &lt;li&gt;真正的 probabilistic 顯現在 randomness, 例如 Sampling 是 random, 也就是每次可能不同。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;d-distribution-and-p-or-random-sample-分布和採樣&quot;&gt;(D) Distribution and (P or Random) Sample 分布和採樣&lt;/h3&gt;
+&lt;p&gt;以上的分析都是基於數學上的機率分布或是訊息論。實務上我們看不到摸不到機率分布或是 entropy/information，只有採樣 (sample) 和 Monte Carlo simulation.&lt;/p&gt;
+
+&lt;p&gt;我們先從機率分布 $p(x)$, $x$ 的期望值定義為：
+&lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}[x]=\int x p(x) d x&lt;/script&gt;
+如果我們選擇 $x_o &amp;lt; x_1 &amp;lt; … &amp;lt; x_n$，數值積分變成
+&lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}[x] \approx \sum_{i=1}^{n} x_{i} p\left(x_{i}\right)\left(x_{i}-x_{i-1}\right)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;問題是我們可能根本不知道 $p(x_i)$，這就是有趣的部分：$p(x_i)(x_i - x_{i-1})$ 代表 $x_i$ 採樣出現的機率。也就是說其實我們不用做什麼事，只要“隨機採樣” $x_i$，就自帶機率部分。但是我們需要 normalize to total 採樣次數。
+&lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}[x] \approx \frac{1}{n} \sum_{i=1}^{n} x_{i}, \quad x_{i} \sim p(x)&lt;/script&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;注意採樣的 $x_i$ 只要求隨機，並不要求有順序 $x_o &amp;lt; x_1 &amp;lt; … &amp;lt; x_n$.&lt;/li&gt;
+  &lt;li&gt;$p(x_i)$ 大的採樣機率自然大。採樣結果已經包含了 $p(x)$ 就不用再乘 $p(x)$, 也不用知道 $p(x)$ 到底是什麼。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;可以推廣到一般的期望值&lt;/strong&gt;
+&lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}_{x \sim p(x)}[f(x)]=\int f(x) p(x) d x \approx \frac{1}{n} \sum_{i=1}^{n} f\left(x_{i}\right), \quad x_{i} \sim p(x)&lt;/script&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;這就是蒙地卡羅模擬的基礎。看起來簡單，實際上隨機採樣並不容易。
+Gaussian distribution，uniform distribution 採樣很容易。但是一個複雜的 distribution 像是 image distribution 的採樣很困難。&lt;/p&gt;
+
+&lt;h4 id=&quot;example-1-vae-training&quot;&gt;Example 1: VAE Training&lt;/h4&gt;
+
+&lt;p&gt;VAE loss function, 這是一個 expectation base on (D) distribution.  我們要 throw in (R) samples 才能 train encoder and decoder NN, i.e. $\theta, \phi$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathcal{L} &amp;=\mathbb{E}_{x \sim \tilde{p}(x)}\left[\mathbb{E}_{z \sim p(z \mid x)}[-\ln q(x \mid z)]+\mathbb{E}_{z \sim p(z \mid x)}\left[\ln \frac{p(z \mid x)}{q(z)}\right]\right] \\
+&amp;=\mathbb{E}_{x \sim \tilde{p}(x)}\left[\mathbb{E}_{z \sim p(z \mid x)}[-\ln q(x \mid z)]+K L(p(z \mid x) \| q(z))\right]
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Imagenet 的影像 sample 就不是隨機 sample, 有太多人為的選擇。
+我們假設 for a fixed image $x_i$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;l_{i}(\theta, \phi)=-E_{z \sim q_{\phi}\left(z | x_{i}\right)}\left[\log p_{\theta}(x_{i} | z)\right]+K L\left(q_{\phi}(z | x_{i}) \|\,p(z)\right)&lt;/script&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;因為 $p(z)$ and $p_\theta(x’_i&lt;/td&gt;
+      &lt;td&gt;z)$ 是由 Gaussian random variable 產生。基本符合“採樣”原則。$z$ 的 mean and variance 是從 $x_i$ 得到，一般不怎麼 random?  但是 training 大多使用 stochastic gradient descend (SGD), 算是比較 random? but the prior image set 依然不是 random, 也不一定是 $p(x)$ distribution.  我們假設 $x_i$ sample somehow follows $p(x)$ to make our life easier :)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathcal{L}=\mathbb{E}_{x \sim \tilde{p}(x)}[-\ln q(x \mid z)+K L(p(z \mid x) \| q(z))], \quad z \sim p(z \mid x)&lt;/script&gt;
+
+&lt;p&gt;$x_i$ 得到 mean and variance.  第一個對 posterior expectation 可以用採樣取代。 KL 則可以用 close form!! which is $\mu^2 + \log \sigma$ (TBC)&lt;/p&gt;
+
+&lt;p&gt;因此可以採樣加上計算得到單一 $x_i$.  這就是 VAE 的 training 方式？&lt;/p&gt;
+
+&lt;p&gt;我們再看一些其他 training 例子。&lt;/p&gt;
+
+&lt;h4 id=&quot;fitting-latent-variable-models-em-algorithm&quot;&gt;Fitting Latent Variable Models EM Algorithm&lt;/h4&gt;
+&lt;p&gt;Expectation Maximization (EM) algorithm is widely used algorithm for fitting &lt;strong&gt;directed LVM models&lt;/strong&gt; which aim is the same as in the case of maximum likelihood estimation - maximize data likelihood $p_{\theta}(x)$ for some model $p_{\theta}(x, z)$ of particular parametric family with parameters θ.&lt;/p&gt;
+
+&lt;p&gt;Having collected observable data points $\mathcal{D}={\mathbf{x}^{(1)}, \mathbf{x}^{(2)}, \cdots, \mathbf{x}^{(m)}}$ (where $m \ge 1$), we wish to maximize marginal log-likelihood of the data&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\log \left[p_{\boldsymbol{\theta}}(\mathcal{D})\right]=\mathbb{E}_{\mathbf{x} \sim \mathcal{D}}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x})\right]=\mathbb{E}_{\mathbf{x} \sim \mathcal{D}}\left[\mathbb{E}_{\mathbf{z} \sim p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right]\right]&lt;/script&gt;
+
+&lt;h5 id=&quot;poczoscllusteringem2015&quot;&gt;[@poczosCllusteringEM2015]&lt;/h5&gt;
+
+&lt;h4 id=&quot;example-2--given-input-經過-deterministic-nn-轉成-probabilistic-conditional-distribution&quot;&gt;Example 2:  Given Input 經過 Deterministic NN 轉成 Probabilistic Conditional Distribution&lt;/h4&gt;
+
+&lt;p&gt;[@kingmaIntroductionVariational2019]&lt;/p&gt;
+
+&lt;p&gt;一般的 differentiable feed-forward neural networks are a particularly flexible and computationally scalable type of &lt;strong&gt;function approximator.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;A particularly interesting application is probabilistic models&lt;/strong&gt;, i.e. the use of neural networks for probability density functions (PDFs) or probability mass functions (PMFs) in probabilistic models (how?). Probabilistic models based on neural networks are computationally scalable since they allow for stochastic gradient-based optimization.&lt;/p&gt;
+
+&lt;p&gt;We will denote a deep NN as a vector function:  NeuraNet(.).  In case of neural entwork based image classifcation, for example, nerual networks parameterize a categorical distrbution $p_{\theta}(y\mid \mathbf{x})$ over a class label $y$,  conditioned on an image $\mathbf{x}$.  ??? y is a single label or distribution?&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\mathbf{p} &amp;=\operatorname{NeuralNet}_{\boldsymbol{\theta}}(\mathbf{x}) \\
+p_{\boldsymbol{\theta}}(y \mid \mathbf{x}) &amp;=\text { Categorical }(y ; \mathbf{p})
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where the last operation of NeuralNet(.) is typical a softmax() function! such that $\Sigma_i p_i = 1$&lt;/p&gt;
+
+&lt;p&gt;這是很有趣的觀點。 $\mathbf{x}$ and $\mathbf{p}$ 都是 deterministic, 甚至 softmax function 都是 deterministic.  但我們賦予最後的 $y$ probabilistic distribution 涵義！基本上 NN 分類網路都是如此 (e.g. VGG, ResNet, MobileNet)。&lt;/p&gt;
+
+&lt;p&gt;例如 $\mathbf{x}$ 可能是一張狗照片， $\mathbf{p}$ 是 feature extraction of $\mathbf{x}$.  兩者都是 deterministic.   但最後 categorical function 直接把 $\mathbf{p}$  賦予多值的 (deterministic) distribution, 例如狗的機率 $p_1 = 0.8,$ 貓的機率  $p_2 = 0.15,$ 其他的機率  $p_3 = 0.05.$    這和我們一般想像的機率性 outcome,   同一個 $\mathbf{p}$ 有時 output 狗，有時 output 貓不同。&lt;/p&gt;
+
+&lt;p&gt;數學上這只是 vector to vector conversion,   $\mathbf{p}$ 是 high dimension feature vector (e.g. 1024x1), $\mathbf{y} = [y_1, y_2, \cdots]$ 是 low dimension output vector (e.g. 3x1 or 10x1) summing to 1.  重點是這個 low dimension vector $\mathbf{y}$ 就是 conditional distribution!  &lt;strong&gt;也就是一個 sample $\mathbf{x}$ 就可以 output 一個 conditional distribution, 而不需要很多 $\mathbf{x}$ samples 產生 conditional distribution!&lt;/strong&gt;   這很像量子力學中一個電子就可以產生 wave distribution, 有點違反直覺。&lt;/p&gt;
+
+&lt;p&gt;這似乎是把一個 random sample 轉換成一個 (deterministic) conditional distribution 的方式。不過是否是 general method, TBC.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-3-multivariate-bernoulli-data-3-產生-conditional-distribution-的方法和-2-一樣&quot;&gt;Example 3: Multivariate Bernoulli data (3 產生 conditional distribution 的方法和 2 一樣)&lt;/h4&gt;
+
+&lt;p&gt;一個簡單的例子說明 hand-waving 的 assertion for the DLVM.&lt;/p&gt;
+
+&lt;p&gt;Prior $p(z)$ 是簡單的 normal distribution.   Neural network 把 random sample $z$ 轉換成 $\mathbf{p}$, 再來 $\mathbf{p}$ 直接變成 Bernoulli distribution!  就像例三的 softmax 一樣。&lt;/p&gt;
+
+&lt;p&gt;Likelihood $\log p(x\mid z)$ 因此也是簡單的 cross-entropy, i.e. maximum likelihood ~ minimum cross-entropy loss&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+p(\mathbf{z}) &amp;=\mathcal{N}(\mathbf{z} ; 0, \mathbf{I}) \\
+\mathbf{p} &amp;=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\
+\log p(\mathbf{x} \mid \mathbf{z}) &amp;=\sum_{j=1}^{D} \log p\left(x_{j} \mid \mathbf{z}\right)=\sum_{j=1}^{D} \log \operatorname{Bernoulli}\left(x_{j} ; p_{j}\right) \\
+&amp;=\sum_{j=1}^{D} x_{j} \log p_{j}+\left(1-x_{j}\right) \log \left(1-p_{j}\right)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where $\forall p_j \in \mathbf{p}: 0 \le p_j \le 1$&lt;/p&gt;
+
+&lt;p&gt;Joint distribution  $p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})=p_{\boldsymbol{\theta}}(\mathbf{z}) p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z})$​ 就是把兩者乘積。雖然看起來 messy, 還夾著 neural network, 但理論上 straightforward, 甚至可以寫出 analytical form.&lt;/p&gt;
+
+&lt;p&gt;但反過來:  posterior $p(z\mid x)$,  marginal likelihood $p(x)$  即使在這麼簡單的 network, 都是難啃的骨頭！&lt;/p&gt;
+
+&lt;h4 id=&quot;example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae-encoder&quot;&gt;Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE encoder)&lt;/h4&gt;
+
+&lt;p&gt;Example 2 and 3 NN 產生 conditional distribution 的方式只能用在 discrete distribution.   對於 continuous distribution, NN 無法產生無限長的 distribution!  例如 VAE 使用 Normal distribution 如下：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+(\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &amp;=\text { EncoderNeuralNet }_{\boldsymbol{\phi}}(\mathbf{x}) \\
+q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) &amp;=\mathcal{N}(\mathbf{z} ; \boldsymbol{\mu}, \operatorname{diag}(\boldsymbol{\sigma}))
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Neural network 產生 $\mu, \log \sigma$ for normal distribution.  雖然這解決 deterministic to probabilistic 問題。但聽起來還是有點魔幻寫實方式把 deterministic to probabilistic.  這是 VAE 的實際做法。&lt;/p&gt;
+
+&lt;p&gt;雖然的確產生 conditional distribtuion, 但似乎比直接產生 distribution 更不直觀！例如為什麼是 $\log \sigma$, 不是 $\sigma$ 或 $1/\sigma$ ? 另外只產生 $\mu, \log \sigma$ 兩個 parameters, 是否太簡化？  比起 softmax distribution 可能包含 10-100 parameters.&lt;/p&gt;
+
+&lt;p&gt;Before we can answer this question, let me quote below and move on to algorithm.&lt;/p&gt;
+
+&lt;p&gt;Typically, we use a single encoder neural network to perform posterior inference over all of the datapoints in our dataset. This can be contrasted to more traditional variational inference methods where the variational parameters are not shared, but instead separately and iteratively optimized per datapoint. The strategy used in VAEs of sharing variational parameters across datapoints is also called amortized variational inference (Gershman and Goodman, 2014). With amortized inference we can avoid a per-datapoint optimization loop, and leverage the efficiency of SGD.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-5-decoder--how-to-explain-pxmid-z-的-conditional-distribution&quot;&gt;Example 5: Decoder:  How to explain $p(x\mid z)$ 的 conditional distribution?&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&quot;&gt;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s now make the assumption that p(z) is a standard Gaussian distribution and that $p(x\mid z)$ is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}(\boldsymbol{f(z)}) &amp;=\text { EncoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &amp;=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+&amp;p(z) \equiv \mathcal{N}(0, I) \\
+&amp;p(x \mid z) \equiv \mathcal{N}(f(z), c I) \quad f \in F \quad c&gt;0
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;似乎只能 heuristically 解釋，沒有很 solid math fondation.&lt;/p&gt;
+
+&lt;h3 id=&quot;vae-example&quot;&gt;VAE Example&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;media/16219562089016/16227303265905.jpg&quot; alt=&quot;-w134&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;p(x): prior
+p(z|x): likelihood
+p(x|z): posterior
+還是應該反過來？&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;$p(z)$: prior
+$p(x|z)$: likelihood, decoder
+$p(z|x)$: posterior, encoder&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;media/16219562089016/16228271260672.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$I(X; Z) = H(X) - H(X&lt;/td&gt;
+      &lt;td&gt;Z) \ge H(X) - R(X&lt;/td&gt;
+      &lt;td&gt;Z)$ where $R(X&lt;/td&gt;
+      &lt;td&gt;Z)$ denotes the expected reconstruction error of $X$ given the codes $Y$.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$I(X; Z) = D_{KL} (p_{(X,Z)} | p_X p_Z) = E_X [D_{KL} (p_{(Z&lt;/td&gt;
+      &lt;td&gt;X)} | p_Z)] = H(X) - H(X&lt;/td&gt;
+      &lt;td&gt;Z)$&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$ = H(X) + \iint  p(x, z) \log p(x&lt;/td&gt;
+      &lt;td&gt;z) d x d z$&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$ = H(X) + \int p(x) \left[ \int q(z&lt;/td&gt;
+      &lt;td&gt;x) \log p(x&lt;/td&gt;
+      &lt;td&gt;z) d z \right] d x$&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$ = H(X) +  \mathbb{E}&lt;em&gt;{x \sim p(x)}\left[\mathbb{E}&lt;/em&gt;{z \sim q_{\phi}(z&lt;/td&gt;
+      &lt;td&gt;x)}[\log p_{\theta}(x&lt;/td&gt;
+      &lt;td&gt;z)]\right]$&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$ \ge H(X) +  \mathbb{E}&lt;em&gt;{x \sim \tilde{p}(x)}\left[\mathbb{E}&lt;/em&gt;{z \sim q_{\phi}(z&lt;/td&gt;
+      &lt;td&gt;x)}[\log p_{\theta}(x&lt;/td&gt;
+      &lt;td&gt;z)]\right]$&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$E_X [D_{KL} (p_{(Z&lt;/td&gt;
+      &lt;td&gt;X)} | p_Z)] = H(X) +  \mathbb{E}&lt;em&gt;{x \sim p(x)}\left[\mathbb{E}&lt;/em&gt;{z \sim q_{\phi}(z&lt;/td&gt;
+      &lt;td&gt;x)}[\log p_{\theta}(x&lt;/td&gt;
+      &lt;td&gt;z)]\right]$&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$H(X) = E_X [D_{KL} (p_{(Z&lt;/td&gt;
+      &lt;td&gt;X)} | p_Z)] -  \mathbb{E}&lt;em&gt;{x \sim p(x)}\left[\mathbb{E}&lt;/em&gt;{z \sim q_{\phi}(z&lt;/td&gt;
+      &lt;td&gt;x)}[\log p_{\theta}(x&lt;/td&gt;
+      &lt;td&gt;z)]\right]$&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;img src=&quot;media/16219562089016/16228205716215.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;variational-mutual-information&quot;&gt;Variational Mutual Information&lt;/h3&gt;
+&lt;p&gt;From $I(z; x) = H(z) - H(z|x)$&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+I(\mathbf{z} ; \mathbf{x})=&amp; H(\mathbf{z})-H(\mathbf{z} \mid \mathbf{x}) \\
+=&amp; \mathbb{E}_{\mathbf{x} \sim p_{\theta}(\mathbf{x} \mid \mathbf{z})}\left[\mathbb{E}_{\mathbf{z} \sim q_{\phi}(\mathbf{z} \mid \mathbf{x})}[\log P(\mathbf{z} \mid \mathbf{x})]\right]+H(\mathbf{z}) \\
+=&amp; \mathbb{E}_{\mathbf{x} \sim p_{\theta}(\mathbf{x} \mid \mathbf{z})}\left[D_{K L}(P(\cdot \mid x) \| Q(\cdot \mid x))\right.\\
+&amp;\left.+\mathbb{E}_{\mathbf{z}^{\prime} \sim q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log Q\left(\mathbf{z}^{\prime} \mid \mathbf{x}\right)\right]\right]+H(\mathbf{z}) \\
+\geq &amp; \mathbb{E}_{\mathbf{x} \sim p_{\theta}(\mathbf{x} \mid \mathbf{z})}\left[\mathbb{E}_{\mathbf{z}^{\prime} \sim q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log Q\left(\mathbf{z}^{\prime} \mid \mathbf{x}\right)\right]\right]+H(\mathbf{z})
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where $Q$ is auxiliary distribution.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;media/16219562089016/16226426279883.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;graph-representation-and-em-algorithm&quot;&gt;Graph Representation and EM Algorithm&lt;/h4&gt;
+&lt;p&gt;這是 GNN 最簡單的例子。
+&lt;img src=&quot;media/16219562089016/16222960961093.jpg&quot; alt=&quot;-w389&quot; /&gt;&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author></entry><entry><title type="html">Machine Learning Database</title><link href="http://localhost:4000/ai/2021/09/19/Machine_Learning_Database/" rel="alternate" type="text/html" title="Machine Learning Database" /><published>2021-09-19T00:00:00+08:00</published><updated>2021-09-19T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/09/19/Machine_Learning_Database</id><content type="html" xml:base="http://localhost:4000/ai/2021/09/19/Machine_Learning_Database/">&lt;p&gt;AI, 特別是深度學習的 ABC 是 Algorithm, Big data, and Computation.&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;Algorithm: CNN (image, vision), LSTM (voice), Transformer (NLP), etc.&lt;/li&gt;
   &lt;li&gt;Big data: ImageNet, and other big datasets.&lt;/li&gt;
@@ -442,7 +732,7 @@ MathJax.Hub.Config({
 
 &lt;p&gt;因此如何讓 deterministic neural network 用於 Bayesian inference?  有以下幾種可能性：&lt;/p&gt;
 
-&lt;h3 id=&quot;example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here&quot;&gt;Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here&lt;/h3&gt;
+&lt;h4 id=&quot;example-1two-neural-networks-from-a-hidden-random-variable-to-create-conditional-distribution--only-for-demonstration-not-use-here&quot;&gt;Example 1：Two neural networks from a hidden random variable to create conditional distribution.  Only for demonstration, not use here&lt;/h4&gt;
 
 &lt;p&gt;Deterministic functions 可以產生 conditional probability.  如下例&lt;/p&gt;
 
@@ -587,7 +877,7 @@ p(\mathbf{z}) &amp;=\mathcal{N}(\mathbf{z} ; 0, \mathbf{I}) \\
 
 &lt;p&gt;現在問題是：這個 neural network 長得怎麼樣？以及如何把 deterministic neural network 轉換成 probabilistic distribution?&lt;/p&gt;
 
-&lt;h3 id=&quot;example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae-encoder&quot;&gt;Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE encoder)&lt;/h3&gt;
+&lt;h4 id=&quot;example-4given-input-經過-deterministic-nn-轉成-parameters-of-a-random-variable-to-create-conditional-distribution-eg-vae-encoder&quot;&gt;Example 4：Given Input 經過 Deterministic NN 轉成 Parameters of A Random Variable to Create Conditional Distribution (e.g. VAE encoder)&lt;/h4&gt;
 
 &lt;p&gt;Example 2 and 3 NN 產生 conditional distribution 的方式只能用在 discrete distribution.   對於 continuous distribution, NN 無法產生無限長的 distribution!  例如 VAE 使用 Normal distribution 如下：&lt;/p&gt;
 
@@ -612,7 +902,7 @@ q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) &amp;=\mathcal{N}(\mathbf{z} ;
 &lt;p&gt;Let’s now make the assumption that p(z) is a standard Gaussian distribution and that $p(x\mid z)$ is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{aligned}(\boldsymbol{f(z)}) &amp;=\text { EncoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &amp;=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned} %]]&gt;&lt;/script&gt;
+\begin{aligned}(\boldsymbol{f(z)}) &amp;=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &amp;=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned} %]]&gt;&lt;/script&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
@@ -620,7 +910,28 @@ q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) &amp;=\mathcal{N}(\mathbf{z} ;
 &amp;p(x \mid z) \equiv \mathcal{N}(f(z), c I) \quad f \in F \quad c&gt;0
 \end{aligned} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;似乎只能 heuristically 解釋，沒有很 solid math fondation.&lt;/p&gt;
+&lt;p&gt;What is $c$? 似乎只能 heuristically 解釋，沒有很 solid math fondation.&lt;/p&gt;
+
+&lt;h5 id=&quot;一個-random-generator-不夠解釋-encoder-and-decoder-那就兩個&quot;&gt;一個 random generator 不夠解釋 encoder and decoder？ 那就兩個&lt;/h5&gt;
+
+&lt;p&gt;我再想了一下，其實這可以視為 $z$ 的定義問題。我們借用 reparameterization trick 的 encoder formulation for $z$ 如下：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}\boldsymbol{\epsilon} &amp; \sim \mathcal{N}(0, \mathbf{I}) \\(\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &amp;=\text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\\mathbf{z} &amp;=\boldsymbol{\mu}+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon}\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;我們可以分解  $\boldsymbol{\epsilon} = \boldsymbol{\epsilon}_1 + \boldsymbol{\epsilon}_2$ 都是 random variables.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+\boldsymbol{\epsilon_1}, \boldsymbol{\epsilon_2} &amp; \sim \mathcal{N}(0, \mathbf{I}/\sqrt{2}) \\
+(\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &amp;=\text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\
+\mathbf{z}' &amp;=\boldsymbol{\mu}+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon_1} \\
+\boldsymbol{f(z')} &amp;=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z'}) \\
+\mathbf{x}' = \boldsymbol{f(z')}+\boldsymbol{\delta} &amp;=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}'+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon}_2) \\
+p_{\boldsymbol{\theta}}(\mathbf{x}' \mid \mathbf{z}') &amp;=\mathcal{N}(\mathbf{x}' ; \boldsymbol{f(z')}, c)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where $c$ is the standard deviation of $\boldsymbol{\delta}$. 用 $z$’ 取代 $z$.&lt;/p&gt;
 
 &lt;h2 id=&quot;比較-variational-em-and-vae-algorithm&quot;&gt;比較 Variational EM and VAE Algorithm&lt;/h2&gt;
 
@@ -697,51 +1008,69 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 
 &lt;h3 id=&quot;em-algorithm-和-vae-的差別&quot;&gt;EM algorithm 和 VAE 的差別&lt;/h3&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;EM posterior is tractable (Q funciton);  VAE posterior is intractable (沒有 analytical form). 我們用另一個 (tractable) neural network $\phi$ 去近似 (intractable) posterior.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+&lt;p&gt;EM posterior is tractable (Q funciton);  &lt;strong&gt;VAE posterior is intractable (沒有 analytical form). 我們用另一個 (tractable) neural network $\phi$ 去近似 (intractable) posterior.&lt;/strong&gt;
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
 \log p_{\boldsymbol{\theta}}(\mathbf{x}) &amp;=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x})\right] \\
 &amp;=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
 &amp;=\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})} \frac{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right] \\
-&amp;=\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\boldsymbol{x}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)}
+&amp;=\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})\,\text{, ELBO}}+\underbrace{\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{q_{\boldsymbol{x}}(\mathbf{z} \mid \mathbf{x})}{p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=D_{K L}\left(q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \| p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})\right)}
+\end{aligned} %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;再來我們比較一般 VAE 的 loss function [Wiki?]:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align}
+l_{i}(\theta, \phi)=-E_{z \sim q_{\phi}\left(z | x_{i}\right)}\left[\log p_{\theta}(x_{i} | z)\right]+D_{K L} \left(q_{\phi}(z | x_{i}) \|\,p(z)\right) \label{eqVAEloss}
+\end{align}&lt;/script&gt;
+
+&lt;p&gt;以下證明 &lt;strong&gt;VAE loss function 只有等價 ELBO x (-1)&lt;/strong&gt;，注意&lt;strong&gt;不等價 Log Marginal  Likelihood x (-1)&lt;/strong&gt;!&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+&amp;\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})\,\text{, ELBO}} \\
+&amp;= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) p(\mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})p(\mathbf{z})}\right]\right]} \\
+&amp;= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{\mathbf{z}} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p(\mathbf{z})}\right]\right]} + {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{ p(\mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]} \\
+&amp;= \mathbb{E}_{q_{\phi}(\mathbf{z} | \mathbf{x})}\left[\log p_{\theta}(\mathbf{x} | \mathbf{z})\right] - D_{K L}\left(q_{\phi}(\mathbf{z} | \mathbf{x}) \|\,p(\mathbf{z})\right)
 \end{aligned} %]]&gt;&lt;/script&gt;
+EM optimization 是 &lt;strong&gt;Maximize Marginal Likelihood&lt;/strong&gt; $\eqref{eqEM}$  &lt;strong&gt;= maximize ELBO (M-step) and minimize KL gap (E-step)&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;把所有 EM 的 $q(z)$  變成 $q_{\phi}(z\mid x)$.    兩者完全一致&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap.&lt;/strong&gt;  兩者完全一致&lt;/li&gt;
-  &lt;li&gt;第一項是 ELBO, $\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})$,
+  &lt;li&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap.&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;第一項是 ELBO, $\mathcal{L}&lt;em&gt;{\theta,\phi}{(\boldsymbol{x}})$；第二項是 KL divergence gap, $D&lt;/em&gt;{K L} \ge 0$.
     &lt;ul&gt;
-      &lt;li&gt;第二項是 KL divergence gap, $D_{K L} \ge 0$.&lt;/li&gt;
       &lt;li&gt;
-        &lt;p&gt;KL divergence 決定近似的 NN 和 true posterior 距離多遠。&lt;/p&gt;
+        &lt;p&gt;KL divergence 決定近似的 NN encoder 和 true posterior 距離多遠。&lt;/p&gt;
       &lt;/li&gt;
-      &lt;li&gt;KL divergence gap 也決定 ELBO bound 的 tightness.&lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;KL divergence gap 也決定 ELBO bound 的 tightness.&lt;/p&gt;
+      &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;EM Training 方法：（&lt;strong&gt;假設 posterior is tractable&lt;/strong&gt;）&lt;/p&gt;
 
     &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;E-step: &lt;strong&gt;update posterior&lt;/strong&gt; ( tractable $q=p(z\mid x)$ ) to &lt;strong&gt;minimize KL gap&lt;/strong&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;M-step: &lt;strong&gt;update parameter&lt;/strong&gt; $\theta$ to &lt;strong&gt;maximize ELBO/Marginal likelihood&lt;/strong&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;E-step and M-step Iterative update 永遠會增加 ELBO, 但這不一定是好事！很有可能會卡在 local maximum, 需要多個 initial condition to avoid some local maximum.&lt;/p&gt;
-      &lt;/li&gt;
+      &lt;li&gt;E-step: &lt;strong&gt;update posterior&lt;/strong&gt; ( tractable $q=p(z\mid x)$ ) to &lt;strong&gt;minimize KL gap&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;M-step: &lt;strong&gt;update parameter&lt;/strong&gt; $\theta$ to &lt;strong&gt;maximize ELBO/Marginal likelihood&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;E-step and M-step Iterative update 永遠會增加 ELBO, 但這不一定是好事！很有可能會卡在 local maximum, 需要多個 initial condition to avoid some local maximum.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;VAE 的 posterior is intractable, 但巧妙的利用 encoder ($\phi$) + decoder ($\theta$) structure.  可以用原來的 image 為 golden 做 self-supervise learning.  使用 SGD 於多張 images to back-propagation &lt;strong&gt;同時 update&lt;/strong&gt; $\theta, \phi$  (&lt;strong&gt;這和 EM 不同，一石二鳥&lt;/strong&gt;)&lt;/p&gt;
+&lt;/ul&gt;
 
+&lt;p&gt;VAE 似乎有兩種不同的 optimization! &lt;strong&gt;(1) maximize Marginal Likelihood&lt;/strong&gt;; (2) &lt;strong&gt;maximize ELBO = minimize VAE loss&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;EM 的 &lt;strong&gt;ELBO term&lt;/strong&gt; 和 VAE loss function x (-1) 等價，但不包含 KL gap between encoder, $q_\phi(z\mid  x)$, and posterior, $p_\theta(z\mid x)$!&lt;/li&gt;
+  &lt;li&gt;但是 VAE loss function 也可以整理出一個 &lt;strong&gt;KL term&lt;/strong&gt; between encoder, $q_\phi(z\mid x)$, and prior, $p(z)$.  不過這是一個 regularization term, 並不是愈小愈好！
     &lt;ul&gt;
-      &lt;li&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap  $\to$  ELBO = Log Marginal Likelihood - KL Gap&lt;/strong&gt;&lt;/li&gt;
-      &lt;li&gt;Update $\theta$ and $\phi$  to &lt;strong&gt;maximize ELBO implies maximize the marginal likelihood&lt;/strong&gt;,  equivalent to M-step in EM.&lt;/li&gt;
+      &lt;li&gt;如果 maximize marginal likelihood,  希望 encoder 愈接近 posterior 愈好。&lt;/li&gt;
+      &lt;li&gt;如果 minimize VAE loss, 並不是希望 encoder 愈接近 prior 愈好，而是要在 reconstruction loss and regularization loss 得到一個平衡。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;VAE 的 posterior is intractable, 但巧妙的利用 encoder ($\phi$) + decoder ($\theta$) structure.  可以用原來的 image 為 golden 做 self-supervise learning.  使用 SGD 於多張 images to back-propagation &lt;strong&gt;同時 update&lt;/strong&gt; $\theta, \phi$  (&lt;strong&gt;這和 EM 不同，一石二鳥&lt;/strong&gt;)
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap  $\to$  ELBO = Log Marginal Likelihood - KL Gap （Wrong!)&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;Update $\theta$ and $\phi$  to &lt;strong&gt;maximize ELBO implies maximize the marginal likelihood or minimize the KL gap&lt;/strong&gt;,  equivalent to M-step in EM?  really, how to prove?&lt;/li&gt;
       &lt;li&gt;NN $\phi$  近似 posterior ($q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \approx p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})$), &lt;strong&gt;update $\phi$ implies to minimize KL gap&lt;/strong&gt;, equivalent to E-step in EM.&lt;/li&gt;
       &lt;li&gt;VAE 使用 SGD with mini-batch training iteratively,  並不保證 ELBO 永遠會增加 (or loss function 永遠變小)，但可以 leverage neural network trainging 的經驗，似乎收斂性還不錯，雖然無法證明 global 收斂性, 但不至於卡在太差的 local minimum.&lt;/li&gt;
     &lt;/ul&gt;
@@ -759,14 +1088,23 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 &lt;p&gt;在 EM 這是兩件事：E-step: update posterior q = .. to minimize the gap between ;   M-step: update $\theta$  to maximize ELBO or the simplified version Q function (joint distribution over posterior distribution, remove self-entropy from ELBO)&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Log Marginal Likelihood = ELBO + KL Gap&lt;/strong&gt;
-&lt;strong&gt;ELBO = Q function (negative value) + self-entropy (postive value)&lt;/strong&gt;
-&lt;strong&gt;Q Function = log joint distribution (tractable) expectation over (approx.) posterior&lt;/strong&gt;&lt;/p&gt;
+EM 邏輯：maximize Likelihood:  E-step minimize KL gap using Q function;  M-step maximize ELBO using Q function, 忽略 self-entropy since it’s parameter independent?&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;ELBO = Q function (negative value) + self-entropy (postive value)&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Q Function = log joint distribution (tractable) expectation over (approx.) posterior&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;VAE 邏輯 : 直接忽略 KL Gap, focus on maximize ELBO (在 VAE 似乎是同一件事, does it make sense?)&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;ELBO = log likelihood/conditional distribution (tractable) expectation over (approx.) posterior （negative) - regularization loss (positive) = - (reconstruction loss + regularization loss)&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;reconstruction loss and regularization loss 是互相 trade-off, 並不是一個愈大，一個愈小。&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;在 VAE 似乎是同一件事，let’s take a look of minimize KL gap between posterior and approx. q.&lt;/p&gt;
 
-&lt;p&gt;此處 $g^&lt;em&gt;= \mu$ and $h^&lt;/em&gt; = \log \sigma$,  $g^&lt;em&gt;$ and $h^&lt;/em&gt;$ 其實就是 $\phi$&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+&lt;p&gt;此處 $g^&lt;em&gt;= \mu$ and $h^&lt;/em&gt; = \log \sigma$,  $g^&lt;em&gt;$ and $h^&lt;/em&gt;$ 其實就是 $\phi$
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
 \left(g^{*}, h^{*}\right) &amp;=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
@@ -774,8 +1112,7 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
 \end{aligned} %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;這個結果好像跟下面 maximize ELBO 的結論一樣？？&lt;/p&gt;
+這個結果好像跟下面 maximize ELBO 的結論一樣？？&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;結論一： 從 joint pdf 出發 (ELBO)&lt;/li&gt;
@@ -804,7 +1141,9 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 
 &lt;p&gt;參考 &lt;a href=&quot;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&quot;&gt;https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73&lt;/a&gt;
 &lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}_{z \sim q_{\phi}(z\mid x)}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{\phi}(z\mid x)\| p(z)\right)&lt;/script&gt;
-第二項假設 prior p(z) and posterior q(z|x) 為 normal distribution, 有 close form.&lt;/p&gt;
+第二項是 regularization term,  避免 posterior approximiation collapse to deterministic.  假設 prior p(z) and posterior q(z|x) 為 normal distribution, 有 close form.&lt;/p&gt;
+
+&lt;p&gt;第一項很明顯是 reconstruction loss x (-1)!&lt;/p&gt;
 
 &lt;p&gt;ELBO x (-1) 變成 VAE loss function.  此時拆解和解釋和 EM 有些不同。&lt;/p&gt;
 
@@ -832,17 +1171,15 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 
 &lt;p&gt;&lt;strong&gt;-1 x ELBO = Loss (positive value) = reconstruction loss (positive value) + regularization loss (positive value).&lt;/strong&gt;  (for VAE)&lt;/p&gt;
 
-&lt;p&gt;Very important:  maximize ELBO = minimize gap between posterior and q!!! (by xxx)&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+&lt;p&gt;Very important:  maximize ELBO = minimize gap between posterior and q!!! (by xxx)
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
 \left(g^{*}, h^{*}\right) &amp;=\underset{(g, h) \in G \times H}{\arg \min } K L\left(q_{x}(z), p(z \mid x)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{x}}\left(\log \frac{p(x \mid z) p(z)}{p(x)}\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \min }\left(\mathbb{E}_{z \sim q_{x}}\left(\log q_{x}(z)\right)-\mathbb{E}_{z \sim q_{z}}(\log p(z))-\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))+\mathbb{E}_{z \sim q_{x}}(\log p(x))\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}(\log p(x \mid z))-K L\left(q_{x}(z), p(z)\right)\right) \\
 &amp;=\underset{(g, h) \in G \times H}{\arg \max }\left(\mathbb{E}_{z \sim q_{x}}\left(-\frac{\|x-f(z)\|^{2}}{2 c}\right)-K L\left(q_{x}(z), p(z)\right)\right)
-\end{aligned} %]]&gt;&lt;/script&gt;
-
+\end{aligned} %]]&gt;&lt;/script&gt;&lt;/p&gt;
 &lt;h3 id=&quot;vae-elbo-用-sgd-optimization&quot;&gt;VAE ELBO 用 SGD Optimization&lt;/h3&gt;
 
 &lt;p&gt;VAE 的 ELBO 是 joint optimization of parameters ($\phi$ and $\theta$) using SGD!  這和 EM algorithm 不同，也不保證遞增。&lt;/p&gt;
@@ -869,15 +1206,13 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 
 &lt;p&gt;The last line $\eqref{eqGd4}$ is a simple Monte Carlo estimator of the second line $\eqref{eqGd2}$, where z in the last two lines $\eqref{eqGd3}$ and $\eqref{eqGd4}$ is a random sample from $q_{\phi}(z\mid x)$.&lt;/p&gt;
 
-&lt;p&gt;Unbiased gradients w.r.t. the variational parameters $\phi$ are more difficult, since the ELBO’s expectation is taken w.r.t. the distribution $q_{\phi}(z\mid x)$, which is a function of $\phi$. In general&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+&lt;p&gt;Unbiased gradients w.r.t. the variational parameters $\phi$ are more difficult, since the ELBO’s expectation is taken w.r.t. the distribution $q_{\phi}(z\mid x)$, which is a function of $\phi$. In general
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
 \nabla_{\boldsymbol{\phi}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &amp;=\nabla_{\boldsymbol{\phi}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})\right] \\
 &amp; \neq \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\phi}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right]
 \end{aligned} %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;我們可以用 reparameterization trick 計算 unbiased estimates of $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$.&lt;/p&gt;
+我們可以用 reparameterization trick 計算 unbiased estimates of $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$.&lt;/p&gt;
 
 &lt;h3 id=&quot;reparameterization-trick&quot;&gt;Reparameterization Trick&lt;/h3&gt;
 
@@ -888,40 +1223,33 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &amp;=\int
 &lt;p&gt;Reparameterization trick 就是為了解決這個問題。How?&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;把 $\mathbf{z} \sim q_{\phi}(z\mid x)$ 轉換 (differentiable and invertable) 成另一個 random variable $\boldsymbol{\epsilon}$, given $\mathbf{z}$ and $\phi$:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})&lt;/script&gt;
-
-&lt;p&gt;where the distribution of random variable $\boldsymbol{\epsilon}$ is indepedent of $\boldsymbol{\phi}, \mathbf{x}$.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Gradient of expectation under change of variable
-&lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}[f(\mathbf{z})]=\mathbb{E}_{p(\epsilon)}[f(\mathbf{z})]&lt;/script&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;where $\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})$, and the gradient and expectation becomes commutative,  結果如上圖右。&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+  &lt;li&gt;
+    &lt;p&gt;把 $\mathbf{z} \sim q_{\phi}(z\mid x)$ 轉換 (differentiable and invertable) 成另一個 random variable $\boldsymbol{\epsilon}$, given $\mathbf{z}$ and $\phi$:
+&lt;script type=&quot;math/tex&quot;&gt;\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})&lt;/script&gt;
+where the distribution of random variable $\boldsymbol{\epsilon}$ is indepedent of $\boldsymbol{\phi}, \mathbf{x}$.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Gradient of expectation under change of variable
+&lt;script type=&quot;math/tex&quot;&gt;\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}[f(\mathbf{z})]=\mathbb{E}_{p(\epsilon)}[f(\mathbf{z})]&lt;/script&gt;
+where $\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x})$, and the gradient and expectation becomes commutative,  結果如上圖右。
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
-   \nabla_{\phi} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}[f(\mathbf{z})] &amp;=\nabla_{\phi} \mathbb{E}_{p(\boldsymbol{\epsilon})}[f(\mathbf{z})] \\
-   &amp;=\mathbb{E}_{p(\boldsymbol{\epsilon})}\left[\nabla_{\phi} f(\mathbf{z})\right] \\
-   &amp; \simeq \nabla_{\phi} f(\mathbf{z})
-   \end{aligned} %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;更多的數學推導可以參考 ref[Maxwelling], 最後完整的形式如下：&lt;/p&gt;
+\nabla_{\phi} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}[f(\mathbf{z})] &amp;=\nabla_{\phi} \mathbb{E}_{p(\boldsymbol{\epsilon})}[f(\mathbf{z})] \\
+&amp;=\mathbb{E}_{p(\boldsymbol{\epsilon})}\left[\nabla_{\phi} f(\mathbf{z})\right] \\
+&amp; \simeq \nabla_{\phi} f(\mathbf{z})
+\end{aligned} %]]&gt;&lt;/script&gt;
+更多的數學推導可以參考 ref[Maxwelling], 最後完整的形式如下：&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;h4 id=&quot;假設-factorized-gaussian-encoder&quot;&gt;假設 factorized Gaussian encoder&lt;/h4&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{array}{r}
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\begin{array}{r}
 q_{\phi}(\mathbf{z} \mid \mathbf{x})=\mathcal{N}\left(\mathbf{z} ; \boldsymbol{\mu}, \operatorname{diag}\left(\boldsymbol{\sigma}^{2}\right)\right): \\
 (\boldsymbol{\mu}, \log \boldsymbol{\sigma})=\text { EncoderNeuralNet }_{\boldsymbol{\phi}}(\mathbf{x}) \\
 q_{\phi}(\mathbf{z} \mid \mathbf{x})=\prod_{i} q_{\phi}\left(z_{i} \mid \mathbf{x}\right)=\prod_{i} \mathcal{N}\left(z_{i} ; \mu_{i}, \sigma_{i}^{2}\right)
 \end{array}&lt;/script&gt;
-
-&lt;p&gt;做完 reparametrization, 我們得到&lt;/p&gt;
-
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+做完 reparametrization, 我們得到
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
 \boldsymbol{\epsilon} &amp; \sim \mathcal{N}(0, \mathbf{I}) \\
 (\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &amp;=\text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\
@@ -969,18 +1297,14 @@ when $\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x}
 &lt;p&gt;&lt;strong&gt;end&lt;/strong&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;full-covariance-gaussian-encoder&quot;&gt;Full-covariance Gaussian encoder&lt;/h4&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;q_{\phi}(\mathbf{z} \mid \mathbf{x})=\mathcal{N}(\mathbf{z} ; \boldsymbol{\mu}, \boldsymbol{\Sigma})&lt;/script&gt;
-
-&lt;p&gt;A reparameterization of this distribution is given by:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;q_{\phi}(\mathbf{z} \mid \mathbf{x})=\mathcal{N}(\mathbf{z} ; \boldsymbol{\mu}, \boldsymbol{\Sigma})&lt;/script&gt;
+A reparameterization of this distribution is given by:
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
 \begin{aligned}
 &amp;\boldsymbol{\epsilon} \sim \mathcal{N}(0, \mathbf{I}) \\
 &amp;\mathbf{z}=\boldsymbol{\mu}+\mathbf{L} \boldsymbol{\epsilon}
 \end{aligned} %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;where $\mathbf{L}$ is a lower (or upper) triangular matrix, with non-zero entries on the diagonal.  The off-diagonal elements defines the correlations of elements in $\mathbf{z}$.&lt;/p&gt;
+where $\mathbf{L}$ is a lower (or upper) triangular matrix, with non-zero entries on the diagonal.  The off-diagonal elements defines the correlations of elements in $\mathbf{z}$.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Goal A - Algorithm 2&lt;/strong&gt;&lt;/p&gt;
 
@@ -1004,9 +1328,8 @@ when $\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x}
 
 &lt;p&gt;​	$\tilde{\mathcal{L}}$ : unbiased estimate of the signle-datapoint ELBO $\mathcal{L}_{\theta,\phi}(\mathbf{x})$&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;ALG:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+&lt;p&gt;&lt;strong&gt;ALG:&lt;/strong&gt;
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
 \begin{align*}
 &amp;\left(\boldsymbol{\mu}, \log \boldsymbol{\sigma}, \mathbf{L}^{\prime}\right) \leftarrow \text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\
 &amp;\mathbf{L} \leftarrow \mathbf{L}_{\text {mask }} \odot \mathbf{L}^{\prime}+\operatorname{diag}(\boldsymbol{\sigma}) \\
@@ -1018,18 +1341,14 @@ when $\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x}
 &amp;\tilde{\mathcal{L}}_{\operatorname{logpx}} \leftarrow \sum_{i}\left(x_{i} \log p_{i}+\left(1-x_{i}\right) \log \left(1-p_{i}\right)\right) &amp; \triangleright=p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) \\
 &amp;\tilde{\mathcal{L}}=\tilde{\mathcal{L}}_{\operatorname{logpx}}+\tilde{\mathcal{L}}_{\operatorname{logpz}}-\tilde{\mathcal{L}}_{\operatorname{logqz}}
 \end{align*} %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;第一項 loss function 就是 reconstruction loss, 不過是 Bernoulli distribution，可以視爲 black-and-white image.  第二項是 prior loss gauge how far it is from normal distribution?  第三項是 regularization term? $\sigma = 1$ 是 minimum loss point.&lt;/p&gt;
+第一項 loss function 就是 reconstruction loss, 不過是 Bernoulli distribution，可以視爲 black-and-white image.  第二項是 prior loss gauge how far it is from normal distribution?  第三項是 regularization term? $\sigma = 1$ 是 minimum loss point.&lt;/p&gt;
 
 &lt;h4 id=&quot;goal-b---estimation-of-marginal-likelihood-generative&quot;&gt;Goal B - Estimation of Marginal Likelihood (Generative)&lt;/h4&gt;
 
-&lt;p&gt;在 VAE training $(\theta, \phi)$ 之後，下一步是可以 estimate marginal likelihood, $p_{\theta}(\mathbf{x})$, using &lt;strong&gt;important sampling&lt;/strong&gt; technique.  The marginal likelihood likelihood of a datapoint is:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\log p_{\boldsymbol{\theta}}(\mathbf{x})=\log \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) / q_{\phi}(\mathbf{z} \mid \mathbf{x})\right]&lt;/script&gt;
-
-&lt;p&gt;Taking random samples from $q_{\phi}(\mathbf{z} \mid \mathbf{x})$, a Monte Carlo estimator is:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\log p_{\boldsymbol{\theta}}(\mathbf{x}) \approx \log \frac{1}{L} \sum_{l=1}^{L} p_{\boldsymbol{\theta}}\left(\mathbf{x}, \mathbf{z}^{(l)}\right) / q_{\phi}\left(\mathbf{z}^{(l)} \mid \mathbf{x}\right)&lt;/script&gt;
+&lt;p&gt;在 VAE training $(\theta, \phi)$ 之後，下一步是可以 estimate marginal likelihood, $p_{\theta}(\mathbf{x})$, using &lt;strong&gt;important sampling&lt;/strong&gt; technique.  The marginal likelihood likelihood of a datapoint is:
+&lt;script type=&quot;math/tex&quot;&gt;\log p_{\boldsymbol{\theta}}(\mathbf{x})=\log \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) / q_{\phi}(\mathbf{z} \mid \mathbf{x})\right]&lt;/script&gt;
+Taking random samples from $q_{\phi}(\mathbf{z} \mid \mathbf{x})$, a Monte Carlo estimator is:
+&lt;script type=&quot;math/tex&quot;&gt;\log p_{\boldsymbol{\theta}}(\mathbf{x}) \approx \log \frac{1}{L} \sum_{l=1}^{L} p_{\boldsymbol{\theta}}\left(\mathbf{x}, \mathbf{z}^{(l)}\right) / q_{\phi}\left(\mathbf{z}^{(l)} \mid \mathbf{x}\right)&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;where each $\mathbf{z}^{(l)}\sim q_{\phi}(\mathbf{z} \mid \mathbf{x})$ is a random sample from the inference (i.e. encoder) model.&lt;/p&gt;
 
@@ -1045,11 +1364,13 @@ when $\mathbf{z}=\mathbf{g}(\boldsymbol{\epsilon}, \boldsymbol{\phi}, \mathbf{x}
   &lt;li&gt;Decoder NN 的 probablistic interprestation 如何解釋？&lt;/li&gt;
   &lt;li&gt;ML (maximum marginal likelihood) objective ; maximize ELBO objective,  Minimize KL of $(q_{\phi}(x \mid z) | p_{\theta} (x\mid z) $)  objective.  這三個 objectives 的關係?
     &lt;ol&gt;
-      &lt;li&gt;EM:  final ML objective :  first minimize KL objective (E-step);  then maximize ELBO objective (M-step); and iteration&lt;/li&gt;
-      &lt;li&gt;VAE:  maximize ELBO objective!   Does it equal to Minimize KL objective? and equal to ML objective? (No, not equivalent?)&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;EM:  final ML objective :  first minimize KL objective (E-step);  then maximize ELBO objective (M-step); and iteration&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;VAE:  maximize ELBO objective!   Does it equal to Minimize KL objective? and equal to ML objective? (No, not equivalent?)&lt;/strong&gt;&lt;/li&gt;
     &lt;/ol&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="VAE" /><category term="Autoencoder" /><category term="Variational" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Math ML - Maximum Likelihood Vs. Bayesian</title><link href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/" rel="alternate" type="text/html" title="Math ML - Maximum Likelihood Vs. Bayesian" /><published>2021-08-17T00:00:00+08:00</published><updated>2021-08-17T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/media/image-20210920143828170.png&quot; alt=&quot;image-20210920143828170&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;</content><author><name>Allen Lu (from John Doe)</name></author><category term="ML" /><category term="VAE" /><category term="Autoencoder" /><category term="Variational" /><category term="EM" /><summary type="html"></summary></entry><entry><title type="html">Math ML - Maximum Likelihood Vs. Bayesian</title><link href="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/" rel="alternate" type="text/html" title="Math ML - Maximum Likelihood Vs. Bayesian" /><published>2021-08-17T00:00:00+08:00</published><updated>2021-08-17T00:00:00+08:00</updated><id>http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian</id><content type="html" xml:base="http://localhost:4000/ai/2021/08/17/Math_ML_Bayesian/">&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;[@poczosCllusteringEM2015]&lt;/li&gt;
   &lt;li&gt;[@matasExpectationMaximization2018] good reference&lt;/li&gt;
