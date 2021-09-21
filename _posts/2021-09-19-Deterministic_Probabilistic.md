@@ -6,7 +6,7 @@ tags: [machine learning, deep learning, ML]
 typora-root-url: ../../allenlu2009.github.io
 ---
 
-Machine learning 就是一個 determinstic 和 probabilistic 擺盪和交織的過程。
+Machine learning 就是一個 deterministic 和 probabilistic 擺盪和交織的過程。
 
 (Input) dataset 一般是 deterministic.  
 
@@ -94,7 +94,7 @@ Imagenet 的影像 sample 就不是隨機 sample, 有太多人為的選擇。
 
 $$l_{i}(\theta, \phi)=-E_{z \sim q_{\phi}\left(z | x_{i}\right)}\left[\log p_{\theta}(x_{i} | z)\right]+K L\left(q_{\phi}(z | x_{i}) \|\,p(z)\right)$$
 
-因為 $p(z)$ and $p_\theta(x'_i|z)$ 是由 Gaussian random variable 產生。基本符合“採樣”原則。$z$ 的 mean and variance 是從 $x_i$ 得到，一般不怎麼 random?  但是 training 大多使用 stochastic gradient descend (SGD), 算是比較 random? but the prior image set 依然不是 random, 也不一定是 $p(x)$ distribution.  我們假設 $x_i$ sample somehow follows $p(x)$ to make our life easier :)
+因為 $p(z)$ and $p_\theta(x'_i\mid z)$ 是由 Gaussian random variable 產生。基本符合“採樣”原則。$z$ 的 mean and variance 是從 $x_i$ 得到，一般不怎麼 random?  但是 training 大多使用 stochastic gradient descend (SGD), 算是比較 random? but the prior image set 依然不是 random, 也不一定是 $p(x)$ distribution.  我們假設 $x_i$ sample somehow follows $p(x)$ to make our life easier :)
 
 $$\mathcal{L}=\mathbb{E}_{x \sim \tilde{p}(x)}[-\ln q(x \mid z)+K L(p(z \mid x) \| q(z))], \quad z \sim p(z \mid x)$$
 
@@ -191,6 +191,7 @@ Before we can answer this question, let me quote below and move on to algorithm.
 
 Typically, we use a single encoder neural network to perform posterior inference over all of the datapoints in our dataset. This can be contrasted to more traditional variational inference methods where the variational parameters are not shared, but instead separately and iteratively optimized per datapoint. The strategy used in VAEs of sharing variational parameters across datapoints is also called amortized variational inference (Gershman and Goodman, 2014). With amortized inference we can avoid a per-datapoint optimization loop, and leverage the efficiency of SGD.
 
+
 #### Example 5: Decoder:  How to explain $p(x\mid z)$ 的 conditional distribution?
 
 <https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73>
@@ -198,7 +199,7 @@ Typically, we use a single encoder neural network to perform posterior inference
 Let’s now make the assumption that p(z) is a standard Gaussian distribution and that $p(x\mid z)$ is a Gaussian distribution whose mean is defined by a deterministic function f of the variable of z and whose covariance matrix has the form of a positive constant c that multiplies the identity matrix I. The function f is assumed to belong to a family of functions denoted F that is left unspecified for the moment and that will be chosen later. Thus, we have (不是很 make sense!)
 
 $$
-\begin{aligned}(\boldsymbol{f(z)}) &=\text { EncoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned}
+\begin{aligned}(\boldsymbol{f(z)}) &=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}) \\p_{\boldsymbol{\theta}}(\mathbf{x} \mid \mathbf{z}) &=\mathcal{N}(\mathbf{x} ; \boldsymbol{f(z)}, c)\end{aligned}
 $$
 
 $$
@@ -208,13 +209,36 @@ $$
 \end{aligned}
 $$
 
-似乎只能 heuristically 解釋，沒有很 solid math fondation.
+What is $c$? 似乎只能 heuristically 解釋，沒有很 solid math fondation.
+
+##### 一個 random generator 不夠解釋 encoder and decoder？ 那就兩個
+
+我再想了一下，其實這可以視為 $z$ 的定義問題。我們借用 reparameterization trick 的 encoder formulation for $z$ 如下：
+
+$$
+\begin{aligned}\boldsymbol{\epsilon} & \sim \mathcal{N}(0, \mathbf{I}) \\(\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &=\text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\\mathbf{z} &=\boldsymbol{\mu}+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon}\end{aligned}
+$$
+
+我們可以分解  $\boldsymbol{\epsilon} = \boldsymbol{\epsilon}_1 + \boldsymbol{\epsilon}_2$ 都是 random variables.
+
+$$
+\begin{aligned}
+\boldsymbol{\epsilon_1}, \boldsymbol{\epsilon_2} & \sim \mathcal{N}(0, \mathbf{I}/\sqrt{2}) \\
+(\boldsymbol{\mu}, \log \boldsymbol{\sigma}) &=\text { EncoderNeuralNet }_{\phi}(\mathbf{x}) \\
+\mathbf{z}' &=\boldsymbol{\mu}+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon_1} \\
+\boldsymbol{f(z')} &=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z'}) \\
+\mathbf{x}' = \boldsymbol{f(z')}+\boldsymbol{\delta} &=\text { DecoderNeuralNet }_{\boldsymbol{\theta}}(\mathbf{z}'+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon}_2) \\
+p_{\boldsymbol{\theta}}(\mathbf{x}' \mid \mathbf{z}') &=\mathcal{N}(\mathbf{x}' ; \boldsymbol{f(z')}, c)
+\end{aligned}
+$$
+
+where $c$ is the standard deviation of $\boldsymbol{\delta}$. 用 $z$' 取代 $z$.
 
 
 
 ### VAE Example
 
-![-w134](media/16219562089016/16227303265905.jpg)
+![-w134](/media/16219562089016/16227303265905.jpg)
 
 ~~p(x): prior
 p(z|x): likelihood
@@ -225,28 +249,29 @@ $p(z)$: prior
 $p(x|z)$: likelihood, decoder
 $p(z|x)$: posterior, encoder
 
-![](media/16219562089016/16228271260672.jpg)
+![](/media/16219562089016/16228271260672.jpg)
 
+$I(X; Z) = H(X) - H(X\mid Z) \ge H(X) - R(X\mid Z)$ where $R(X\mid Z)$ denotes the expected reconstruction error of $X$ given the codes $Y$.
 
-$I(X; Z) = H(X) - H(X|Z) \ge H(X) - R(X|Z)$ where $R(X|Z)$ denotes the expected reconstruction error of $X$ given the codes $Y$.
-
-$I(X; Z) = D_{KL} (p_{(X,Z)} \| p_X p_Z) = E_X [D_{KL} (p_{(Z|X)} \| p_Z)] = H(X) - H(X|Z)$
-$ = H(X) + \iint  p(x, z) \log p(x|z) d x d z$
-$ = H(X) + \int p(x) \left[ \int q(z | x) \log p(x|z) d z \right] d x$
-$ = H(X) +  \mathbb{E}_{x \sim p(x)}\left[\mathbb{E}_{z \sim q_{\phi}(z | x)}[\log p_{\theta}(x | z)]\right]$
-
-$ \ge H(X) +  \mathbb{E}_{x \sim \tilde{p}(x)}\left[\mathbb{E}_{z \sim q_{\phi}(z | x)}[\log p_{\theta}(x | z)]\right]$
-
-$E_X [D_{KL} (p_{(Z|X)} \| p_Z)] = H(X) +  \mathbb{E}_{x \sim p(x)}\left[\mathbb{E}_{z \sim q_{\phi}(z | x)}[\log p_{\theta}(x | z)]\right]$
+$$\begin{aligned}
+I(X; Z) &= D_{KL} (p_{(X,Z)} \| p_X p_Z) = E_X [D_{KL} (p_{(Z\mid X)} \| p_Z)] = H(X) - H(X\mid Z) \\
+ &= H(X) + \iint  p(x, z) \log p(x\mid z) d x d z \\
+ &= H(X) + \int p(x) \left[ \int q(z \mid x) \log p(x\mid z) d z \right] d x \\
+ &= H(X) +  \mathbb{E}_{x \sim p(x)}\left[\mathbb{E}_{z \sim q_{\phi}(z | x)}[\log p_{\theta}(x | z)]\right] \\
+ & \ge H(X) +  \mathbb{E}_{x \sim \tilde{p}(x)}\left[\mathbb{E}_{z \sim q_{\phi}(z | x)}[\log p_{\theta}(x | z)]\right] \\
+E_X [D_{KL} (p_{(Z|X)} \| p_Z)] &= H(X) +  \mathbb{E}_{x \sim p(x)}\left[\mathbb{E}_{z \sim q_{\phi}(z | x)}[\log p_{\theta}(x | z)]\right]
+\end{aligned}$$
 
 or 
 
-$H(X) = E_X [D_{KL} (p_{(Z|X)} \| p_Z)] -  \mathbb{E}_{x \sim p(x)}\left[\mathbb{E}_{z \sim q_{\phi}(z | x)}[\log p_{\theta}(x | z)]\right]$
+$$\begin{aligned}
+H(X) = E_X [D_{KL} (p_{(Z|X)} \| p_Z)] -  \mathbb{E}_{x \sim p(x)}\left[\mathbb{E}_{z \sim q_{\phi}(z | x)}[\log p_{\theta}(x | z)]\right]
+\end{aligned}$$
 
-![](media/16219562089016/16228205716215.jpg)
+![](/media/16219562089016/16228205716215.jpg)
 
 ### Variational Mutual Information
-From $I(z; x) = H(z) - H(z|x)$
+From $I(z; x) = H(z) - H(z\mid x)$
 
 $$
 \begin{aligned}
@@ -260,7 +285,7 @@ $$
 
 where $Q$ is auxiliary distribution.  
 
-![](media/16219562089016/16226426279883.jpg)
+![](/media/16219562089016/16226426279883.jpg)
 
 
 
@@ -269,7 +294,7 @@ where $Q$ is auxiliary distribution.
 
 #### Graph Representation and EM Algorithm
 這是 GNN 最簡單的例子。
-![-w389](media/16219562089016/16222960961093.jpg)
+![-w389](/media/16219562089016/16222960961093.jpg)
 
 
 

@@ -16,7 +16,7 @@ MathJax.Hub.Config({
 ## Main Reference
 
 * [@kingmaIntroductionVariational2019] : excellent reference
-* [@escuderoVariationalAutoEncoders2020]
+* [@escuderoVariationalAutoEncoders2020] : very good article
 
 ### 重點 outline
 
@@ -369,9 +369,9 @@ Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{OLD}}\right) &=\int p\l
 &=\langle\ln p(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta})\rangle_{p\left(\mathbf{z} \mid \mathbf{x} ; \boldsymbol{\theta}^{0 \mathrm{LD}}\right)}
 \end{align}$$
 
-**Log Marginal Likelihood = ELBO + KL Gap**
-**ELBO = Q function (negative value) + self-entropy (postive value)**
-**Q Function = log joint distribution (tractable) expectation over (approx.) posterior**
+* **Log Marginal Likelihood = ELBO + KL Gap**
+* **ELBO = Q function (negative value) + self-entropy of q (postive value)**
+* **Q Function = log joint distribution (tractable) expectation over (approx.) posterior**
 
 此時可以用定義 EM algorithm
 
@@ -382,6 +382,22 @@ $$\begin{align}
 
 一般 $\eqref{eqQ}$ 的 joint distribution $p\left(\mathbf{x}, \mathbf{z} ; \boldsymbol{\theta}\right)$ 包含完整的 data，容易計算或有 analytical solution.
 大多的問題是 $\eqref{eqE}$ conditional or posterior distribution 是否容易計算，是否有 analytical solution.
+
+
+
+EM optimization 是 **Maximize Marginal Likelihood** $\eqref{eqEM}$  **= maximize ELBO (M-step) and minimize KL gap (E-step)** 
+
+* 第一項是 ELBO, $\mathcal{L}{(q, \boldsymbol{\theta}})$；第二項是 KL divergence gap, $D_{K L} \ge 0$.  
+  * KL divergence 決定近似的 q 和 true posterior 距離多遠。
+
+  * KL divergence gap 也決定 ELBO bound 的 tightness.
+* EM Training 方法：（**假設 posterior is tractable**）
+
+  * E-step: **update posterior** ( tractable $q=p_{\theta}(z\mid x)$ ) to **minimize KL gap using Q function** (ignore the self-entropy of $q$ since it does NOT dependent on $\theta$)
+  * M-step: **update parameter** $\theta$ to **maximize ELBO/Marginal likelihood**
+  * E-step and M-step Iterative update 永遠會增加 ELBO, 但這不一定是好事！很有可能會卡在 local maximum, 需要多個 initial condition to avoid some local maximum.
+
+
 
 ### VAE
 
@@ -411,8 +427,17 @@ $$
 \end{aligned}
 $$
 
-再來我們比較一般 VAE 的 loss function [Wiki?]:
+VAE 來自 EM optimization 是 **Maximize Marginal Likelihood** $\eqref{eqEM}$  **= maximize ELBO (M-step) and minimize KL gap (E-step)** 
 
+* 第一項是 ELBO, $\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})$；第二項是 KL divergence gap, $D_{K L} \ge 0$.  
+  * KL divergence 決定近似的 NN encoder 和 true posterior 距離多遠。
+
+  * KL divergence gap 也決定 ELBO bound 的 tightness.
+
+
+
+
+再來我們比較一般 VAE 的 loss function [Wiki?]:
 $$
 \begin{align}
 l_{i}(\theta, \phi)=-E_{z \sim q_{\phi}\left(z | x_{i}\right)}\left[\log p_{\theta}(x_{i} | z)\right]+D_{K L} \left(q_{\phi}(z | x_{i}) \|\,p(z)\right) \label{eqVAEloss}
@@ -426,43 +451,44 @@ $$
 &\underbrace{\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]}_{=\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})\,\text{, ELBO}} \\
 &= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z}) p(\mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})p(\mathbf{z})}\right]\right]} \\
 &= {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{\mathbf{z}} \mid \mathbf{x})}\left[\log \left[\frac{p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})}{p(\mathbf{z})}\right]\right]} + {\mathbb{E}_{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\left[\log \left[\frac{ p(\mathbf{z})}{q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x})}\right]\right]} \\
-&= \mathbb{E}_{q_{\phi}(\mathbf{z} | \mathbf{x})}\left[\log p_{\theta}(\mathbf{x} | \mathbf{z})\right] - D_{K L}\left(q_{\phi}(\mathbf{z} | \mathbf{x}) \|\,p(\mathbf{z})\right)
+&= \mathbb{E}_{q_{\phi}(\mathbf{z} | \mathbf{x})}\left[\log p_{\theta}(\mathbf{x} | \mathbf{z})\right] - D_{K L}\left(q_{\phi}(\mathbf{z} | \mathbf{x}) \|\,p(\mathbf{z})\right) \\
+&= \text{VAE Loss Function} \times (-1)
 \end{aligned}
 $$
-EM optimization 是 **Maximize Marginal Likelihood** $\eqref{eqEM}$  **= maximize ELBO (M-step) and minimize KL gap (E-step)** 
+VAE 似乎有兩種不同的 optimization!  (1) **maximize ELBO = minimize VAE loss**; **(2) maximize Marginal Likelihood**
 
-* **Log Marginal Likelihood = ELBO + KL Gap.**  
-* 第一項是 ELBO, $\mathcal{L}_{\theta,\phi}{(\boldsymbol{x}})$；第二項是 KL divergence gap, $D_{K L} \ge 0$.  
-  * KL divergence 決定近似的 NN encoder 和 true posterior 距離多遠。
+VAE 的 posterior is intractable, 但巧妙的利用 encoder ($\phi$) + decoder ($\theta$) structure.  可以用原來的 image 為 golden 做 self-supervise learning.  使用 SGD 於多張 images to back-propagation **同時 update** $\theta, \phi$  (**這和 EM 不同，一石二鳥**)
 
-  * KL divergence gap 也決定 ELBO bound 的 tightness.
-* EM Training 方法：（**假設 posterior is tractable**）
+* **Log Marginal Likelihood = ELBO + KL Gap  $\to$  ELBO = Log Marginal Likelihood - KL Gap**
+* Update $\theta$ and $\phi$  to **maximize ELBO implies maximize the marginal likelihood or minimize the KL gap**,  equivalent to M-step in EM?  [@escuderoVariationalAutoEncoders2020]
+* NN $\phi$  近似 posterior ($q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \approx p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})$), **update $\phi$ implies to minimize KL gap**, equivalent to E-step in EM.
+* VAE 使用 SGD with mini-batch training iteratively,  並不保證 ELBO 永遠會增加 (or loss function 永遠變小)，但可以 leverage neural network trainging 的經驗，似乎收斂性還不錯，雖然無法證明 global 收斂性, 但不至於卡在太差的 local minimum.
 
-  * E-step: **update posterior** ( tractable $q=p(z\mid x)$ ) to **minimize KL gap**
-  * M-step: **update parameter** $\theta$ to **maximize ELBO/Marginal likelihood**
-  * E-step and M-step Iterative update 永遠會增加 ELBO, 但這不一定是好事！很有可能會卡在 local maximum, 需要多個 initial condition to avoid some local maximum.
+[@escuderoVariationalAutoEncoders2020] 說明當我們同時 optimize $\theta, \phi$ 時，(1) and (2) 其實是同一件事。
+
+Why is it useful to find a lower bound on the log marginal likelihood? Because by maximizing the ELBO we get two birds with one stone. First of all, notice how by maximizing the ELBO with respect to θ, we can expect to approximately maximize also the log marginal likelihood. Similarly, by maximizing the ELBO with respect to ϕ we can see that, since the ELBO can be written as the log marginal likelihood *minus* the kl divergence, this is equivalent to minimizing the KL divergence. In summary we can write:
+$$
+\max _{\theta, \phi} \mathcal{L}_{\theta, \phi}(\mathbf{x}) \Longrightarrow \begin{cases}\max _{\theta} \sum_{\mathbf{x} \in \mathcal{D}} \log p_{\theta}(\mathbf{x}) & \text { as } \log p_{\theta}(\mathbf{x}) \geq \mathcal{L}_{\theta, \phi}(\mathbf{x}) \\ \min _{\phi} \sum_{\mathbf{x} \in \mathcal{D}} \mathrm{KL} & \text { as } \log p_{\theta}(\mathbf{x})-K L=\mathcal{L}_{\theta, \phi}(\mathbf{x})\end{cases}
+$$
+Repectively, such maximization have a very practical results:
+- The generative model $p_{\theta}(\mathbf{x})$ improves.
+- The posterior approximation $q_{\phi}(\mathbf{z} \mid \mathbf{x})$ improves.
 
 
 
-VAE 似乎有兩種不同的 optimization! **(1) maximize Marginal Likelihood**; (2) **maximize ELBO = minimize VAE loss**.
+**更進一步分析 VAE 的 ELBO:**
 
-* EM 的 **ELBO term** 和 VAE loss function x (-1) 等價，但不包含 KL gap between encoder, $q_\phi(z\mid  x)$, and posterior, $p_\theta(z\mid x)$! 
-* 但是 VAE loss function 也可以整理出一個 **KL term** between encoder, $q_\phi(z\mid x)$, and prior, $p(z)$.  不過這是一個 regularization term, 並不是愈小愈好！
+* EM 的 **ELBO term** 和 VAE loss function x (-1) 等價，但不包含 KL gap between encoder, $q_\phi(z\mid  x)$, and posterior, $p_\theta(z\mid x)$!  但如上所示， maximize ELBO， 隱含 minimize the KL gap!
+* 但是 VAE loss function 也可以整理出一個 **KL divergence** between encoder, $q_\phi(z\mid x)$, and prior, $p(z)$.  不過這是一個 regularization term, 並不是愈小愈好！
   * 如果 maximize marginal likelihood,  希望 encoder 愈接近 posterior 愈好。
   * 如果 minimize VAE loss, 並不是希望 encoder 愈接近 prior 愈好，而是要在 reconstruction loss and regularization loss 得到一個平衡。
-* VAE 的 posterior is intractable, 但巧妙的利用 encoder ($\phi$) + decoder ($\theta$) structure.  可以用原來的 image 為 golden 做 self-supervise learning.  使用 SGD 於多張 images to back-propagation **同時 update** $\theta, \phi$  (**這和 EM 不同，一石二鳥**)
-  * **Log Marginal Likelihood = ELBO + KL Gap  $\to$  ELBO = Log Marginal Likelihood - KL Gap （Wrong!)**
-  * Update $\theta$ and $\phi$  to **maximize ELBO implies maximize the marginal likelihood or minimize the KL gap**,  equivalent to M-step in EM?  really, how to prove?
-  * NN $\phi$  近似 posterior ($q_{\boldsymbol{\phi}}(\mathbf{z} \mid \mathbf{x}) \approx p_{\boldsymbol{\theta}}(\mathbf{z} \mid \mathbf{x})$), **update $\phi$ implies to minimize KL gap**, equivalent to E-step in EM.
-  * VAE 使用 SGD with mini-batch training iteratively,  並不保證 ELBO 永遠會增加 (or loss function 永遠變小)，但可以 leverage neural network trainging 的經驗，似乎收斂性還不錯，雖然無法證明 global 收斂性, 但不至於卡在太差的 local minimum.
+* * 
 
 <img src="/media/image-20210901180808893.png" alt="image-20210901180808893" style="zoom:80%;" />
 
 * VAE 和 AE neural network 不同，中間還卡了一個 random variable $z$!  如何 back-propagation 穿過 $z$? Reparameterization Trick!
 
-#### Question: Maximize ELBO 等價 Minimize GAP between posterior and q?
 
-在 EM 這是兩件事：E-step: update posterior q = .. to minimize the gap between ;   M-step: update $\theta$  to maximize ELBO or the simplified version Q function (joint distribution over posterior distribution, remove self-entropy from ELBO)
 
 **Log Marginal Likelihood = ELBO + KL Gap**
 EM 邏輯：maximize Likelihood:  E-step minimize KL gap using Q function;  M-step maximize ELBO using Q function, 忽略 self-entropy since it's parameter independent?
