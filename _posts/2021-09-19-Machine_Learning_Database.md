@@ -77,8 +77,26 @@ NoSQL又分成四大類：
 而本篇要介紹的主角則是Key-Value的Redis。
 
 
-  
+### MySQL and MariaDB
 
+MySQL 和 MariaDB 看來非常相似。但有以下差異
+* MySQL is owned by Oracle;  MariaDB is open source.
+* MariaDB support JSON-like data (MySQL does), and support python connector (MySQL does)?
 
+Suggest to use MariaDB. (give up at the last minute!)
 
+passwd: axxxxx4
+![](/media/../media/img-2021-10-03-23-19-10.png)
+![](/media/../media/img-2021-10-03-23-23-37.png)
+
+**Instead, install MySQL**
+
+![](/media/../media/img-2021-10-03-23-41-26.png)
+![](/media/../media/img-2021-10-03-23-48-47.png)
+use lagacy authentication!
+![](/media/../media/img-2021-10-03-23-50-13.png)
+![](/media/../media/img-2021-10-03-23-51-05.png)
+![](/media/../media/img-2021-10-03-23-51-59.png)
+![](/media/../media/img-2021-10-03-23-52-27.png)
+![](/media/../media/img-2021-10-03-23-53-28.png)
 
