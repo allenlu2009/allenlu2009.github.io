@@ -10,9 +10,9 @@ typora-root-url: ../../allenlu2009.github.io
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <script type="text/x-mathjax-config">
-//MathJax.Hub.Config({
-//  TeX: { equationNumbers: { autoNumber: "AMS" } }
-//});
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
 </script>
 
 ## Main Reference

@@ -547,10 +547,10 @@ VAE 的 ELBO 是 joint optimization of parameters ($\phi$ and $\theta$) using SG
 VAE training 一般用 mini-batch. 假設 i.i.d dataset, the ELBO objective is the sum (or average) of each datapont ELBO:
 
 $$\begin{align}
-\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathcal{D})=\sum_{\mathbf{x} \in \mathcal{D}} \mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x}) \label{eqELBO3}
+\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathcal{D})=\sum_{\mathbf{x} \in \mathcal{D}} \mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x}) \label{eqELBO4}
 \end{align}$$
 
-$\eqref{eqELBO3}$ 的 gradient $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$  is intratable.
+$\eqref{eqELBO3}$ 的 gradient $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$  is intractable.
 
 不過存在 unbiased estimators  $\tilde{\nabla}\_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$，可以使用 mini-batch SGD.
 
@@ -653,15 +653,15 @@ SGD optimization of ELBO.  這裡的 noise 包含 sampling of $p(\boldsymbol{\ep
 
 **Data:**
 
-​ $\mathcal{D}$ : Dataset
+ $\mathcal{D}$ : Dataset
 
-​ $q_{\phi}(\mathbf{z}\mid \mathbf{x})$ : Inference model
+ $q_{\phi}(\mathbf{z}\mid \mathbf{x})$ : Inference model
 
-​ $p_{\theta}(\mathbf{z}, \mathbf{x})$ : Generative model
+ $p_{\theta}(\mathbf{z}, \mathbf{x})$ : Generative model
 
 **Result:**
 
-​ $\theta, \phi$ : Learned parameters
+ $\theta, \phi$ : Learned parameters
 
 **ALG:**
 
@@ -669,11 +669,11 @@ SGD optimization of ELBO.  這裡的 noise 包含 sampling of $p(\boldsymbol{\ep
 
 **while** SGD not converged **do**
 
-​ $\mathcal{M} \sim \mathcal{D}$ (Random minibatch of data)
+ $\mathcal{M} \sim \mathcal{D}$ (Random minibatch of data)
 
-​ $\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})$  (Random noise for every datapoint in $\mathcal{M}$)
+ $\boldsymbol{\epsilon} \sim p(\boldsymbol{\epsilon})$  (Random noise for every datapoint in $\mathcal{M}$)
 
-​ Compute  $\tilde{\mathcal{L}}\_{\theta, \phi}(\mathcal{M}, \boldsymbol{\epsilon})$  and gradients $\nabla_{\boldsymbol{\theta}, \phi} \tilde{\mathcal{L}}_{\boldsymbol{\theta}, \phi}(\mathcal{M}, \boldsymbol{\epsilon})$
+ Compute  $\tilde{\mathcal{L}}\_{\theta, \phi}(\mathcal{M}, \boldsymbol{\epsilon})$  and gradients $\nabla_{\boldsymbol{\theta}, \phi} \tilde{\mathcal{L}}_{\boldsymbol{\theta}, \phi}(\mathcal{M}, \boldsymbol{\epsilon})$
 ​ Update $\theta$ and $\phi$ using SGD optimizer
 
 **end**
@@ -698,21 +698,21 @@ Computation of unbiased estimate of **single datapoint ELBO for example VAE** wi
 
 **Data:**
 
-​ $\mathbf{x}$ : a datapoint, and optionally other conditioning information
+ $\mathbf{x}$ : a datapoint, and optionally other conditioning information
 
-​ $\boldsymbol{\epsilon}$ : a random sample from $p(\boldsymbol{\epsilon}) =  \mathcal{N}(0, \mathbf{I})$
+ $\boldsymbol{\epsilon}$ : a random sample from $p(\boldsymbol{\epsilon}) =  \mathcal{N}(0, \mathbf{I})$
 
-​ $\boldsymbol{\theta}$ : Generative model parameter
+ $\boldsymbol{\theta}$ : Generative model parameter
 
-​ $\boldsymbol{\phi}$ : Inference model parameter
+ $\boldsymbol{\phi}$ : Inference model parameter
 
-​ $q_{\phi}(\mathbf{z}\mid \mathbf{x})$ : Inference model
+ $q_{\phi}(\mathbf{z}\mid \mathbf{x})$ : Inference model
 
-​ $p_{\theta}(\mathbf{z}, \mathbf{x})$ : Generative model
+ $p_{\theta}(\mathbf{z}, \mathbf{x})$ : Generative model
 
 **Result:**
 
-​ $\tilde{\mathcal{L}}$ : unbiased estimate of the signle-datapoint ELBO $\mathcal{L}_{\theta,\phi}(\mathbf{x})$
+ $\tilde{\mathcal{L}}$ : unbiased estimate of the signle-datapoint ELBO $\mathcal{L}_{\theta,\phi}(\mathbf{x})$
 
 **ALG:**
 $$
@@ -757,3 +757,50 @@ where each $\mathbf{z}^{(l)}\sim q_{\phi}(\mathbf{z} \mid \mathbf{x})$ is a rand
    2. **VAE:  maximize ELBO objective!   Does it equal to Minimize KL objective? and equal to ML objective? (No, not equivalent?)**
 
 <img src="/media/image-20210920143828170.png" alt="image-20210920143828170" style="zoom:67%;" />
+
+
+
+#### VAE Loss Function Using Mutual Information
+
+VAE 的 loss function [Wiki] 
+$$
+\begin{align}
+l_{i}(\theta, \phi)=-E_{z \sim q_{\phi}\left(z | x_{i}\right)}\left[\log p_{\theta}(x_{i} | z)\right]+D_{K L} \left(q_{\phi}(z | x_{i}) \|\,p(z)\right)
+\end{align}
+$$
+
+上式第一項是 reconstruction loss, 可以從 Gaussian distribution assumption 清楚看出。第二項的 KL divergence forces encoder 接近 $N(0, I)$, 是一個重要的 regularization term to prevent probabilistic VAE 變成 deterministic Autoencoder.
+
+上式只針對特定 $x_i$, 完整的 loss function 還需要包含 $x_i$ distribution image $\tilde{p}(x)$  如下。
+
+Total loss function 對於  input distribution $\tilde{p}(x)$ 積分。 $\tilde{p}(x)$ 大多不是 normal distribution.
+
+$$\begin{align*}
+\mathcal{L}&=\mathbb{E}_{x \sim \tilde{p}(x)}\left[\mathbb{E}_{z \sim q_{\phi}(z | x)}[-\log p_{\theta}(x | z)]+D_{K L}(q_{\phi}(z | x) \| \,p(z))\right] \\
+&=\mathbb{E}_{x \sim \tilde{p}(x)} \mathbb{E}_{z \sim q_{\phi}(z | x)}[-\log p_{\theta}(x | z)]+ \mathbb{E}_{x \sim \tilde{p}(x)} D_{K L}(q_{\phi}(z | x) \| \,p(z)) \\
+&= - \iint \tilde{p}(x) q_{\phi}(z | x) [\log p_{\theta}(x | z)] dz dx + \mathbb{E}_{x \sim \tilde{p}(x)} D_{K L}(q_{\phi}(z | x) \| \,p(z)) \\
+&= - \iint q_{\phi}(z, x) \log \frac{ p_{\theta}(x, z)}{p(x) p(z)} dz dx + \mathbb{E}_{x \sim \tilde{p}(x)} D_{K L}(q_{\phi}(z | x) \| \,p(z)) \\
+\end{align*}$$
+
+對 $x$ distribution 積分的完整 loss function, 第一項就不只是 reconstruction loss, 而有更深刻的物理意義。
+
+**記得 VAE 的目標是讓 $q_\phi(z\mid x)$ 可以 approximate posterior $p_\theta(z\mid x)$, and $p(x)$ 可以 approximate $\tilde{p}(x)$**, i.e. $\tilde{p}(x) q_{\phi}(z\mid x) \sim p_\theta(z\mid x) p(x) \to q_{\phi}(z, x) \sim p_\theta(z, x)$.
+
+此時再來 review VAE loss function, 上式第一項可以近似為 $(x, z)$ or $(x', z)$ 的 mutual information!  第二項是 (average) regularization term, always positive (>0), 避免 approximate posterior 變成 deterministic.  
+
+Optimization target: maximize mutual information and minimize regularization loss, 這是 trade-off.  
+
+$$\begin{align*}
+\mathcal{L}& \sim - I(z, x) + \mathbb{E}_{x \sim \tilde{p}(x)} D_{K L}(q_{\phi}(z | x) \| \,p(z)) \\
+\end{align*}$$
+
+Q: 實務上 $z$ 只會有部分的 $x$ information, i.e. $I(x, z) < H(x) \text{ or } H(z)$.  $z$ 產生的 $x'$ 也只有部分部分的 $x$ information.  $x'$ 真的有可能復刻 $x$ 嗎？  
+A: 復刻的目標一般是 $x$ and $x'$ distribution 儘量接近，也就是 KL divergence 越小越好。這和 mutual information 是兩件事。例如兩個 independent $N(0, 1)$ normal distributions 的 KL divergence 為 0，但是 mutual information, $I$, 為 0.  Maximum mutual information 是 1-1 對應，這不是 VAE 的目的。 VAE 一般是要求 marginal likelihood distribution 或是 posterior distribution 能夠被儘可能近似，而不是 1-1 對應。例如 $x$ 是一張狗的照片，產生 $\mu$ and $\log \sigma$ for $z$, 但是 random sample $z$ 產生的 $x'$ 並不會是狗的照片。
+
+**這帶出 machine learning 兩個常見的對抗機制:**
+
+1. **GAN:** 完全分離的 discriminator and generator 的對抗。
+2. **VAE:** encoder/decoder type，注意不是 encoder 和 decoder 的對抗，而是 probabilistic 和 deterministic 的對抗 =>  maximize mutual information I(z,x) + minimize KL divergence of posterior $p(z\mid x)$ vs. prior $p(z)$ (usually a normal distribution).
+
+(1) 如果 x and z 有一對一 deterministic relationship, I(z, x) = H(z) = H(x) 有最大值。但這會讓 $q_{\phi}(z\mid x)$ 變成 $\delta$ function, 造成 KL divergence 變大。
+(2) 如果 x and z 完全 independent, 第二項有最小值，但是 mutual information 最小。最佳值是 trade-off result.
