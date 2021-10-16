@@ -109,6 +109,7 @@ $$
 f(x)=\frac{1}{\sqrt{2 \pi} \sigma} e^{-\frac{x^{2}}{2 \sigma^{2}}}
 $$
 
+#### Example 1:  Communication Channel.  Discrete Mutual Information
 
 I(X; Y) = D (f(x,y) , f(x)f(y)) = H(X) - H(X|Y)
 
@@ -125,27 +126,15 @@ $$
 $$
 This is the channel capacity of a AIWG channel.
 
+<img src="/media/image-20211016000238450.png" alt="image-20211016000238450" style="zoom: 50%;" />
 
--w563](media/16204002198420/16206585342137.jpg)
 
-上式第二項的 KL divergence forces encoder 接近 $N(0, I)$, 是一個重要的 regularization term to prevent probabilistic VAE 變成 deterministic AE.
 
-Q: 上式第一項代表 reconstruction loss of encoder and decoder?
-A: Yes. 對於 given sample $x_i$ 可以說是 minimize reconstruction loss!
-假設 p(z) and p(x | z) 為 Normal distribution, VAE 的 ELBO 可以近似為
+#### VAE Loss Function Using Mutual Information
 
-參考 <https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73>
 
-$$
-l_{i}(\theta, \phi) \sim -\mathbb{E}_{z \sim q_{\phi}(z\mid x_i)}\left(\frac{\|x-f_{\theta}(z)\|^{2}}{2 c}\right)-D_{K L}\left(q_{\phi}(z\mid x)\| p(z)\right)
-$$
 
-Q: 上式第一項也是 mutual information between input $x$ and generated output $x'$, $I(x', x)$? or any other mutual information?  
-A: No, (1) 因為上式只針對特定 $x_i$, 而 mutual information 是兩個 random variable or distribution (KL divergence of joint distribution vs. direct product of distribution).  必須要把 $x$ distribution 包含才能比較。 (2) 並非 mutual information between $(x, x')$, 而是 mutual information between $(x, z)$.
-
-上面 loss term 沒有包含 native image $\tilde{p}(x)$. 完整的 loss function 如下。
-
-Total loss function 對於  input distribution $\tilde{p}(x)$ 積分。 $\tilde{p}(x)$ 大多不是 normal distribution.
+VAE distribution loss function 對於  input distribution $\tilde{p}(x)$ 積分。 $\tilde{p}(x)$ 大多不是 normal distribution.
 
 $$\begin{align*}
 \mathcal{L}&=\mathbb{E}_{x \sim \tilde{p}(x)}\left[\mathbb{E}_{z \sim q_{\phi}(z | x)}[-\log p_{\theta}(x | z)]+D_{K L}(q_{\phi}(z | x) \| \,p(z))\right] \\
@@ -170,8 +159,10 @@ Q: 實務上 $z$ 只會有部分的 $x$ information, i.e. $I(x, z) < H(x) \text{
 A: 復刻的目標一般是 $x$ and $x'$ distribution 儘量接近，也就是 KL divergence 越小越好。這和 mutual information 是兩件事。例如兩個 independent $N(0, 1)$ normal distributions 的 KL divergence 為 0，但是 mutual information, $I$, 為 0.  Maximum mutual information 是 1-1 對應，這不是 VAE 的目的。 VAE 一般是要求 marginal likelihood distribution 或是 posterior distribution 能夠被儘可能近似，而不是 1-1 對應。例如 $x$ 是一張狗的照片，產生 $\mu$ and $\log \sigma$ for $z$, 但是 random sample $z$ 產生的 $x'$ 並不會是狗的照片。
 
 **這帶出 machine learning 兩個常見的對抗機制:**
+
 1. **GAN:** 完全分離的 discriminator and generator 的對抗。
 2. **VAE:** encoder/decoder type，注意不是 encoder 和 decoder 的對抗，而是 probabilistic 和 deterministic 的對抗 =>  maximize mutual information I(z,x) + minimize KL divergence of posterior $p(z\mid x)$ vs. prior $p(z)$ (usually a normal distribution).
 
 (1) 如果 x and z 有一對一 deterministic relationship, I(z, x) = H(z) = H(x) 有最大值。但這會讓 $q_{\phi}(z\mid x)$ 變成 $\delta$ function, 造成 KL divergence 變大。
 (2) 如果 x and z 完全 independent, 第二項有最小值，但是 mutual information 最小。最佳值是 trade-off result.
+
