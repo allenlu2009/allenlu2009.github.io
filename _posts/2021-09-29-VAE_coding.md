@@ -21,7 +21,7 @@ MathJax.Hub.Config({
 
 * [@roccaUnderstandingVariational2021]
 
-### VAE Recap
+## VAE Recap
 
 Recap VAE spirit: marginal likelihood = ELBO + gap => focus on ELBO only!
 
@@ -46,7 +46,7 @@ where $\mathbf{z}^{(l)} \sim q_{\phi}\left(\mathbf{z} \mid \mathbf{x}^{(i)}\righ
 
 This gradient estimator exhibits exhibits very high variance (see e.g. [BJP12])
 
-#### SGVB estimator and AEVB algorithm
+### SGVB estimator and AEVB algorithm
 
 這節討論實際的 estimator of approximate posterior in the form of $q_\phi(\mathbf{z}\mid \mathbf{x})$. 注意也可以適用於 $q_\phi(\mathbf{z})$.  
 
@@ -143,6 +143,32 @@ $\mathbf{g}(x) = \mathbf{g}_2(\mathbf{g}_1(x)) \quad  \mathbf{h}(x) = \mathbf{h}
 
 <img src="/media/img-2021-10-02-21-06-37.png" style="zoom:67%;" />
 
+
+
+#### Binary Image Approximation Using Bernoullie Distribution
+
+如果 image 是黑白二值 (binary black and white), 可以用 Bernoulli distributionm.  Reconstruction loss 可以改用 binary cross entropy loss, 而不是 上面的 MSE loss.[^1]
+
+[^1]: Reference: https://spaces.ac.cn/archives/5343 
+
+$$
+p(\xi)=\left\{\begin{array}{l}
+\rho, \xi=1 \\
+1-\rho, \xi=0
+\end{array}\right.
+$$
+Bernoulli distribution 適用於多個二值向量的情况，比如 $x$ 是 binary image (mnist可以看成這種例子，雖然是 grey value 而不是 binary value)
+$$
+q(x \mid z)=\prod_{k=1}^{D}\left(\rho_{(k)}(z)\right)^{x_{(k)}}\left(1-\rho_{(k)}(z)\right)^{1-x_{(k)}}
+$$
+$$
+-\ln q(x \mid z)=\sum_{k=1}^{D}\left[-x_{(k)} \ln \rho_{(k)}(z)-\left(1-x_{(k)}\right) \ln \left(1-\rho_{(k)}(z)\right)\right]
+$$
+
+這表明 $\rho(z)$ 要把 output 壓縮在 0~1 (例如用 sigmoind activation), 然後用 BCE 做為 reconstruction loss function,
+
+
+
 #### 以下是 VAE PyTorch code example for MNIST
 
 ##### MNIST dataset
@@ -195,6 +221,7 @@ model = VAE().to(device)
 
 ##### VAE Loss function and optimizer
 
+* 注意這裡VAE loss function 完全不用 label, i.e. 0, 1, ..., 9.  可以說是 self-supervised learning. 
 * BCE 是 binary cross-entropy, 代表 reconstruction loss. 注意雖然稱爲 binary cross-entropy, label 可以是 0-1 的 value, 因爲 mnist 的 image 是 grey level 而非 binary value.  爲什麽是 reduction = sum 而非 mean?
 * KLD 是 KL divergence, 是 regularization term.  在 Gaussian assumption 有 analytical form.
 

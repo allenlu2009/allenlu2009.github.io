@@ -811,7 +811,7 @@ $$\begin{align*}
 
 **記得 VAE 的目標是讓 $q_{D}(x) q_{\phi}(z\mid x) \sim p_\theta(x\mid z) p(z) \to q_{\phi}(z, x) \sim p_\theta(z, x)$.**
 
-此時再來 review VAE loss function, 上式第一項可以近似為 $(x, z)$ 的 mutual information!  第二項是 (average) regularization term, always positive (>0), 避免 approximate posterior 變成 deterministic.  
+此時再來 review VAE loss function, 上式第一項可以近似為 $(x, z)$ 的 mutual information!  第二項是 constant.  第三項是 (average) regularization term, always positive (>0), 避免 approximate posterior 變成 deterministic.  
 
 Optimization target: maximize mutual information and minimize regularization loss, 這是 trade-off.  
 

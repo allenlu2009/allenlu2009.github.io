@@ -9,7 +9,7 @@ typora-root-url: ../../allenlu2009.github.io
 最正宗安裝和執行 PyTorch and TensorFlow 都是在 Ubuntu platform, 特別是在有 GPU 的情況下。不過最近開始有一些在 Windows 10 執行 PyTorch and TensorFlow 需求。
 * 容易同時 blogging 和 coding, 因爲 blogging tool 大多是在 Windows (or Mac) 環境下，例如 Typora, Jekyll, etc.
 * Windows system 開始有一些令人驚喜的進步，for example,
-  * Windows 10 開始支持 Windows subsystem for Linux (WSL/WSL2).   Windows 11 將會支持 Windows subsystem for Android (WSA).  WSL2 甚至開始支持 GPU.
+  * Windows 10 開始支持 Windows subsystem for Linux (WSL2).   Windows 11 將會支持 Windows subsystem for Android (WSA).  WSL2 甚至開始支持 GPU.
   * Windows 的 PowerShell and Terminal 越來越像 Linux shell.  可以做一些 coding. 
 * 另一個之後會比較 Windows native machine learning platform, i.e. DirectML 的效能和 Pytorch/Tensorflow on Windows 的比較。
 
@@ -92,6 +92,12 @@ conda install tensorflow-gpu=1.15
 
 conda install -c conda-forge matplotlib
 ```
+
+
+
+Keras is built-in in tensorflow 2.x.  但在 tensorflow 1.x 需要額外 install.  Use anaconda to install Keras!
+
+Jupyter notebook 也需要額外 install!
 
 
 

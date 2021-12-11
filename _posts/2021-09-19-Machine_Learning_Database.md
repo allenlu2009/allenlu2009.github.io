@@ -87,7 +87,7 @@ MySQL 和 MariaDB 看來非常相似。但有以下差異
 
 Suggest to use MariaDB. (give up at the last minute!)
 
-passwd: axxxxx4
+passwd: aluxxx4 or axxxxxxz (mac)
 ![](/media/../media/img-2021-10-03-23-19-10.png)
 ![](/media/../media/img-2021-10-03-23-23-37.png)
 
