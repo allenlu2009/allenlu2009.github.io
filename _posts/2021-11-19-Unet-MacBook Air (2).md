@@ -14,13 +14,7 @@ MathJax.Hub.Config({
 </script>
 UNet 可視為 Autoencoder 的一種變形，因為它的模型**結構類似U型**而得名。或是視為 FCN 的**對稱改良版**。
 
-**UNet 的 key ingredient: (1) 對稱的 encoder + decoder (from autoencoder); (2) bottleneck layer (from FCN); (3) (long) skip link from encoder to decoder (from FCN).** 
-
-
-
-**Improvement from UNet:  (1) Add mixed long and short skip links; (2) Add more down-up sampling network**
-
-
+**UNet 的 key ingredient: (1) 對稱的 encoder + decoder (from autoencoder); (2) bottleneck layer (from FCN); (3) shortcut from encoder to decoder (from FCN).** 
 
 ## UNet 前世今生一：Autoencoder
 
@@ -30,7 +24,7 @@ Autoencoder 包含 encoder and decoder.   Encoder 常常用來作爲 feature ext
 
 Autoencoder 的主要問題是 quality.  在 encoder 降維做 feature extraction 的過程中，會丟失一些細節，只留下比較 high level information (e.g. object level feature)。之後的 decoder 從低維 upsampling 到高維的 image，可以視爲一種 filtering, 因爲缺乏細節，有可能會讓 output image 變得模糊。
 
-很自然的想法就是提供高維的 skip link, 不至於讓高維的 information 在 decoder 降維都丟失。這就是 U-Net 的精神。
+很自然的想法就是提供高維的 short-cut, 不至於讓高維的 information 在 decoder 降維都丟失。這就是 U-Net 的精神。
 
 ## UNet 前世今生二：Fully Convolutional Network (FCN) 
 
@@ -131,7 +125,7 @@ Use the same feature maps that are used for contraction to expand a vector to a 
 
 ### UNet 結構改良
 
-### Resnet - Add Short skip Link
+### 1. Resnet
 
 **「从UNet的网络结构我们会发现两个最主要的特点，一个是它的U型结构，一个是它的跳层连接。」** 其中UNet的编码器一共有4次下采样来获取高级语义信息，解码器自然对应了4次上采样来进行分辨率恢复，为了减少下采样过程带来的空间信息损失跳层连接被引入了，通过Concat的方式使得上采样恢复的[特征图](https://www.zhihu.com/search?q=特征图&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"article"%2C"sourceId"%3A128138930})中包含更多low-level的语义信息，使得结果的精细程度更好。
 
@@ -153,13 +147,13 @@ Encoder block (with residue link) and decoder block
 
 其中，`conv` 代表卷积，`full-conv` 代表全卷积 (fully convolutional?)，`/2`代表 down sampling 的 stride 是`2`，`*2`代表 up sampling 的因子是`2`。 在卷积层之后添加 BN，后加 ReLU。左半部分表示编码，右半部分表示解码。编码块基于`ResNet18`。
 
-这项工作的主要贡献是在原始的UNet 的 encoder 引入了 residue or short skip link，并直接将编码器与解码器连接 (short-cut or long skip link) 来提高准确率，其實這也可以視爲是一種  residue link?  一定程度上减少了处理时间。通过这种方式，保留编码部分中不同层丢失的信息，同时，在进行重新学习丢失的信息时并未增加额外的参数与操作。在Citycapes 和 CamVID 数据集上的实验结果证明残差连接的引入（`LinkNet without skip`）使得mIOU获得了提升。
+这项工作的主要贡献是在原始的UNet中引入了残差连接，并直接将编码器与解码器连接来提高准确率，一定程度上减少了处理时间。通过这种方式，保留编码部分中不同层丢失的信息，同时，在进行重新学习丢失的信息时并未增加额外的参数与操作。在Citycapes 和 CamVID 数据集上的实验结果证明残差连接的引入（`LinkNet without bypass`）使得mIOU获得了提升。
 
 
 
 <img src="https://pic2.zhimg.com/80/v2-d6947a2cf71c66a2b4b4e8a102111125_720w.jpg" alt="img" style="zoom: 80%;" />
 
-这篇论文的主要提升技巧在于它的 skip 技巧，但我们也可以看到ResNet也进一步对网络的效果带来了改善，所以至少说明ResNet是可以当成BackBone应用在UNet的，这样结果至少不会差。
+这篇论文的主要提升技巧在于它的bypass技巧，但我们也可以看到ResNet也进一步对网络的效果带来了改善，所以至少说明ResNet是可以当成BackBone应用在UNet的，这样结果至少不会差。
 
 
 
@@ -173,86 +167,13 @@ CVPR 2018北邮在DeepGlobe Road Extraction Challenge全球卫星图像道路提
 
 D-LinkNet使用LinkNet作为基本骨架，使用在ImageNet数据集上与训练好的ResNet作为网络的encoder，并在中心部分添加带有shortcut的[dilated-convolution](https://www.zhihu.com/search?q=dilated-convolution&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"article"%2C"sourceId"%3A128138930})层，使得整个网络识别能力更强、接收域更大、融合多尺度信息。[网络中心](https://www.zhihu.com/search?q=网络中心&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"article"%2C"sourceId"%3A128138930})部分展开示意图如下：
 
-<img src="/media/image-20211211012704972.png" alt="image-20211211012704972" style="zoom: 67%;" />
-
-这篇论文和ResNet的关系实际上和LinkNet表达出的意思一致，就是大量增加 short or long skip links 並将其应用在BackBone部分增强特征表达能力。
+<img src="/media/image-20211211012704972.png" alt="image-20211211012704972" style="zoom:50%;" />
 
 
 
-### Mixed Long and Short Skip Links
-
-这篇文章其实是比上两篇文章早的，但我想放到最后这个位置来谈一下，这篇文章是[DLMIA 2016](https://www.zhihu.com/search?q=DLMIA+2016&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"article"%2C"sourceId"%3A128138930})的文章，名为：**「The Importance of Skip Connections in Biomedical Image Segmentation」** 。这一网络结构如下图所示，对图的解释来自[akkaze-郑安坤](https://www.zhihu.com/search?q=akkaze-郑安坤&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"article"%2C"sourceId"%3A128138930})的文章
-
-<img src="/media/image-20211213234230357.png" alt="image-20211213234230357" style="zoom:67%;" />
-
-(a) 整个网络结构
-
-使用下采样（蓝色）：这是一条收缩路径。
-
-上采样（黄色）：这是一条不断扩大的路径。
-
-这是一个类似于U-Net的FCN架构。
-
-并且从收缩路径到扩展路径之间存在很长的跳过连接。
-
-（b）瓶颈区
-
-使用![[公式]](https://www.zhihu.com/equation?tex=1%C3%971Conv-3%C3%973Conv-1%C3%971Conv)，因此称为瓶颈。 它已在ResNet中使用。
-
-在每次转化前都使用![[公式]](https://www.zhihu.com/equation?tex=BN-ReLU)，这是激活前ResNet的想法。
-
-（c）基本块
-
-两个![[公式]](https://www.zhihu.com/equation?tex=3%C3%973)卷积，它也用在ResNet中。
-
-（d）简单块
-
-![[公式]](https://www.zhihu.com/equation?tex=1)个![[公式]](https://www.zhihu.com/equation?tex=3%C3%973)卷积
-
-（b）-（d）
-
-所有块均包含短跳转连接。
-
-下面的Table1表示整个网络的维度变化：
-
-<img src="/media/image-20211213234321139.png" alt="image-20211213234321139" style="zoom:50%;" />
-
-接下来是这节要分析的重点了，也就是长短跳过网络中两种不同类型的跳跃连接究竟对UNet的结果参生了什么影响？
-
-这里训练集以![[公式]](https://www.zhihu.com/equation?tex=30)张[电子显微镜](https://www.zhihu.com/search?q=电子显微镜&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"article"%2C"sourceId"%3A128138930})（EM）图像为数据集，尺寸为![[公式]](https://www.zhihu.com/equation?tex=512%C3%97512)。 ![[公式]](https://www.zhihu.com/equation?tex=25)张图像用于训练，其余![[公式]](https://www.zhihu.com/equation?tex=5)张图像用于验证。而测试集是另外![[公式]](https://www.zhihu.com/equation?tex=30)张图像。
-
-下面的Figure3为我们展示了长短跳过连接，以及只有长跳过连接，只有短跳过连接对准确率和损失带来的影响：
-
-（a）长跳和短跳连接
-
-当长跳转和短跳转连接都存在时，参数更新看起来分布良好。
-
-（b）仅长跳连接具有9个重复的简单块
-
-删除短跳过连接后，网络的较深部分几乎没有更新。
-
-当保留长跳连接时，至少可以更新模型的浅层部分。
-
-（c）仅长跳连接具有3个重复的简单块
-
-当模型足够浅时，所有层都可以很好地更新。
-
-（d）仅长跳连接具有7个重复的简单块，没有BN。
-
-论文给出的结论如下：
-
-- 没有批量归一化的网络向网络中心部分参数更新会不断减少。
-- 根据权值分析的结论，由于梯度消失的问题（只有短跳连接可以缓解），无法更有效地更新靠近模型中心的层。
-
-所以这一节介绍的是将ResNet和UNet结合之后对跳跃连接的位置做文章，通过这种长跳短跳连接可以使得网络获得更好的性能。
+### Long Shortcut and Short Shortcut
 
 
-
-### B. UNet++ Add Middle Down-Up Sampling Network!
-
-In addition to adding more links (short or long skip links), some ideas is to add down sampling convolution and up sampling network.  
-
-It's very expensive to add those blocks.  We only put it as a reference.
 
 
 
