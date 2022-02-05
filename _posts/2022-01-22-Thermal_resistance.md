@@ -4,6 +4,7 @@ date: 2022-01-17 09:28:08
 categories: 
 - AI
 tags: [CV, Optical Flow]
+description: 首先，JEDEC (Joint Electron Tube Engineering Council) 的標準，與熱相關的標準主要有兩個
 typora-root-url: ../../allenlu2009.github.io
 ---
 
@@ -14,20 +15,17 @@ MathJax.Hub.Config({
 </script>
 
 
-Reference
-
-[803PET21.pdf (unipi.it)](http://www.iet.unipi.it/f.baronti/didattica/CE/Files/803PET21.pdf)
-
-
-
 首先，JEDEC (Joint Electron Tube Engineering Council) 的標準，與熱相關的標準主要有兩個
 
 －JESD51系列：包括大多數IC等封裝的“熱”相關規格。
 －JESD15系列：對模擬用的熱阻模型進行規格化。
 
+[803PET21.pdf (unipi.it)](http://www.iet.unipi.it/f.baronti/didattica/CE/Files/803PET21.pdf)
+
+<!-- more -->
 
 
-#### IC 散熱以及 Thermal Resistance
+### IC 散熱以及 Thermal Resistance
 
 上面介紹過熱量，溫度，比熱，thermal conductivity, thermal diffusivity.  此處順便提一下 IC 散熱常用的 thermal resistance [nelsonPackageThermal2018].   另文再詳細介紹。
 
@@ -72,3 +70,11 @@ It turn out 在電路理論，我們假設 quasi-static condition, 也就是 cir
 
 
 ## Reference
+
+首先，JEDEC (Joint Electron Tube Engineering Council) 的標準，與熱相關的標準主要有兩個
+
+－JESD51系列：包括大多數IC等封裝的“熱”相關規格。
+－JESD15系列：對模擬用的熱阻模型進行規格化。
+
+[803PET21.pdf (unipi.it)](http://www.iet.unipi.it/f.baronti/didattica/CE/Files/803PET21.pdf)
+
