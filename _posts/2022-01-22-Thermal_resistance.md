@@ -8,11 +8,6 @@ description: 首先，JEDEC (Joint Electron Tube Engineering Council) 的標準�
 typora-root-url: ../../allenlu2009.github.io
 ---
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-});
-</script>
 
 
 首先，JEDEC (Joint Electron Tube Engineering Council) 的標準，與熱相關的標準主要有兩個

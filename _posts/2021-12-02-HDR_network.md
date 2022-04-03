@@ -8,13 +8,6 @@ typora-root-url: ../../allenlu2009.github.io
 ---
 
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-});
-</script>
-
-
 
 ## High Dynamic Range, Why
 
