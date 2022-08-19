@@ -53,7 +53,8 @@ det(A)
 
 
 ```julia
-x = range(0, 10, length=1000)
+x = range(0, 10, length=1000);   or
+x = LinRange(0, 10, 1000);  
 ```
 
 
@@ -65,7 +66,7 @@ x = range(0, 10, length=1000)
 
 
 ```julia
-using PyPlot
+using PyPlot or Plots
 grid()
 plot(x, sin.(x))
 ```
