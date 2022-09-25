@@ -58,12 +58,26 @@ Equation citation use `$\eqref{eq1}$`
 * Typora 需要 enable :preference :Markdown :Auto Numbering Math Equations".  不過結果很奇怪。所有的 equation 都有 number in Typora!  但 Jekyll 正常。 
 
 
+
+如果不全部不要 number, use align*,  * means to suppress numbers. 
+```
+$$\begin{align*}
+E=mc^2  \\          
+p = mv \\  
+F = ma  \\.  
+\end{align*}$$
+```
+
+
 ## Image
+
 Markdown resize image 似乎有問題，需要另外的 plug-in => No!
 
 我找到一個 work around in Mweb!  使用 <img src ...., width=""> 取代 Mweb copy and paste image.
 
 不過後來我發現 typora 可以直接做，所有 method 2 is using Typora
+
+
 
 ### Method 1: Mweb
 
@@ -117,6 +131,14 @@ Markdown resize image 似乎有問題，需要另外的 plug-in => No!
 * 如果 mweb 改成 “\<src img xxx\>”  之後 OK.
 
 * 不過我發現有更好的方法，就是直接用 typora 的 image zoom 設定。自動就會轉成 <src img,  , zoom xxx> 可以 image resize!!
+
+
+
+另一個重點是 image alignment: 使用 float: left/right/center.
+
+```
+<img src="/media/image-20220820174855393.png" alt="image-20220820174855393" style="zoom:80%; float: left" />
+```
 
 
 

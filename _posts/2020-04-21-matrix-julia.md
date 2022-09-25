@@ -101,13 +101,6 @@ using DSP
 using FFTW
 ```
 
-    [32m[1m Resolving[22m[39m package versions...
-    [32m[1m  Updating[22m[39m `~/.julia/environments/v1.1/Project.toml`
-    [90m [no changes][39m
-    [32m[1m  Updating[22m[39m `~/.julia/environments/v1.1/Manifest.toml`
-    [90m [no changes][39m
-
-
 
 ```julia
 x = [1, 2, 3, 0,  -3, -1,  1, -2, 0, 0];

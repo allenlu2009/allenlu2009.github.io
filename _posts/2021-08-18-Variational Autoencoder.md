@@ -25,9 +25,8 @@ MathJax.Hub.Config({
    * E-step: 找到 $q(\mathbf{z}) \approx p_{\theta}(\mathbf{z} \mid \mathbf{x})$, **也就是 posterior**, **但我們知道在 DLVM posterior 是 intractable，必須用近似**
    * M-step: optimize $\theta$ based on posterior:  $\underset{\boldsymbol{\theta}}{\operatorname{argmax}} E_{q(\mathbf{z})} \ln p_{\theta}(\mathbf{x}, \mathbf{z})$,  **其中的 joint distribution 是 tractable, 但是 $q(\mathbf{z})$ intractable**, 所以是卡在 posterior intractable 這個問題！
    * Iterate E-step and M-step in (variational EM); 在 DLVM 就變成 SGD optimization!
-3. **VAE 第三個 innovation 就是為了解決2.的 posterior 問題  $q(\mathbf{z}) \to q_{\phi}(\mathbf{z}\mid x)$:  用另一個 (tractable) decoder neural network $\phi$, 來近似 (intractable) posterior $q_{\phi}(\mathbf{z}\mid x) \approx p(\mathbf{z}\mid x)$**
-
-   * 因此 VAE 和 DLVM (or variational EM) 的差別在於 VAE 多了 decoder neural network $\phi$ ，所以三者的數學框架非常相似！
+3. **VAE 第三個 innovation 就是為了解決2.的 posterior 問題  $q(\mathbf{z}) \to q_{\phi}(\mathbf{z}\mid x)$:  用另一個 (tractable) encoder neural network $\phi$, 來近似 (intractable) posterior $q_{\phi}(\mathbf{z}\mid x) \approx p(\mathbf{z}\mid x)$**
+   * 因此 VAE 和 DLVM (or variational EM) 的差別在於 VAE 多了 encoder neural network $\phi$ ，所以三者的數學框架非常相似！
    * **VAE 的 training loss 包含 reconstruction loss (源自 encoder+decoder) + 上面的 M-step loss (源自 variational EM)**
    * Maximum likelihood optimization ~ minimum cross-entropy loss (not in this case)  ~ M-step loss (in this case)
 4. 同樣的方法應該可以用在很多 DLVM 應用中。如果有 intractable posterior, 就用 (encoder) neural network 近似。但問題是要有方法 train 這個 encoder.  VAE 很巧妙的同時 train encoder + decoder 是用原始的 image and generative image.   需要再檢驗。
@@ -547,7 +546,7 @@ VAE 的 ELBO 是 joint optimization of parameters ($\phi$ and $\theta$) using SG
 VAE training 一般用 mini-batch. 假設 i.i.d dataset, the ELBO objective is the sum (or average) of each datapont ELBO:
 
 $$\begin{align}
-\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathcal{D})=\sum_{\mathbf{x} \in \mathcal{D}} \mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x}) \label{eqELBO4}
+\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathcal{D})=\sum_{\mathbf{x} \in \mathcal{D}} \mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x}) \label{eqELBO5}
 \end{align}$$
 
 $\eqref{eqELBO3}$ 的 gradient $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\theta}, \phi}(\mathbf{x})$  is intractable.
@@ -557,10 +556,10 @@ $\eqref{eqELBO3}$ 的 gradient $\nabla_{\theta, \phi}\mathcal{L}_{\boldsymbol{\t
 Unbiased gradients of the ELBO w.r.t. the generative model (也就是 decoder) parameter $\theta$ are simple:
 
 $$\begin{align}
-\nabla_{\boldsymbol{\theta}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\theta}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \label{eqGd1}\\
-&=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \label{eqGd2}\\
-& \simeq \nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right) \label{eqGd3}\\
-&=\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right) \label{eqGd4}
+\nabla_{\boldsymbol{\theta}} \mathcal{L}_{\boldsymbol{\theta}, \boldsymbol{\phi}}(\mathbf{x}) &=\nabla_{\boldsymbol{\theta}} \mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right] \\
+&=\mathbb{E}_{q_{\phi}(\mathbf{z} \mid \mathbf{x})}\left[\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right)\right] \\
+& \simeq \nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})-\log q_{\phi}(\mathbf{z} \mid \mathbf{x})\right) \\
+&=\nabla_{\boldsymbol{\theta}}\left(\log p_{\boldsymbol{\theta}}(\mathbf{x}, \mathbf{z})\right) 
 \end{align}$$
 
 The last line $\eqref{eqGd4}$ is a simple Monte Carlo estimator of the second line $\eqref{eqGd2}$, where z in the last two lines $\eqref{eqGd3}$ and $\eqref{eqGd4}$ is a random sample from $q_{\phi}(z\mid x)$.
