@@ -1,6 +1,6 @@
 ---
 
-title: AI for AI I - Copilot 
+title: AI for AI (I) - Copilot 
 date: 2022-09-24 23:10:08
 categories:
 - AI
@@ -28,6 +28,8 @@ AI for AI:  use copilot for machine learning.
 
 ## Python Copilot
 
+結論：Copilot 對一般的 python programming 初步看起來不錯。對於 machine learning 部分還要再測試。 
+
 
 
 #### Get Max and Min of a list
@@ -44,7 +46,7 @@ AI for AI:  use copilot for machine learning.
 
 #### Plot a sine wave
 
-只要 input '''plot asine wave using matplotlib''', 就會 generate the following code and work!!!
+只要 type '''plot a sine wave using matplotlib''', 就會 generate the following code and work!!!
 
 ```python
 import matplotlib.pyplot as plt
@@ -63,9 +65,43 @@ if __name__ == '__main__':
     plot_sin()
 ```
 
+<img src="/media/image-20220925194637375.png" alt="image-20220925194637375" style="zoom:50%;" />
+
+#### Compute a FFT of a sine wave and plot
+
+Type '''compute fft of a signal and plot it''', 就會得到以下的 FFT 以及 plot in linear or log scale!
+
+```
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.fft import fft, fftfreq
+
+x = np.linspace(0, 1, 1000, False)
+y = np.sin(50 * 2 * np.pi * x) + 0.5 * np.sin(80 * 2 * np.pi * x)
+
+yf = fft(y)
+xf = fftfreq(len(y), 1 / 1000)
+
+# plot in linear scale
+plt.plot(xf, np.abs(yf))
+# plot in log scale
+# plt.plot(xf, 20 * np.log10(np.abs(yf)))
+# label the axes
+plt.xlabel('Frequency')
+plt.ylabel('Amplitude')
+# set the title
+plt.title('FFT of sine waves')
+# set the axis limits
+plt.xlim(-100, 100)
+plt.ylim(-10, 550)
+# display the plot
+plt.grid()
+plt.show()
+```
 
 
-### 
+
+<img src="/media/image-20220925194507181.png" alt="image-20220925194507181" style="zoom:67%;" />
 
 
 
@@ -228,23 +264,136 @@ def test(args, model, device, test_loader):
 
 
 
-### Compute FFT
+### 
 
 
 
 ### Plot a sin wave
 
-Results: failed.  Not recommend
+Type "plot a sine wave"
 
-Problem:
+```julia
+using PyPlot
 
-* Still use old Julia code not working: e.g. linspace()
+x = linspace(0, 2pi, 1000)
+y = sin(x)
 
+PyPlot.plot(x, y, color="red", linewidth=2.0, linestyle="-")
+xlabel("x")
+ylabel("sin(x)")
+title("sin(x)")
+PyPlot.grid("on")
 
+PyPlot.savefig("plotSin.png")
+```
 
+Results: failed.  
 
+Problem and fix.
 
+* Still use old Julia code not working: linspace(0, 2pi, 1000) -> range(0, 2pi; length=1000) 
+* No vector operation:  y = sin(x) -> y = sin.(x)
+* Figure not display!  Add display(gcf())
 
+修改的版本 and work.
+
+```julia
+using PyPlot
+
+x = range(0, 2pi; length = 1000)
+y = sin.(x)
+
+figure()
+PyPlot.plot(x, y, color="red", linewidth=2.0, linestyle="-")
+xlabel("x")
+ylabel("sin(x)")
+title("sin(x)")
+PyPlot.grid("on")
+display(gcf())
+
+PyPlot.savefig("plotSin.png")
+```
+
+<img src="/media/image-20220925201751196.png" alt="image-20220925201751196" style="zoom:50%;" />
+
+不過我再 type:  plot a cosine wave,  Copilot 可以現學現賣！
+
+```julia
+# plot a cosine wave
+
+using PyPlot
+
+x = range(0, 2pi; length = 1000)
+y = cos.(x)
+
+figure()
+PyPlot.plot(x, y, color="blue", linewidth=2.0, linestyle="-")
+xlabel("x")
+ylabel("cos(x)")
+title("cos(x)")
+PyPlot.grid("on")
+
+display(gcf())
+```
+
+<img src="/media/image-20220925201939755.png" alt="image-20220925201939755" style="zoom:50%;" />
+
+### Compute FFT
+
+再 type "compute the FFT of a signal and plto the result".  還是不行！
+
+```julia
+using PyPlot
+
+# define the signal
+t = linspace(0, 1, 1000)
+x = sin(2*pi*10*t) + sin(2*pi*20*t)
+
+# compute the FFT
+X = fft(x)
+
+# plot the result
+figure()
+subplot(2,1,1)
+plot(t, x)
+title("Signal")
+subplot(2,1,2)
+plot(abs(X))
+title("FFT")
+```
+
+* Problem and fix.
+
+  * linspace(0, 2pi, 1000) -> range(0, 2pi; length=1000) 
+  * No vector operation:  sin(x) -> sin.(x);  abs(x) -> abs.(x)
+  * plot -> PyPlot.plot
+  * Figure not display!  Add display(gcf())
+
+  修改的版本 and work.
+
+```julia
+using PyPlot
+using FFTW
+
+# define the signal
+t = range(0, 1; length = 1000)
+x = sin.(2*pi*10*t) + sin.(2*pi*20*t)
+
+# compute the FFT
+X = fft(x)
+
+# plot the result
+figure()
+subplot(2,1,1)
+PyPlot.plot(t, x)
+title("Signal")
+subplot(2,1,2)
+PyPlot.plot(abs.(X))
+title("FFT")
+display(gcf())
+```
+
+<img src="/media/image-20220925203225745.png" alt="image-20220925203225745" style="zoom:50%;" />
 
 
 
