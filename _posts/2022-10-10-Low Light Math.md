@@ -1,0 +1,3 @@
+1.  Normal communication in a noisy channel -->  MLE problem, the SNR is well defined assuming ML estimation (假設 input source distribution 是 50/50 because we don't know prior!!!!) for the BER!
+2. Machine learning --> 先學習到 input distribution --> 使用 MAP for the BER 所以比較好，因為如果 input source only send 1, no 0.  不管 noise 有多大，就直接猜 1! 仍然可以得到很好的結果。就是有 (correct) prior distribution.
+3. What about the input distribution is purely random?  那就代表學不到東西！against 學習的基本假設。至少 input distribution 的 noise 可以遠小於 channel noise (from dimension reduction or manifold leanring perspective) ?  所以 low light 還是可以得分！  

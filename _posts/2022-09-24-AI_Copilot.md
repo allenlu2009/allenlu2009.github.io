@@ -1,6 +1,6 @@
 ---
 
-title: AI for AI (I) - Copilot 
+title: AI for AI (I) - Copilot I
 date: 2022-09-24 23:10:08
 categories:
 - AI
@@ -20,7 +20,7 @@ MathJax.Hub.Config({
 
 
 
-AI for AI:  use copilot for machine learning.
+AI for AI:  use github Copilot for general signal processing, plotting, and machine learning.
 
 
 
@@ -262,11 +262,7 @@ def test(args, model, device, test_loader):
 
 ## Julia Copilot
 
-
-
-### 
-
-
+用幾個常見的例子。
 
 ### Plot a sin wave
 
@@ -338,7 +334,7 @@ display(gcf())
 
 <img src="/media/image-20220925201939755.png" alt="image-20220925201939755" style="zoom:50%;" />
 
-### Compute FFT
+### Compute and Plot FFT
 
 再 type "compute the FFT of a signal and plto the result".  還是不行！
 
@@ -396,5 +392,37 @@ display(gcf())
 <img src="/media/image-20220925203225745.png" alt="image-20220925203225745" style="zoom:50%;" />
 
 
+
+
+
+### Compute and Plot Self Entropy
+
+基本上 input title 和 input signal range.  **Copilot 自動 show 出 entropy 的 formula in vector form!**
+
+```
+# compute the entropy of a normal distribution and plot the result
+
+using PyPlot
+#using FFTW
+
+# define the signal
+σ = range(0.01, 10; step = 0.01)
+
+# compute the entropy
+H = 0.5 * log.(2 * π * exp.(1) * σ.^2)
+
+# plot the result
+figure()
+PyPlot.plot(σ, H, color="blue", linewidth=2.0, linestyle="-")
+xlim(-0.1, 10)
+ylim(-4, 4)
+xlabel("σ")
+ylabel("Entropy")
+#title("Entropy")
+PyPlot.grid("on")
+display(gcf())
+```
+
+<img src="/media/image-20221001081647206.png" alt="image-20221001081647206" style="zoom:50%;" />
 
 ## Reference

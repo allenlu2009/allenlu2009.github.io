@@ -93,7 +93,8 @@ Note that $H(X) < 0$ if $2\pi e \sigma^2 < 1$
 
 ### Maximum Entropy Distribution
 
-For a fixed variance (E[X^2] = s^2), the normal distribution is the pdf that maximizes entropy.
+For a fixed variance ($Var[X] = E[X^2]-E[X]^2 = \sigma^2$), the normal distribution is the pdf that maximizes entropy.
+
 
 
 $$
