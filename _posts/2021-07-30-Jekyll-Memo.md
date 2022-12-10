@@ -68,6 +68,11 @@ F = ma  \\.
 \end{align*}$$
 ```
 
+* align -> with equation number.
+
+* no begin end -> without equation number?
+
+
 
 ## Image
 

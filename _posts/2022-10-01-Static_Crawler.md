@@ -1,6 +1,6 @@
 ---
-title: AI for AI (I) - Copilot II
-date: 2022-09-24 23:10:08
+title: Static Data Crawler
+date: 2022-10-01 23:10:08
 categories:
 - AI
 tags: [Python, Copilot, benchmark]
@@ -352,15 +352,39 @@ def parse_geekbench_html(html):
 
 參考：[@fishPythonSQLite2018]
 
-很多時候我們會有資料儲存的需求，但又不想花過多的時間在安裝資料庫及種種繁瑣的設定，此時就可以考慮使用 SQLite。Python 內置 SQLite 非常方便。
+很多時候我們會有資料儲存的需求，但又不想花過多的時間在安裝資料庫及種種繁瑣的設定，此時就可以考慮使用 SQLite.  Python 內置 SQLite 非常方便。 SQLite 是一種 RDBMS (Relational DataBase Management System).  使用 SQL (Structured Query Language) 作爲溝通的 interface.
+
+RDBMS 的結構 db $\to$ tables $\to$ fields $\to$ records
 
 #### 1. 使用 DB Browser for SQLite 建立 database
 
 <img src="/media/image-20221004213710201.png" alt="image-20221004213710201" style="zoom:67%;" />
 
-Database: geekbenchmark
+Database: benchmark.db
 
-Fields: id, Phone, SoC, SC, MC, OpenCL, Vulkan
+#### 2. 建立 table 
+
+RDBMS 是由一張或多張 excel-like tables 組成。我們可以用 DB Browser create "geekbenchmark" table.  
+
+一個 table 包含多個 fields, 一般都會放 id 作爲第一個 field,  並設爲 PK (Primary Key)
+
+##### Field Type and Attribute
+
+基本 field type 有五種: INTEGER, TEXT, BLOB, REAL, NUMERIC
+
+<img src="/media/image-20221022170330295.png" alt="image-20221022170330295" style="zoom:50%;" />
+
+Real = Float?
+
+How about Date?
+
+Attribute:  PK: Primary Key;  AI: Auto Increment?;  U ？
+
+
+
+##### Field Name
+
+Field Name: id, Phone, SoC, SC, MC, OpenCL, Vulkan
 
 OK -> Write Change to save the database
 
@@ -368,7 +392,7 @@ OK -> Write Change to save the database
 
 
 
-#### 2. 把爬下來的資料存在 SQLite database
+#### 3. 把爬下來的資料存在 SQLite database (Insert Record)
 
 SQLite 和 MySQL database 的結構和語法基本一樣。好處是 python built-in support to access SQLite database.  第一步是建立 connection and cursor position.
 

@@ -1,5 +1,5 @@
 ---
-title: Python Project Management
+title: Python Project Management - Structure
 date: 2022-10-07 23:10:08
 categories:
 - Language
@@ -164,6 +164,22 @@ from sample_package.sample_module import sample_func
 
 ```
 PYTHONPATH=./src
+```
+
+
+
+如果要在 command window 執行 python program, 例如 pytest:
+
+在 PC Windows 10 PowerShell (PS), 必須這樣設定 PYTHONPATH:
+
+```
+ $env:PYTHONPATH = ".\src"
+```
+
+在 Mac OS, 可以這樣設定 PYTHONPATH:
+
+```
+ $export PYTHONPATH='./src'
 ```
 
 
@@ -510,6 +526,27 @@ python_files = tests.py test_*.py *_tests.py
 打包：
 
 ```python setup.py bdist_wheel```
+
+
+
+打包之後可以用
+
+> $ pip install -e . 
+
+就可以 pip install 在目前的 python package.  使用 -e 是 in development phase, 會隨 local change 改變。
+
+ [setuptools - Python setup.py develop vs install - Stack Overflow](https://stackoverflow.com/questions/19048732/python-setup-py-develop-vs-install)
+
+[什么时候-e，--editable选项对pip安装有用？ (qastack.cn)](https://qastack.cn/programming/35064426/when-would-the-e-editable-option-be-useful-with-pip-install)
+
+使用  conda list 應該就會看到 word_count 這個 package.  版號是放在 \_\_init.py\_\_ 的版號嗎？ YES!
+
+```python
+"""Word Count"""
+__version__ = '0.1.0'
+```
+
+
 
 #### 3.5 總結
 至此，一個項目開發完成，完整項目結構如下：

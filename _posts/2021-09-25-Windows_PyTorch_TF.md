@@ -1,5 +1,5 @@
 ---
-title: Windows + CUDA - PyTorch and TensorFlow
+Wtitle: Windows + CUDA - PyTorch and TensorFlow
 categories: 
 - AI
 tags: [Windows, terminal, machine learning, ML, GPU, CUDA, PowerShell]
