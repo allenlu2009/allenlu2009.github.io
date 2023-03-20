@@ -494,7 +494,7 @@ $$
 **三種 VDM 詮釋**
 
 1. **Use neural network to learn original image from noisy image (denoise)**
-2. **Use neural network to learn noise from diffusion noise**
+2. **Use neural network to learn noise from diffusion noise** (non-equilibrium diffusion)
 3. **Use neural network to learn the score function (gradient of log likelihood function) for arbitrary noise**
 
 

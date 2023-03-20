@@ -195,7 +195,7 @@ FP8 的表示如下圖：
 
 
 
-* Exponet bit, 不是 exponent value.   Exponent bit 每增加 1-bit, 就會 expand octaves (both 最大和最小) **兩倍。**就是變成兩倍 octaves!  相反 exponent 每減少 1-bit, 就會把 octave 減半。注意 octave 是 log-scale.  所以兩倍的 octaves 代表 dynamic range 平方。例如 FP16 的 exponent bit 是 5-bit: normal value 最大值是 $\sim 2^{16}=65536$, 最小值是 $\sim 2^{-14}$.  如果變成 6-bit, normal value 最大值 $\sim 2^{32}=（65536)^2$, 最小值是 $\sim 2^{-30}$.  當然代價是 mantissa 就變少 1-bit, 因此 precision 會降低。   
+* Exponent bit, 不是 exponent value.   Exponent bit 每增加 1-bit, 就會 expand octaves (both 最大和最小) **兩倍。**就是變成兩倍 octaves!  相反 exponent 每減少 1-bit, 就會把 octave 減半。注意 octave 是 log-scale.  所以兩倍的 octaves 代表 dynamic range 平方。例如 FP16 的 exponent bit 是 5-bit: normal value 最大值是 $\sim 2^{16}=65536$, 最小值是 $\sim 2^{-14}$.  如果變成 6-bit, normal value 最大值 $\sim 2^{32}=（65536)^2$, 最小值是 $\sim 2^{-30}$.  當然代價是 mantissa 就變少 1-bit, 因此 precision 會降低。   
 * Mantissa 就是在 1 個 octave 要均勻 (**linear scale**) 切幾份。注意在 log-scale 的 linear scale 看起來就像上圖非均勻。用鋼琴的類比就是琴鍵的數目。鋼琴 1 個 octave 有 10 (黑白) 鍵。這裡有 $2^{mantissa-bit}$ keys.   如果只看一個 octave, 每增加一個 mantissa bit, quantization noise 減少 6dB.  每減少一個 mantissa bit, quantization noise 增加 6dB.  不過一般 input signal 很少是在一個 octave, 所以 quantization noise 似乎不是這麼直接。和 input signal 強相關。我們後面討論。
 * **Trade-off between dynamic range and precision**:  因為 total bitwidth 是固定的。例如 FP16 只有 15-bit exclude sign-bit.  增加 exponent bitwidth 對於 dynamic range (octave x2, 最大和最小值基本平方) 非常有幫助。但是對於 precision.
 
@@ -347,13 +347,13 @@ $$
 
 
 
-FP32: min: 4.2x10^-39;  max: 1.45x10^(37) =>  log (max/min) / log 2 = 251 octaves.  
+FP32: $\min =4.2\times 10^{-39}$;  $\max = 1.45\times 10^{37} \Rightarrow \log(\max/\min) / \log2 = 251$  octaves.  
 
 * normal value (e-b) 範圍 [-126,+127] -> 254 octaves,  差了 3 個 octave, 可能是 vec_len = 16.
 
-BF16: min: 2.7x10^-38; max: 1.45x10^(37) => log (max/min) / log 2 = 248 octaves. 
+BF16: $\min =2.7\times 10^{-38}$;  $\max = 1.45\times 10^{37} \Rightarrow \log(\max/\min) / \log2 = 248$  octaves.
 
-FP16: min: 3.6x10^-5; max: 3x10^(3) => log (max/min) / log 2 = 26.4 octaves. 
+FP16: $\min = 3.6\times 10^{-5}$;  $\max = 3\times 10^{3} \Rightarrow \log(\max/\min) / \log2 = 26.4$  octaves.
 
 
 Use automatic script.
@@ -486,3 +486,9 @@ Internal precison 改成 fp32:
 非常有趣是加上 Lapack 方式做為比較。 Lapack 的方法就 dynamic range 更好，但是 SNR 變小。
 
 <img src="/media/image-20221121215313387.png" alt="image-20221121215313387" style="zoom: 33%;" />
+
+
+
+<img src="/media/image-20230312002648198.png" alt="image-20230312002648198" style="zoom: 67%;" />
+
+<img src="/media/image-20230312002707615.png" alt="image-20230312002707615" style="zoom:67%;" />

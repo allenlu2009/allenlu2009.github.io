@@ -106,3 +106,31 @@ plot!(x->pdf(L2, x))
 
 <img src="/media/image-20220920205804346.png" alt="image-20220920205804346" style="zoom:33%;" />
 
+
+
+Amend:
+
+Plots 好像更 general? 可以看 backend 是否是 PyPlot 決定是否用：
+
+```julia
+# return using_pyplot
+function using_pyplot()
+    # if using PyPlot, return true
+    if typeof(Plots.backend()) == Plots.PyPlotBackend
+        return true
+    else
+        return false
+    end
+end
+```
+
+
+
+Plots 如果在 VS code 不 work, 可以強迫 display
+
+```julia
+plot(cir_x, cir_y, color="red")
+p = plot!(lin_cir_x, lin_cir_y, color="blue")
+display(p)
+```
+

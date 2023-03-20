@@ -176,7 +176,9 @@ PYTHONPATH=./src
  $env:PYTHONPATH = ".\src"
 ```
 
-在 Mac OS, 可以這樣設定 PYTHONPATH:
+注意：1. 要在 Anaconda 的 PowerShell;  2. 要包含 "$"
+
+在 Mac OS or linux, 可以這樣設定 PYTHONPATH:
 
 ```
  $export PYTHONPATH='./src'
