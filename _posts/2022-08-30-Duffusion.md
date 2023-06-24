@@ -262,6 +262,12 @@ $$
 
 
 
+這部分參考  https://zhuanlan.zhihu.com/p/565901160
+
+<img src="/media/image-20230423001228495.png" alt="image-20230423001228495" style="zoom:67%;" />
+
+
+
 #### From Probability to Sample
 
 前面都是 probability 理論推導，實際作戰還是用隨機取樣 (Monte Carlo sample) 模擬近似。舉例來說 posterior $\eqref{LinGauss}$ 是 conditional probability : $q\left(\boldsymbol{x}_t \mid \boldsymbol{x}_{t-1}\right) \sim \mathcal{N}\left(\boldsymbol{x}_t ; \sqrt{\alpha_t} \boldsymbol{x}_{t-1},\left(1-\alpha_t\right) \mathbf{I}\right)$, 可以用以下 state-space equation 表示，也作為之後用 Monte Carlo sample 的方法。 (Linear Gaussian 看起來像 Kalman filter form) 

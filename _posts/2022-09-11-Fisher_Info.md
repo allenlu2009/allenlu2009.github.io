@@ -1,9 +1,8 @@
 ---
-
 title: Math Stat I - Likelihood, Score Function, and Fisher Information 
 date: 2022-09-17 23:10:08
 categories:
-- AI
+- Math_AI
 tags: [Score, ML, Fisher Information]
 typora-root-url: ../../allenlu2009.github.io
 ---
@@ -14,6 +13,7 @@ MathJax.Hub.Config({
 });
 </script>
 
+## Reference
 
 [(1) The Fisher Information - YouTube](https://www.youtube.com/watch?v=pneluWj-U-o&ab_channel=MutualInformation)  [@mutualinformationFisherInformation2021] - good reference
 
