@@ -11,42 +11,239 @@ typora-root-url: ../../allenlu2009.github.io
 
 
 
-## Attention is all you need
-
-Attention 已經是必備的 core network.   相較於 CNN,  attention 最大的問題是 memory bandwidth.
-
-主要在計算 K, Q 的 correlation, 以及 softmax.
 
 
+## Source
+
+* Flash Attention with attention bias:  https://zhuanlan.zhihu.com/p/567167376
+* Flash attention 2: https://tridao.me/publications/flash2/flash2.pdf
+* Flash Decoder: https://princeton-nlp.github.io/flash-decoding/
+* 詳細的 GPT2/3 參數計算: https://www.lesswrong.com/posts/3duR8CrvcHywrnhLo/how-does-gpt-3-spend-its-175b-parameters
+* GPT3 原始 paper.
+* GPT2 原始 paper.
+* LLM1,  https://finbarr.ca/how-is-llama-cpp-possible/
+* [FlashAttention图解（如何加速Attention） - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/626079753)
+* [NLP（十七）：从 FlashAttention 到 PagedAttention, 如何进一步优化 Attention 性能 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/638468472)
+* FlashAttenion-V3: Flash Decoding详解 https://zhuanlan.zhihu.com/p/661478232
+* Flash Decoding ++:  https://mbd.baidu.com/newspage/data/landingsuper?rs=1906216269&ruk=xed99He2cfyczAP3Jws7PQ&pageType=1&isBdboxFrom=1&sid_for_share&urlext=%7B%22cuid%22%3A%22_a2K8_uSBijAu-uOYiSKtguqHaY1i2tq_8Hsugi6v8KX0qqSB%22%7D&context=%7B%22nid%22%3A%22news_9804123083419031340%22,%22sourceFrom%22%3A%22bjh%22%7D
 
 
+
+## Takeaway
+
+**Flash Attention**
+
+* 使用 computation to trade-off memory bandwidth!
+* Computation 就是兩招:  (1) tile, for forward (inference) and backward (training) pass; (2) re-compute attention for backward (training).
+
+
+
+**Flash Attention 2 (optimized for NV GPU)**
+
+https://www.youtube.com/watch?v=b1D_hGKblNU&ab_channel=DataScienceGems
+
+* Reduced non-matmul FLOPS
+  * matmul throughput can be up to 16x higher than non-matmul throughput
+* Parallelized attention computation
+* Better work partitioning between warps?
+
+
+
+**Flash Attention 3 (Flash Decoder)**
+
+* 特別用來處理 long context!  并行處理 KQ and O
+
+<img src="/media/image-20230620201108355.png" alt="image-20230620201108355" style="zoom:80%;" />
 
 ### Flash Attention
 
-FA 的主要思路就是通過 tile 技術減少在 DRAM 和 on-chip SRAM 讀寫實際。GPT2 有三倍加速 (seq length = 1024)
+Flash Attention (FA) 的主要思路就是通過 tile 技術減少在 DRAM 和 on-chip SRAM 讀寫實際。在 GPT2/3 medium model (sequence length=1024) 有三倍加速。
+$$
+\begin{aligned}\text{MultiHead}(Q, K, V) & =\text{Concat}\left(\text{head}_1, \ldots, \text{head}_{n_{heads}}\right) W^O \\\text { where \quad head}_i & =\text {Attention}\left(Q W_i^Q, K W_i^K, V W_i^V\right)\end{aligned}
+$$
+
+* 每一個 $\text{head}_i$ 都是三個矩陣乘法，$Q W_i^Q, K W_i^K, V W_i^V$，每個矩陣乘法大小是 $(n_{ctx} \times d_{model})\times (d_{model}\times d_{head}) = n_{ctx} \times d_{head}$。
+
+
+#### Attention
+
+* 再來是 Perform matrix correlation = $S = (Q W_i^Q) (K W_i^K)^T : n_{ctx} \times n_{ctx}$ , 如下圖中的中間虛線區域。 
+* 接下來要做 $n_{ctx}$ 次 **P = softmax(S)**  softmax operation (**以 row 為單位**)。
+* 再來 $\text{head}_i = O_i = P (V W_i^V) \to (n_{ctx} \times n_{ctx}) \times (n_{ctx} \times d_{head}) = n_{ctx} \times d_{head}$   **這步是簡化 memory bandwidth 的關鍵！**
+
+#### MultiHead Attention
+
+* 所以每個 $\text{head}_i = O_i$ 的大小是 $n_{ctx}\times d_{head}$。但是因爲有 $n_{head}$ 而且 concatenate 在一起再做一次矩陣乘法 with $W^O$， $(n_{ctx} \times d_{model})\times (d_{model}\times d_{model})$。所以 $\text{MultiHead}(Q,K,V)$ 的大小是  ($n_{ctx}\times d_{model}$)
+
+  
+
+**關鍵問題**: 計算 $\text{head}_i$ 需要先做 $n_{ctx}$ 次 softmax(S) on $n_{ctx}\times n_{ctx}$ 矩陣，**如何簡化 memory bandwidth, 而不是如何減少 computation, 甚至是用 computation 來換 memory bandwidth reduction?**
 
 
 
-核心就是
+**FA 核心就是**
 
-1. 計算 softmax 不需要全部數據 (768x768),  可以分段計算。
-2.  Back-propagate 不存儲 attention matrix (768x768), 只需要存儲 softmax normalization 的係數
+1. **Inference**: 計算 KQ matrix 不需要全部數據 [$n_{ctx}\times n_{ctx}$]，而是用 tile: [$d_{head}\times d_{head}$] 分段計算
+   * Softmax 需要 renormalized
+   * GPT2: 1024 x 1024, 直觀上用 64 x 64 分段計算。
+   * Llama: 2048 x 2048, 直觀上用 128 x 128 分段計算。
+   
+2. **Training**: Back-propagate 不存儲 attention matrix (1024x1024 or 2048x2048), 只需要存儲 softmax normalization 的係數
 
 
 
-<img src="/media/image-20230621224412245.png" alt="image-20230621224412245" style="zoom:67%;" />
+##### 如何分段？
 
-如果以 ChatGPT-2 small 為例
+K 是 outer loop, 對於每個 Ki,  (step 5)
 
-K: 768x768 and Q: 768x768
+Inner loop 儘量把 Qj 做完。 (step 7)
 
-每次 tokens 進來先做一次mapping to 最大是 Q 768 tokens (assuming 1 head), and K 768 tokens.  
+因為 SRAM 是有限的資源，Q 可以有 $\left[\frac{M} { n_{byte} d}\right]$ block size。此處不用拘泥於一個 block.  而是越多越好。
 
-Perform (768x768)  correlation = S = QK^T,  
+其中 $n_{byte}$ 的定義如下：  
 
-接下來要做 768 個 **P = softmax(S)** softmax operation (with token number, 以 row 為單位)。
+|      | $n_{byte}$ |
+| ---- | ---------- |
+| FP32 | 4          |
+| FP16 | 2          |
+| INT8 | 1          |
+| INT4 | 0.5        |
 
-最後 O = P V. 768x768 x (768x1) = 768 x 1  
+這裡有一個 catch, 就是如何把分段的 softmax 變成整個 column 的 softmax.  需要做 re-normalization (在 Flash Attention 2 改善這部分).
+
+
+
+
+
+
+
+<img src="/media/image-20231113193119115.png" alt="image-20231113193119115" style="zoom:80%;" />
+
+
+
+### Algorithm 1
+
+### <img src="/media/image-20230728222218697.png" alt="image-20230728222218697" style="zoom: 50%;" />
+
+
+
+以上是沒有 mask 的情況。Algorithm 2 是有 mask 的情況。(Step 11) why mask?
+
+<img src="/media/image-20230729212618063.png" alt="image-20230729212618063" style="zoom:80%;" />
+
+
+
+
+
+
+
+#### Flash Attention 2
+
+1. **Softmax normalization reduction: reduce non-matmul FLOPS**
+
+<img src="/media/image-20231112220019334.png" alt="image-20231112220019334" style="zoom:50%;" />
+
+2. **Parallelizing attention computation (for batch > 1)**
+
+   <img src="/media/image-20231112220108393.png" alt="image-20231112220108393" style="zoom:50%;" />
+
+3. **work partitioning between warps** (What is warps?)
+
+<img src="/media/image-20231112220328871.png" alt="image-20231112220328871" style="zoom:50%;" />
+
+
+
+
+
+
+
+#### 
+
+**注意 Flash Attention 在 O(2) 的计算过程依赖 O(1)，从下图也可以看出，FlashAttention是按顺序更新output的，其实当时我在看FlashAttention这篇文章时就觉得这个顺序操作可以优化的，因为反正都要rescale，不如最后统一rescale，没必要等之前block计算完（为了获取上一个block的max值）**
+
+
+
+<img src="/media/flash_att1.gif" style="zoom:80%;" />
+
+
+
+#### **Flash Attention 3: A faster attention for decoding: Flash-Decoding**
+
+上面提到FlashAttention对batch size和query length进行了并行化加速，**Flash-Decoding在此基础上增加了一个新的并行化维度：keys/values的序列长度**。即使batch size很小，但只要上下文足够长，它就可以充分利用GPU。与FlashAttention类似，Flash-Decoding几乎不用额外存储大量数据到全局内存中，从而减少了内存开销。
+
+<img src="/media/flash_dcoder-1699877125784-5.webp" style="zoom:80%;" />
+
+
+
+Flash Decoding主要包含以下三个步骤（可以结合上图来看）：
+
+1. 将keys和values分成较小的block
+2. **使用FlashAttention并行计算query与每个block的注意力（这是和FlashAttention最大的区别）**。对于每个block的每行（因为一行是一个特征维度），Flash Decoding会额外记录attention values的log-sum-exp（标量值，用于第3步进行rescale）
+3. 对所有output blocks进行reduction得到最终的output，需要用log-sum-exp值来重新调整每个块的贡献
+
+实际应用中，第1步中的数据分块不涉及GPU操作（因为不需要在物理上分开），只需要对第2步和第3步执行单独的kernels。虽然最终的reduction操作会引入一些额外的计算，但在总体上，Flash-Decoding通过增加并行化的方式取得了更高的效率。
+
+
+
+### **Flash Decode ++: A faster attention for decoding: Flash-Decoding**
+
+为了进一步解决问题，近日，**来自无问芯穹（Infinigence-AI）、清华大学和上海交通大学的联合团队提出了一种新方法 FlashDecoding++，不仅能带来比之前方法更强的加速能力（可以将 GPU 推理提速 2-4 倍），更重要的是还同时支持 NVIDIA 和 AMD 的 GPU！它的核心思想是通过异步方法实现注意力计算的真正并行，并针对「矮胖」矩阵乘优化加速 Decode 阶段的计算。**
+
+
+
+
+
+New Idea:
+
+Use Hierarchy softmax + sparsity!!
+
+Hierarchical softmax is a replacement for softmax which is must faster to evaluate. While softmax is O(n) time, hierarchical softmax is O(logn) time.
+
+https://www.quora.com/What-is-a-hierarchical-SoftMax-What-are-its-applications
+
+<img src="/media/image-20231113201935552.png" alt="image-20231113201935552" style="zoom:50%;" />
+
+Make it fast
+
+
+
+### ChatGPT-2 (不論大小) 為例
+
+Embedding
+
+* 每個 tokens  ($Q=K=V$) 進來先做一次mapping to $Q W_i^Q, K W_i^K, V W_i^V$，每個大小是 $n_{ctx} \times d_{head}$。
+* 以 GPT2 所有的 models 都有一樣的 $n_{ctx}$ 和 $d_{head}$
+  * $Q W_i^Q, K W_i^K, V W_i^V$ 都是 1024 x 64
+
+Attention
+
+* 再來是 Perform matrix correlation = $S = (Q W_i^Q) (K W_i^K)^T : 1024 \times 1024$ 
+* 接下來要做 1024 個 **P = softmax(S)**  ($1024 \times 1024$) softmax operation (with token number, **以 column? 為單位**)。
+* 再來 $O_i = P (V W_i^V) \to (1024 \times 1024) \times (1024 \times 64) = 1024 \times 64$  
+* 最後 concatenat  $O_i$ 變成 $O$ ($1024 \times d_{model}$), 再 $O W^o$  得到 ($1024 \times d_{model}$) 
+  * $d_{model}$ 是由 ChatGPT-2 的大小決定，from 768 到 1600.
+
+FFN (Flash Attention 有特別針對 FFN?)
+
+* 接下來是 FF layer
+  * (768 x 768?) or 64 x 128 (2x) + 128 x 256 (2x)?  這也是節省的重點。
+
+
+
+### Llama (不論大小) 為例
+
+* Embedding
+  * 每個 tokens  ($Q=K=V$) 進來先做一次mapping to $Q W_i^Q, K W_i^K, V W_i^V$，每個大小是 $n_{ctx} \times d_{head}$
+  * 以 Llama1 所有的 models 都有一樣的 $n_{ctx}$ 和 $d_{head}$
+    * $Q W_i^Q, K W_i^K, V W_i^V$ 都是 2048 x 128
+* Attention
+  * 再來是 Perform matrix correlation = $S = (Q W_i^Q) (K W_i^K)^T : 2048 \times 2048$ 
+  * 接下來要做 2048 個 **P = softmax(S)**  ($2048 \times 2048$) softmax operation (with token number, **以 column? 為單位**)。
+  * 再來 $O_i = P (V W_i^V) \to (2048 \times 2048) \times (2048 \times 128) = 2048 \times 128$  
+  * 最後 concatenat  $O_i$ 變成 $O$ ($2048 \times d_{model}$), 再 $O W^o$  得到 ($2048 \times d_{model}$) 
+    * $d_{model}$ 是由 Llama 的大小決定，from 4096 (7B model) 到 8192 (65B model).
+* 接下來是 FF layer
+  * (768 x 768?) or 64 x 128 (2x) + 128 x 256 (2x)?  這也是節省的重點。
 
 
 
@@ -54,264 +251,18 @@ Perform (768x768)  correlation = S = QK^T,
 
 一般 GPU 會把 S and P 放在 HBM, which takes O(N^2) memory.  通常 N >> d (GPT2 medium, N = 1024, and d = 64)
 
+
+
 <img src="/media/image-20230620203746623.png" alt="image-20230620203746623" style="zoom:80%;" />
 
-<img src="/media/image-20230620201108355.png" alt="image-20230620201108355" style="zoom:80%;" />
 
-#### 如何引入 Trainable Parameter?
 
-* 如何做到？非常容易！  重組 input 引入 V (value) matrix.  引入 K, Q matrix and similarity/attention matrix!!
-* 使用 K, Q 計算 similarity matrix (512x512)，then softmax for attention matrix.   V 通過 attention matrix 得到 output!
-* 因為 attention matrix 的遠小於 768!  所以有類似 low rank 的功效。 
-* V, K, Q 的 dimension:
-  * V: 768x768,  K: 768x768,  Q: 768x768.  Total:  3 x (768x768)
+## **Benchmarks on CodeLlama 34B**
 
-<img src="/media/image-20230402220443383.png" alt="image-20230402220443383" style="zoom:80%;" />
+作者对CodeLLaMa-34b的decoding throughput进行了基准测试。该模型与Llama 2具有相同的架构。作者在各种序列长度（从512到64k）上测试了decoding速度，并比较了多种attention计算方法：
 
-* 最後再加上一個 MLP layer. Hidden layer 的 dimension 是 4x768!,  所以 parameter = 768^2 x 4 x 2? = 5M parameters!
-
-<img src="/media/image-20230402220500305.png" alt="image-20230402220500305" style="zoom:80%;" />
-
-* 一個 transformer block 的 parameter = V,K,Q x 768^2 = 3 x 768^2 = 2M param + 5 M= 7.1 M parameters
-
-<img src="/media/image-20230402220521798.png" alt="image-20230402220521798" style="zoom:80%;" />
-
-* BERT 有 12 blocks, giving ~ 85M params (再加上 25M for token embedding, 512 x 768 = 0.39M??)
-* GPT2 = ? 
-
-
-
-<img src="/media/image-20230402220542789.png" alt="image-20230402220542789" style="zoom:80%;" />
-
-* BERT 和 GPT training 方式不同： BERT 使用 masked token.   GPT 使用 predicted token.
-
-
-
-
-
-
-
-
-
-NLP 的問題是 input text string 一般是變動的，例如：“Hello, world",  或是 "This is a test of natural language processing!"
-
-Input 是 text string, 切成 tokens ($\le$512).  儘量塞 sentence 或是 0 padding.  每個 token 是 768-dim (feature) vector. 也就是 (input) token embedding 是一個 arbitrary width ($\le$ 512) 2D matrix X.  最終希望做完 attention 運算還是得到同樣的 shape.
-
-
-
-#### 先看不好的方法 for Natural Language Porcessing
-
-* 如果 input-output 是 inter-token 和 inter-feature 的 fully-connected network, 顯然不可行！
-  * 因為是一個 $(512\cdot 768)^2 = 154$ B weights，同時 computation 也要 154 T operation!
-  * Input 是變動的長度, 所以固定的 154B weights 無法得到不同 width 的結果。
-
-
-<img src="/media/image-20230402210446588.png" alt="image-20230402210446588" style="zoom:80%;" />
-
-* 如果 input-output 只作用或處理在 embedding dimension (i.e shared weight for all input tokens!), 例如 1-dimension convolution, kernel 就是 1x768, channel length = 768.  假設 input 是 3-channel (e.g. RGB or KQV), parameter = 3 x 768^2 = 2M parameters.  顯然也不夠力。同時 each token 都是獨立處理，缺乏 temporal information!  
-
-<img src="/media/image-20230402220358950.png" alt="image-20230402220358950" style="zoom:80%;" />
-
-
-
-#### Catch
-
-* **我們需要找一個方法介於 fully connected model and 1-d convolution network!!!**
-  * Fully connect network size:  (512x768)^2 = 154B
-  * 1-dimension network size: (768x768) < 1M
-* 所以需要如同下面的方法！計算  $f(X) = X X^T X$.  假設 X 是 m x n -> (m x n)  (n x m) (m x n) = m x n 得到和原來一樣的 shape! 
-* 此時 token 和 token 之間 interact, 但又不像 fully connected 這麼多 interaction!!!  這就是 attention 的原理！
-* Rank = min(m, n)！ 如果 width 很小，例如短句。或是 attention 範圍小。rank 就小。計算量就小，也避免 overfit!
-* **問題是以下的方法，沒有任何 trainable parameter!!!!**
-
-<img src="/media/image-20230402220424409.png" alt="image-20230402220424409" style="zoom:80%;" />
-
-#### 如何引入 Trainable Parameter?
-
-* 如何做到？非常容易！  重組 input 引入 V (value) matrix.  引入 K, Q matrix and similarity/attention matrix!!
-* 使用 K, Q 計算 similarity matrix (512x512)，then softmax for attention matrix.   V 通過 attention matrix 得到 output!
-* 因為 attention matrix 的遠小於 768!  所以有類似 low rank 的功效。 
-* V, K, Q 的 dimension:
-  * V: 768x768,  K: 768x768,  Q: 768x768.  Total:  3 x (768x768)
-
-<img src="/media/image-20230402220443383.png" alt="image-20230402220443383" style="zoom:80%;" />
-
-* 最後再加上一個 MLP layer. Hidden layer 的 dimension 是 4x768!,  所以 parameter = 768^2 x 4 x 2? = 5M parameters!
-
-<img src="/media/image-20230402220500305.png" alt="image-20230402220500305" style="zoom:80%;" />
-
-* 一個 transformer block 的 parameter = V,K,Q x 768^2 = 3 x 768^2 = 2M param + 5 M= 7.1 M parameters
-
-<img src="/media/image-20230402220521798.png" alt="image-20230402220521798" style="zoom:80%;" />
-
-* BERT 有 12 blocks, giving ~ 85M params (再加上 25M for token embedding, 512 x 768 = 0.39M??)
-* GPT2 = ? 
-
-
-
-<img src="/media/image-20230402220542789.png" alt="image-20230402220542789" style="zoom:80%;" />
-
-* BERT 和 GPT training 方式不同： BERT 使用 masked token.   GPT 使用 predicted token.
-
-
-
-
-
-## Convolution is all you need
-
-Input 大多是 256x256x3 (RGB) pixel (or 考量 data augmentation +/-16 pixel: 224x224 pixel ).
-
-如果是 generative model, 例如 de-noise, de-blur, output 和 input dimension 一樣。
-
-因爲不是分類問題，沒有用 fully-connected layer.
-
-
-
-#### 先看不好的方法 for Computer Vision
-
-* Fully connected trainable parameter:  (256x256x3)^2 = 38B!  雖然大力出奇蹟。但這只是小圖。如果是大圖 4K x 4K,  參數增加 16 倍。基本上 fully connected network 不 scalable!
-* 如果是一次 depth-wise + point-wise trainable parameter = (256x256)^2 x 3 + 3x3 = 12.9B!  雖然比較小，還是非常大，not scalable!
-
-
-
-#### 可行的方法
-
-三種方法：(1) convolution;  (2) transformer; (3) hybrid.  
-
-#### **(1) 第一種方法 convolution + hierarchy (down-sampling/up-sampling)**
-
-Kernel: 3x3,  Cin = 3,  Cout=64 => first layer: (shared) trainable weights = 3x3x3x64 = 1.7K!! 非常小。
-
-* 但是 計算量 (要掃過所有圖區域)  >> trainable parameters.  就是計算量 dominate!   好處是 power efficiency 比較好，可以不用一直拿 weights.
-* Kernel 小的缺點是 receptive field 非常小。需要 down-sampling and up-sampling 增加 receptive field! 但同時增加 channel depth (feature) 避免 loss information.
-  * 所以後面的 kernel trainable parameters 會增加:  **3x3x512x1024 = 4.7M,  還在可控範圍！就算是 20 layers 也不過 ~80M** parameters!  而且如果是 4K x 4K,  parameter 是 linear 增加，而不是幾何增加！ 
-* **如果還要更少 trainable weights, 可以用 depth-wise + point-wise (例如 MobileNet) => 3x3x512 + 1x1x512x1024 = 529K, 大約只有 4.7M 的 11%。** 
-
-
-
-#### **(2) 第二種方法 Vision Transformer (ViT)**
-
-如果是用 3x3 pixel 為一個單位 (patch)，256x256 picture 就會有 7281 patches, 對於 transformer model 顯然太多。
-
-ViT 使用 16x16 pixel 為一個 patch,  256x256 picture 就有 256 patches/tokens, 剛好可以給 transformer 使用！
-
-如果一個 layer 是 7.1M parameter,   **12 layers 就是 84M pixel.  好像還是在可接受範圍！**  
-
-
-
-* ViT 原理一樣！1-patch = 16x16x3 = 768 dimension.  224x224 image, 一共有 196 patches (<512 token).
-
-  <img src="/media/image-20230402220606024.png" alt="image-20230402220606024" style="zoom:80%;" />
-
-* ViT 另一個簡化是使用 1-convolution 可以 work!!  也就是 shared weight!
-
-  
-
-<img src="/media/image-20230402220640057.png" alt="image-20230402220640057" style="zoom:80%;" />
-
-
-
-##### ViT-22B
-
-
-
-
-
-<img src="/media/image-20230406213629587.png" alt="image-20230406213629587" style="zoom:67%;" />
-
-
-
-ViT-22B 是一個基于Transformer架構的模型，和原版ViT架構相比，研究人員主要做了三處修改以提升訓練效率和訓練穩定性。
-
-##### 並行層（parallel layers）
-
-
-ViT-22B**並行執行**注意力塊和MLP塊，而在原版Transformer中為順序執行。
-
-<img src="/media/image-20230406214114945.png" alt="image-20230406214114945" style="zoom:67%;" />
-
-Google 的 PaLM模型的訓練也採用了這種方法，可以將大模型的訓練速度提高15%，並且性能沒有下降。
-
-##### query/key (QK) normalization
-
-
-在擴展ViT的過程中，研究人員在80億參數量的模型中觀察到，在訓練幾千步之後訓練損失開始發散(divergence)，**主要是由於注意力logits的數值過大引起的不穩定性，導致零熵的注意力權重（幾乎one-hot）**。
-
-
-為瞭解決這個問題，研究人員在點乘注意力計算之前對Query和Key使用 LayerNorm
-
-<img src="/media/image-20230406215726984.png" alt="image-20230406215726984" style="zoom:67%;" />
-
-
-
-##### 刪除QKV 投影和 LayerNorms 上的 bias
-
-
-和PaLM模型一樣，ViT-22B從QKV投影中刪除 bias，並且在所有LayerNorms中都沒有 bias 和centering，使得硬件利用率提高了3%，並且質量沒有下降。
-
-不過與PaLM不同的是，ViT-22B對（內部和外部）MLP稠密連接層使用了 bias，可以觀察到質量得到了改善，並且速度也沒有下降。
-
-
-ViT-22B的編碼器模組中，嵌入層，包括抽取patches、線性投影和額外的 position embedding 都與原始ViT中使用的相同，並且使用多頭注意力pooling來聚合每個頭中的per-token表徵。
-
-
-ViT-22B的patch尺寸為14×14，圖象的分辨率為224×224（通過inception crop和隨機水平翻轉進行預處理），一共有 224x224/(14x14)=16x16=256 patches。
-
-
-
-#### **(3) 第三種方法 Hybrid**:  
-
-convolution 對於 local feature 效果不錯。但是 transformer 對於 global feature 很好。是否可以結合？
-
-(A) 比如前幾層是用 convolution, 之後用 transformer!
-
-(B) 或是 convolution 的 block 直接用 transformer block 替代或 vice versa 
-
-(C) 或是把 hierarchy (down-sampling) 用在 transformer.
-
-
-
-#### (3C) SWIN Transformer
-
-基本是利用 CNN 的 windows (local attention) + shifted windows + patch merge + hierarchy 
-
-只是先做 attention, 再用 local attention window + shifted attention windows (類似 CNN sliding windows!)
-
-Vision Transformer應用到圖象領域主要有兩大挑戰：
-
-- 視覺實體變化大，在不同場景下視覺Transformer性能未必很好
-- 圖象分辨率高，像素點多，Transformer基于全局自注意力的計算導致計算量較大
-
-針對上述兩個問題，SWIN Transformer 提出了一種**包含滑窗操作，具有"層級"設計**的Swin Transformer。
-
-其中滑窗操作包括**不重疊的local window，和重疊的cross-window**。將注意力計算限制在一個窗口中，**一方面能引入CNN卷積操作的局部性，另一方面能節省計算量**。
-
-ViT 是 16x16 pixel/patch, 所以有 16x16 (256x256 pixels) patch.
-
-SWIN 用更小的 pixel 為 patch, 這樣有很多的 tokens?  (16倍) -> 使用更小的 (local) window attention.
-
-**Window attention + shifted window attention 取代 global attention!** 
-
-用 patch merge 取代 pooling!
-
-<img src="/media/image-20230406221600548.png" alt="image-20230406221600548" style="zoom: 67%;" />
-
-
-
-
-
-<img src="/media/image-20230406222418591.png" alt="image-20230406222418591" style="zoom:67%;" />
-
-
-
-Math and figure:
-
-* Input 
-
-#### 
-
-
-
-
-
-## 
+- PyTorch：使用纯PyTorch primitives运行注意力计算（不使用FlashAttention）。
+- FlashAttention v2（v2.2之前的版本）。
+- FasterTransformer：使用FasterTransformer attention kernel
+- Flash-Decoding
+- 将从内存中读取整个模型和KV Cache所需的时间作为上限

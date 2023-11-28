@@ -3,7 +3,7 @@ title: Optimization - Manifold Gradient Descent
 date: 2023-06-03 23:10:08
 categories:
 - Math_AI
-tags: [Manifold, Optimization]
+tags: [Manifold, Optimization, Riemannian]
 typora-root-url: ../../allenlu2009.github.io
 ---
 
@@ -41,11 +41,11 @@ The AGM method can be seen as the proximal point method applied in this curved s
 
 ## 問題描述
 
-一般歐式幾何的 optimization 問題定義如下。$S \in \R^n$ 而且大多是 convex set.
+一般歐式幾何的 optimization 問題定義如下。$S \in \mathbf{R}^n$ 而且大多是 convex set.
 
 <img src="/media/image-20230618141547742.png" alt="image-20230618141547742" style="zoom:50%;" />
 
-* Unconstrained optimization: $S = \R^n$
+* Unconstrained optimization: $S = \mathbf{R}^n$
 
 Manifold optimization 的描述如下。基本和一般 optimization 一樣。只是加上 manifold constraint.
 
@@ -58,12 +58,12 @@ Manifold optimization 的描述如下。基本和一般 optimization 一樣。�
 
 | Manifold     | Matrix Representations   |
 | ---- | ---- |
-| Stiefel manifold | $\mathcal{M}=\left\{X \in \mathbf{R}^{n \times p}: X^{T} X=I_p\right\}$    |
-| Rotation group | $\mathcal{M}=\left\{X \in \mathbf{R}^{3 \times 3} : X^{T} X=I_3\right.$ and $\left.\operatorname{det}(X)=+1\right\}$   |
+| Stiefel manifold | $\mathcal{M}=\{X \in \mathbf{R}^{n \times p}: X^{T} X=I_p \}$ |
+| Rotation group | $\mathcal{M}=\{X \in \mathbf{R}^{3 \times 3} : X^{T} X=I_3 \text{ and }\operatorname{det}(X)=+1 \}$ |
 | Grassman manifold |   $\mathcal{M}=$ \{subspaces of dimension $d$ in $\mathbf{R}^n$ \}   |
-| Fixed-rank matrices     |  $\mathcal{M}=\left\{X \in \mathbf{R}^{m \times n}:\operatorname{rank}(X)=r\right\}$  |
-| Positive definite matrices (convex) |  $\mathcal{M}=\left\{X \in \mathbf{R}^{n \times n}: X=X^{T}\right.$ and $\left.X \succ 0\right\}$   |
-| Hyperbolic space | $\mathcal{M}=\left\{x \in \mathbf{R}^{n+1} :x_0^2=1+x_1^2+\cdots+x_n^2\right\}$ |
+| Fixed-rank matrices     |  $\mathcal{M}=\{X \in \mathbf{R}^{m \times n}:\operatorname{rank}(X)=r\}$  |
+| Positive definite matrices (convex) |  $\mathcal{M}= \{X \in \mathbf{R}^{n \times n}: X=X^{T} \text{ and } X \succ 0\}$  |
+| Hyperbolic space | $\mathcal{M}=\{x \in \mathbf{R}^{n+1} :x_0^2=1+x_1^2+\cdots+x_n^2\}$ |
 
 <img src="/media/image-20230623103640687.png" alt="image-20230623103640687" style="zoom: 80%;" />
 
@@ -87,14 +87,14 @@ Manifold optimization 的描述如下。基本和一般 optimization 一樣。�
 
 Matrix representation
 
-| Manifold                            | Matrix Representations                                       |
-| ----------------------------------- | ------------------------------------------------------------ |
-| Stiefel manifold                    | $\mathcal{M}=\left\{X \in \mathbf{R}^{n \times p}: X^{T} X=I_p\right\}$ |
-| Rotation group                      | $\mathcal{M}=\left\{X \in \mathbf{R}^{3 \times 3} : X^{T} X=I_3\right.$ and $\left.\operatorname{det}(X)=+1\right\}$ |
-| Grassman manifold                   | $\mathcal{M}=$ \{subspaces of dimension $d$ in $\mathbf{R}^n$ \} |
-| Fixed-rank matrices                 | $\mathcal{M}=\left\{X \in \mathbf{R}^{m \times n}:\operatorname{rank}(X)=r\right\}$ |
-| Positive definite matrices (convex) | $\mathcal{M}=\left\{X \in \mathbf{R}^{n \times n}: X=X^{T}\right.$ and $\left.X \succ 0\right\}$ |
-| Hyperbolic space                    | $\mathcal{M}=\left\{x \in \mathbf{R}^{n+1} :x_0^2=1+x_1^2+\cdots+x_n^2\right\}$ |
+| Manifold     | Matrix Representations   |
+| ---- | ---- |
+| Stiefel manifold | $\mathcal{M}=\{X \in \mathbf{R}^{n \times p}: X^{T} X=I_p \}$ |
+| Rotation group | $\mathcal{M}=\{X \in \mathbf{R}^{3 \times 3} : X^{T} X=I_3 \text{ and }\operatorname{det}(X)=+1 \}$ |
+| Grassman manifold |   $\mathcal{M}=$ \{subspaces of dimension $d$ in $\mathbf{R}^n$ \}   |
+| Fixed-rank matrices     |  $\mathcal{M}=\{X \in \mathbf{R}^{m \times n}:\operatorname{rank}(X)=r\}$  |
+| Positive definite matrices (convex) |  $\mathcal{M}= \{X \in \mathbf{R}^{n \times n}: X=X^{T} \text{ and } X \succ 0\}$  |
+| Hyperbolic space | $\mathcal{M}=\{x \in \mathbf{R}^{n+1} :x_0^2=1+x_1^2+\cdots+x_n^2\}$ |
 
 
 
@@ -162,7 +162,7 @@ Directional derivative
 
 基本有兩個 steps:
 
-1. Tangent space $T_x M$ 先做 gradient descent.  $s_k = x_k - \alpha <grad f(x)>)$?
+1. Tangent space $T_p M$ 先做 gradient descent.  $s_k = x_k - \alpha <grad f(x)>)$?
 2. Retraction
 
 
@@ -211,13 +211,13 @@ $$
 
 * The cost function $f: \mathcal{M} \rightarrow \mathbf{R}$ is the restriction of the smooth function $\bar{f}(x)=\frac{1}{2} x^{T} A x$ from $\mathbf{R}^n$ to $\mathcal{M}$. 
 
-* Tangent spaces $\quad T_x \mathcal{M}=\left\{v \in \mathbf{R}^n: x^{T} v=0 \text{ where } x^T x = 1\right\}$.
+* Tangent spaces $\quad T_x \mathcal{M}=\{v \in \mathbf{R}^n: x^{T} v=0 \text{ where } x^T x = 1\}$.
 
 
 
 Make $\mathcal{M}$ into a Riemannian submanifold of $\mathbf{R}^n$ with $\langle u, v\rangle=u^{T} v$.
 
-* Projection to $T_x M$ : $\quad \operatorname{Proj}_x(z)=z-\left(x^{T} z\right) x$.
+* Projection to $T_p M$ : $\quad \operatorname{Proj}_x(z)=z-\left(x^{T} z\right) x$.
 * Gradient of (包含 1/2 factor) $\bar{f}: \quad \nabla f(x)=A x$.
 * (Manifold) Gradient of $f$ : $\quad \operatorname{grad} f(x)=\operatorname{Proj}_x(\nabla \bar{f}(x))=A x-\left(x^{T} A x\right) x$.
 * Differential of gradf: $\operatorname{Dgrad} f(x)[v]=A v-\left(v^{T} A x+x^{T} A v\right) x-\left(x^{T} A x\right) v$.
