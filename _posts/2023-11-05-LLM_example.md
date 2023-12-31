@@ -44,7 +44,7 @@ Karpathy 有幾個 key concept 非常好!
 
 1. character level encoder:  codebook 65
 2. BPE (byte-pair encoder)
-   * GPT:   codebook 50541?
+   * GPT2-3:   codebook 50541?
    * Tiktoken (OpenAI)
 
 基本是 trade-off of the codebook vs. the token length!

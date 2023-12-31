@@ -186,6 +186,218 @@ PYTHONPATH=./src
 
 
 
+#### 一個例子: nanoGPTplus
+
+這是一個 github 非常好的例子，使用 Poetry 建構的 pyproject.toml。[GitHub - Andrei-Aksionov/nanoGPTplus](https://github.com/Andrei-Aksionov/nanoGPTplus)
+
+
+
+```bash
+nanoGPTplus/
+├── README.md
+├── data
+│   └── raw
+│       └── tiny_shakespeare
+│           └── input.txt
+├── logs
+│   ├── generation.log
+│   └── training.log
+├── models
+│   ├── gpt_model_small.pth.tar
+│   └── tokenizers
+│       ├── tokenizer_gpt_large.pkl
+│       └── tokenizer_gpt_small.pkl
+├── notebooks
+│   ├── EDA
+│   │   └── tiny_shakespeare.ipynb
+│   └── examples
+│       ├── bigram_model_training.ipynb
+│       ├── gpt_model_training.ipynb
+│       └── run_on_google_colab.ipynb
+├── pyproject.toml
+├── src
+│   ├── __init__.py
+│   ├── config
+│   │   └── config.yaml
+│   ├── data
+│   │   ├── __init__.py
+│   │   ├── dataset.py
+│   │   ├── downloader.py
+│   │   ├── scripts
+│   │   │   └── download_tiny_shakespeare.py
+│   │   └── tokenizer.py
+│   ├── model
+│   │   ├── __init__.py
+│   │   ├── bigram_language_model
+│   │   │   ├── README.md
+│   │   │   └── bigram.py
+│   │   ├── generate.py
+│   │   ├── gpt_language_model
+│   │   │   ├── README.md
+│   │   │   ├── attention.py
+│   │   │   ├── feed_forward.py
+│   │   │   ├── gpt.py
+│   │   │   ├── peft
+│   │   │   │   ├── README.md
+│   │   │   │   └── lora.py
+│   │   │   └── transformer_block.py
+│   │   ├── lr_schedulers.py
+│   │   ├── train.py
+│   │   └── trainer.py
+│   └── utils
+│       ├── __init__.py
+│       ├── arguments.py
+│       ├── config.py
+│       ├── device.py
+│       ├── error.py
+│       ├── model.py
+│       └── seed.py
+└── tests
+    └── smoke
+        ├── dataset_test.py
+        ├── generate_test.py
+        ├── model_test.py
+        └── train_test.py
+```
+
+
+
+
+
+**執行 train.py 有 Error.**
+
+```bash
+(llama2)> python src/model/train.py gpt --size small
+```
+
+**Error 如下。找不到 src path**
+
+```bash
+Traceback (most recent call last):
+  File "/mnt/c/Users/allen/OneDrive/ml_code/work/nanoGPTplus/src/model/train.py", line 11, in <module>
+    from src import config
+ModuleNotFoundError: No module named 'src'
+```
+
+**若是如下 Training 如下則 OK!**
+
+```bash
+(llama2)> python -m src.model.train gpt --size small
+```
+
+
+
+我們看一下 train.py 的 import package and module 的 path。 
+
+```python
+from src import config
+from src.data import CharTokenizer, NextTokenDataset
+from src.model import (
+    BigramLanguageModel,
+    CosineWarmupLRScheduler,
+    GPTLanguageModel,
+    Trainer,
+)
+from src.model.gpt_language_model.peft.lora import lora, mark_only_lora_as_trainable
+from src.utils import (
+    RangeChecker,
+    get_device,
+    get_model_config,
+    grab_arguments,
+    pickle_dump,
+    set_seed,
+)
+
+```
+
+* 采用是 absolute path
+* src 被加入 absolute path 之中!  
+* 所以如果要在 command window 執行 python program, 例如 pytest:
+
+**在 PC Windows 10 PowerShell (PS), 必須這樣設定 PYTHONPATH:**
+
+```
+ $env:PYTHONPATH = ".\"   ## 不是 ".\src"
+```
+
+注意：1. 要在 Anaconda 的 PowerShell;  2. 要包含 "$"
+
+**在 Mac OS or linux, 要這樣設定 PYTHONPATH:**
+
+```
+ $export PYTHONPATH='./'    ## 不是 "./src"
+```
+
+
+
+**在 VS Code 則是**
+
+1.  在 launch.json 
+
+```json
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "env": {"PYTHONPATH": "./"},
+            //"env": {"PYTHONPATH":"${workspaceRoot}"},  // same as "./"
+            //"envFile": "${workspaceRoot}/.env",
+            //"python": "${command:python.interpreterPath}",
+            //"args": ["gpt", "--size", "small", "--max-new-tokens", "500"]
+            "args": ["gpt", "--size", "small"],
+            "justMyCode": true
+        }
+    ]
+}
+```
+
+2. 第二種方法是 VS code default 會 load {workspaceRoot}/.env.  也可以用 launch.json 的 envFile 設定 path (這裡也是 ./.env).  .env 的内容就是一行。
+
+   ```
+   PYTHONPATH=./
+   ```
+
+   
+
+3.  **在 VS Code debug python -m test 的方法如下：**
+
+```json
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Module",
+            //"name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            //"program": "${file}",
+            //"console": "integratedTerminal",
+            "env": {"PYTHONPATH": "./"},
+            //"module": "src.model.generate",
+            //"args": ["gpt", "--size", "small", "--max-new-tokens", "500"]
+            "module": "src.model.train",
+            "args": ["gpt", "--size", "small", "--max-new-tokens", "500"]
+            //"justMyCode": true
+        }
+    ]
+}
+```
+
+
+
+
+
 #### 基本 import
 
 前面有看過了，這邊統整介紹一下。如果你想使用在其他 module 裡定義的 function、class、variable 等等，就需要在使用它們之前先進行 import。通常都會把需要 import 的 module 們列在整個檔案的最一開始，但不是必須。

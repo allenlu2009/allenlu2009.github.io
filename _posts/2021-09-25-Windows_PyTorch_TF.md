@@ -1,8 +1,10 @@
 ---
-Wtitle: Windows + CUDA - PyTorch and TensorFlow
+title: Windows + CUDA - PyTorch and TensorFlow
+date: 2021-09-25 23:10:08
 categories: 
 - AI
 tags: [Windows, terminal, machine learning, ML, GPU, CUDA, PowerShell]
+description: Windows 執行 PyTorch and TensorFlow on CUDA
 typora-root-url: ../../allenlu2009.github.io
 ---
 

@@ -19,7 +19,7 @@ typora-root-url: ../../allenlu2009.github.io
 
 * [Perplexity of fixed-length models (huggingface.co)](https://huggingface.co/docs/transformers/perplexity)
 
-* 
+* https://www.youtube.com/watch?v=XfpMkf4rD6E&t=1395s&ab_channel=StanfordOnline
 
 
 
@@ -28,6 +28,7 @@ typora-root-url: ../../allenlu2009.github.io
 Karpathy 有幾個 key concept 非常好!   
 
 * Attention 是 **token to token communication**,   FFC/MLP 是每個 **token 内部的 computation.**  
+* **LLM 的參數，原理上就是 (lossy) compression** (所以服從 Shannon Information Theory?)
 
 
 
@@ -53,9 +54,11 @@ Karpathy 有幾個 key concept 非常好!
 
 以上式來看，log 的 summation and average 對應是**機率倒數的幾何平均值！**不是 entropy 的單位。
 
-* PPL 内部的條件機率 : p(x1) p(x2|x1) p(x3|x2,x1) p(x4|x3,x2,x1) ... p(xt | xt-1,...x1) =  p(x1) * p(x1,x2) / p(x1) * p(x3,x2,x1) / p(x1,x2) * ... = p(x1, x2, ... xt)
-* 幾何平均值倒數 = sqrt_t(1 / p1 p2 p3 ... pt) = sqrt_t(1/p(x1,...,xt)).   最小值是 1.   對應所有機率 = 1.  當然實務上機率小於 1, 倒數會大於 1.  除非 joint distribution 是 delta function，不然 PPL 一定大於 1.   如果 joint distribution 的 entropy 越大,  PPL 就越大。
-* 這個 attention or transition probability 好像只有 forward pass 有用，不能回頭?
+* PPL 内部的條件機率:
+$$p(x_1) p(x_2\|x_1) p(x_3\|x_2,x_1) p(x_4\|x_3,x_2,x_1)\cdots p(x_t \| x_{t-1},\cdots x_1) =  p(x_1) \frac{p(x_1,x_2)}{p(x_1)} \frac{p(x_3,x_2,x_1)}{p(x_1,x_2)} \cdots = p(x_1, x_2, ... x_t)$$
+
+* 接下來 exp 和 log 互相抵銷，PPL 是條件機率的幾何平均值的倒數 = $\sqrt[t]{p(x_1,\cdots,x_t)^{-1}}$.   因此 PPL 的最小值是 1.   對應所有條件機率 = 1.  當然實務上機率必然小於 1, 所以倒數大於 1.  除非 joint distribution 是 delta function，不然 PPL 一定大於 1.   如果 joint distribution 的 entropy 越大,  PPL 就越大。
+* 這個 attention or transition probability 好像只有 forward pass 有用，不能 backward ?
 
 
 
@@ -73,6 +76,44 @@ Karpathy 有幾個 key concept 非常好!
 <img src="/media/image-20231127211021581.png" alt="image-20231127211021581" style="zoom:67%;" />
 
 
+
+
+
+Self attention is a communication mechanism
+
+
+
+Query:  我要找這個 information
+
+Key:  我有這個 information
+
+Value: 
+
+
+
+### Language model
+
+Self-attention:  Q and K are the same (所以 matrix 是 symmetric? no);  V is also the same.
+
+Cross-attention:  Q, K from encoder, V from decoder?
+
+
+
+#### Recommendation System
+
+Q is target?   K, V 對應 user profile and product profile?
+
+
+
+<img src="/media/image-20231128221957731.png" alt="image-20231128221957731" style="zoom:80%;" />
+
+<img src="/media/image-20231128222022189.png" alt="image-20231128222022189" style="zoom:50%;" />
+
+
+
+#### 二階段: communication and computation
+
+<img src="/media/image-20231128222747774.png" alt="image-20231128222747774" style="zoom:67%;" />
 
 ## Appendix
 
