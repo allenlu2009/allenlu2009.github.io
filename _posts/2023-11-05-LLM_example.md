@@ -26,7 +26,7 @@ typora-root-url: ../../allenlu2009.github.io
 Karpathy 有幾個 key concept 非常好!   
 
 * LLM weights 基本是 information (lossy) compression,  從 entropy/information 的角度 make sense.
-* Attention 是 **token to token communication**,   FFC/MLP 是每個 **token 内部的 computation.**  
+* Attention 是 **token to token (正確是說 embedding to embedding) communication**,   FFC/MLP 是每個 **token (embedding) 内部的 computation.**  
 
 
 

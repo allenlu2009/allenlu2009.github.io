@@ -159,9 +159,9 @@ $n_{vocab}d_{model}+n_{ctx}d_{model}+n_{layers} \times (12 (d_{model})^2+ 13 d_{
 
 <img src="/media/image-20230723202649745.png" alt="image-20230723202649745" style="zoom: 67%;" />
 
-<img src="/media/image-20230723202624944.png" alt="image-20230723202624944" style="zoom: 67%;" />
 
 
+<img src="/../../../../OneDrive/allenlu2009.github.io/media/image-20240115212837183.png" alt="image-20240115212837183" style="zoom:80%;" />
 
 #### GPT3 參數量比例
 

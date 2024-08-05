@@ -12,6 +12,19 @@ typora-root-url: ../../allenlu2009.github.io
 
 [(1) Geometric Calculus 1 - YouTube](https://www.youtube.com/watch?v=jfwdlW7Yr_I&ab_channel=AlanMacdonald) :  4 lectures series, very good.
 
+[Stokes' Theorem on Manifolds (youtube.com)](https://www.youtube.com/watch?v=1lGM5DEdMaw&ab_channel=Aleph0) :  非常好的 lecture to combine vector calculus!
+
+
+
+## Takeaways
+
+* 所有微積分可以歸納成一個基本原理：**"total change on outside = sum of little changes on inside"**
+* 不要小看這句話，左邊代表 global property (全域特性，例如拓撲特徵，對稱性，奇點)。右邊代表 local property (局部特性/分析，例如斜率，梯度，旋度，散度，甚至曲率)
+* 如果是有源 (source or sink)，有兩種處理方式：(1) **"total change on outside = sum of little changes on inside + source/sink generation rate"**;  (2)  加上新的邊界把 source/sink 變成 outside.   Cauchy 就是這方面的高手 (複分析)。 
+
+<img src="/media/image-20240706093208790.png" alt="image-20240706093208790" style="zoom:50%;" />
+
+
 
 ## Introduction
 

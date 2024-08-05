@@ -1,7 +1,7 @@
 ---
 title: 跨平臺 Markdown Plus MathJax Blog Editing 分享
 categories:
-- AI
+- Language
 tags: [markdown, mathjax]
 typora-root-url: ../../allenlu2009.github.io
 ---
@@ -40,7 +40,7 @@ Latex/MathJax 的輸入可以使用 Mathpix Snip capture, 非常有用！
 
 ### 分享我用過的 Markdown+Math editors
 
-#### mweb (built-in MathJax support)
+#### Mweb (built-in MathJax support)
 
 * **優點:** (1) 支持 markdown editing, content management, figure management, and blog publishing; (2) 跨 Mac OS and iPad OS or iOS;  (3) 支持 iCloud sync between MacBook pro and iPad air.
 
@@ -104,8 +104,8 @@ Latex/MathJax 的輸入可以使用 Mathpix Snip capture, 非常有用！
   * 完全不建議一般人用 VSCode 作 markdown blog!
   * Solve another issue of image copy and paste.   Image copy:  "shift+windows(cmd)+s"
   image paste -> install paste image extension!!!  
- then set image path and prefix => ctl+windows(cmd)+v   Ctrl+Alt+V (Cmd+Alt+V on Mac).
- 
+   then set image path and prefix => ctl+windows(cmd)+v   Ctrl+Alt+V (Cmd+Alt+V on Mac).
+
 
 ## Cloud Platform
 

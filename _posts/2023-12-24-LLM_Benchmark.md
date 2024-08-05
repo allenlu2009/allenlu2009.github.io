@@ -175,11 +175,25 @@ end-to-end latency of (Input token, output token) = input token / prompt rate + 
 
 
 
-
-
-
-
-## Appendix
-
 [@hosniTopImportant2023]
+
+
+
+## Reference
+
+Gim, In, Guojun Chen, Seung-seob Lee, Nikhil Sarda, Anurag Khandelwal,
+
+and Lin Zhong. 2023. “Prompt Cache: Modular Attention Reuse for
+
+Low-Latency Inference.” November 7, 2023.
+
+<http://arxiv.org/abs/2311.04934>.
+
+
+
+Hosni, Youssef. 2023. “Top Important LLM Papers for the Week from 06/11
+
+to 12/11.” Medium. November 15, 2023.
+
+<https://pub.towardsai.net/top-important-llm-papers-for-the-week-from-06-11-to-12-11-f9968bd8edbf>.
 

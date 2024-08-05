@@ -70,6 +70,26 @@ Bronstein 之後吸引一批數學物理學家如 Max Welling 找到 AI 切入�
 
   
 
+### 幾何學分類及其對稱性和不變性總結表
+
+| 幾何類型         | 對稱性                                                       | 不變性                                           |
+| ---------------- | ------------------------------------------------------------ | ------------------------------------------------ |
+| **歐幾里得幾何** | 平移對稱、旋轉對稱、反射對稱                                 | 距離、角度、平行性、垂直性                       |
+| **仿射幾何**     | 仿射變換（包括平移、縮放、旋轉、剪切）                       | 平行線的長度比（仿射比）、共線性、平行性         |
+| **射影幾何**     | 射影變換（包括透視變換和homography）                         | 共線性、四個共線點的交比                         |
+| **雙曲幾何**     | 雙曲等距變換（雙曲旋轉、平移、反射）                         | 雙曲距離、角度、無限多條不相交於給定直線的平行線 |
+| **橢圓幾何**     | 橢圓等距變換（球面旋轉、反射）                               | 橢圓距離、角度、所有直線最終相交                 |
+| **黎曼幾何**     | 等距變換（根據特定流形不同，如球對稱性）                     | 黎曼度量、曲率                                   |
+| **拓撲學**       | 同胚變換（保持空間結構的連續變形，如拉伸、彎曲）             | 連通性、緊緻性、連續性、拓撲不變量（如層數）     |
+| **分形幾何**     | 自相似性（形狀在每個尺度上都呈現相似模式）、尺度不變性、遞歸對稱性 | 分形維度、統計自相似性、縮放律                   |
+| **複幾何**       | 雙曲旋轉、縮放、反射                                         | 複數空間中的距離、角度、複變函數理論的各種不變量 |
+
+這張表格總結了不同幾何類型的對稱性和不變性，幫助更清晰地理解每種幾何的特性。
+
+
+
+
+
 #### 幾何深度學習
 
 深度學習領域的現狀讓我們想起了19世紀的幾何情況：一方面，在過去的十年中，深度學習在數據科學領域帶來了一場革命， 以前認為可能無法完成的許多任務 - 無論是計算機視覺，語音識別，自然語言翻譯還是 Alpha Go, 都能夠應用深度學習解決。另一方面，我們現在擁有一個針對不同類型數據的不同神經網絡體系結構的 model zoo，但統一原理很少。 很難理解不同方法之間的關係，這不可避免地導致相同概念的重新發明。  
@@ -116,17 +136,24 @@ Multi-layer neural network 雖然可以達成 universal approximation, 但沒有
 
 * 下圖是一個直覺的例子。就是同一類 **data of the same feature** 聚集在一起，但不同類 data (with different features) 有一定的距離。這裏我們假設有顔色作爲分別。但 in general 必須考慮 unsupervised learning,  也就是 data 沒有顔色，完全靠 clustering 來分類。因此 data 的數量要足夠才能像 cluster.
 
-* <img src="/media/image-20220822212425129.png" alt="image-20220822212425129" style="zoom: 80%;" />
+  <img src="/media/image-20220822212425129.png" alt="image-20220822212425129" style="zoom: 80%;" />
 
-* 什麼是 data of the same feature?  我們可以用單位圓 (unit sphere) 代表 feature space, for 2D (d=2), pi R^2; d = 3, 4/3 pi R^3;  and it is very strange when d goes to very large!!
+* 什麼是 data of the same feature?  我們可以用單位圓 (unit sphere) 代表 feature space
 
-![img](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Volumes_of_unit_balls.svg/400px-Volumes_of_unit_balls.svg.png)
+  * For 2D (d=2), $\pi R^2$; 
+  * For 3D (d = 3), $\frac{4}{3} \pi R^3$​;  
+  * (Wrong!) 當 d 越來越大如下圖。先變大再變小。
 
+  
 
+*  下一個問題是 space between two clusters, 用正立方體代表： 
+   *  d=2,  $R^2$;  
 
-*  下一個問題是 space between two clusters.  d=2,  R^2;  d=3. R^3;   R^d  
+   *  d=3. $R^3$;   
 
-* 此時 data 的聚集度或是特徵 d(k) 遠大於 data 的 dimension N=2,  d(k) >> 2.   我們可以用 2D 的單位園 (unit sphere) 近似 d(k) ~ pi r^2 = pi d^2。另外可以用 d(N) ~ (1^2 + 1^2) = 2 近似不同 group 的距離。
+   *  $R^d$ for d dimension.  
+
+*  此時 data 的聚集度或是特徵 d(k) 遠大於 data 的 dimension N=2,  d(k) >> 2.   我們可以用 2D 的單位園 (unit sphere) 近似 d(k) ~ $\pi r^2 = \pi d^2$。另外可以用 d(N) ~ $(1^2 + 1^2) = 2$ 近似不同 group 的距離。
 
 
 * 3D 空間的 3 group:
@@ -159,8 +186,8 @@ Multi-layer neural network 雖然可以達成 universal approximation, 但沒有
 维数增多主要会带来的高维空间数据稀疏化问题。简单地说：
 
 - p=1，则单位球(简化为正值的情况）变为一条[0,1]之间的直线。如果我们有N个点，则在均匀分布的情况下，两点之间的距离为1/N。其实平均分布和完全随机分布的两两点之间平均距离这个概念大致是等价的，大家可稍微想象一下这个过程。
-- p=2，单位球则是边长为1的[正方形](https://www.zhihu.com/search?q=正方形&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"answer"%2C"sourceId"%3A141096216})，如果还是只有N个点 ，则两点之间的平均距离为1n\sqrt{\frac{1}{n}}\sqrt{\frac{1}{n}}。换言之，如果我们还想维持两点之间平均距离为1/N，那么则需N2N^2N^2个点。
-- 以此类题，在[p维空间](https://www.zhihu.com/search?q=p维空间&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"answer"%2C"sourceId"%3A141096216})，N个点两两之间的平均距离为N−1pN^{-\frac{1}{p}}N^{-\frac{1}{p}}，或者需要NpN^pN^p个点来维持1/N的平均距离。
+- p=2，单位球则是边长为1的[正方形](https://www.zhihu.com/search?q=正方形&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"answer"%2C"sourceId"%3A141096216})，如果还是只有N个点 ，则两点之间的平均距离为$1n\sqrt{\frac{1}{n}}\sqrt{\frac{1}{n}}$。换言之，如果我们还想维持两点之间平均距离为1/N，那么则需N2N^2N^2个点。**重點是可以把這個問題轉換成 2 維球體佔正方形的問題。**
+- 以此类题，在[p维空间](https://www.zhihu.com/search?q=p维空间&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"answer"%2C"sourceId"%3A141096216})，N个点两两之间的平均距离为$N−1pN^{-\frac{1}{p}}N^{-\frac{1}{p}}$，或者需要NpN^pN^p个点来维持1/N的平均距离。
 
 由此可见，高维空间使得数据变得更加稀疏。这里有一个重要的定理：N个点在p维单位球内随机分布，则随着p的增大，这些点会越来越远离单位球的中心，转而往外缘分散。这个定理源于各点距单位球中心距离的[中间值](https://www.zhihu.com/search?q=中间值&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"answer"%2C"sourceId"%3A141096216})计算公式：
 

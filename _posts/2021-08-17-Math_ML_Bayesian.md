@@ -162,3 +162,5 @@ Bayesian inference 最有威力的部分是結合 DAG.  不然只是把簡單的
 
 
 
+
+

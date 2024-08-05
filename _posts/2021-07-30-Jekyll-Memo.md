@@ -112,6 +112,8 @@ Markdown resize image 似乎有問題，需要另外的 plug-in => No!
     * 第二行轉譯的結果：width="245" 是正確結果。 
 * 我找到的方法是把第一行改成第二行。
 
+
+
 ### Method 2: Typora, How? 
 
 * 首先要解決的是 root path 的問題！ Jekyll (and therefore github) 有 root path 的觀念。For my local root directory:  /Users/allenlu/Onedrive/allenlu2009.github.io.   文章是在 root: /_posts/xxx;  image 是在 /media/xxx

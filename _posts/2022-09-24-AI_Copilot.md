@@ -1,6 +1,6 @@
 ---
 
-title: AI for AI (I) - Copilot I
+title: AI for AI (I) - Github Copilot
 date: 2022-09-24 23:10:08
 categories:
 - AI

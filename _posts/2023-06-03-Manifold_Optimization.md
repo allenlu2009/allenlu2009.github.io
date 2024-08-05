@@ -177,7 +177,7 @@ Directional derivative
 
 或僅是兩者的形式相同？
 
-<img src="\media\image-20230603003746808.png" alt="image-20230603003746808" style="zoom:33%;" />
+<img src="/media/image-20230603003746808.png" alt="image-20230603003746808" style="zoom:33%;" />
 
 
 

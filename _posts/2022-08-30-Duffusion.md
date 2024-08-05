@@ -438,6 +438,12 @@ Here, $\hat{\boldsymbol{\epsilon}}_{\boldsymbol{\theta}}\left(\boldsymbol{x}_t, 
 
 **第三條路：**這條路是以 score function (gradient of log-likelihood function) 為學習的 function. 
 
+Score function 其實是向量場函數，朝向 log-likelihood 更高的地方移動。 Neural network 就是在學這個函數。
+
+[(37) An artificial intelligence doctoral student tells you how the SORA diffusion model generates videos? - YouTube](https://www.youtube.com/watch?v=FMKa4075VZg)
+
+<img src="/media/image-20240618110715829.png" alt="image-20240618110715829" style="zoom:50%;" />
+
 Tweedie's Formula:  a Gaussian variable $\boldsymbol{z} \sim \mathcal{N}\left(\boldsymbol{z} ; \boldsymbol{\mu}_z, \boldsymbol{\Sigma}_z\right)$, Tweedie's formula 
 
 $$
@@ -505,7 +511,7 @@ $$
 
 
 
-對於通信或是信號處理專家，一般是萃取原始信號 (non-Gaussian)。學習 noise 聽起來像是一個頭痛的問題。事實上可以證明：無法從 **additive white Gaussian noise (AIWG)**  萃取出除了 mean (1st order), variance (2nd order) 以外的 (sufficient) statistics.   **不過幸運的是 VDM 是 additive Gaussian noise but NOT white.** 
+對於通信或是信號處理專家，一般是萃取原始信號 (non-Gaussian)。學習 noise 聽起來像是一個頭痛的問題。事實上可以證明：無法從 **additive white Gaussian noise (AIWG)**  萃取出除了 mean (1st order), variance (2nd order) 以外的 (sufficient) statistics.   **不過幸運的是 VDM 是 additive Gaussian noise but NOT white.** ?
 
 
 
