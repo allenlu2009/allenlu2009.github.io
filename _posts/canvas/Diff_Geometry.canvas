@@ -1,0 +1,13 @@
+{
+	"nodes":[
+		{"id":"7a7285d9315a8889","x":-620,"y":-160,"width":140,"height":60,"type":"text","text":"微分幾何"},
+		{"id":"78162feb68295d2a","x":-440,"y":-80,"width":680,"height":400,"type":"file","file":"2023-07-14-曲率.md"},
+		{"id":"294de71b5d00fbc4","x":-440,"y":-530,"width":680,"height":400,"type":"file","file":"2024-06-23-曲率.md"},
+		{"id":"67a349836f959f18","x":320,"y":-530,"width":400,"height":400,"type":"file","file":"2024-03-30-複分析 and 複幾何.md"}
+	],
+	"edges":[
+		{"id":"e6e86588e5d0184a","fromNode":"7a7285d9315a8889","fromSide":"top","toNode":"294de71b5d00fbc4","toSide":"left"},
+		{"id":"49ae121c112ac341","fromNode":"7a7285d9315a8889","fromSide":"bottom","toNode":"78162feb68295d2a","toSide":"left"},
+		{"id":"29646917b7a1880f","fromNode":"7a7285d9315a8889","fromSide":"bottom","toNode":"67a349836f959f18","toSide":"left"}
+	]
+}

@@ -2,11 +2,10 @@
 title: LLM MoE Toy Example
 date: 2024-02-06 23:10:08
 categories:
-- AI
-tags: [GPT, LLM, HuggingFace, MoE]
+  - AI
+tags:
+  - LLM
 typora-root-url: ../../allenlu2009.github.io
-
-
 ---
 
 

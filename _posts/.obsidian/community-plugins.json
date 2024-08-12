@@ -1,5 +1,7 @@
 [
-  "obsidian-textgenerator-plugin",
   "awesome-image",
-  "copilot"
+  "copilot",
+  "dataview",
+  "lcl-html-local-img",
+  "obsidian-textgenerator-plugin"
 ]

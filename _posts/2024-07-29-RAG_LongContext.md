@@ -22,7 +22,7 @@ typora-root-url: ../../allenlu2009.github.io
 
 
 
-
+![[Pasted image 20240811220657.png]]
 
 ## 長文本模型、微調與增強式生成技術的比較
 
@@ -107,7 +107,7 @@ typora-root-url: ../../allenlu2009.github.io
 
 * [Advanced RAG Techniques: an Illustrated Overview | by IVAN ILIN | Dec, 2023 | Towards AI](https://pub.towardsai.net/advanced-rag-techniques-an-illustrated-overview-04d193d8fec6)
 
-* 百川
+* https://arxiv.org/html/2312.10997v5
 
   
 

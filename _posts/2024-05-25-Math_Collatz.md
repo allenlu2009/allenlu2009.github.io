@@ -2,12 +2,11 @@
 title: 考拉兹猜想
 date: 2024-05-25 23:10:08
 categories:
-- Language
-tags: [GPT, LLM, HuggingFace, prompt]
+  - Math
+tags:
+  - math
 description: 採樣的常見性和重要性不言而喻
 typora-root-url: ../../allenlu2009.github.io
-
-
 ---
 
 

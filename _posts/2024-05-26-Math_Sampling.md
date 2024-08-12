@@ -2,11 +2,12 @@
 title: Acceptance-Rejection Sampling 接受拒絕採樣
 date: 2024-05-26 23:10:08
 categories:
-- Language
-tags: [GPT, LLM, HuggingFace, prompt]
+  - Language
+tags:
+  - math
+  - Bayesian
 description: 採樣的常見性和重要性不言而喻
 typora-root-url: ../../allenlu2009.github.io
-
 ---
 
 

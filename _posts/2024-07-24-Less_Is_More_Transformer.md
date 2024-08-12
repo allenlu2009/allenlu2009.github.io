@@ -12,7 +12,7 @@ typora-root-url: ../../allenlu2009.github.io
 
 ### Less "Structure" Gets More General AI, but Scale Matters
 
-<img src="/../../../../OneDrive/allenlu2009.github.io/media/image-20240724094258386-1822505.png" alt="AI Algorithm Trend" style="zoom:30%;" />
+<img src="/media/image-20240724094258386-1822505.png" alt="AI Algorithm Trend" style="zoom:30%;" />
 
 
 
@@ -26,20 +26,26 @@ typora-root-url: ../../allenlu2009.github.io
 
 我們以 transformer 結構為例，包括原始的編碼器-解碼器、僅編碼器 (encoder-only) 和僅解碼器 (decoder-only) 的結構，或「殼」。
 
+
+
+<img src="https://pbs.twimg.com/media/Fuz4UrZaYAAE4ZS?format=jpg&name=900x900" alt="圖片" style="zoom:67%;" />
+
+
+
 #### 僅編碼器結構 (Encoder-only)
-BERT 採用僅編碼器結構，在 2017 年實現了出色的文本摘要性能（**多變少**）。BERT 的模型大小較大，基礎版本有 1.1 億個參數。
+BERT 採用僅編碼器結構，在 2018 年實現了出色的文本摘要性能（**多變少**）如上圖左邊的粉紅分支。BERT 的模型大小比原始的 transformer 論文大，基礎版本有 1.1 億 (110M) 個參數。
 
 - **BERT 的優點：** 僅編碼器結構對文本摘要非常有效。BERT 的雙向注意力顯著提高了摘要性能，特別是對於長輸入和短輸出。
 - **BERT 的限制：** 僅編碼器結構無法用於文本生成，BERT 的雙向注意力隨著模型規模的增大和輸出長度的增加，其優勢會減少。
 
 #### 編碼器-解碼器結構 (Encoder-Decoder)
-Flan-T5 採用編碼器-解碼器結構，在 2019 年實現了出色的語言翻譯性能（**多變多**）。T5 的模型大小各異，最大的版本有 110 億個參數。
+T5/Flan-T5 採用編碼器-解碼器結構，在 2019 年實現了出色的語言翻譯性能（**多變多**）如上圖中間的綠色分支。T5 的模型大小各異，最大的版本有 110 億 (11B) 個參數。
 
 - **編碼器-解碼器的優點：** **當輸入和輸出有明顯區別**（**例如不同語言或模態**）時，該結構非常有效。它使用自注意力和交叉注意力來捕捉語言內部和跨語言或模態的關係。 T5 目前也用於 Stable Diffusion 3 文到圖的交叉注意力。
 - **編碼器-解碼器的限制：** 雖然在較小規模時很有用，但隨著模型規模的增大，這種方法會成為限制。交叉注意力將信息從編碼器的最後一層傳遞到所有解碼器層，隨著變壓器層數的增加，它會成為瓶頸。
 
 #### 僅解碼器結構 (Decoder-Only)
-GPT 和大多數其他現代模型採用僅解碼器結構，由於限制較少且利用規模理論達到最佳性能（**少變多，多變多**），這種結構目前占主導地位。特別是 GPT-3，於 2020 年發布，模型大小超過 1750 億個參數。
+GPT 和大多數其他現代模型採用僅解碼器結構，由於限制較少且利用規模理論達到最佳性能（**少變多，多變多**）如上圖右邊的灰色分支。這種結構目前占主導地位。特別是 GPT-3，於 2020 年發布，模型大小超過 1750 億 (175B) 個參數。
 
 - **優點：** 僅解碼器結構將自注意力和交叉注意力合併為一種類型的自注意力，簡化了架構。
 - **規模理論：** 通過擴大模型大小和計算能力，僅解碼器結構在沒有更多結構限制的情況下實現了最先進的性能。
@@ -83,7 +89,7 @@ Is structure useful? Yes, but it's a double-edged sword. Structure helps improve
 We'll use the transformer structure as an example, including the original encoder-decoder, encoder-only, and decoder-only structures, or "shells."
 
 ##### Encoder-Only Structure
-Used by BERT, the encoder-only structure achieved good performance for summarization in 2017. The model size of BERT is large, with the base version having 110 million parameters.
+Used by BERT, the encoder-only structure achieved good performance for summarization in 2017. The model size of BERT is larger than the original transformer paper, with the base version having 110 million parameters.
 
 - **BERT's Strengths:** The encoder-only structure is effective for text summarization. BERT's bi-directional attention improves performance significantly for summarization, especially for long inputs and short outputs.
 - **BERT's Limitations:** This structure cannot be used for text generation, and its benefits diminish as the model scale grows and the output length becomes longer.

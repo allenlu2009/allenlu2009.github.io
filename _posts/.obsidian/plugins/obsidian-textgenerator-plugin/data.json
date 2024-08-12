@@ -95,7 +95,7 @@
     "OpenAI Chat (Langchain)": {
       "basePath": "https://api.openai.com/v1",
       "api_key": "",
-      "model": "gpt-3.5-turbo"
+      "model": "gpt-4o-mini"
     }
   },
   "LLMProviderOptionsKeysHashed": {

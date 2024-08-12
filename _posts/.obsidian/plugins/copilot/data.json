@@ -1,5 +1,5 @@
 {
-  "openAIApiKey": "sk-BL9vGTN9_amXv8Xql7FZNwxG9DNoGhXX0Vh5TMSxutT3BlbkFJssmDqJlQxQsiqLxymd1RBWULxSJx5Lil043v65AykA",
+  "openAIApiKey": "sk-XzOP9w_a5D-hRTudDIjaYO-aRLHYyd8DqbOXhQb5T7T3BlbkFJEqvRP7tcXJoRDlf7e1_5qKun6w49lVg6WaruT2oq0A",
   "openAIOrgId": "",
   "huggingfaceApiKey": "",
   "cohereApiKey": "",
@@ -13,8 +13,8 @@
   "googleApiKey": "",
   "openRouterAiApiKey": "",
   "openRouterModel": "cognitivecomputations/dolphin-mixtral-8x7b",
-  "defaultModel": "gpt-3.5-turbo",
-  "defaultModelDisplayName": "GPT-3.5",
+  "defaultModel": "gpt-4o-mini",
+  "defaultModelDisplayName": "GPT-4o mini",
   "embeddingModel": "text-embedding-3-small",
   "temperature": 0.1,
   "maxTokens": 1000,

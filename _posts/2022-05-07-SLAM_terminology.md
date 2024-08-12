@@ -1,12 +1,12 @@
 ---
 title: vSLAM with NN
 date: 2022-05-13 09:28:08
-categories: 
-- AI
-tags: [SLAM]
+categories:
+  - AI
+tags:
+  - SLAM
 description: vSLAM
 typora-root-url: ../../allenlu2009.github.io
-
 ---
 
 ---

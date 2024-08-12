@@ -1,0 +1,11 @@
+# Ignore a specific folder
+textgenerator/
+copilot-conversations/
+.obsidian/
+.vscode/
+
+# Ignore all folders named "logs" anywhere in the repository
+#logs/
+
+# Ignore all folders that start with "temp"
+#temp*/

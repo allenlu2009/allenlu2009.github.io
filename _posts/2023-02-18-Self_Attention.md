@@ -2,11 +2,9 @@
 title: Self Attention of GPT
 date: 2023-02-18 23:10:08
 categories:
-- Language
+  - Language
 tags: [Graph, Laplacian]
 typora-root-url: ../../allenlu2009.github.io
-
-
 ---
 
 
@@ -196,7 +194,7 @@ Transformer中的每個組件之權重不共享，都有自己的權重。我們
 
 #### 2) 注意力分數
 
-現在我們可以開始打分了。我們這只畫出來一個注意力頭（head #1），其他的頭也是這麼計算的：
+現在我們可以開始打分了。我們這只畫出來一個注意力頭（head \#1），其他的頭也是這麼計算的：
 
 <img src="/media/image-20230219131401720.png" alt="image-20230219131401720" style="zoom:50%;" />
 
@@ -206,7 +204,7 @@ Transformer中的每個組件之權重不共享，都有自己的權重。我們
 
 #### 3) 求和
 
-和前邊講的一樣，我們現在將每個Value與它的注意力分數相乘，然後將它們相加，產生head #1的自注意結果 $Z_9$：
+和前邊講的一樣，我們現在將每個Value與它的注意力分數相乘，然後將它們相加，產生head \#1的自注意結果 $Z_9$：
 
 <img src="/media/image-20230219131811099.png" alt="image-20230219131811099" style="zoom:50%;" />
 
