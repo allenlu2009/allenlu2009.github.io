@@ -51,3 +51,7 @@ xcuserdata/**
 *.iml
 local.properties
 gradleBuild
+
+
+# obsidian
+_post/.obsidian
