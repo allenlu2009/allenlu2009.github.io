@@ -2,16 +2,14 @@
 title: HuggingFace Dataset and Pytorch Dataset I
 date: 2024-04-03 23:10:08
 categories:
-- Language
-tags: [GPT, LLM, HuggingFace, prompt]
+  - Language
+tags:
+  - LLM
+  - HuggingFace
+  - database
+  - DataFrame
 typora-root-url: ../../allenlu2009.github.io
-
-
 ---
-
-
-
-
 
 ## Source
 
@@ -281,6 +279,7 @@ Pytorch Dataset 的主要是搭配 DataLoader 用於 Pytorch 的 training 或是
 | Pandas 支持        | Yes                                              | Yes                                                          |
 | Viewers            | 直接 text                                        | Dataset viewer or Pandas                                     |
 
+Parquet 可以在 VS code 利用插件 parquet-viewer (as JSON) 直接讀。
 
 
 實際定量數字比較：
