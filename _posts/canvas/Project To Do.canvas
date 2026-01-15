@@ -1,0 +1,6 @@
+{
+	"nodes":[
+		{"id":"ec36b70d0d20f7f6","type":"text","text":"Tokenizer\n- byte token\n\nDataset\n- Wikitext2\n\nModel\n - Error resilient\n\t - Insert errors in model\n\nLinear attention (因為 performance 比不上 transformer)\n- 使用於 speculative decoding acceleration\n- 使用於 memory compression for long context\n\nByte-level tokenizer\n- smaller vocab for smaller model?\n- communication analogy?\n- smaller transformer using BERT instead of AR?\n- Use 2D instead of 1D for local transformer?","x":-125,"y":-30,"width":545,"height":576}
+	],
+	"edges":[]
+}

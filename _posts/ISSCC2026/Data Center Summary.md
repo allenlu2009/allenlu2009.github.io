@@ -1,0 +1,10 @@
+
+# **Executive Summary**
+
+AI compute demand is growing far faster than can be provided by traditional Silicon technology scaling. This has made energy efficiency and interconnect technology the bounding boxes for the next phase of compute-scaling. This white paper advocates for an system-level efficiency objective for AI compute using multi-disciplinary optimizations, namely, Software, Architecture, Design, Memory, Interconnect, Packaging, Power Delivery and Thermals as one fabric from edge to cloud. MediaTek’s leadership in the Datacenter as well as the Edge is critical to delivering the end-to-end efficiency that is central to achieving these goals. Datacenter technologies — Custom accelerators, HBM and Chiplet based heterogeneous integration, 3DIC/SoW packaging, Co-packaged Optics and Thermal innovations — delivered with key industry partnerships raise the bar on Perf/W/TCO at scale. Leadership technologies at the edge — on-Device AI, AI-native WiFi and 6G technologies — deliver super-fast AI experiences to the users. This paper closes with a call for industry-wide collaboration and standardization to accelerate co-design and innovation. In partnership with the broader ecosystem, MediaTek is establishing a compute-communication framework from Edge to Cloud to make trustworthy, ubiquitous AI, efficient and practical for everyone.
+
+---
+
+# **Abstract**
+
+AI technology is reshaping our lives and is proving its potential to enrich humanity. The outcomes envisioned by ubiquitous autonomous AI demand overwhelming compute, communication, and multi-disciplinary system-design-technology co-optimization. It advocates integrating silicon, architecture, packaging, interconnect, and software into an efficiency-first stack from edge to cloud. Further, it outlines future breakthroughs and encourages ecosystem collaboration and shared standards to go beyond the limits of Moore’s Law.

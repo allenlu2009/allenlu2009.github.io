@@ -1,0 +1,36 @@
+{
+	"nodes":[
+		{"id":"10d0a1fcdee7438a","type":"group","x":-230,"y":480,"width":1330,"height":600,"label":"RAG vs. Others"},
+		{"id":"bafea7d25db371c0","type":"group","x":46,"y":-480,"width":1054,"height":715,"color":"#000064","label":"RAG Quality"},
+		{"id":"f7bedbceb83126fd","type":"group","x":-67,"y":-1120,"width":1067,"height":480,"color":"#006400","label":"RAG Speed"},
+		{"id":"0598c6d7fb574102","type":"file","file":"2024-07-28-Graph_RAG.md","x":104,"y":-268,"width":461,"height":489},
+		{"id":"1d5a500fe7bb77fe","type":"file","file":"2024-08-18-Vector_v_Graph_RAG.md","x":104,"y":-420,"width":480,"height":78},
+		{"id":"88495a2ff7645970","type":"file","file":"2024-08-15-Speculative_RAG.md","x":520,"y":-1060,"width":456,"height":400},
+		{"id":"68be55ba81fdecc4","type":"text","text":"## RAG Performance: \n## speed and long context","x":-40,"y":-1060,"width":482,"height":140},
+		{"id":"92735e945d0daf59","type":"text","text":"# LLM Issues\nHalluciation, Attribution,  Staleness, Revision, Customization\n[]https://www.youtube.com/watch?v=mE7IDf2SmJg()\n\n","x":-1080,"y":-990,"width":491,"height":119,"color":"1"},
+		{"id":"0c9c88fd815ee442","type":"file","file":"2023-12-22-LLM_RAG.md","x":-1217,"y":-730,"width":766,"height":620},
+		{"id":"8225ddcca337b576","type":"text","text":"# is BERT -> T5 a RAG?\nAre we back to encoder + decoder architecture to reduce halluciation????\n","x":-1080,"y":-1315,"width":461,"height":255,"color":"1"},
+		{"id":"1f60267e867ad5ab","type":"text","text":"## Two encoders, one decoder (LLM)\n\n![[Pasted image 20240818215255.png]][[Pasted image 20240818215209.png]]","x":-2112,"y":-672,"width":776,"height":550},
+		{"id":"64bd18ac44f9cf60","type":"text","text":"# Reduce Halluciation","x":-679,"y":317,"width":399,"height":83},
+		{"id":"693284ea983f6c8a","type":"text","text":"## Sparse :  TF-IDF, BM25\n## Denase:  Vector DB using BERT\n## Hybrid","x":-1467,"y":152,"width":501,"height":139},
+		{"id":"54fc814753972d3f","type":"file","file":"2024-08-13-Graph_RAG_Code.md","x":640,"y":-24,"width":414,"height":245},
+		{"id":"b48412f5499815a2","type":"file","file":"2024-07-29-RAG_LongContext.md","x":123,"y":500,"width":957,"height":560,"color":"6"},
+		{"id":"3ffad58b9561340e","type":"text","text":"RAG vs. Others","x":-210,"y":900,"width":250,"height":60,"color":"6"},
+		{"id":"5749e8af56cf8b97","type":"file","file":"2024-08-18-Vector_v_Graph_RAG.md","x":680,"y":-468,"width":400,"height":400},
+		{"id":"3fdb60555a29b559","type":"link","url":"https://www.youtube.com/watch?v=mE7IDf2SmJg","x":-1606,"y":359,"width":640,"height":360}
+	],
+	"edges":[
+		{"id":"946d5c54170c0f26","fromNode":"0598c6d7fb574102","fromSide":"right","toNode":"54fc814753972d3f","toSide":"left"},
+		{"id":"be94b111cbe7cbfa","fromNode":"68be55ba81fdecc4","fromSide":"right","toNode":"88495a2ff7645970","toSide":"left","label":"Speed"},
+		{"id":"966298155ac9d30e","fromNode":"0c9c88fd815ee442","fromSide":"right","toNode":"b48412f5499815a2","toSide":"left"},
+		{"id":"fd1a3384fcc59d35","fromNode":"3ffad58b9561340e","fromSide":"right","toNode":"b48412f5499815a2","toSide":"left"},
+		{"id":"915b5616cd0871c8","fromNode":"0c9c88fd815ee442","fromSide":"right","toNode":"1d5a500fe7bb77fe","toSide":"left","label":"RAG Quality"},
+		{"id":"9fbf6ef5956b693a","fromNode":"1d5a500fe7bb77fe","fromSide":"bottom","toNode":"0598c6d7fb574102","toSide":"top"},
+		{"id":"9d77803c76ed3cb6","fromNode":"92735e945d0daf59","fromSide":"bottom","toNode":"0c9c88fd815ee442","toSide":"top","label":"RAG as solution"},
+		{"id":"86834fbe903fed3d","fromNode":"0c9c88fd815ee442","fromSide":"right","toNode":"68be55ba81fdecc4","toSide":"left","label":"RAG Performance"},
+		{"id":"0bae99940b9b6ec1","fromNode":"0c9c88fd815ee442","fromSide":"bottom","toNode":"64bd18ac44f9cf60","toSide":"top","label":"Reduce Halluciation"},
+		{"id":"d1429600763b9c2a","fromNode":"693284ea983f6c8a","fromSide":"bottom","toNode":"3fdb60555a29b559","toSide":"top"},
+		{"id":"3637213c986f8b59","fromNode":"8225ddcca337b576","fromSide":"left","toNode":"1f60267e867ad5ab","toSide":"top"},
+		{"id":"a659009fdd50e02b","fromNode":"1d5a500fe7bb77fe","fromSide":"right","toNode":"5749e8af56cf8b97","toSide":"left"}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"nodes":[
+		{"id":"38c47d8d4d990f49","type":"text","text":"Analysis 分析","x":-444,"y":-345,"width":250,"height":60,"color":"1"},
+		{"id":"bdbe38731b4711ff","type":"file","file":"2024-03-31-微積分基本定理.md","x":-780,"y":-60,"width":400,"height":400},
+		{"id":"2f811bcbbf68a334","type":"file","file":"2022-12-30-EVD_SVD.md","x":800,"y":-109,"width":400,"height":400},
+		{"id":"5b91a791c8b2d197","type":"file","file":"2023-07-13-非歐幾何.md","x":240,"y":-109,"width":400,"height":400},
+		{"id":"90958920abdc8e04","type":"text","text":"微分幾何","x":-310,"y":210,"width":250,"height":60},
+		{"id":"de4347a532a98e4f","type":"file","file":"2024-03-30-複分析 and 複幾何.md","x":-760,"y":440,"width":400,"height":400},
+		{"id":"3a9ee62544a3175c","type":"file","file":"2024-06-23-Curvature.md","x":-480,"y":900,"width":400,"height":400},
+		{"id":"9dd67ead59d1f14c","type":"file","file":"2023-07-14-曲率.md","x":-160,"y":420,"width":400,"height":400},
+		{"id":"111e86377a323ad1","type":"file","file":"2024-03-30-可視微分幾何.md","x":240,"y":900,"width":400,"height":400},
+		{"id":"e535548177dc0b2f","type":"text","text":"Algebra 代數","x":875,"y":-345,"width":250,"height":60,"color":"#000064"},
+		{"id":"d086177c3682870a","type":"text","text":"Geometry 幾何","x":140,"y":-345,"width":250,"height":60,"color":"4"},
+		{"id":"9fcb4be650edb997","type":"file","file":"2022-12-24-GA_Calculus.md","x":520,"y":420,"width":400,"height":400},
+		{"id":"4280e03a5990c1eb","type":"file","file":"2023-07-02-Quintic.md","x":1000,"y":440,"width":400,"height":400}
+	],
+	"edges":[
+		{"id":"ed1991228f9101f2","fromNode":"e535548177dc0b2f","fromSide":"bottom","toNode":"2f811bcbbf68a334","toSide":"top","label":"Linear Algebra"},
+		{"id":"88bc9170dedf1ee7","fromNode":"38c47d8d4d990f49","fromSide":"bottom","toNode":"90958920abdc8e04","toSide":"top"},
+		{"id":"a44472e4f8dbe969","fromNode":"d086177c3682870a","fromSide":"bottom","toNode":"90958920abdc8e04","toSide":"top"},
+		{"id":"d312bea92ef64663","fromNode":"90958920abdc8e04","fromSide":"bottom","toNode":"de4347a532a98e4f","toSide":"top","label":"Complex Analysis & Geometry"},
+		{"id":"941e126437ccc2df","fromNode":"90958920abdc8e04","fromSide":"bottom","toNode":"9dd67ead59d1f14c","toSide":"top","label":"曲率"},
+		{"id":"a00f7d2a44de0c53","fromNode":"90958920abdc8e04","fromSide":"bottom","toNode":"3a9ee62544a3175c","toSide":"top","label":"曲率"},
+		{"id":"90e132e4748a076e","fromNode":"38c47d8d4d990f49","fromSide":"bottom","toNode":"bdbe38731b4711ff","toSide":"top","label":"微積分"},
+		{"id":"e09db80256334291","fromNode":"d086177c3682870a","fromSide":"bottom","toNode":"5b91a791c8b2d197","toSide":"top","label":"非歐幾何"},
+		{"id":"3386b4b8468f47ce","fromNode":"90958920abdc8e04","fromSide":"bottom","toNode":"111e86377a323ad1","toSide":"left"},
+		{"id":"f8200b92a896889c","fromNode":"e535548177dc0b2f","fromSide":"bottom","toNode":"4280e03a5990c1eb","toSide":"top"}
+	]
+}

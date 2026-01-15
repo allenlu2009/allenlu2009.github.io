@@ -1,0 +1,41 @@
+{
+	"nodes":[
+		{"id":"1837b5c1560b849b","type":"group","x":360,"y":-220,"width":380,"height":600,"color":"2","label":"Publish Twitter/Blog/arXiv"},
+		{"id":"793b4cd8f1bd34b5","type":"group","x":-680,"y":-220,"width":290,"height":600,"color":"4","label":"Ideas"},
+		{"id":"bc3b4593dba0c79d","type":"group","x":-340,"y":-220,"width":290,"height":600,"color":"1","label":"Write Blog"},
+		{"id":"0361521844d6658d","type":"group","x":0,"y":-220,"width":290,"height":600,"color":"6","label":"Code Github"},
+		{"id":"fb240fa25d6b2e23","type":"text","text":"AI Scientist","x":-660,"y":-200,"width":250,"height":60},
+		{"id":"e257c5456825d53c","type":"text","text":"#### RAG + Speculative Decoding","x":-660,"y":-40,"width":250,"height":60},
+		{"id":"06b0d1b44fbb0173","type":"text","text":"Transtokenizer","x":-660,"y":40,"width":250,"height":60},
+		{"id":"014ba11d480ca16c","type":"text","text":"RAG","x":-660,"y":-120,"width":250,"height":60},
+		{"id":"c2a905d241bd60c3","type":"text","text":"AI Scientist","x":-320,"y":-200,"width":250,"height":60},
+		{"id":"7fac228e2e4bbdc6","type":"text","text":"RAG + Speculative Decoding","x":-320,"y":-40,"width":250,"height":60},
+		{"id":"9ffa4bc655ffdb7b","type":"text","text":"## Output Long context","x":-660,"y":280,"width":250,"height":60},
+		{"id":"93f69f69c4a7d1f4","type":"text","text":"## Output Long context","x":-320,"y":280,"width":250,"height":60},
+		{"id":"5465245766b4ce81","type":"text","text":"Data Center Simulator","x":-660,"y":120,"width":250,"height":60},
+		{"id":"3c0f8fad45d49d71","type":"text","text":"## Batch 加速","x":-660,"y":200,"width":250,"height":60},
+		{"id":"0412755d34bc3cc6","type":"text","text":"### RAG Code","x":-542,"y":513,"width":250,"height":60},
+		{"id":"18c37d326999d409","type":"file","file":"2024-08-20-PLD_Code.md","x":-628,"y":664,"width":400,"height":400},
+		{"id":"05dcf15e1c99680a","type":"file","file":"2024-09-01-Vector_RAG_Code.md","x":-177,"y":679,"width":400,"height":400},
+		{"id":"d21e01ae5687cbe3","type":"text","text":"Transtokenizer","x":20,"y":40,"width":250,"height":60},
+		{"id":"6a1c0a083c9f6414","type":"text","text":"GraphRAG, **VectorRAG TBD**","x":20,"y":-120,"width":250,"height":60},
+		{"id":"2e7ae275886d1d8f","type":"text","text":"### Speculative Code","x":-105,"y":513,"width":250,"height":60},
+		{"id":"dc272340a477cbcf","type":"text","text":"Use ChatGPT to code!","x":20,"y":-40,"width":250,"height":60},
+		{"id":"6c12eec2a2714398","type":"text","text":"How to Twit?","x":440,"y":513,"width":250,"height":60},
+		{"id":"b09b38234cc24617","x":-230,"y":1280,"width":640,"height":360,"type":"link","url":"https://www.youtube.com/watch?v=xEgUC4bd_qI&t=909s&ab_channel=CodingCrashCourses"}
+	],
+	"edges":[
+		{"id":"e19856eb26c0374a","fromNode":"06b0d1b44fbb0173","fromSide":"right","toNode":"d21e01ae5687cbe3","toSide":"left"},
+		{"id":"e0057ee048de780d","fromNode":"e257c5456825d53c","fromSide":"right","toNode":"7fac228e2e4bbdc6","toSide":"left"},
+		{"id":"8fc3f22a8047c4dd","fromNode":"fb240fa25d6b2e23","fromSide":"right","toNode":"c2a905d241bd60c3","toSide":"left"},
+		{"id":"6fc3e2dba4f4d215","fromNode":"014ba11d480ca16c","fromSide":"bottom","toNode":"e257c5456825d53c","toSide":"top"},
+		{"id":"60c1ca3cfa0eaef1","fromNode":"1837b5c1560b849b","fromSide":"bottom","toNode":"6c12eec2a2714398","toSide":"top"},
+		{"id":"3bd4c612654cb70b","fromNode":"7fac228e2e4bbdc6","fromSide":"right","toNode":"dc272340a477cbcf","toSide":"left"},
+		{"id":"5afa18ba5da8d7e4","fromNode":"dc272340a477cbcf","fromSide":"bottom","toNode":"0412755d34bc3cc6","toSide":"top"},
+		{"id":"420611405d60416f","fromNode":"dc272340a477cbcf","fromSide":"bottom","toNode":"2e7ae275886d1d8f","toSide":"top"},
+		{"id":"fd740c640b321c57","fromNode":"0412755d34bc3cc6","fromSide":"bottom","toNode":"18c37d326999d409","toSide":"top"},
+		{"id":"58ac26e07f240ce8","fromNode":"2e7ae275886d1d8f","fromSide":"bottom","toNode":"05dcf15e1c99680a","toSide":"top"},
+		{"id":"36d1c992ca660170","fromNode":"9ffa4bc655ffdb7b","fromSide":"right","toNode":"93f69f69c4a7d1f4","toSide":"left"},
+		{"id":"f7ef4b53d7c0d5d1","fromNode":"05dcf15e1c99680a","fromSide":"bottom","toNode":"b09b38234cc24617","toSide":"top"}
+	]
+}

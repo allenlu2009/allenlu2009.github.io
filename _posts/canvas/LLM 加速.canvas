@@ -1,0 +1,20 @@
+{
+	"nodes":[
+		{"id":"05f84c907af01986","type":"file","file":"2024-06-13-Big_Little_LLM.md","x":-517,"y":680,"width":400,"height":400},
+		{"id":"8c4ab40a5d070635","type":"file","file":"2023-12-04-Speculative_Decode.md","x":-327,"y":-520,"width":420,"height":400},
+		{"id":"1f421b991f4369f2","type":"file","file":"media/Pasted image 20240820211506.png","x":-517,"y":-20,"width":704,"height":455},
+		{"id":"f6cf6aeb106d06c3","type":"text","text":"REST/CREST","x":805,"y":220,"width":250,"height":60},
+		{"id":"543ab205a960c78f","type":"file","file":"2024-08-19-Prompt_Lookup_Decode.md","x":555,"y":360,"width":400,"height":400},
+		{"id":"4971130ee39e3738","type":"file","file":"2023-12-10-Medusa_Memory.md","x":-60,"y":680,"width":400,"height":400},
+		{"id":"2ce3ca4a13dc49a0","type":"text","text":"Retrival + Origin Model","x":630,"y":-420,"width":250,"height":60},
+		{"id":"cac76b991e176d79","type":"file","file":"2023-12-04-Lookahead_Decode.md","x":230,"y":-80,"width":400,"height":400}
+	],
+	"edges":[
+		{"id":"7e313b3a052ad5e8","fromNode":"2ce3ca4a13dc49a0","fromSide":"bottom","toNode":"543ab205a960c78f","toSide":"top","label":"Prompt Lookup"},
+		{"id":"59756ec1d1a7c157","fromNode":"2ce3ca4a13dc49a0","fromSide":"bottom","toNode":"f6cf6aeb106d06c3","toSide":"top"},
+		{"id":"967b3e90772fa5ed","fromNode":"2ce3ca4a13dc49a0","fromSide":"bottom","toNode":"cac76b991e176d79","toSide":"top"},
+		{"id":"a9884f297e45b96b","fromNode":"1f421b991f4369f2","fromSide":"bottom","toNode":"05f84c907af01986","toSide":"top","label":"Independent\nDrafting"},
+		{"id":"2d07fcf997915fa3","fromNode":"8c4ab40a5d070635","fromSide":"bottom","toNode":"1f421b991f4369f2","toSide":"top"},
+		{"id":"df0b38dbd270b25a","fromNode":"1f421b991f4369f2","fromSide":"bottom","toNode":"4971130ee39e3738","toSide":"top","label":"Self\nDrafting"}
+	]
+}

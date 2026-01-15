@@ -1,0 +1,22 @@
+{
+	"nodes":[
+		{"id":"3916f68da6b41b01","type":"group","x":-620,"y":-420,"width":1380,"height":760,"color":"4","label":"Literature Survey"},
+		{"id":"6e689561e907d5b3","type":"group","x":140,"y":-1520,"width":440,"height":960,"color":"6","label":"AI Scientist"},
+		{"id":"eb3361d45785af3b","type":"group","x":-580,"y":-1200,"width":440,"height":600,"color":"1","label":"Agent"},
+		{"id":"ca658431e3251557","type":"file","file":"2024-05-21-AI_Agent.md","x":-560,"y":-1020,"width":400,"height":400},
+		{"id":"d23dd749a6fd43f3","type":"text","text":"Coze","x":-540,"y":-1180,"width":250,"height":60},
+		{"id":"30df632cf776f378","type":"file","file":"2024-08-15-AI_Scientist.md","x":160,"y":-1500,"width":400,"height":400},
+		{"id":"c3d2271aeb4ff42e","type":"file","file":"2024-05-12-AI_for_Paper.md","x":160,"y":-980,"width":400,"height":400},
+		{"id":"3bd5ae1fb04ebad1","type":"text","text":"Literature Survey","x":-260,"y":-360,"width":250,"height":60},
+		{"id":"5445b087c79c22b5","type":"link","url":"https://www.semanticscholar.org/search?q=Retrieval%20speculative%20decode&sort=relevance","x":-580,"y":-180,"width":400,"height":400},
+		{"id":"a3a056ccb45e8215","type":"link","url":"https://scholar.google.com/","x":-135,"y":-180,"width":400,"height":400},
+		{"id":"eb1ffbfa9aa875cc","x":320,"y":-180,"width":400,"height":400,"type":"link","url":"https://www.connectedpapers.com/"}
+	],
+	"edges":[
+		{"id":"f8f26086e2f04abe","fromNode":"eb3361d45785af3b","fromSide":"right","toNode":"6e689561e907d5b3","toSide":"left","label":"Agent Example"},
+		{"id":"8558e974192c2b77","fromNode":"3bd5ae1fb04ebad1","fromSide":"bottom","toNode":"5445b087c79c22b5","toSide":"top","label":"Semantic Scholar"},
+		{"id":"274b17c056af11d6","fromNode":"3bd5ae1fb04ebad1","fromSide":"bottom","toNode":"a3a056ccb45e8215","toSide":"top","label":"Google Scholar"},
+		{"id":"8b18b2ecb0834a39","fromNode":"6e689561e907d5b3","fromSide":"bottom","toNode":"3bd5ae1fb04ebad1","toSide":"top"},
+		{"id":"c0fdd15f086d8a19","fromNode":"3bd5ae1fb04ebad1","fromSide":"bottom","toNode":"eb1ffbfa9aa875cc","toSide":"top","label":"Connected Paper"}
+	]
+}

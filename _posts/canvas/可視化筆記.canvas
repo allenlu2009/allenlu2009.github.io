@@ -1,0 +1,7 @@
+{
+	"nodes":[
+		{"id":"bbaabc1bc6e5a5e7","x":-380,"y":-200,"width":640,"height":360,"type":"link","url":"https://www.youtube.com/watch?v=NbrQXOGphwI&t=1865s"},
+		{"id":"896cefd4956ebef6","x":-160,"y":-360,"width":250,"height":60,"type":"text","text":"Obsidian"}
+	],
+	"edges":[]
+}

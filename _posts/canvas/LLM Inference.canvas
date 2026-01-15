@@ -1,0 +1,7 @@
+{
+	"nodes":[
+		{"id":"87b290bf89bef684","type":"text","text":"(Alg) SpD\n(SW) KV Cache\n(HW+SW) Quant\n(SW) Prune\n(HW) Zero skip\n(SW+HW) Compression","x":-500,"y":-480,"width":250,"height":190},
+		{"id":"2c4a947f4c940b85","x":-360,"y":-135,"width":250,"height":315,"type":"text","text":"Attention:\n1. linear attention\n2. Diff attention\n3. Diff attention using G^2 - H^2\n4. "}
+	],
+	"edges":[]
+}

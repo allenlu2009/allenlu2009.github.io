@@ -1,0 +1,32 @@
+{
+	"nodes":[
+		{"id":"7670128c038d9d32","type":"text","text":"## AI Evoluation","x":-45,"y":-380,"width":250,"height":60},
+		{"id":"ab4c862662f43c88","type":"link","url":"https://www.youtube.com/watch?v=_bqa_I5hNAo","x":-277,"y":380,"width":640,"height":360},
+		{"id":"dcd8bbcb72a25022","type":"text","text":"## Big is Better/Scaling Law","x":522,"y":-380,"width":401,"height":60},
+		{"id":"76ddc998f5b4aa9c","type":"text","text":"## Less constraint is More","x":472,"y":-495,"width":429,"height":60},
+		{"id":"6018c94b72665410","type":"file","file":"media/Pasted image 20240824120227.png","x":1240,"y":-462,"width":400,"height":224},
+		{"id":"3b8bf2d97b30b353","type":"text","text":"## Analytics to Generative","x":472,"y":-263,"width":366,"height":50},
+		{"id":"815d045edb30192f","type":"file","file":"2024-07-24-Less_Is_More_Transformer.md","x":1240,"y":-1020,"width":540,"height":400},
+		{"id":"88417fffbaaea0aa","type":"link","url":"https://www.youtube.com/watch?v=3gb-ZkVRemQ&t=3902s","x":1240,"y":380,"width":640,"height":360},
+		{"id":"cfb200b6b35f9e92","type":"link","url":"https://www.youtube.com/watch?v=1WPJdAW-sFo","x":-301,"y":820,"width":640,"height":360},
+		{"id":"ac4adf1387d8db6f","type":"text","text":"**Deterministic optimization** \n**(Lowest energy)**\nHopfield Network  \n====> \n**Stochastic optimization** \n**(on-average lowest energy + spontaneous free energy)** \nContrastive learning\nBoltzmann Machine","x":454,"y":-118,"width":420,"height":300,"color":"1"},
+		{"id":"e2ebafdba4230c17","type":"text","text":"**物理:  Lowest Energy -> Lowest energy + free or perturbatgion energy?**\n**====>**\n**Optimization:  Loss function**\n**Cross-entropy function ->  (variational) Cross-entropy loss + KL divergence gap**\n","x":938,"y":-60,"width":622,"height":185,"color":"2"},
+		{"id":"d7407aad12cb5dec","type":"file","file":"2024-08-17-AI_Evolution.md","x":-69,"y":-1020,"width":591,"height":400},
+		{"id":"370858ebed1d6720","type":"link","url":"https://www.youtube.com/watch?v=KHVR587oW8I","x":518,"y":560,"width":640,"height":360,"color":"2"}
+	],
+	"edges":[
+		{"id":"884b46ba7c222643","fromNode":"ac4adf1387d8db6f","fromSide":"right","toNode":"e2ebafdba4230c17","toSide":"left"},
+		{"id":"e923b5f52620c75d","fromNode":"7670128c038d9d32","fromSide":"right","toNode":"76ddc998f5b4aa9c","toSide":"left","label":"structure"},
+		{"id":"57c0e6253af4304d","fromNode":"7670128c038d9d32","fromSide":"right","toNode":"dcd8bbcb72a25022","toSide":"left","label":"Parameter"},
+		{"id":"4edfaf2190530b10","fromNode":"dcd8bbcb72a25022","fromSide":"right","toNode":"6018c94b72665410","toSide":"left","label":"Non-uniform scaling \n+ emerge"},
+		{"id":"3dfa675b654316e8","fromNode":"7670128c038d9d32","fromSide":"right","toNode":"3b8bf2d97b30b353","toSide":"left","label":"Paradigm shift"},
+		{"id":"074d369d045c876f","fromNode":"3b8bf2d97b30b353","fromSide":"bottom","toNode":"ac4adf1387d8db6f","toSide":"top"},
+		{"id":"c644cf7e15795263","fromNode":"3b8bf2d97b30b353","fromSide":"bottom","toNode":"e2ebafdba4230c17","toSide":"top"},
+		{"id":"25541e3a7eaa7103","fromNode":"ac4adf1387d8db6f","fromSide":"bottom","toNode":"370858ebed1d6720","toSide":"top","label":"Surprise 程度"},
+		{"id":"7a4388e283dc2311","fromNode":"ac4adf1387d8db6f","fromSide":"bottom","toNode":"cfb200b6b35f9e92","toSide":"top"},
+		{"id":"3ce637381928d3dc","fromNode":"e2ebafdba4230c17","fromSide":"bottom","toNode":"ab4c862662f43c88","toSide":"top"},
+		{"id":"35b86b6867d81ff9","fromNode":"76ddc998f5b4aa9c","fromSide":"right","toNode":"815d045edb30192f","toSide":"left"},
+		{"id":"6f036d10bb199892","fromNode":"815d045edb30192f","fromSide":"bottom","toNode":"88417fffbaaea0aa","toSide":"right"},
+		{"id":"22bb130fafe828af","fromNode":"6018c94b72665410","fromSide":"bottom","toNode":"88417fffbaaea0aa","toSide":"top"}
+	]
+}

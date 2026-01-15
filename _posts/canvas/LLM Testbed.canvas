@@ -1,0 +1,26 @@
+{
+	"nodes":[
+		{"id":"e6a3dafcd2609b19","type":"group","x":-21,"y":-840,"width":680,"height":674,"label":"Fine-grain Metric "},
+		{"id":"ab27f450e7c25d4f","type":"text","text":"Build a evaluation Test bed","x":-136,"y":-216,"width":250,"height":60},
+		{"id":"fde0019221aba977","type":"text","text":"Hardware:  desktop GPU","x":-318,"y":50,"width":250,"height":60},
+		{"id":"71f1c0db46c435af","type":"text","text":"Mimic TOPS, BW","x":-386,"y":193,"width":250,"height":60},
+		{"id":"4adca518ab3c9aa3","type":"text","text":"Metrics","x":290,"y":-50,"width":250,"height":60},
+		{"id":"83ed1c82b9357917","type":"text","text":"HW: tokens/sec, J/token, Hz/Token/sec = token/sec^2?\nSW: perplexity/token?  normalize to B parameter using scaling law?","x":250,"y":87,"width":350,"height":136},
+		{"id":"a6d11c27aa859892","type":"text","text":"Software","x":-11,"y":80,"width":250,"height":60},
+		{"id":"8169b60ef782164a","type":"text","text":"MMLU like for auto testing","x":-160,"y":300,"width":250,"height":60},
+		{"id":"ee38b3babf563131","type":"file","file":"media/Pasted image 20240824120227.png","x":239,"y":-410,"width":400,"height":224},
+		{"id":"90aa8c1540468595","type":"link","url":"https://www.youtube.com/watch?v=3gb-ZkVRemQ&t=3902s","x":-1,"y":-820,"width":640,"height":360},
+		{"id":"054bebc4c707c866","type":"text","text":"Other subjective tool?","x":165,"y":360,"width":250,"height":60}
+	],
+	"edges":[
+		{"id":"45b27b5dcc0b1f51","fromNode":"ab27f450e7c25d4f","fromSide":"bottom","toNode":"fde0019221aba977","toSide":"top"},
+		{"id":"f9e1524adf7ca63a","fromNode":"fde0019221aba977","fromSide":"bottom","toNode":"71f1c0db46c435af","toSide":"top"},
+		{"id":"918763f0ce1dada4","fromNode":"ab27f450e7c25d4f","fromSide":"bottom","toNode":"a6d11c27aa859892","toSide":"top"},
+		{"id":"99733b1ff0c3d228","fromNode":"a6d11c27aa859892","fromSide":"bottom","toNode":"8169b60ef782164a","toSide":"top"},
+		{"id":"9b59dde461222505","fromNode":"a6d11c27aa859892","fromSide":"bottom","toNode":"054bebc4c707c866","toSide":"top"},
+		{"id":"9a44a6137c5e22b8","fromNode":"ab27f450e7c25d4f","fromSide":"bottom","toNode":"4adca518ab3c9aa3","toSide":"top"},
+		{"id":"e1de91fdd768a69b","fromNode":"4adca518ab3c9aa3","fromSide":"bottom","toNode":"83ed1c82b9357917","toSide":"top"},
+		{"id":"f5042fa77ca75bb0","fromNode":"4adca518ab3c9aa3","fromSide":"top","toNode":"ee38b3babf563131","toSide":"bottom"},
+		{"id":"82e200e12b04d40d","fromNode":"ee38b3babf563131","fromSide":"top","toNode":"90aa8c1540468595","toSide":"bottom"}
+	]
+}

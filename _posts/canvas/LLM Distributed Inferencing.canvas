@@ -1,0 +1,7 @@
+{
+	"nodes":[
+		{"id":"d00cded196a95475","x":-340,"y":-680,"width":400,"height":250,"type":"text","text":"**Memory footprint**\n**Memory BW**\n**Communication BW**\n\nTraining/Fine-Tuning\nInferencing\n\nAttn\nMLP - MOE"},
+		{"id":"59c1ba1c7267b298","x":-340,"y":-220,"width":400,"height":400,"type":"file","file":"2024-10-18-Distributed_Inference.md"}
+	],
+	"edges":[]
+}

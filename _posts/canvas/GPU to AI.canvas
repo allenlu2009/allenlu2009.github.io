@@ -1,0 +1,24 @@
+{
+	"nodes":[
+		{"id":"610b0212324b7597","type":"group","x":-320,"y":-860,"width":680,"height":500,"label":"GPU Compute"},
+		{"id":"f6c372517ab1efcb","type":"group","x":-440,"y":-220,"width":290,"height":380,"label":"3D Compute"},
+		{"id":"dcc0906959687ddb","type":"group","x":150,"y":-160,"width":290,"height":300,"label":"2D compute"},
+		{"id":"e2e4780b3f083f81","type":"text","text":"2D fit to pixel (Rasteration)","x":170,"y":-140,"width":250,"height":60},
+		{"id":"e5c3302cf6fed462","type":"text","text":"3D 三角片 vertex representation","x":-420,"y":-200,"width":250,"height":60},
+		{"id":"b4fb5aeeba8af5b1","type":"text","text":"Lighting, Ray Tracing,  RT core","x":-420,"y":80,"width":250,"height":60},
+		{"id":"9a037bcac67db9fd","type":"text","text":"Project to 2D","x":-420,"y":-60,"width":250,"height":60},
+		{"id":"125ac8f766d0be75","type":"text","text":"光照, lumencent? Global","x":170,"y":-60,"width":250,"height":60},
+		{"id":"b1637a9c08a695a2","type":"text","text":"2D coloring 上色","x":170,"y":50,"width":250,"height":60},
+		{"id":"f974ce5a318a29cd","type":"text","text":"GPU","x":-120,"y":-440,"width":250,"height":60},
+		{"id":"7e700f4c3c572ec2","type":"link","url":"https://www.youtube.com/watch?v=S2McXi1xVNE","x":-300,"y":-840,"width":640,"height":360},
+		{"id":"9f604f7d62941ea3","type":"text","text":"Which part can use neural network?  3D to 2D, Rasteration.  NO.  **有簡單公式的不用**   Lumencent, Ray tracing?","x":-120,"y":-310,"width":250,"height":140},
+		{"id":"f53bb120efe0972f","type":"text","text":"3D Gauss Splatting","x":-140,"y":200,"width":250,"height":60}
+	],
+	"edges":[
+		{"id":"e456d4f5766006e1","fromNode":"e5c3302cf6fed462","fromSide":"bottom","toNode":"9a037bcac67db9fd","toSide":"top"},
+		{"id":"111bdb9430f7cdfc","fromNode":"9a037bcac67db9fd","fromSide":"right","toNode":"e2e4780b3f083f81","toSide":"left"},
+		{"id":"836b54ab4d6b9361","fromNode":"b4fb5aeeba8af5b1","fromSide":"right","toNode":"125ac8f766d0be75","toSide":"left"},
+		{"id":"6168e85f6e665bda","fromNode":"e2e4780b3f083f81","fromSide":"bottom","toNode":"b1637a9c08a695a2","toSide":"top"},
+		{"id":"95f17569d3b5a72f","fromNode":"125ac8f766d0be75","fromSide":"bottom","toNode":"b1637a9c08a695a2","toSide":"top"}
+	]
+}
